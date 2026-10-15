@@ -1,0 +1,203 @@
+/* =========================================================
+   SESSION 1: SECTION WRAPPER & CONTAINER
+   Prefix: bwpj-* (Build With ProJenius)
+========================================================= */
+
+.bwpj-section {
+  width: 100%;
+  padding: 95px 24px 115px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  box-sizing: border-box;
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+.bwpj-container {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 65px;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+/* =========================================================
+   SESSION 2: LEFT CONTENT & ACTION
+========================================================= */
+
+.bwpj-left-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.bwpj-badge {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: #0284c7;
+  margin-bottom: 14px;
+}
+
+.bwpj-title {
+  margin: 0 0 16px;
+  font-size: clamp(32px, 3.8vw, 48px);
+  font-weight: 800;
+  line-height: 1.2;
+  color: #0f172a;
+  letter-spacing: -0.8px;
+}
+
+.bwpj-subtitle {
+  margin: 0 0 28px;
+  font-size: clamp(14.5px, 1.3vw, 16px);
+  line-height: 1.6;
+  color: #64748b;
+  max-width: 480px;
+}
+
+.bwpj-action {
+  display: flex;
+}
+
+.bwpj-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #091728;
+  color: #ffffff;
+  padding: 13px 28px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 15px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(9, 23, 40, 0.2);
+  transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.bwpj-btn:hover {
+  background: #0f243d;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(9, 23, 40, 0.35);
+}
+
+.bwpj-btn-arrow {
+  transition: transform 0.25s ease;
+}
+
+.bwpj-btn:hover .bwpj-btn-arrow {
+  transform: translateX(3px);
+}
+
+/* =========================================================
+   SESSION 3: RIGHT CARD (4 CHECKLIST ITEMS)
+========================================================= */
+
+.bwpj-right-col {
+  width: 100%;
+}
+
+.bwpj-checklist-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 24px;
+  padding: 14px 36px;
+  box-sizing: border-box;
+  box-shadow: 0 10px 35px rgba(15, 23, 42, 0.05);
+}
+
+.bwpj-checklist-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 22px 0;
+  border-bottom: 1px solid #f1f5f9;
+  transition: transform 0.2s ease;
+}
+
+.bwpj-checklist-item:last-child {
+  border-bottom: none;
+}
+
+.bwpj-checklist-item:hover {
+  transform: translateX(4px);
+}
+
+.bwpj-check-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #0d9488;
+}
+
+.bwpj-check-icon {
+  display: block;
+}
+
+.bwpj-checklist-text {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.2px;
+}
+
+/* =========================================================
+   SESSION 4: RESPONSIVE MEDIA QUERIES (LAP, TAB, MOBILE)
+========================================================= */
+
+/* TABLET (STACK TO 1 COLUMN) */
+@media (max-width: 860px) {
+  .bwpj-section {
+    padding: 70px 20px 90px;
+  }
+
+  .bwpj-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .bwpj-subtitle {
+    max-width: 100%;
+  }
+
+  .bwpj-checklist-card {
+    padding: 10px 24px;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 520px) {
+  .bwpj-section {
+    padding: 55px 16px 75px;
+  }
+
+  .bwpj-title {
+    font-size: 28px;
+  }
+
+  .bwpj-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .bwpj-checklist-card {
+    padding: 8px 18px;
+    border-radius: 18px;
+  }
+
+  .bwpj-checklist-item {
+    padding: 18px 0;
+    gap: 12px;
+  }
+
+  .bwpj-checklist-text {
+    font-size: 14.5px;
+  }
+}

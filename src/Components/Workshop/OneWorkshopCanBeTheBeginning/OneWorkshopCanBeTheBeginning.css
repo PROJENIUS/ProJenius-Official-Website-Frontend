@@ -1,0 +1,258 @@
+.owb-section {
+  --owb-bg: #ffffff;
+  --owb-blue: #2b4dff;
+  --owb-gold: #ffb400;
+  --owb-node-fill: #ffffff;   /* node centre (white so the line looks cut by the circle) */
+  --owb-text: #0c1a3a;        /* titles + labels */
+  --owb-muted: #5a6a96;       /* paragraph / sub labels */
+  --owb-branch-w: 300px; /* room reserved on the right for Career / Startup */
+  --owb-node: 35px;
+  --owb-line: 5px;
+
+  width: 100%;
+  box-sizing: border-box;
+  padding: 96px 0 100px;
+  background: var(--owb-bg);
+  color: var(--owb-text);
+  font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+}
+
+.owb-section *,
+.owb-section *::before,
+.owb-section *::after {
+  box-sizing: border-box;
+}
+
+.owb-container {
+  width: 100%;
+  margin: 0;
+  padding: 0 13.7%;
+}
+
+/* ---------- heading ---------- */
+.owb-title {
+  margin: 0;
+  max-width: 800px;
+  font-size: clamp(34px, 2.95vw, 56px);
+  font-weight: 700;
+  line-height: 1.13;
+  letter-spacing: -0.01em;
+  color: var(--owb-text);
+}
+
+.owb-subtitle {
+  margin: 28px 0 0;
+  max-width: 700px;
+  font-size: clamp(16px, 1.15vw, 22px);
+  line-height: 38px;
+  color: var(--owb-muted);
+}
+
+/* ---------- timeline ---------- */
+.owb-scroll {
+  margin-top: 80px;
+}
+
+.owb-timeline {
+  position: relative;
+  width: 100%;
+  padding-top: 62px;
+  padding-bottom: 20px;
+}
+
+.owb-steps {
+  position: relative;
+  display: flex;
+  width: calc(100% - var(--owb-branch-w));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* the main horizontal line */
+.owb-steps::before {
+  content: "";
+  position: absolute;
+  top: calc(var(--owb-node) / 2 - var(--owb-line) / 2);
+  left: 10%;
+  width: calc(90% + var(--owb-line));
+  height: var(--owb-line);
+  background: var(--owb-blue);
+}
+
+.owb-step {
+  position: relative;
+  z-index: 1;
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  cursor: default;
+}
+
+.owb-label {
+  margin-top: 18px;
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 26px;
+  color: var(--owb-text);
+  white-space: nowrap;
+}
+
+.owb-sublabel {
+  font-size: 17px;
+  line-height: 26px;
+  color: var(--owb-muted);
+  white-space: nowrap;
+}
+
+/* ---------- node ---------- */
+.owb-node {
+  position: relative;
+  z-index: 2;
+  flex: 0 0 auto;
+  display: block;
+  width: var(--owb-node);
+  height: var(--owb-node);
+  border-radius: 50%;
+  border: 5px solid var(--owb-blue);
+  background: var(--owb-node-fill);
+  box-shadow: 0 0 0 0 rgba(255, 180, 0, 0);
+  /* slow fade-out leaves the trail behind the lit node */
+  transition: background-color 0.9s ease, box-shadow 0.9s ease;
+}
+
+.owb-node.is-lit {
+  background: var(--owb-gold);
+  box-shadow: 0 0 0 7px rgba(255, 180, 0, 0.18), 0 0 14px rgba(255, 180, 0, 0.4);
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* ---------- branch (Career / Startup) ---------- */
+/* top stub sits 56px above the main line, bottom stub 51px below it */
+.owb-branch {
+  position: absolute;
+  top: calc(62px + var(--owb-node) / 2 - 56px);
+  left: calc(100% - var(--owb-branch-w) + 3px);
+  width: 35px;
+  height: 107px;
+}
+
+/* vertical bar */
+.owb-branch::before {
+  content: "";
+  position: absolute;
+  top: calc(var(--owb-line) / -2);
+  bottom: calc(var(--owb-line) / -2);
+  left: 0;
+  width: var(--owb-line);
+  background: var(--owb-blue);
+}
+
+.owb-end {
+  position: absolute;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding-left: 50px; /* stub (35px) + 15px gap before the node */
+  text-decoration: none;
+  color: inherit;
+  transform: translateY(-50%);
+}
+
+.owb-end--top {
+  top: 0;
+}
+
+.owb-end--bottom {
+  top: 100%;
+}
+
+/* horizontal stub from the bar towards the node */
+.owb-end::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 35px;
+  height: var(--owb-line);
+  transform: translateY(-50%);
+  background: var(--owb-blue);
+}
+
+.owb-end-text {
+  display: flex;
+  flex-direction: column;
+  padding-top: 4px;
+  white-space: nowrap;
+}
+
+.owb-end-title {
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 26px;
+  color: var(--owb-text);
+}
+
+.owb-end-sub {
+  font-size: 17px;
+  line-height: 26px;
+  color: var(--owb-muted);
+}
+
+/* ---------- quote ---------- */
+.owb-quote {
+  margin: 44px 0 0;
+  max-width: 640px;
+  padding-left: 20px;
+  border-left: 3px solid var(--owb-blue);
+  font-size: clamp(15px, 1vw, 19px);
+  line-height: 32px;
+  color: var(--owb-muted);
+}
+
+/* ---------- responsive ---------- */
+@media (max-width: 600px) {
+  .owb-br {
+    display: none;
+  }
+}
+
+@media (max-width: 1200px) {
+  .owb-section {
+    --owb-branch-w: 260px;
+  }
+
+  .owb-label,
+  .owb-end-title {
+    font-size: 16px;
+  }
+
+  .owb-sublabel,
+  .owb-end-sub {
+    font-size: 14px;
+  }
+
+  .owb-label,
+  .owb-sublabel {
+    white-space: normal;
+    padding: 0 4px;
+  }
+}
+
+@media (max-width: 900px) {
+  .owb-section {
+    padding: 70px 0 70px;
+  }
+
+  .owb-container {
+    padding: 0 20px;
+  }
+
+  .owb-scroll {
+    margin-top: 40px;
+  }
+}

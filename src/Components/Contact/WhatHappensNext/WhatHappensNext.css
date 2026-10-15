@@ -1,0 +1,288 @@
+/* =============================================================================
+   WHAT HAPPENS NEXT — BASE
+   -----------------------------------------------------------------------------
+   Local design tokens live on the root class so this file has no dependency
+   on any global stylesheet and cannot leak outside this section.
+   ============================================================================= */
+
+.pj-contact-next {
+  --pj-next-bg: #f4f6fb;
+  --pj-next-surface: #ffffff;
+  --pj-next-surface-2: #eceffa;
+  --pj-next-text: #0b1030;
+  --pj-next-muted: #525c7d;
+  --pj-next-line-strong: #aab3cf;
+  --pj-next-primary: #3651ff;
+  --pj-next-primary-soft: #e9edff;
+
+  /* type scale */
+  --pj-next-fs-sm: 0.875rem;
+  --pj-next-fs-base: 0.9375rem;
+  --pj-next-fs-md: 1rem;
+  --pj-next-fs-lg: 1.0625rem;
+  --pj-next-fs-xl: 1.2rem;
+  --pj-next-lh-tight: 1.15;
+  --pj-next-lh-body: 1.55;
+
+  background-color: var(--pj-next-bg);
+  color: var(--pj-next-text);
+  font-family: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: var(--pj-next-fs-md);
+  line-height: var(--pj-next-lh-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+.pj-contact-next__content {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 48px 24px 72px;
+}
+
+
+/* =============================================================================
+   WHAT HAPPENS NEXT — BOX SIZING SAFETY (scoped, cannot leak)
+   -----------------------------------------------------------------------------
+   Same sizing on localhost, Vercel or any host, whatever the global CSS does.
+   min-width: 0 stops grid children stretching past their column.
+   ============================================================================= */
+
+.pj-contact-next,
+.pj-contact-next *,
+.pj-contact-next *::before,
+.pj-contact-next *::after {
+  box-sizing: border-box;
+}
+
+.pj-contact-next__steps > * {
+  min-width: 0;
+}
+
+
+/* =============================================================================
+   WHAT HAPPENS NEXT — HEADER
+   ============================================================================= */
+
+.pj-contact-next__header {
+  max-width: 640px;
+  margin-bottom: 28px;
+}
+
+.pj-contact-next__title {
+  margin: 0;
+  font-family: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  font-size: clamp(2rem, 4.2vw, 2.75rem);
+  font-weight: 700;
+  line-height: var(--pj-next-lh-tight);
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.pj-contact-next__description {
+  margin: 10px 0 0;
+  font-size: clamp(1rem, 1.5vw, 1.15rem);
+  line-height: var(--pj-next-lh-body);
+  color: var(--pj-next-muted);
+}
+
+
+/* =============================================================================
+   WHAT HAPPENS NEXT — 4-STEP PROCESS
+   ============================================================================= */
+
+.pj-contact-next__steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pj-contact-next__step {
+  position: relative;
+}
+
+.pj-contact-next__step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 24px;
+  left: 62px;
+  right: -12px;
+  border-top: 2px dashed var(--pj-next-line-strong);
+}
+
+.pj-contact-next__number {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 50px;
+  height: 50px;
+  border: 2px solid var(--pj-next-primary);
+  border-radius: 50%;
+  background-color: var(--pj-next-surface);
+  color: var(--pj-next-primary);
+  font-family: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  font-size: var(--pj-next-fs-lg);
+  font-weight: 700;
+}
+
+.pj-contact-next__step-title {
+  margin: 14px 0 0;
+  font-family: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  font-size: var(--pj-next-fs-xl);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.pj-contact-next__step-text {
+  margin: 6px 0 0;
+  font-size: var(--pj-next-fs-base);
+  line-height: 1.5;
+  color: var(--pj-next-muted);
+}
+
+
+/* =============================================================================
+   WHAT HAPPENS NEXT — NEXT-STEP EXAMPLES (card, title, selection summary)
+   ============================================================================= */
+
+.pj-contact-next__examples {
+  margin-top: 36px;
+  padding: 22px;
+  border-radius: 14px;
+  background-color: var(--pj-next-surface-2);
+}
+
+.pj-contact-next__examples-title {
+  margin: 0;
+  font-family: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  font-size: var(--pj-next-fs-lg);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.pj-contact-next__selected {
+  min-height: 1.5em;
+  margin: 6px 0 14px;
+  font-size: var(--pj-next-fs-base);
+  line-height: 1.5;
+  color: var(--pj-next-muted);
+}
+
+.pj-contact-next__selected strong {
+  color: var(--pj-next-primary);
+}
+
+
+/* =============================================================================
+   WHAT HAPPENS NEXT — NEXT-STEP EXAMPLES (chips and active chip)
+   -----------------------------------------------------------------------------
+   Same box size for normal and active chips (border width never changes), so
+   switching the selection never shifts the layout.
+   ============================================================================= */
+
+.pj-contact-next__examples-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pj-contact-next__examples-item {
+  padding: 8px 14px;
+  border: 1.5px solid var(--pj-next-line-strong);
+  border-radius: 999px;
+  background-color: var(--pj-next-surface);
+  font-size: var(--pj-next-fs-base);
+  line-height: 1.4;
+  transition: border-color 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.pj-contact-next__examples-item--active {
+  border-color: var(--pj-next-primary);
+  background-color: var(--pj-next-primary-soft);
+  box-shadow: 0 0 0 1.5px var(--pj-next-primary);
+}
+
+
+/* =============================================================================
+   WHAT HAPPENS NEXT — TABLET
+   ============================================================================= */
+
+@media (max-width: 1024px) {
+  .pj-contact-next__content {
+    padding: 44px 24px 60px;
+  }
+}
+
+
+/* =============================================================================
+   WHAT HAPPENS NEXT — MOBILE
+   ============================================================================= */
+
+@media (max-width: 768px) {
+  .pj-contact-next__steps {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .pj-contact-next__step {
+    display: grid;
+    grid-template-columns: 50px 1fr;
+    column-gap: 16px;
+    padding-bottom: 24px;
+  }
+
+  .pj-contact-next__step:not(:last-child)::after {
+    top: 54px;
+    bottom: 4px;
+    left: 24px;
+    right: auto;
+    border-top: 0;
+    border-left: 2px dashed var(--pj-next-line-strong);
+  }
+
+  .pj-contact-next__step-title {
+    grid-column: 2;
+    margin-top: 0;
+    align-self: center;
+  }
+
+  .pj-contact-next__step-text {
+    grid-column: 2;
+  }
+}
+
+
+/* =============================================================================
+   WHAT HAPPENS NEXT — SMALL MOBILE
+   ============================================================================= */
+
+@media (max-width: 480px) {
+  .pj-contact-next__content {
+    padding: 36px 16px 44px;
+  }
+
+  .pj-contact-next__examples {
+    padding: 18px 16px;
+  }
+}
+
+
+/* =============================================================================
+   WHAT HAPPENS NEXT — REDUCED MOTION
+   ============================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .pj-contact-next__examples-item {
+    transition: none;
+  }
+}

@@ -1,0 +1,310 @@
+/* ==========================================================================
+   getting-started.css
+   Section : Getting Started (heading + button on the left, timeline on the right)
+   Prefix  : pjgs-  (unique, so it never clashes with other project classes)
+   Approach: mobile-first. Breakpoints -> 640px tablet, 1024px laptop, 1440px large
+   --------------------------------------------------------------------------
+   INDEX (section -> class names)
+   1. Root & tokens ..... .pjgs-section, .pjgs-container
+   2. Intro (left) ...... .pjgs-intro, .pjgs-eyebrow, .pjgs-heading, .pjgs-lead
+   3. Button ............ .pjgs-cta, .pjgs-cta-label, .pjgs-cta-arrow
+   4. Timeline (right) .. .pjgs-steps, .pjgs-step, .pjgs-step-node, .pjgs-step-no,
+                          .pjgs-step-body, .pjgs-step-title, .pjgs-step-text
+   5. Reduced motion .... prefers-reduced-motion
+   6. Responsive ........ tablet (640px), laptop (1024px), large (1440px)
+   ========================================================================== */
+
+
+/* ==========================================================================
+   1. ROOT & TOKENS   (.pjgs-section, .pjgs-container)
+   Colours and sizes live here as variables, scoped to this section only.
+   ========================================================================== */
+.pjgs-section {
+  --pjgs-bg: #060e1c;
+  --pjgs-panel: #0b1626;
+  --pjgs-border: #1a2a40;
+  --pjgs-text: #f4f7fb;
+  --pjgs-soft: #d5dfec;
+  --pjgs-muted: #a8b8cc;
+  --pjgs-blue: #60a5fa;
+  --pjgs-cyan: #38d6f5;
+  --pjgs-line: #5fb0ee;
+  --pjgs-node: 2.5rem;
+  --pjgs-gap: 1.5rem;
+  --pjgs-title-size: clamp(1.25rem, 3.4vw, 1.75rem);
+  --pjgs-font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+  --pjgs-font-sans: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 3.5rem 1rem;
+  overflow: hidden;
+  background: var(--pjgs-bg);
+  color: var(--pjgs-text);
+  font-family: var(--pjgs-font-sans);
+}
+
+/* very faint grid in the background (decoration only) */
+.pjgs-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(96, 165, 250, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(96, 165, 250, 0.045) 1px, transparent 1px);
+  background-size: 4.5rem 4.5rem;
+  pointer-events: none;
+}
+
+.pjgs-section *,
+.pjgs-section *::before,
+.pjgs-section *::after {
+  box-sizing: border-box;
+}
+
+.pjgs-container {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2.5rem;
+  align-items: center;
+  width: 100%;
+  max-width: 80rem;
+  margin-inline: auto;
+}
+
+
+/* ==========================================================================
+   2. INTRO, LEFT SIDE   (.pjgs-intro, .pjgs-eyebrow, .pjgs-heading, .pjgs-lead)
+   ========================================================================== */
+.pjgs-intro {
+  min-width: 0;
+}
+
+.pjgs-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0 0 0.75rem;
+  color: var(--pjgs-blue);
+  font-family: var(--pjgs-font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.pjgs-eyebrow::before {
+  content: "";
+  width: 1.75rem;
+  height: 1px;
+  background: var(--pjgs-blue);
+}
+
+.pjgs-heading {
+  margin: 0 0 1rem;
+  font-size: clamp(2.125rem, 7vw, 3.75rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--pjgs-text);
+}
+
+.pjgs-lead {
+  margin: 0 0 2rem;
+  max-width: 30rem;
+  color: var(--pjgs-soft);
+  font-size: clamp(1.0625rem, 2.6vw, 1.5rem);
+  line-height: 1.5;
+}
+
+
+/* ==========================================================================
+   3. BUTTON   (.pjgs-cta, .pjgs-cta-label, .pjgs-cta-arrow)
+   ========================================================================== */
+.pjgs-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 0.9375rem 1.5rem;
+  border: 1px solid var(--pjgs-border);
+  border-radius: 0.75rem;
+  background: var(--pjgs-panel);
+  color: var(--pjgs-text);
+  font-size: 1.0625rem;
+  line-height: 1.2;
+  text-decoration: none;
+  box-shadow: 0 1.25rem 2rem -0.75rem rgba(56, 189, 248, 0.22);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.pjgs-cta-arrow {
+  display: inline-block;
+  transition: transform 0.25s ease;
+}
+
+.pjgs-cta:focus-visible {
+  outline: 2px solid var(--pjgs-cyan);
+  outline-offset: 3px;
+}
+
+/* Hover only on devices with a real pointer (no sticky hover on touch) */
+@media (hover: hover) {
+  .pjgs-cta:hover {
+    border-color: var(--pjgs-cyan);
+    box-shadow: 0 1.25rem 2.25rem -0.5rem rgba(56, 214, 245, 0.35);
+  }
+
+  .pjgs-cta:hover .pjgs-cta-arrow {
+    transform: translateX(0.25rem);
+  }
+}
+
+
+/* ==========================================================================
+   4. TIMELINE, RIGHT SIDE   (.pjgs-steps, .pjgs-step, .pjgs-step-node,
+      .pjgs-step-no, .pjgs-step-body, .pjgs-step-title, .pjgs-step-text)
+   Each step draws its own piece of the vertical line (::before), so the
+   line always joins the next circle, whatever the text length is.
+   ========================================================================== */
+.pjgs-steps {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pjgs-step {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--pjgs-node) minmax(0, 1fr);
+  column-gap: var(--pjgs-gap);
+  padding-bottom: 2.25rem;
+}
+
+/* vertical line piece: from the middle of this circle down to the next one */
+.pjgs-step::before {
+  content: "";
+  position: absolute;
+  top: calc(var(--pjgs-node) / 2);
+  bottom: 0;
+  left: calc(var(--pjgs-node) / 2 - 1px);
+  width: 2px;
+  background: var(--pjgs-line);
+}
+
+/* last step: only a short tail under the circle */
+.pjgs-step:last-child {
+  padding-bottom: 0;
+}
+
+.pjgs-step:last-child::before {
+  bottom: auto;
+  height: calc(var(--pjgs-node) / 2 + 1rem);
+}
+
+.pjgs-step-node {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: var(--pjgs-node);
+  height: var(--pjgs-node);
+  border-radius: 50%;
+  background: var(--pjgs-cyan);
+  box-shadow: 0 0 0 0.3125rem rgba(56, 214, 245, 0.14), 0 0 1.25rem rgba(56, 214, 245, 0.3);
+}
+
+.pjgs-step-no {
+  color: #04121f;
+  font-family: var(--pjgs-font-mono);
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+
+.pjgs-step-body {
+  min-width: 0;
+  /* centres the first line of the title exactly on the circle */
+  padding-top: calc((var(--pjgs-node) - 1.2 * var(--pjgs-title-size)) / 2);
+}
+
+.pjgs-step-title {
+  margin: 0 0 0.25rem;
+  color: var(--pjgs-text);
+  font-size: var(--pjgs-title-size);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.pjgs-step-text {
+  margin: 0;
+  max-width: 30rem;
+  color: var(--pjgs-muted);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+
+/* ==========================================================================
+   5. REDUCED MOTION
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .pjgs-cta,
+  .pjgs-cta-arrow {
+    transition: none;
+  }
+}
+
+
+/* ==========================================================================
+   6. RESPONSIVE
+   ========================================================================== */
+/* ----- Tablet (640px and up) : more room, still one column ----- */
+@media (min-width: 640px) {
+  .pjgs-section {
+    --pjgs-node: 2.75rem;
+    --pjgs-gap: 1.75rem;
+    padding: 4.5rem 2rem;
+  }
+
+  .pjgs-container {
+    gap: 3rem;
+  }
+
+  .pjgs-step {
+    padding-bottom: 2.5rem;
+  }
+}
+
+/* ----- Laptop (1024px and up) : two columns, text left, timeline right ----- */
+@media (min-width: 1024px) {
+  .pjgs-section {
+    padding: 5.5rem 2.5rem;
+  }
+
+  .pjgs-container {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    gap: 4rem;
+  }
+
+  .pjgs-step {
+    padding-bottom: 3rem;
+  }
+}
+
+/* ----- Large screens (1440px and up) : wider frame, bigger gaps ----- */
+@media (min-width: 1440px) {
+  .pjgs-section {
+    --pjgs-node: 3rem;
+  }
+
+  .pjgs-container {
+    max-width: 88rem;
+    gap: 6rem;
+  }
+
+  .pjgs-step-no {
+    font-size: 0.875rem;
+  }
+}

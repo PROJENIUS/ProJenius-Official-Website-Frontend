@@ -1,0 +1,375 @@
+/* =========================================================
+   SESSION 1: HERO SECTION WRAPPER & CONTAINER
+========================================================= */
+
+.cghero-section {
+  width: 100%;
+  min-height: 88vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 120px 24px 80px;
+  background: #091120;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  overflow: hidden;
+}
+
+.cghero-container {
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  align-items: center;
+  gap: 50px;
+  position: relative;
+  z-index: 2;
+}
+
+/* =========================================================
+   SESSION 2: BACKGROUND GLOW & AMBIENT EFFECTS
+========================================================= */
+
+.cghero-bg-layer {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(circle at 75% 35%, rgba(53, 206, 255, 0.12), transparent 42%),
+    radial-gradient(circle at 20% 70%, rgba(53, 206, 255, 0.06), transparent 38%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.cghero-glow-top {
+  position: absolute;
+  top: -100px;
+  right: 15%;
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(53, 206, 255, 0.14) 0%, transparent 70%);
+  pointer-events: none;
+  filter: blur(40px);
+  z-index: 1;
+}
+
+.cghero-glow-bottom {
+  position: absolute;
+  bottom: -100px;
+  left: 5%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(2, 132, 199, 0.1) 0%, transparent 70%);
+  pointer-events: none;
+  filter: blur(40px);
+  z-index: 1;
+}
+
+/* =========================================================
+   SESSION 3: LEFT CONTENT & TYPOGRAPHY
+========================================================= */
+
+.cghero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.cghero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  border-radius: 9999px;
+  background: rgba(53, 206, 255, 0.1);
+  border: 1px solid rgba(53, 206, 255, 0.25);
+  margin-bottom: 22px;
+}
+
+.cghero-badge-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #35ceff;
+  box-shadow: 0 0 8px #35ceff;
+}
+
+.cghero-badge-text {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #35ceff;
+  letter-spacing: 0.5px;
+}
+
+.cghero-title {
+  margin: 0 0 20px;
+  font-size: clamp(38px, 4.4vw, 58px);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -1.8px;
+  color: #ffffff;
+}
+
+.cghero-title-line {
+  display: block;
+}
+
+.cghero-title-highlight {
+  color: #35ceff;
+  position: relative;
+}
+
+.cghero-title-sub {
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.cghero-description {
+  max-width: 560px;
+  margin: 0 0 34px;
+  font-size: 16px;
+  line-height: 1.65;
+  color: #cbd5e1;
+  font-weight: 400;
+}
+
+/* =========================================================
+   SESSION 4: ACTION BUTTONS
+========================================================= */
+
+.cghero-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.cghero-btn-primary {
+  padding: 14px 28px;
+  border-radius: 12px;
+  background: #159fdd;
+  color: #ffffff;
+  font-size: 14.5px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgba(21, 159, 221, 0.35);
+  transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cghero-btn-primary:hover {
+  background: #0ea5e9;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(21, 159, 221, 0.45);
+}
+
+.cghero-btn-secondary {
+  padding: 14px 26px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1.5px solid rgba(255, 255, 255, 0.16);
+  color: #e2e8f0;
+  font-size: 14.5px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cghero-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(53, 206, 255, 0.4);
+  color: #35ceff;
+  transform: translateY(-2px);
+}
+
+/* =========================================================
+   SESSION 5: RIGHT CIRCULAR ORB VISUALS
+========================================================= */
+
+.cghero-visual {
+  position: relative;
+  width: 100%;
+  height: 480px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cghero-orb-ring {
+  position: absolute;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cghero-orb-ring-large {
+  width: 250px;
+  height: 250px;
+  top: 15px;
+  right: 40px;
+  border: 3px solid rgba(53, 206, 255, 0.7);
+  box-shadow: 0 0 35px rgba(53, 206, 255, 0.25);
+  z-index: 4;
+}
+
+.cghero-orb-ring-medium {
+  width: 190px;
+  height: 190px;
+  top: 175px;
+  right: 80px;
+  border: 2px solid rgba(53, 206, 255, 0.45);
+  box-shadow: 0 0 25px rgba(53, 206, 255, 0.18);
+  z-index: 3;
+}
+
+.cghero-orb-ring-small {
+  width: 140px;
+  height: 140px;
+  bottom: 25px;
+  right: 120px;
+  border: 2px solid rgba(53, 206, 255, 0.35);
+  box-shadow: 0 0 20px rgba(53, 206, 255, 0.15);
+  z-index: 2;
+}
+
+.cghero-orb-image-wrapper {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #091120;
+}
+
+.cghero-orb-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.9;
+  transition: transform 0.6s ease;
+}
+
+.cghero-orb-ring:hover .cghero-orb-image {
+  transform: scale(1.08);
+}
+
+/* =========================================================
+   SESSION 6: RESPONSIVENESS (MOBILE, TABLET, LAPTOP, DESKTOP)
+========================================================= */
+
+@media (max-width: 1100px) {
+  .cghero-container {
+    gap: 30px;
+  }
+
+  .cghero-orb-ring-large {
+    width: 220px;
+    height: 220px;
+    right: 20px;
+  }
+
+  .cghero-orb-ring-medium {
+    width: 165px;
+    height: 165px;
+    right: 50px;
+  }
+
+  .cghero-orb-ring-small {
+    width: 125px;
+    height: 125px;
+    right: 80px;
+  }
+}
+
+@media (max-width: 900px) {
+  .cghero-section {
+    padding: 100px 20px 60px;
+    min-height: auto;
+  }
+
+  .cghero-container {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .cghero-content {
+    align-items: center;
+  }
+
+  .cghero-description {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cghero-actions {
+    justify-content: center;
+  }
+
+  .cghero-visual {
+    height: 380px;
+  }
+
+  .cghero-orb-ring-large {
+    left: 50%;
+    transform: translateX(-40%);
+    top: 10px;
+  }
+
+  .cghero-orb-ring-medium {
+    left: 50%;
+    transform: translateX(-10%);
+    top: 130px;
+  }
+
+  .cghero-orb-ring-small {
+    left: 50%;
+    transform: translateX(10%);
+    bottom: 20px;
+  }
+}
+
+@media (max-width: 560px) {
+  .cghero-section {
+    padding: 90px 16px 50px;
+  }
+
+  .cghero-title {
+    letter-spacing: -1.2px;
+  }
+
+  .cghero-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .cghero-btn-primary,
+  .cghero-btn-secondary {
+    width: 100%;
+  }
+
+  .cghero-visual {
+    height: 320px;
+  }
+
+  .cghero-orb-ring-large {
+    width: 180px;
+    height: 180px;
+  }
+
+  .cghero-orb-ring-medium {
+    width: 140px;
+    height: 140px;
+  }
+
+  .cghero-orb-ring-small {
+    width: 105px;
+    height: 105px;
+  }
+}

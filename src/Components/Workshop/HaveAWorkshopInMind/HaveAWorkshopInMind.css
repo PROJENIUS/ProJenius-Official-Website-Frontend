@@ -1,0 +1,126 @@
+.hwm-section {
+  --hwm-bg: #070f23;
+  --hwm-text: #ffffff;
+  --hwm-muted: #8fa3d6;
+  --hwm-line: rgba(255, 255, 255, 0.4);
+
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 4vh 24px;
+  background: var(--hwm-bg);
+  color: var(--hwm-text);
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  box-sizing: border-box;
+}
+
+.hwm-section *,
+.hwm-section *::before,
+.hwm-section *::after {
+  box-sizing: border-box;
+}
+
+.hwm-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hwm-container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1380px;
+  margin: 0 auto;
+}
+
+.hwm-title {
+  margin: 0 0 22px;
+  max-width: 760px;
+  font-size: clamp(40px, 8.6vh, 76px);
+  line-height: 1.2;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.hwm-description {
+  margin: 0 0 40px;
+  max-width: 760px;
+  font-size: 22px;
+  line-height: 1.75;
+  color: var(--hwm-muted);
+}
+
+.hwm-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.hwm-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  padding: 0 30px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  font-size: 18px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.hwm-btn-primary {
+  background: #ffffff;
+  color: #0a1228;
+}
+
+.hwm-btn-primary:hover {
+  background: #e4e9f7;
+}
+
+.hwm-btn-outline {
+  background: rgba(7, 15, 35, 0.6);
+  border-color: var(--hwm-line);
+  color: var(--hwm-text);
+}
+
+.hwm-btn-outline:hover {
+  border-color: #ffffff;
+}
+
+.hwm-btn:focus-visible {
+  outline: 2px solid #6b8cff;
+  outline-offset: 3px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1024px) {
+  .hwm-title {
+    font-size: 56px;
+  }
+}
+
+@media (max-width: 600px) {
+  .hwm-section {
+    padding: 64px 20px;
+  }
+  .hwm-title {
+    font-size: 38px;
+  }
+  .hwm-description {
+    font-size: 18px;
+    margin-bottom: 32px;
+  }
+  .hwm-btn {
+    width: 100%;
+    height: 54px;
+    font-size: 17px;
+  }
+}

@@ -1,0 +1,483 @@
+/* =========================================================
+   PROJENIUS INTERNSHIP
+   TECHNOLOGIES COVERED
+========================================================= */
+
+
+/* =========================================================
+   MAIN SECTION
+========================================================= */
+
+.pj-internship-tech {
+  position: relative;
+
+  width: 100%;
+
+  padding: 92px 0;
+
+  background: #0b0b1a;
+
+  color: #ffffff;
+
+  overflow: hidden;
+
+  isolation: isolate;
+}
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.pj-internship-tech__container {
+  width: 100%;
+
+  max-width: 1200px;
+
+  margin: 0 auto;
+
+  padding: 0 24px;
+}
+
+
+/* =========================================================
+   SECTION HEADING
+========================================================= */
+
+.pj-internship-tech__heading {
+  width: 100%;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  text-align: center;
+
+  margin-bottom: 34px;
+}
+
+
+/* =========================================================
+   SECTION BADGE
+========================================================= */
+
+.pj-internship-tech__badge {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 9px 18px;
+
+  border: 1px solid rgba(21, 153, 214, 0.3);
+
+  border-radius: 999px;
+
+  background: rgba(21, 153, 214, 0.06);
+
+  color: #1599d6;
+
+  font-size: 15px;
+
+  font-weight: 800;
+
+  letter-spacing: 1.5px;
+
+  line-height: 1;
+
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   MAIN TITLE
+========================================================= */
+
+.pj-internship-tech__title {
+  margin: 20px 0 0;
+
+  color: #ffffff;
+
+  font-size: clamp(38px, 5vw, 58px);
+
+  font-weight: 800;
+
+  line-height: 1.12;
+
+  letter-spacing: -1.5px;
+
+  text-align: center;
+}
+
+
+/* =========================================================
+   TITLE HIGHLIGHT
+========================================================= */
+
+.pj-internship-tech__title-highlight {
+  color: #1599d6;
+}
+
+
+/* =========================================================
+   TITLE DECORATIVE LINE
+========================================================= */
+
+.pj-internship-tech__line {
+  display: block;
+
+  width: 120px;
+
+  height: 5px;
+
+  margin-top: 24px;
+
+  border-radius: 999px;
+
+  background: #1599d6;
+}
+
+
+/* =========================================================
+   CAROUSEL VIEWPORT
+========================================================= */
+
+.pj-internship-tech__carousel {
+  width: 100%;
+
+  overflow: hidden;
+
+  padding: 10px 0;
+
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 128px,
+    #000 calc(100% - 128px),
+    transparent 100%
+  );
+
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 128px,
+    #000 calc(100% - 128px),
+    transparent 100%
+  );
+}
+
+
+/* =========================================================
+   CAROUSEL TRACK
+========================================================= */
+
+.pj-internship-tech__track {
+  display: inline-flex;
+
+  flex-wrap: nowrap;
+
+  width: max-content;
+
+  animation: pj-internship-tech-scroll 28s linear infinite;
+}
+
+
+/* =========================================================
+   PAUSE CAROUSEL ON HOVER
+========================================================= */
+
+.pj-internship-tech__track:hover {
+  animation-play-state: paused;
+}
+
+
+/* =========================================================
+   TECHNOLOGY LIST
+========================================================= */
+
+.pj-internship-tech__list {
+  display: flex;
+
+  align-items: center;
+
+  flex-shrink: 0;
+
+  list-style: none;
+
+  margin: 0;
+
+  padding: 0;
+}
+
+
+/* =========================================================
+   TECHNOLOGY CARD
+========================================================= */
+
+.pj-internship-tech__card {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  min-width: max-content;
+
+  margin: 0 16px;
+
+  padding: 16px 28px;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  border-radius: 16px;
+
+  background: rgba(255, 255, 255, 0.03);
+
+  color: #f3f4f6;
+
+  font-size: 16px;
+
+  font-weight: 800;
+
+  line-height: 1;
+
+  white-space: nowrap;
+
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+
+  backdrop-filter: blur(10px);
+
+  -webkit-backdrop-filter: blur(10px);
+
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+
+/* =========================================================
+   CARD HOVER
+========================================================= */
+
+.pj-internship-tech__card:hover {
+  transform: translateY(-4px);
+
+  border-color: rgba(21, 153, 214, 0.45);
+
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.4),
+    0 0 20px rgba(21, 153, 214, 0.15);
+}
+
+
+/* =========================================================
+   TECHNOLOGY LOGO
+========================================================= */
+
+.pj-internship-tech__logo {
+  width: 36px;
+
+  height: 36px;
+
+  flex-shrink: 0;
+
+  object-fit: contain;
+}
+
+
+/* =========================================================
+   TECHNOLOGY NAME
+========================================================= */
+
+.pj-internship-tech__name {
+  display: inline-block;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   INFINITE CAROUSEL ANIMATION
+========================================================= */
+
+@keyframes pj-internship-tech-scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .pj-internship-tech__track {
+    animation: none;
+  }
+
+  .pj-internship-tech__card {
+    transition: none;
+  }
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 991px) {
+  .pj-internship-tech {
+    padding: 75px 0;
+  }
+
+  .pj-internship-tech__title {
+    font-size: 44px;
+  }
+
+  .pj-internship-tech__carousel {
+    mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 70px,
+      #000 calc(100% - 70px),
+      transparent 100%
+    );
+
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 70px,
+      #000 calc(100% - 70px),
+      transparent 100%
+    );
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 767px) {
+  .pj-internship-tech {
+    padding: 60px 0;
+  }
+
+  .pj-internship-tech__container {
+    padding: 0 18px;
+  }
+
+  .pj-internship-tech__heading {
+    margin-bottom: 25px;
+  }
+
+  .pj-internship-tech__badge {
+    padding: 8px 15px;
+
+    font-size: 12px;
+
+    letter-spacing: 1.2px;
+  }
+
+  .pj-internship-tech__title {
+    font-size: 34px;
+
+    letter-spacing: -1px;
+  }
+
+  .pj-internship-tech__line {
+    width: 90px;
+
+    height: 4px;
+
+    margin-top: 18px;
+  }
+
+  .pj-internship-tech__carousel {
+    mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 40px,
+      #000 calc(100% - 40px),
+      transparent 100%
+    );
+
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 40px,
+      #000 calc(100% - 40px),
+      transparent 100%
+    );
+  }
+
+  .pj-internship-tech__card {
+    margin: 0 8px;
+
+    padding: 13px 18px;
+
+    gap: 10px;
+
+    border-radius: 14px;
+
+    font-size: 14px;
+  }
+
+  .pj-internship-tech__logo {
+    width: 32px;
+
+    height: 32px;
+  }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+  .pj-internship-tech {
+    padding: 50px 0;
+  }
+
+  .pj-internship-tech__container {
+    padding: 0 14px;
+  }
+
+  .pj-internship-tech__title {
+    font-size: 30px;
+
+    line-height: 1.15;
+  }
+
+  .pj-internship-tech__badge {
+    font-size: 11px;
+
+    letter-spacing: 1px;
+  }
+
+  .pj-internship-tech__card {
+    margin: 0 6px;
+
+    padding: 12px 15px;
+
+    gap: 8px;
+
+    font-size: 13px;
+  }
+
+  .pj-internship-tech__logo {
+    width: 29px;
+
+    height: 29px;
+  }
+}

@@ -1,0 +1,111 @@
+/* =========================================================
+   ALREADY HAVE A DIGITAL PRODUCT — ROOT (all classes start with pj-development-digital-product)
+========================================================= */
+.pj-development-digital-product{
+  --pj-dp-bg:#050b1e;--pj-dp-white:#eaf0ff;--pj-dp-muted:#91a7c8;--pj-dp-blue:#1d5cff;--pj-dp-blue-light:#6d9dff;--pj-dp-cyan:#35d9ee;--pj-dp-border-soft:#172b4d;
+  position:relative;width:100%;padding:clamp(78px,9vw,135px) 0;overflow:clip;background:var(--pj-dp-bg);color:var(--pj-dp-white);
+  font-family:"Segoe UI","Poppins",sans-serif;isolation:isolate;
+  scroll-margin-top:calc(var(--pjdev-header-h,0px) + var(--pjdev-subnav-h,0px) + 12px);
+}
+.pj-development-digital-product::before{content:"";position:absolute;inset:0;z-index:-4;pointer-events:none;background-size:56px 56px;
+  background-image:linear-gradient(rgba(76,107,155,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(76,107,155,.045) 1px,transparent 1px)}
+.pj-development-digital-product::after{content:"";position:absolute;left:-240px;bottom:-260px;width:700px;height:700px;z-index:-3;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(29,92,255,.11) 0%,rgba(29,92,255,.035) 38%,transparent 72%)}
+.pj-development-digital-product-wrap{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1fr) minmax(440px,.96fr);align-items:center;gap:clamp(35px,5vw,78px);width:min(1240px,calc(100% - 80px));margin:0 auto}
+.pj-development-digital-product-content{max-width:560px}
+
+/* ---------- EYEBROW ---------- */
+.pj-development-digital-product-eyebrow{display:inline-flex;align-items:center;gap:12px;font-size:.78rem;font-weight:600;line-height:1;letter-spacing:.16em;text-transform:uppercase;color:var(--pj-dp-cyan)}
+.pj-development-digital-product-eyebrow::before{content:"";width:9px;height:9px;border-radius:50%;background:linear-gradient(135deg,#1d5cff,#35d9ee);box-shadow:0 0 0 4px rgba(29,92,255,.14)}
+
+/* ---------- REVEAL ---------- */
+.pj-development-digital-product-rv{opacity:0;transform:translateY(18px);transition:opacity .75s cubic-bezier(.22,1,.36,1),transform .75s cubic-bezier(.22,1,.36,1)}
+.pj-development-digital-product-rv--d1{transition-delay:.08s}
+.pj-development-digital-product-rv--d2{transition-delay:.16s}
+.pj-development-digital-product-rv--d3{transition-delay:.24s}
+.pj-development-digital-product--in .pj-development-digital-product-rv{opacity:1;transform:none}
+
+/* ---------- TEXT ---------- */
+.pj-development-digital-product-title{margin:24px 0 0;color:var(--pj-dp-white);font-family:"Poppins","Segoe UI",sans-serif;font-size:clamp(2.65rem,4.3vw,4rem);font-weight:700;line-height:1.03;letter-spacing:-.045em}
+.pj-development-digital-product-lead{max-width:55ch;margin:23px 0 0;color:var(--pj-dp-muted);font-size:clamp(.98rem,1.25vw,1.12rem);line-height:1.62}
+
+/* ---------- CATEGORY LIST ---------- */
+.pj-development-digital-product-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:25px;row-gap:0;margin:32px 0 0;padding:0;list-style:none}
+.pj-development-digital-product-item{display:flex;align-items:center;gap:13px;width:100%;min-height:55px;padding:9px 0;border-bottom:1px solid var(--pj-dp-border-soft);color:#c4d0e3;font-size:.96rem;font-weight:600;line-height:1.3;cursor:default;
+  transition:color .25s ease,padding-left .3s cubic-bezier(.22,1,.36,1)}
+.pj-development-digital-product-item:hover,.pj-development-digital-product-item--hot{padding-left:7px;color:var(--pj-dp-white)}
+.pj-development-digital-product-item:focus-visible{outline:2px solid #5f9dff;outline-offset:2px;border-radius:4px}
+.pj-development-digital-product-status{display:grid;place-items:center;flex:0 0 auto;width:22px;height:22px;border:1.5px solid #344d74;border-radius:50%;background:transparent;transition:background .3s ease,border-color .3s ease,box-shadow .3s ease,transform .25s ease}
+.pj-development-digital-product-status svg{width:12px;height:12px;fill:none;stroke:#061123;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;opacity:0;transform:scale(.6);transition:opacity .25s ease,transform .3s cubic-bezier(.22,1,.36,1)}
+.pj-development-digital-product-item--on .pj-development-digital-product-status{background:var(--pj-dp-cyan);border-color:var(--pj-dp-cyan);box-shadow:0 0 0 3px rgba(53,217,238,.08)}
+.pj-development-digital-product-item--on .pj-development-digital-product-status svg{opacity:1;transform:scale(1)}
+.pj-development-digital-product-item--hot .pj-development-digital-product-status{transform:scale(1.06);border-color:var(--pj-dp-blue-light)}
+
+/* ---------- BUTTONS ---------- */
+.pj-development-digital-product-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:40px}
+.pj-development-digital-product-btn{display:inline-flex;align-items:center;gap:12px;height:54px;padding:0 26px;border-radius:999px;font-family:inherit;font-size:1rem;font-weight:600;line-height:1;white-space:nowrap;text-decoration:none;cursor:pointer;
+  transition:transform .25s cubic-bezier(.22,1,.36,1),box-shadow .25s,background .25s,border-color .25s}
+.pj-development-digital-product-btn:hover{transform:translateY(-2px)}
+.pj-development-digital-product-btn:focus-visible{outline:2px solid #8fb4ff;outline-offset:3px}
+.pj-development-digital-product-btn-arrow{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .25s cubic-bezier(.22,1,.36,1)}
+.pj-development-digital-product-btn:hover .pj-development-digital-product-btn-arrow{transform:translateX(4px)}
+.pj-development-digital-product-btn--primary{background:var(--pj-dp-blue);color:#fff;border:1px solid rgba(93,145,255,.38);box-shadow:0 12px 28px rgba(29,92,255,.24)}
+.pj-development-digital-product-btn--primary:hover{background:#286cff}
+.pj-development-digital-product-btn--ghost{border:1px solid #30496f;background:transparent;color:#d8e2f2}
+.pj-development-digital-product-btn--ghost:hover{border-color:#5277b5;background:rgba(29,92,255,.055)}
+
+/* ---------- RADAR CARD ---------- */
+.pj-development-digital-product-card{position:relative;min-height:565px;padding:clamp(24px,3vw,32px);overflow:hidden;border:1px solid rgba(48,75,122,.72);border-radius:20px;
+  background:linear-gradient(155deg,#0b1b43 0%,#091733 55%,#08132b 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.018),0 24px 60px rgba(0,0,0,.18)}
+.pj-development-digital-product-card::before{content:"";position:absolute;right:-22%;top:-18%;width:65%;height:70%;border-radius:50%;pointer-events:none;background:radial-gradient(closest-side,rgba(29,92,255,.12),transparent 72%)}
+.pj-development-digital-product-card-head{position:relative;z-index:2;display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:12px;margin:0 0 8px}
+.pj-development-digital-product-card-head b{color:var(--pj-dp-white);font-family:"Poppins","Segoe UI",sans-serif;font-size:1.08rem;font-weight:700}
+.pj-development-digital-product-card-head span{color:var(--pj-dp-muted);font-size:.8rem}
+.pj-development-digital-product-radar{position:relative;z-index:2;display:block;width:100%;max-width:470px;margin:12px auto 0;overflow:visible}
+.pj-development-digital-product-grid{fill:none;stroke:rgba(66,93,137,.68);stroke-width:1;vector-effect:non-scaling-stroke}
+.pj-development-digital-product-axis{stroke:rgba(55,79,116,.68);stroke-width:1;transition:stroke .25s ease,stroke-width .25s ease}
+.pj-development-digital-product-axis--hot{stroke:var(--pj-dp-cyan);stroke-width:1.7}
+.pj-development-digital-product-vertex{r:6px;fill:#0b1630;stroke:#334d76;stroke-width:2;transition:fill .3s ease,stroke .3s ease,r .3s cubic-bezier(.22,1,.36,1)}
+.pj-development-digital-product-vertex--on{fill:var(--pj-dp-cyan);stroke:var(--pj-dp-cyan)}
+.pj-development-digital-product-vertex--hot{r:9px;fill:var(--pj-dp-blue);stroke:#eaf0ff;filter:drop-shadow(0 0 5px rgba(61,217,238,.38))}
+.pj-development-digital-product-centre-ring{fill:none;stroke:rgba(54,91,143,.48);stroke-width:1}
+.pj-development-digital-product-centre{fill:var(--pj-dp-cyan);filter:drop-shadow(0 0 5px rgba(53,217,238,.55))}
+.pj-development-digital-product-sweep{transform:rotate(0deg);transform-origin:200px 200px;transform-box:view-box;opacity:0}
+.pj-development-digital-product-sweep--run{opacity:1;animation:pjDevelopmentDigitalProductSweep 3.8s linear forwards}
+@keyframes pjDevelopmentDigitalProductSweep{0%{transform:rotate(0deg);opacity:.8}85%{opacity:.8}100%{transform:rotate(360deg);opacity:0}}
+
+/* ---------- TABLET ---------- */
+@media (max-width:980px){
+  .pj-development-digital-product-wrap{grid-template-columns:1fr;width:min(900px,calc(100% - 48px));gap:45px}
+  .pj-development-digital-product-content{max-width:700px}
+  .pj-development-digital-product-card{width:100%;max-width:700px;margin:0 auto}
+}
+
+/* ---------- MOBILE ---------- */
+@media (max-width:720px){
+  .pj-development-digital-product{padding:70px 0 80px}
+  .pj-development-digital-product-wrap{width:calc(100% - 28px);gap:35px}
+  .pj-development-digital-product-title{font-size:2.35rem}
+  .pj-development-digital-product-lead{font-size:.93rem}
+  .pj-development-digital-product-list{grid-template-columns:1fr;margin-top:26px}
+  .pj-development-digital-product-item{min-height:52px;font-size:.9rem}
+  .pj-development-digital-product-actions{flex-direction:column;align-items:stretch}
+  .pj-development-digital-product-btn{width:100%;justify-content:center;height:52px;padding:0 22px;white-space:normal}
+  .pj-development-digital-product-card{min-height:auto;padding:22px}
+  .pj-development-digital-product-card-head{align-items:flex-start;flex-direction:column;gap:5px}
+}
+@media (max-width:450px){
+  .pj-development-digital-product-wrap{width:calc(100% - 20px)}
+  .pj-development-digital-product-title{font-size:2.05rem}
+  .pj-development-digital-product-lead{font-size:.88rem}
+  .pj-development-digital-product-card{padding:18px}
+  .pj-development-digital-product-card-head b{font-size:.98rem}
+  .pj-development-digital-product-card-head span{font-size:.72rem}
+}
+
+/* ---------- REDUCED MOTION ---------- */
+@media (prefers-reduced-motion:reduce){
+  .pj-development-digital-product-rv{opacity:1;transform:none;transition:none}
+  .pj-development-digital-product-sweep{display:none}
+  .pj-development-digital-product-vertex,.pj-development-digital-product-axis,.pj-development-digital-product-status,.pj-development-digital-product-item{transition:none}
+}

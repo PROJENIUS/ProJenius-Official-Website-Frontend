@@ -1,0 +1,822 @@
+
+/* =========================================================
+   PROJENIUS - OUR TRAINING PROGRAM
+   Dark Bento Grid | Responsive | Animated | Professional
+========================================================= */
+
+.training-section {
+    --ts-navy: #0b1f3a;
+    --ts-text: #475569;
+    --ts-accent: #1599d6;
+    --ts-blue-light: #5cc8f5;
+    --ts-gap: clamp(14px, 1.8vw, 24px);
+    --ts-radius: clamp(18px, 2vw, 26px);
+    --ts-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --ts-pad: clamp(12px, 1.6vw, 22px);
+
+    width: 100%;
+    padding: clamp(40px, 6vw, 88px) clamp(16px, 3vw, 32px);
+    overflow: hidden;
+    isolation: isolate;
+    background: linear-gradient(180deg, #000000 0%, #05080f 100%);
+    color: #ffffff;
+    font-family: "Inter", "Segoe UI", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    box-sizing: border-box;
+}
+
+.training-section *,
+.training-section *::before,
+.training-section *::after {
+    box-sizing: border-box;
+}
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.training-section .container {
+    width: min(1280px, 100%);
+    margin: 0 auto;
+    padding: 0;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.training-section .training-heading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto clamp(28px, 4vw, 52px);
+    text-align: center;
+}
+
+/* Small label */
+
+.training-section .training-sub-heading {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    width: fit-content;
+    padding: 8px 18px;
+    border: 1px solid rgba(21, 153, 214, 0.45);
+    border-radius: 999px;
+    background: rgba(21, 153, 214, 0.14);
+    color: #5cc8f5;
+    font-size: clamp(11px, 1.2vw, 13px);
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    line-height: 1.4;
+    text-transform: uppercase;
+}
+
+.training-section .training-sub-dot {
+    width: 7px;
+    height: 7px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--ts-accent);
+    box-shadow: 0 0 10px rgba(21, 153, 214, 0.6);
+}
+
+/* =========================================================
+   MAIN HEADING
+========================================================= */
+
+.training-section .train-section-title {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    width: 100%;
+    margin: 6px 0 0;
+    padding: 0 0 23px;
+    color: #ffffff;
+    font-size: clamp(34px, 4.5vw, 62px);
+    font-weight: 800;
+    line-height: 1.12;
+    letter-spacing: -0.04em;
+    text-align: center;
+}
+
+.training-section .training-title-static {
+    display: block;
+    max-width: 100%;
+    color: #ffffff;
+    white-space: nowrap;
+}
+
+.training-section .training-animated-title-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-width: 0;
+    min-height: 1.15em;
+    overflow: hidden;
+    text-align: center;
+}
+
+.training-section .training-title-accent {
+    display: inline-block;
+    max-width: 100%;
+    color: var(--ts-accent);
+    background: linear-gradient(90deg, #5cc8f5, #1599d6);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
+    line-height: 1.15;
+    white-space: nowrap;
+}
+
+/* Typing cursor */
+
+.training-section .training-typing-cursor {
+    display: inline-block;
+    width: 3px;
+    height: 0.8em;
+    margin-left: 5px;
+    background: #42b9f0;
+    vertical-align: baseline;
+    animation: trainingCursorBlink 0.8s steps(1) infinite;
+}
+
+@keyframes trainingCursorBlink {
+    0%,
+    45% {
+        opacity: 1;
+    }
+
+    46%,
+    100% {
+        opacity: 0;
+    }
+}
+
+/* Animated blue underline */
+
+.training-section .training-heading-line {
+    width: 78px;
+    height: 4px;
+    flex-shrink: 0;
+    margin: 0 auto;
+    border-radius: 999px;
+    background: var(--ts-accent);
+    box-shadow: 0 0 12px rgba(21, 153, 214, 0.35);
+    transform-origin: center;
+    animation: trainingTitleLine 2.5s ease-in-out infinite;
+}
+
+@keyframes trainingTitleLine {
+    0%,
+    100% {
+        transform: scaleX(0.85);
+    }
+
+    50% {
+        transform: scaleX(1.15);
+    }
+}
+
+/* Intro text */
+
+.training-section .training-intro {
+    width: 100%;
+    max-width: 680px;
+    margin: 0;
+    color: #9fb0c3;
+    font-size: clamp(13px, 1.45vw, 17px);
+    font-weight: 400;
+    line-height: 1.8;
+    white-space: normal;
+}
+
+/* =========================================================
+   BENTO GRID
+========================================================= */
+
+.training-section .training-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-auto-rows: auto;
+    gap: var(--ts-gap);
+    width: 100%;
+}
+
+.training-section .training-item {
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    aspect-ratio: 4 / 3.4;
+    will-change: transform, opacity;
+}
+
+.training-section .training-item.item-tall {
+    aspect-ratio: 4 / 4.8;
+}
+
+.training-section .training-item.item-wide {
+    aspect-ratio: 16 / 10;
+}
+
+.training-section .training-item.item-std {
+    aspect-ratio: 4 / 3.4;
+}
+
+/* Links */
+
+.training-section .training-link {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    color: inherit;
+    text-decoration: none;
+    border-radius: var(--ts-radius);
+    outline-offset: 4px;
+}
+
+.training-section .training-link:focus-visible {
+    outline: 3px solid var(--ts-accent);
+}
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.training-section .training-card {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+    isolation: isolate;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--ts-radius);
+    background: #0d1524;
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
+    transition:
+        transform 0.45s var(--ts-ease),
+        box-shadow 0.45s ease,
+        border-color 0.45s ease;
+}
+
+.training-section .training-link:hover .training-card {
+    transform: translateY(-7px);
+    border-color: rgba(21, 153, 214, 0.5);
+    box-shadow: 0 25px 52px rgba(21, 153, 214, 0.2);
+}
+
+/* =========================================================
+   CARD IMAGES
+========================================================= */
+
+.training-section .training-card > img {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    object-fit: cover;
+    object-position: center;
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+    transition: transform 0.8s var(--ts-ease);
+}
+
+.training-section .training-link:hover .training-card > img {
+    transform: scale(1.045);
+}
+
+/* Dark gradient for readable text */
+
+.training-section .training-image-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(
+        180deg,
+        rgba(5, 12, 25, 0.05) 0%,
+        rgba(5, 12, 25, 0.08) 35%,
+        rgba(5, 12, 25, 0.82) 100%
+    );
+    transition: background 0.4s ease;
+}
+
+.training-section .training-link:hover .training-image-overlay {
+    background: linear-gradient(
+        180deg,
+        rgba(5, 12, 25, 0.12) 0%,
+        rgba(5, 12, 25, 0.15) 30%,
+        rgba(5, 12, 25, 0.88) 100%
+    );
+}
+
+/* =========================================================
+   IMAGE SLIDESHOW DOTS
+========================================================= */
+
+.training-section .training-dots {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 9px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 999px;
+    background: rgba(4, 12, 25, 0.3);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.training-section .training-dots .dot {
+    display: block;
+    width: 6px;
+    height: 6px;
+    flex-shrink: 0;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.5);
+    transition:
+        width 0.4s var(--ts-ease),
+        background 0.4s ease;
+}
+
+.training-section .training-dots .dot.active {
+    width: 22px;
+    background: #ffffff;
+}
+
+/* =========================================================
+   CARD NUMBER
+========================================================= */
+
+.training-section .training-number {
+    position: absolute;
+    top: 18px;
+    left: 20px;
+    z-index: 3;
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+}
+
+.training-section .training-number::after {
+    display: block;
+    width: 26px;
+    height: 2px;
+    margin-top: 7px;
+    background: var(--ts-accent);
+    content: "";
+    transition: width 0.4s var(--ts-ease);
+}
+
+.training-section .training-link:hover .training-number::after {
+    width: 45px;
+}
+
+/* =========================================================
+   CARD CONTENT
+========================================================= */
+
+.training-section .training-content {
+    position: absolute;
+    right: auto;
+    bottom: var(--ts-pad);
+    left: var(--ts-pad);
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: fit-content;
+    max-width: calc(100% - 2 * var(--ts-pad));
+    min-width: min(210px, calc(100% - 2 * var(--ts-pad)));
+    padding: clamp(12px, 1.3vw, 17px) clamp(14px, 1.6vw, 20px);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    border-left: 4px solid var(--ts-accent);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition:
+        transform 0.35s var(--ts-ease),
+        box-shadow 0.35s ease;
+}
+
+.training-section .training-link:hover .training-content {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 38px rgba(0, 0, 0, 0.24);
+}
+
+/* Category label */
+
+.training-section .training-content > span:first-child {
+    display: block;
+    margin: 0 0 5px;
+    color: var(--ts-accent);
+    font-size: clamp(10px, 1vw, 11.5px);
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+/* Card title */
+
+.training-section .training-content h4 {
+    margin: 0;
+    color: var(--ts-navy);
+    font-size: clamp(16px, 1.6vw, 21px);
+    font-weight: 800;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    overflow-wrap: anywhere;
+}
+
+/* Explore CTA */
+
+.training-section .training-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    max-height: 0;
+    margin-top: 0;
+    overflow: hidden;
+    color: var(--ts-accent);
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 1.5;
+    opacity: 0;
+    transition:
+        max-height 0.4s var(--ts-ease),
+        opacity 0.3s ease,
+        margin-top 0.3s ease;
+}
+
+.training-section .training-cta svg {
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+}
+
+.training-section .training-link:hover .training-cta,
+.training-section .training-link:focus-visible .training-cta {
+    max-height: 28px;
+    margin-top: 8px;
+    opacity: 1;
+}
+
+.training-section .training-link:hover .training-cta svg {
+    transform: translateX(4px);
+}
+
+/* =========================================================
+   TABLET: TWO COLUMNS
+========================================================= */
+
+@media (min-width: 600px) {
+    .training-section .training-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-auto-flow: dense;
+        align-items: stretch;
+    }
+
+    .training-section .training-item.item-tall {
+        grid-column: span 2;
+        aspect-ratio: 16 / 8;
+    }
+
+    .training-section .training-item.item-wide {
+        grid-column: span 2;
+        aspect-ratio: 16 / 8;
+    }
+
+    .training-section .training-item.item-std {
+        grid-column: span 1;
+        aspect-ratio: 4 / 3.6;
+    }
+}
+
+/* =========================================================
+   LAPTOP AND DESKTOP: TWELVE-COLUMN BENTO GRID
+========================================================= */
+
+@media (min-width: 992px) {
+    .training-section .training-grid {
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        grid-auto-rows: clamp(190px, 18vw, 260px);
+        grid-auto-flow: row;
+        gap: var(--ts-gap);
+    }
+
+    .training-section .training-item {
+        grid-column: auto;
+        grid-row: auto;
+        aspect-ratio: auto;
+    }
+
+    /* Card 1: large left-side feature */
+    .training-section .training-item.item-tall:nth-child(1) {
+        grid-column: 1 / 6;
+        grid-row: 1 / 3;
+    }
+
+    /* Card 2: top-right wide card */
+    .training-section .training-item.item-wide:nth-child(2) {
+        grid-column: 6 / 13;
+        grid-row: 1;
+    }
+
+    /* Cards 3 and 4: middle-right */
+    .training-section .training-item.item-std:nth-child(3) {
+        grid-column: 6 / 10;
+        grid-row: 2;
+    }
+
+    .training-section .training-item.item-std:nth-child(4) {
+        grid-column: 10 / 13;
+        grid-row: 2;
+    }
+
+    /* Card 5: bottom-left wide card */
+    .training-section .training-item.item-wide:nth-child(5) {
+        grid-column: 1 / 8;
+        grid-row: 3;
+    }
+
+    /* Card 6: bottom-right */
+    .training-section .training-item.item-std:nth-child(6) {
+        grid-column: 8 / 13;
+        grid-row: 3;
+    }
+
+    .training-section .training-item.item-tall .training-content {
+        padding: 18px 20px;
+    }
+
+    .training-section .training-item.item-tall .training-content h4 {
+        font-size: clamp(20px, 2vw, 27px);
+    }
+}
+
+/* =========================================================
+   TABLET ADJUSTMENTS
+========================================================= */
+
+@media (min-width: 600px) and (max-width: 991px) {
+    .training-section {
+        padding: 48px 22px;
+    }
+
+    .training-section .train-section-title {
+        font-size: clamp(34px, 5vw, 48px);
+    }
+
+    .training-section .training-content {
+        left: 15px;
+        bottom: 15px;
+        min-width: min(175px, calc(100% - 30px));
+        max-width: calc(100% - 30px);
+        padding: 11px 14px;
+    }
+
+    .training-section .training-content h4 {
+        font-size: 18px;
+    }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 599px) {
+    .training-section {
+        padding: 36px 16px;
+    }
+
+    .training-section .training-heading {
+        gap: 12px;
+        margin-bottom: 28px;
+    }
+
+    .training-section .training-sub-heading {
+        padding: 8px 14px;
+        font-size: 11px;
+        letter-spacing: 0.11em;
+    }
+
+    .training-section .train-section-title {
+        gap: 5px;
+        margin-top: 4px;
+        padding-bottom: 19px;
+        font-size: clamp(27px, 6.7vw, 39px);
+        line-height: 1.15;
+        letter-spacing: -0.035em;
+    }
+
+    .training-section .training-title-static {
+        white-space: normal;
+        text-wrap: balance;
+    }
+
+    .training-section .training-animated-title-wrapper {
+        width: 100%;
+        min-width: 0;
+        min-height: 1.2em;
+        justify-content: center;
+    }
+
+    .training-section .training-title-accent {
+        font-size: inherit;
+        white-space: nowrap;
+    }
+
+    .training-section .training-typing-cursor {
+        width: 2px;
+        margin-left: 3px;
+    }
+
+    .training-section .training-heading-line {
+        width: 68px;
+        height: 4px;
+    }
+
+    .training-section .training-intro {
+        max-width: 460px;
+        font-size: 14px;
+        line-height: 1.75;
+    }
+
+    .training-section .training-grid {
+        grid-template-columns: minmax(0, 1fr);
+        grid-auto-flow: row;
+        gap: 15px;
+    }
+
+    .training-section .training-item,
+    .training-section .training-item.item-tall,
+    .training-section .training-item.item-wide,
+    .training-section .training-item.item-std {
+        grid-column: auto;
+        grid-row: auto;
+        aspect-ratio: 4 / 3;
+    }
+
+    .training-section .training-item.item-tall {
+        aspect-ratio: 4 / 4.1;
+    }
+
+    .training-section .training-card {
+        border-radius: 19px;
+    }
+
+    .training-section .training-content {
+        left: 13px;
+        bottom: 13px;
+        min-width: min(155px, calc(100% - 26px));
+        max-width: calc(100% - 26px);
+        padding: 10px 13px;
+        border-left-width: 3px;
+    }
+
+    .training-section .training-content > span:first-child {
+        font-size: 9px;
+    }
+
+    .training-section .training-content h4 {
+        font-size: 17px;
+    }
+
+    .training-section .training-number {
+        top: 14px;
+        left: 15px;
+        font-size: 12px;
+    }
+
+    .training-section .training-dots {
+        top: 15px;
+        right: 15px;
+        gap: 5px;
+    }
+
+    .training-section .training-dots .dot {
+        width: 5px;
+        height: 5px;
+    }
+
+    .training-section .training-dots .dot.active {
+        width: 17px;
+    }
+
+    /* Keep the CTA visible on touch screens */
+    .training-section .training-cta {
+        max-height: 28px;
+        margin-top: 7px;
+        opacity: 1;
+    }
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 380px) {
+    .training-section {
+        padding: 30px 12px;
+    }
+
+    .training-section .train-section-title {
+        font-size: clamp(24px, 7vw, 29px);
+        letter-spacing: -0.035em;
+    }
+
+    .training-section .training-title-accent {
+        white-space: nowrap;
+    }
+
+    .training-section .training-grid {
+        gap: 12px;
+    }
+
+    .training-section .training-item,
+    .training-section .training-item.item-tall,
+    .training-section .training-item.item-wide,
+    .training-section .training-item.item-std {
+        aspect-ratio: 4 / 3.2;
+    }
+
+    .training-section .training-item.item-tall {
+        aspect-ratio: 4 / 3.8;
+    }
+
+    .training-section .training-content {
+        left: 9px;
+        bottom: 9px;
+        min-width: min(130px, calc(100% - 18px));
+        max-width: calc(100% - 18px);
+        padding: 8px 10px;
+    }
+
+    .training-section .training-content h4 {
+        font-size: 15px;
+    }
+
+    .training-section .training-dots {
+        display: none;
+    }
+}
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+@media (hover: none) {
+    .training-section .training-link:hover .training-card {
+        transform: none;
+    }
+
+    .training-section .training-link:hover .training-content {
+        transform: none;
+    }
+
+    .training-section .training-cta {
+        max-height: 28px;
+        margin-top: 7px;
+        opacity: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .training-section .training-heading-line,
+    .training-section .training-typing-cursor {
+        animation: none !important;
+    }
+
+    .training-section .training-card,
+    .training-section .training-card > img,
+    .training-section .training-content,
+    .training-section .training-cta,
+    .training-section .training-dots .dot,
+    .training-section .training-number::after {
+        transition: none !important;
+    }
+}

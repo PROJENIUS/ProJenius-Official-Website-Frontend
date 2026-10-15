@@ -1,0 +1,537 @@
+/* =====================================================
+   Projenius Incubation - Application form + sheet
+   Scope: every class starts with "pjx-apply" so it
+   never clashes with other project code.
+   ===================================================== */
+
+/* ---------- 1. Design tokens (scoped) ---------- */
+.pjx-apply {
+  --pjx-apply-bg: #05070d;
+  --pjx-apply-surface: #0b111d;
+  --pjx-apply-field: #070c16;
+  --pjx-apply-soft: #0f1726;
+  --pjx-apply-band: #121c31;
+  --pjx-apply-border: #1c2740;
+  --pjx-apply-border-strong: #2c3b5c;
+  --pjx-apply-text: #eef2fb;
+  --pjx-apply-muted: #8c9bb8;
+  --pjx-apply-accent: #2a7fff;
+  --pjx-apply-accent-hover: #4a93ff;
+  --pjx-apply-accent-text: #5aaaff;
+  --pjx-apply-dark: #e4edff;
+  --pjx-apply-danger: #ff6b6b;
+  --pjx-apply-success: #3ddc97;
+  --pjx-apply-focus: #ffd166;
+  --pjx-apply-gap: clamp(0.75rem, 2vw, 1.25rem);
+
+  /* screen wrapper */
+  box-sizing: border-box;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: clamp(1rem, 3vw, 2rem);
+  background: linear-gradient(180deg, var(--pjx-apply-bg), #080d18);
+  color-scheme: dark;
+  color: var(--pjx-apply-text);
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- 1b. Form cards + sheet: white paper, black writing (page itself stays black) ---------- */
+.pjx-apply__paper {
+  --pjx-apply-surface: #ffffff;
+  --pjx-apply-field: #ffffff;
+  --pjx-apply-soft: #f3f7ff;
+  --pjx-apply-band: #e9f1ff;
+  --pjx-apply-border: #d3e0f5;
+  --pjx-apply-border-strong: #b4c4e2;
+  --pjx-apply-text: #0a0f1c;
+  --pjx-apply-muted: #4b5b7a;
+  --pjx-apply-accent-text: #1f6fe5;
+  --pjx-apply-dark: #0c2d6b;
+  --pjx-apply-danger: #d92d3a;
+  --pjx-apply-success: #138a4b;
+  color: var(--pjx-apply-text);
+  color-scheme: light;
+}
+
+/* ---------- 2. Screen wrapper ---------- */
+
+.pjx-apply *,
+.pjx-apply *::before,
+.pjx-apply *::after {
+  box-sizing: border-box;
+}
+
+/* Mobile first: panels stacked. Laptop: side by side */
+.pjx-apply__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(1rem, 3vw, 2rem);
+  max-width: 80rem;
+  margin: 0 auto;
+}
+
+.pjx-apply__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pjx-apply-gap);
+  min-width: 0;
+}
+
+/* ---------- 3. Shared icon + buttons ---------- */
+.pjx-apply__svg {
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.pjx-apply__icon { width: 1.1rem; height: 1.1rem; }
+
+.pjx-apply__btn {
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.pjx-apply__btn:focus-visible,
+.pjx-apply__control:focus-visible,
+.pjx-apply__radio:focus-within {
+  outline: 3px solid var(--pjx-apply-focus);
+  outline-offset: 2px;
+}
+
+/* ---------- 4. Header ---------- */
+.pjx-apply__header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--pjx-apply-gap);
+  margin-bottom: 0.75rem;
+}
+
+.pjx-apply__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2.25rem;
+  padding: 0.25rem 0.6rem 0.25rem 0.4rem;
+  border: 0;
+  border-radius: 0.5rem;
+  background: transparent;
+  color: var(--pjx-apply-muted);
+  font-size: 0.9rem;
+}
+
+.pjx-apply__back:hover { color: var(--pjx-apply-text); }
+
+.pjx-apply__caption {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+  color: var(--pjx-apply-muted);
+  font-size: 0.8rem;
+}
+
+.pjx-apply__pill {
+  display: inline-block;
+  margin: 0 0 0.6rem;
+  padding: 0.2rem 0.75rem;
+  border: 1px solid var(--pjx-apply-accent);
+  border-radius: 999px;
+  color: var(--pjx-apply-accent-text);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.pjx-apply__title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--pjx-apply-gap);
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.6rem, 4.5vw, 2.25rem);
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.pjx-apply__accent { color: var(--pjx-apply-accent-text); }
+
+.pjx-apply__title-icon {
+  width: clamp(2.5rem, 6vw, 3.25rem);
+  height: clamp(2.5rem, 6vw, 3.25rem);
+  margin-left: auto;
+  color: var(--pjx-apply-accent-text);
+}
+
+.pjx-apply__subtitle {
+  max-width: 36rem;
+  margin: 0;
+  color: var(--pjx-apply-muted);
+  font-size: clamp(0.85rem, 2vw, 0.95rem);
+  line-height: 1.55;
+}
+
+/* ---------- 5. Step indicator (active step uses aria-current) ---------- */
+.pjx-apply__steps {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pjx-apply__step {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  color: var(--pjx-apply-muted);
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.pjx-apply__step-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pjx-apply__step:not(:last-child)::after {
+  content: "";
+  flex: 1;
+  min-width: 0.75rem;
+  height: 1px;
+  background: var(--pjx-apply-border);
+}
+
+.pjx-apply__step:not(:last-child) { flex: 1; }
+
+.pjx-apply__step-number {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 1.75rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--pjx-apply-border);
+  color: var(--pjx-apply-muted);
+  font-weight: 700;
+}
+
+.pjx-apply__step[aria-current="step"] { color: var(--pjx-apply-accent-text); font-weight: 700; }
+.pjx-apply__step[aria-current="step"] .pjx-apply__step-number { background: var(--pjx-apply-accent); color: #fff; }
+
+/* ---------- 6. Form cards ---------- */
+.pjx-apply__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pjx-apply-gap);
+}
+
+.pjx-apply__card {
+  padding: clamp(0.9rem, 2.5vw, 1.25rem);
+  border: 1px solid var(--pjx-apply-border);
+  border-radius: 0.75rem;
+  background: var(--pjx-apply-surface);
+}
+
+.pjx-apply__card-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 1rem;
+  color: var(--pjx-apply-dark);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.pjx-apply__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.9rem;
+}
+
+/* ---------- 7. Fields ---------- */
+.pjx-apply__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.pjx-apply__label {
+  padding: 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.pjx-apply__star { color: var(--pjx-apply-danger); }
+
+.pjx-apply__control {
+  width: 100%;
+  min-height: 2.5rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--pjx-apply-border);
+  border-radius: 0.4rem;
+  background: var(--pjx-apply-field);
+  color: var(--pjx-apply-text);
+  font: inherit;
+  font-size: 0.85rem;
+}
+
+.pjx-apply__control::placeholder { color: #7a889f; }
+.pjx-apply__control:hover { border-color: var(--pjx-apply-border-strong); }
+
+.pjx-apply__control--area { min-height: 6rem; resize: vertical; }
+
+.pjx-apply__count {
+  align-self: flex-end;
+  color: var(--pjx-apply-muted);
+  font-size: 0.7rem;
+}
+
+.pjx-apply__radios {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(5.5rem, 1fr));
+  gap: 0.4rem;
+}
+
+.pjx-apply__radio {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2.5rem;
+  padding: 0 0.6rem;
+  border: 1px solid var(--pjx-apply-border);
+  border-radius: 0.4rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.pjx-apply__radio input { accent-color: var(--pjx-apply-accent); }
+.pjx-apply__radio:has(input:checked) { border-color: var(--pjx-apply-accent); background: var(--pjx-apply-soft); }
+
+/* ---------- 8. Next button row ---------- */
+.pjx-apply__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--pjx-apply-gap);
+}
+
+.pjx-apply__next {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 2.75rem;
+  padding: 0 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+  background: var(--pjx-apply-accent);
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+.pjx-apply__next:hover { background: var(--pjx-apply-accent-hover); }
+.pjx-apply__step-text { color: var(--pjx-apply-muted); font-size: 0.8rem; }
+
+/* ---------- 9. Application sheet ---------- */
+.pjx-apply__sheet {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pjx-apply-gap);
+  padding: clamp(1rem, 3vw, 1.75rem);
+  border: 1px solid var(--pjx-apply-border);
+  border-radius: 0.75rem;
+  background: var(--pjx-apply-surface);
+  box-shadow: 0 0.75rem 2.5rem rgba(0, 0, 0, 0.45);
+}
+
+.pjx-apply__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.pjx-apply__brand {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  color: var(--pjx-apply-accent-text);
+  font-size: clamp(1.4rem, 3.5vw, 1.75rem);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.pjx-apply__brand-sub {
+  color: var(--pjx-apply-muted);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.pjx-apply__tagline {
+  margin: 0;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.pjx-apply__sheet-title {
+  margin: 0;
+  padding-bottom: 0.6rem;
+  border-bottom: 2px solid var(--pjx-apply-border);
+  color: var(--pjx-apply-dark);
+  font-size: clamp(1.05rem, 2.8vw, 1.4rem);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.pjx-apply__meta-date { display: flex; align-items: center; gap: 0.35rem; }
+
+.pjx-apply__block { border: 1px solid var(--pjx-apply-border); border-radius: 0.4rem; overflow: hidden; }
+
+.pjx-apply__block-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0.5rem 0.75rem;
+  background: var(--pjx-apply-band);
+  color: var(--pjx-apply-dark);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.pjx-apply__table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+
+.pjx-apply__table :is(th, td) {
+  padding: 0.5rem 0.75rem;
+  border-top: 1px solid var(--pjx-apply-border);
+  text-align: left;
+  vertical-align: top;
+  overflow-wrap: anywhere;
+}
+
+.pjx-apply__table th { width: 38%; background: var(--pjx-apply-soft); font-weight: 600; }
+
+.pjx-apply__thanks { margin: 0; color: var(--pjx-apply-accent-text); font-size: 0.75rem; line-height: 1.5; }
+.pjx-apply__status { margin: 0; color: var(--pjx-apply-success); font-size: 0.85rem; font-weight: 700; }
+
+/* ---------- 10. Download / Print / Submit ---------- */
+.pjx-apply__actions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.75rem;
+}
+
+.pjx-apply__action {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.5rem 0.75rem;
+  padding: 0.75rem;
+  border: 1px solid var(--pjx-apply-border);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.15s ease;
+}
+
+.pjx-apply__action:hover {
+  border-color: var(--pjx-apply-accent);
+  background: var(--pjx-apply-soft);
+}
+
+.pjx-apply__action-icon { width: 1.75rem; height: 1.75rem; color: var(--pjx-apply-accent-text); }
+.pjx-apply__action-title { margin: 0 0 0.15rem; font-size: 0.78rem; font-weight: 700; }
+.pjx-apply__action-text { margin: 0; color: var(--pjx-apply-muted); font-size: 0.7rem; line-height: 1.4; }
+
+.pjx-apply__action-btn {
+  grid-column: 1 / -1;
+  min-height: 2.25rem;
+  border: 1px solid var(--pjx-apply-accent);
+  border-radius: 0.35rem;
+  font-size: 0.8rem;
+}
+
+.pjx-apply__action-btn--solid { background: var(--pjx-apply-accent); color: #fff; }
+.pjx-apply__action-btn--solid:hover { background: var(--pjx-apply-accent-hover); }
+.pjx-apply__action-btn--outline { border-color: var(--pjx-apply-border-strong); background: transparent; color: var(--pjx-apply-text); }
+.pjx-apply__action-btn--outline:hover { background: var(--pjx-apply-soft); }
+
+.pjx-apply__sheet-foot { padding-top: 0.5rem; border-top: 1px solid var(--pjx-apply-border); color: var(--pjx-apply-muted); font-size: 0.7rem; }
+
+/* ---------- 11. Responsive ---------- */
+
+/* Small phones and narrow form panel: only the active step label shows */
+@media (max-width: 639px), (min-width: 1100px) and (max-width: 1599px) {
+  .pjx-apply__step:not([aria-current="step"]) .pjx-apply__step-label { display: none; }
+}
+
+@media (max-width: 639px) {
+  .pjx-apply__next { width: 100%; justify-content: center; }
+}
+
+/* Tablet: two columns inside the cards, 3 action cards in a row */
+@media (min-width: 640px) {
+  .pjx-apply__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pjx-apply__field--wide { grid-column: 1 / -1; }
+}
+
+@media (min-width: 768px) {
+  .pjx-apply__actions { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/* Laptop: form and sheet side by side */
+@media (min-width: 1100px) {
+  .pjx-apply__inner { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+  .pjx-apply__sheet { position: sticky; top: 1rem; }
+}
+
+/* ---------- 12. Print: only the sheet is printed ---------- */
+@media print {
+  @page { margin: 12mm; }
+
+  .pjx-apply {
+    --pjx-apply-surface: #ffffff;
+    --pjx-apply-soft: #f3f7ff;
+    --pjx-apply-band: #e9f1ff;
+    --pjx-apply-border: #d3e0f5;
+    --pjx-apply-text: #0f1d3a;
+    --pjx-apply-muted: #5b6b8c;
+    --pjx-apply-accent-text: #1f6fe5;
+    --pjx-apply-dark: #0c2d6b;
+    min-height: 0;
+    padding: 0;
+    background: #fff;
+    color-scheme: light;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .pjx-apply__inner { display: block; }
+  .pjx-apply__panel--form,
+  .pjx-apply__actions,
+  .pjx-apply__status { display: none; }
+  .pjx-apply__sheet { position: static; border: 0; box-shadow: none; padding: 0; }
+}
+
+/* ---------- 13. Accessibility: reduce motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .pjx-apply__btn { transition: none; }
+}

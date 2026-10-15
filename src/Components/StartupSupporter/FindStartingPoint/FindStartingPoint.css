@@ -1,0 +1,361 @@
+/* =====================================================================
+   FindStartingPoint.css  |  Block prefix: pjs-find  (unique, project-safe)
+   Link once in public/index.html or your global stylesheet loader.
+   ===================================================================== */
+
+/* ============ 1. TOKENS + SECTION SHELL  (.pjs-find) ============ */
+.pjs-find {
+  --pjs-find-bg: #0a1224;
+  --pjs-find-card: #0c1426;
+  --pjs-find-card-deep: #080e1c;
+  --pjs-find-line: #16213a;
+  --pjs-find-grid: rgba(108, 156, 255, 0.06); /* faint card grid */
+  --pjs-find-text: #f3f6ff;
+  --pjs-find-muted: #9aa8c4;
+  --pjs-find-dim: #6f7d99;
+  --pjs-find-accent: #6c9cff;
+  --pjs-find-cyan: #3fe0ec;
+  --pjs-find-gap: clamp(16px, 4vw, 48px);
+  --pjs-find-font: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --pjs-find-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+  box-sizing: border-box; /* padding stays inside the one-screen height */
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh; /* exactly one screen: never taller than the frame */
+  padding: clamp(12px, 3vh, 40px) var(--pjs-find-gap);
+  overflow: hidden;
+  background: var(--pjs-find-bg);
+  color: var(--pjs-find-text);
+  font-family: var(--pjs-find-font);
+  contain: layout style;
+}
+
+.pjs-find *,
+.pjs-find *::before,
+.pjs-find *::after {
+  box-sizing: border-box;
+}
+
+/* ============ 2. HEADER  (.pjs-find__eyebrow / __title / __lead) ============ */
+.pjs-find__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 clamp(4px, 1vh, 10px);
+  color: var(--pjs-find-accent);
+  font-family: var(--pjs-find-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.pjs-find__eyebrow::before {
+  content: "";
+  width: 28px;
+  height: 1px;
+  background: var(--pjs-find-accent);
+}
+
+.pjs-find__title {
+  margin: 0 0 clamp(4px, 1vh, 8px);
+  font-size: clamp(1.7rem, min(5.4vw, 8vh), 3.7rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  overflow-wrap: anywhere;
+}
+
+.pjs-find__lead {
+  margin: 0 0 clamp(10px, 3vh, 40px);
+  color: var(--pjs-find-muted);
+  font-size: clamp(0.9rem, min(1.6vw, 2.4vh), 1.2rem);
+  line-height: 1.6;
+}
+
+/* ============ 3. LAYOUT  (.pjs-find__layout) ============ */
+.pjs-find__layout {
+  display: grid;
+  flex: 1;
+  min-height: 0;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  gap: clamp(16px, 2.4vw, 32px);
+  align-items: start;
+}
+
+/* ============ 4. CHOICE LIST  (.pjs-find__choices / __choice*) ============ */
+.pjs-find__choices {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.pjs-find__choice {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: clamp(10px, 2.6vh, 24px) clamp(14px, 2vw, 24px);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 14px;
+  color: var(--pjs-find-text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.25s ease, background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.pjs-find__choice:hover:not(.pjs-find__choice--on) {
+  transform: translateX(4px);
+}
+
+.pjs-find__choice--on {
+  background: var(--pjs-find-card);
+  border-color: #1d2c52;
+  box-shadow: 0 0 0 1px rgba(108, 156, 255, 0.12), 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.pjs-find__choice-no {
+  color: var(--pjs-find-muted);
+  font-family: var(--pjs-find-mono);
+  font-size: 0.8rem;
+}
+
+.pjs-find__choice-text {
+  font-size: clamp(0.95rem, min(1.7vw, 2.8vh), 1.3rem);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.pjs-find__radio {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border: 2px solid #26324d;
+  border-radius: 50%;
+  transition: border-color 0.25s ease;
+}
+
+.pjs-find__radio::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  background: var(--pjs-find-accent);
+  border-radius: 50%;
+  transform: scale(0);
+  transition: transform 0.25s ease;
+}
+
+.pjs-find__choice--on .pjs-find__radio {
+  border-color: var(--pjs-find-accent);
+}
+
+.pjs-find__choice--on .pjs-find__radio::after {
+  transform: scale(1);
+}
+
+/* ============ 5. RESULT CARD  (.pjs-find__card*) ============ */
+.pjs-find__card {
+  position: relative;
+  min-width: 0;
+  padding: clamp(14px, 3.4vh, 40px) clamp(16px, 3vw, 40px);
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(63, 224, 236, 0.16), transparent 45%),
+    linear-gradient(var(--pjs-find-grid) 1px, transparent 1px) 0 0 / 36px 36px,
+    linear-gradient(90deg, var(--pjs-find-grid) 1px, transparent 1px) 0 0 / 36px 36px,
+    var(--pjs-find-card-deep);
+  border: 1px solid #1a2744;
+  border-radius: 18px;
+}
+
+.pjs-find__card-body {
+  animation: pjs-find-fade 0.35s ease both;
+}
+
+.pjs-find__path {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 clamp(8px, 2vh, 16px);
+  color: var(--pjs-find-muted);
+  font-family: var(--pjs-find-mono);
+  font-size: 0.85rem;
+}
+
+.pjs-find__path::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  background: var(--pjs-find-cyan);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--pjs-find-cyan);
+}
+
+/* ============ 6. PROGRESS BARS  (.pjs-find__progress / __seg*) ============ */
+.pjs-find__progress {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+  margin-bottom: clamp(10px, 2.4vh, 22px);
+}
+
+.pjs-find__seg {
+  height: 4px;
+  background: #1a2540;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.pjs-find__seg--on {
+  background: linear-gradient(90deg, var(--pjs-find-accent), var(--pjs-find-cyan));
+}
+
+/* ============ 7. NEEDS LIST  (.pjs-find__label / __needs / __need*) ============ */
+.pjs-find__label {
+  margin: 0 0 4px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--pjs-find-line);
+  color: var(--pjs-find-cyan);
+  font-family: var(--pjs-find-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.pjs-find__needs {
+  margin: 0 0 clamp(8px, 2vh, 20px);
+  padding: 0;
+  list-style: none;
+}
+
+.pjs-find__need {
+  display: grid;
+  grid-template-columns: 50px minmax(0, 1fr);
+  align-items: center;
+  padding: clamp(6px, 1.5vh, 14px) 0;
+  border-bottom: 1px solid var(--pjs-find-line);
+  animation: pjs-find-rise 0.4s ease both;
+}
+
+.pjs-find__need-no {
+  color: var(--pjs-find-dim);
+  font-family: var(--pjs-find-mono);
+  font-size: 0.78rem;
+}
+
+.pjs-find__need-name {
+  font-size: clamp(0.92rem, min(1.7vw, 2.6vh), 1.3rem);
+  font-weight: 600;
+}
+
+/* ============ 8. DESCRIPTION + CTA  (.pjs-find__desc / __cta*) ============ */
+.pjs-find__desc {
+  max-width: 44ch;
+  margin: 0 0 clamp(10px, 2.6vh, 24px);
+  color: #b9c4dc;
+  font-size: clamp(0.88rem, min(1.4vw, 2.2vh), 1.1rem);
+  line-height: 1.65;
+}
+
+.pjs-find__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: clamp(9px, 1.8vh, 14px) 28px;
+  background: rgba(108, 156, 255, 0.06);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(63, 224, 236, 0.08);
+  color: var(--pjs-find-text);
+  font-size: 1.05rem;
+  text-decoration: none;
+  transition: background-color 0.25s ease;
+}
+
+.pjs-find__cta:hover {
+  background: rgba(108, 156, 255, 0.14);
+}
+
+.pjs-find__cta-arrow {
+  transition: transform 0.25s ease;
+}
+
+.pjs-find__cta:hover .pjs-find__cta-arrow {
+  transform: translateX(5px);
+}
+
+/* list items rise in one after another (delays grow per position) */
+.pjs-find__need:nth-child(2) { animation-delay: 0.06s; }
+.pjs-find__need:nth-child(3) { animation-delay: 0.12s; }
+.pjs-find__need:nth-child(4) { animation-delay: 0.18s; }
+.pjs-find__need:nth-child(5) { animation-delay: 0.24s; }
+.pjs-find__need:nth-child(6) { animation-delay: 0.3s; }
+
+/* ============ 9. ACCESSIBILITY  (focus ring) ============ */
+.pjs-find__choice:focus-visible,
+.pjs-find__cta:focus-visible {
+  outline: 2px solid var(--pjs-find-cyan);
+  outline-offset: 2px;
+}
+
+/* ============ 10. ANIMATION  (@keyframes pjs-find-fade / -rise) ============ */
+@keyframes pjs-find-fade {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pjs-find-rise {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============ 11. RESPONSIVE: TABLET  (max 900px) - stacks and may scroll ============ */
+@media (max-width: 900px) {
+  .pjs-find {
+    height: auto;
+    min-height: 100dvh;
+    overflow: visible;
+  }
+  .pjs-find__layout {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto;
+  }
+}
+
+/* ============ 12. RESPONSIVE: PHONE  (max 560px) ============ */
+@media (max-width: 560px) {
+  .pjs-find__choice {
+    grid-template-columns: 34px minmax(0, 1fr) auto;
+  }
+  .pjs-find__need {
+    grid-template-columns: 38px minmax(0, 1fr);
+  }
+  .pjs-find__cta {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ============ 13. REDUCED MOTION  (user preference) ============ */
+@media (prefers-reduced-motion: reduce) {
+  .pjs-find *,
+  .pjs-find *::before,
+  .pjs-find *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ============ 14. RESPONSIVE: LARGE SCREENS  (min 1600px) ============ */
+@media (min-width: 1600px) {
+  .pjs-find {
+    --pjs-find-gap: clamp(48px, 5vw, 120px);
+  }
+}

@@ -1,0 +1,960 @@
+/* =========================================================
+   INTERNSHIP DOMAINS
+   Professional White + Black + Blue Design
+========================================================= */
+
+.pj-internship-domains {
+    position: relative;
+
+    width: 100%;
+
+    min-height: 100vh;
+
+    padding: 90px 0 110px;
+
+    background:
+        radial-gradient(
+            circle at 8% 25%,
+            rgba(21, 153, 214, 0.08),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 90% 80%,
+            rgba(120, 100, 255, 0.055),
+            transparent 30%
+        ),
+        #ffffff;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.pj-internship-domains-container {
+    position: relative;
+    z-index: 1;
+
+    width: min(1200px, calc(100% - 48px));
+
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.pj-internship-domains-header {
+    max-width: 900px;
+
+    margin: 0 auto 26px;
+
+    text-align: center;
+
+    opacity: 0;
+
+    transform: translateY(28px);
+
+    transition:
+        opacity 0.7s ease,
+        transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.pj-internship-domains--visible .pj-internship-domains-header {
+    opacity: 1;
+
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   LABEL
+========================================================= */
+
+.pj-internship-domains-label {
+    display: inline-block;
+
+    margin-bottom: 8px;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 14px;
+
+    font-weight: 800;
+
+    line-height: 1.2;
+
+    letter-spacing: 1.1px;
+
+    color: #1599d6;
+}
+
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+.pj-internship-domains-header h2 {
+    margin: 0;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: clamp(38px, 4vw, 56px);
+
+    font-weight: 800;
+
+    line-height: 1.08;
+
+    letter-spacing: -1.5px;
+
+    color: #111111;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.pj-internship-domains-header p {
+    max-width: 680px;
+
+    margin: 13px auto 0;
+
+    font-family: "Segoe UI", sans-serif;
+
+    font-size: 16px;
+
+    line-height: 1.65;
+
+    color: #666666;
+}
+
+
+/* =========================================================
+   FILTERS
+========================================================= */
+
+.pj-internship-domains-filters {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+    margin: 24px auto 34px;
+
+    opacity: 0;
+
+    transform: translateY(20px);
+
+    transition:
+        opacity 0.65s ease 0.08s,
+        transform 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.08s;
+}
+
+.pj-internship-domains--visible .pj-internship-domains-filters {
+    opacity: 1;
+
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   FILTER BUTTON
+========================================================= */
+
+.pj-internship-domains-filter {
+    min-height: 48px;
+
+    padding: 0 20px;
+
+    border: 1px solid #dce6ed;
+
+    border-radius: 999px;
+
+    background: rgba(255, 255, 255, 0.9);
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    color: #151b27;
+
+    cursor: pointer;
+
+    transition:
+        color 0.25s ease,
+        background 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.pj-internship-domains-filter:hover {
+    border-color: #1599d6;
+
+    color: #1599d6;
+
+    transform: translateY(-2px);
+}
+
+.pj-internship-domains-filter--active,
+.pj-internship-domains-filter--active:hover {
+    border-color: #111827;
+
+    background: #111827;
+
+    color: #ffffff;
+}
+
+.pj-internship-domains-filter--active {
+    box-shadow: 0 8px 20px rgba(17, 24, 39, 0.14);
+}
+
+.pj-internship-domains-filter:focus-visible,
+.pj-internship-domains-view:focus-visible,
+.pj-internship-domains-apply:focus-visible {
+    outline: 2px solid #1599d6;
+    outline-offset: 3px;
+}
+
+
+/* =========================================================
+   MAIN LAYOUT
+========================================================= */
+
+.pj-internship-domains-layout {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        300px;
+
+    gap: 26px;
+
+    align-items: start;
+}
+
+
+/* =========================================================
+   CARD GRID
+========================================================= */
+
+.pj-internship-domains-grid {
+    display: grid;
+
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+
+    gap: 20px;
+
+    align-content: start;
+}
+
+
+/* =========================================================
+   DOMAIN CARD
+========================================================= */
+
+.pj-internship-domains-card {
+    position: relative;
+
+    min-height: 238px;
+
+    padding: 25px 26px 23px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    border: 1px solid #e3eaf0;
+
+    border-radius: 20px;
+
+    background: rgba(255, 255, 255, 0.96);
+
+    box-shadow: 0 8px 25px rgba(17, 24, 39, 0.035);
+
+    opacity: 0;
+
+    transform: translateY(25px);
+
+    animation: pjInternshipDomainsCardReveal 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+
+    transition:
+        transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.pj-internship-domains-card:nth-child(1)  { animation-delay: 0s; }
+.pj-internship-domains-card:nth-child(2)  { animation-delay: 0.05s; }
+.pj-internship-domains-card:nth-child(3)  { animation-delay: 0.1s; }
+.pj-internship-domains-card:nth-child(4)  { animation-delay: 0.15s; }
+.pj-internship-domains-card:nth-child(5)  { animation-delay: 0.2s; }
+.pj-internship-domains-card:nth-child(6)  { animation-delay: 0.25s; }
+.pj-internship-domains-card:nth-child(7)  { animation-delay: 0.3s; }
+.pj-internship-domains-card:nth-child(8)  { animation-delay: 0.35s; }
+.pj-internship-domains-card:nth-child(9)  { animation-delay: 0.4s; }
+.pj-internship-domains-card:nth-child(10) { animation-delay: 0.45s; }
+.pj-internship-domains-card:nth-child(11) { animation-delay: 0.5s; }
+.pj-internship-domains-card:nth-child(12) { animation-delay: 0.55s; }
+
+
+/* =========================================================
+   CARD HOVER
+========================================================= */
+
+.pj-internship-domains-card:hover {
+    transform: translateY(-6px);
+
+    border-color: rgba(21, 153, 214, 0.42);
+
+    box-shadow: 0 18px 35px rgba(21, 153, 214, 0.1);
+}
+
+
+/* =========================================================
+   SELECTED CARD
+========================================================= */
+
+.pj-internship-domains-card--selected {
+    border-color: #35bfff;
+
+    box-shadow: 0 15px 35px rgba(21, 153, 214, 0.1);
+}
+
+.pj-internship-domains-card--selected:hover {
+    border-color: #1599d6;
+}
+
+
+/* =========================================================
+   ICON
+========================================================= */
+
+.pj-internship-domains-icon {
+    width: 58px;
+    height: 58px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 20px;
+
+    border-radius: 15px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f3f9fc,
+            #ffffff
+        );
+
+    font-size: 34px;
+
+    line-height: 1;
+
+    transition:
+        transform 0.3s ease,
+        background 0.3s ease;
+}
+
+.pj-internship-domains-card:hover .pj-internship-domains-icon {
+    transform: translateY(-3px) scale(1.04);
+
+    background:
+        linear-gradient(
+            135deg,
+            #eaf8ff,
+            #ffffff
+        );
+}
+
+
+/* =========================================================
+   CARD TITLE
+========================================================= */
+
+.pj-internship-domains-card h3 {
+    margin: 0;
+
+    min-height: 52px;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 18px;
+
+    font-weight: 800;
+
+    line-height: 1.35;
+
+    letter-spacing: -0.3px;
+
+    color: #111827;
+}
+
+
+/* =========================================================
+   VIEW TRACK
+========================================================= */
+
+.pj-internship-domains-view {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    margin-top: auto;
+
+    padding: 0;
+
+    border: 0;
+
+    background: transparent;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 15px;
+
+    font-weight: 800;
+
+    color: #27aef0;
+
+    cursor: pointer;
+
+    transition:
+        color 0.25s ease,
+        gap 0.25s ease;
+}
+
+.pj-internship-domains-view span {
+    font-size: 17px;
+
+    transition: transform 0.25s ease;
+}
+
+.pj-internship-domains-view:hover {
+    color: #087fb8;
+
+    gap: 9px;
+}
+
+.pj-internship-domains-view:hover span {
+    transform: translateX(2px);
+}
+
+
+/* =========================================================
+   SELECTED SIDEBAR
+========================================================= */
+
+.pj-internship-domains-sidebar {
+    position: sticky;
+
+    top: 110px;
+
+    align-self: start;
+}
+
+
+/* =========================================================
+   SELECTED PANEL
+========================================================= */
+
+.pj-internship-domains-selected {
+    position: relative;
+
+    min-height: 480px;
+
+    padding: 38px 30px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    border-radius: 24px;
+
+    background: #111827;
+
+    color: #ffffff;
+
+    box-shadow: 0 25px 55px rgba(17, 24, 39, 0.22);
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   SIDEBAR GLOW
+========================================================= */
+
+.pj-internship-domains-selected::before {
+    content: "";
+
+    position: absolute;
+
+    width: 210px;
+    height: 210px;
+
+    top: -100px;
+    right: -80px;
+
+    border-radius: 50%;
+
+    background: rgba(21, 153, 214, 0.16);
+
+    filter: blur(25px);
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   SELECTED LABEL
+========================================================= */
+
+.pj-internship-domains-selected-label {
+    position: relative;
+    z-index: 1;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 16px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.3px;
+
+    color: #2db8f5;
+}
+
+
+/* =========================================================
+   SELECTED ICON
+========================================================= */
+
+.pj-internship-domains-selected-icon {
+    position: relative;
+    z-index: 1;
+
+    width: 70px;
+    height: 70px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 28px;
+
+    border-radius: 18px;
+
+    background: rgba(255, 255, 255, 0.06);
+
+    font-size: 42px;
+
+    line-height: 1;
+}
+
+
+/* =========================================================
+   SELECTED TITLE
+========================================================= */
+
+.pj-internship-domains-selected h3 {
+    position: relative;
+    z-index: 1;
+
+    margin: 25px 0 0;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 27px;
+
+    font-weight: 800;
+
+    line-height: 1.25;
+
+    letter-spacing: -0.6px;
+
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   SELECTED DESCRIPTION
+========================================================= */
+
+.pj-internship-domains-selected p {
+    position: relative;
+    z-index: 1;
+
+    margin: 19px 0 0;
+
+    font-family: "Segoe UI", sans-serif;
+
+    font-size: 16px;
+
+    line-height: 1.75;
+
+    color: #b9c0ca;
+}
+
+
+/* =========================================================
+   APPLY BUTTON
+========================================================= */
+
+.pj-internship-domains-apply {
+    position: relative;
+    z-index: 1;
+
+    margin-top: auto;
+
+    min-height: 54px;
+
+    padding: 0 23px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    border: 0;
+
+    border-radius: 999px;
+
+    background: #ffffff;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 14px;
+
+    font-weight: 800;
+
+    color: #111827;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.25s ease,
+        background 0.25s ease,
+        color 0.25s ease;
+}
+
+.pj-internship-domains-apply:hover {
+    transform: translateY(-2px);
+
+    background: #1599d6;
+
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   CARD REVEAL
+========================================================= */
+
+@keyframes pjInternshipDomainsCardReveal {
+    0% {
+        opacity: 0;
+
+        transform:
+            translateY(25px)
+            scale(0.98);
+    }
+
+    100% {
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .pj-internship-domains-container {
+        width: min(1000px, calc(100% - 40px));
+    }
+
+    .pj-internship-domains-layout {
+        grid-template-columns:
+            minmax(0, 1fr)
+            280px;
+
+        gap: 20px;
+    }
+
+    .pj-internship-domains-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+
+        gap: 16px;
+    }
+
+    .pj-internship-domains-card {
+        min-height: 220px;
+
+        padding: 22px;
+    }
+}
+
+
+/* =========================================================
+   SMALL TABLET
+========================================================= */
+
+@media (max-width: 850px) {
+
+    .pj-internship-domains {
+        padding: 75px 0 90px;
+    }
+
+    .pj-internship-domains-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .pj-internship-domains-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .pj-internship-domains-sidebar {
+        position: relative;
+
+        top: auto;
+
+        width: 100%;
+    }
+
+    .pj-internship-domains-selected {
+        min-height: auto;
+
+        padding: 30px;
+    }
+
+    .pj-internship-domains-selected-icon {
+        margin-top: 20px;
+    }
+
+    .pj-internship-domains-selected h3 {
+        margin-top: 18px;
+    }
+
+    .pj-internship-domains-apply {
+        margin-top: 25px;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+
+    .pj-internship-domains {
+        padding: 65px 0 75px;
+    }
+
+    .pj-internship-domains-container {
+        width: calc(100% - 28px);
+    }
+
+    .pj-internship-domains-label {
+        font-size: 12px;
+
+        letter-spacing: 0.9px;
+    }
+
+    .pj-internship-domains-header h2 {
+        font-size: 34px;
+
+        letter-spacing: -0.8px;
+    }
+
+    .pj-internship-domains-header p {
+        font-size: 14px;
+    }
+
+    .pj-internship-domains-filters {
+        justify-content: flex-start;
+
+        overflow-x: auto;
+
+        flex-wrap: nowrap;
+
+        padding: 3px 2px 8px;
+
+        margin-bottom: 26px;
+
+        scrollbar-width: none;
+    }
+
+    .pj-internship-domains-filters::-webkit-scrollbar {
+        display: none;
+    }
+
+    .pj-internship-domains-filter {
+        flex: 0 0 auto;
+
+        min-height: 43px;
+
+        padding: 0 17px;
+
+        font-size: 13px;
+    }
+
+    .pj-internship-domains-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+
+        gap: 12px;
+    }
+
+    .pj-internship-domains-card {
+        min-height: 205px;
+
+        padding: 19px;
+
+        border-radius: 17px;
+    }
+
+    .pj-internship-domains-icon {
+        width: 50px;
+        height: 50px;
+
+        margin-bottom: 16px;
+
+        font-size: 28px;
+
+        border-radius: 13px;
+    }
+
+    .pj-internship-domains-card h3 {
+        min-height: 48px;
+
+        font-size: 15px;
+    }
+
+    .pj-internship-domains-view {
+        font-size: 13px;
+    }
+
+    .pj-internship-domains-sidebar {
+        margin-top: 8px;
+    }
+
+    .pj-internship-domains-selected {
+        min-height: 390px;
+
+        padding: 27px 24px;
+
+        border-radius: 20px;
+    }
+
+    .pj-internship-domains-selected-label {
+        font-size: 14px;
+    }
+
+    .pj-internship-domains-selected-icon {
+        width: 60px;
+        height: 60px;
+
+        font-size: 35px;
+    }
+
+    .pj-internship-domains-selected h3 {
+        font-size: 23px;
+    }
+
+    .pj-internship-domains-selected p {
+        font-size: 15px;
+
+        line-height: 1.65;
+    }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 400px) {
+
+    .pj-internship-domains-header h2 {
+        font-size: 30px;
+    }
+
+    .pj-internship-domains-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pj-internship-domains-card {
+        min-height: 185px;
+    }
+
+    .pj-internship-domains-card h3 {
+        min-height: auto;
+
+        font-size: 17px;
+    }
+
+    .pj-internship-domains-selected h3 {
+        font-size: 22px;
+    }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .pj-internship-domains-header,
+    .pj-internship-domains-filters {
+        opacity: 1;
+
+        transform: none;
+
+        transition: none;
+    }
+
+    .pj-internship-domains-card {
+        opacity: 1;
+
+        transform: none;
+
+        animation: none;
+    }
+
+    .pj-internship-domains-card,
+    .pj-internship-domains-filter,
+    .pj-internship-domains-icon,
+    .pj-internship-domains-view,
+    .pj-internship-domains-apply {
+        transition: none;
+    }
+}

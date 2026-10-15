@@ -1,0 +1,133 @@
+/* =========================================================
+   WHAT CAN WE BUILD — ROOT (all classes start with pj-development-build)
+========================================================= */
+.pj-development-build{
+  --pj-bd-bg:#0c1836;--pj-bd-card:#0f1d40;--pj-bd-white:#eaf0ff;--pj-bd-muted:#91a9cf;
+  --pj-bd-blue:#1d5cff;--pj-bd-blue-soft:#6e9bff;--pj-bd-border:#1c3562;--pj-bd-border-soft:#263e6c;--pj-bd-border-hover:#355ca0;
+  position:relative;width:100%;padding:clamp(76px,9vw,140px) 0;overflow:clip;background:var(--pj-bd-bg);color:var(--pj-bd-white);
+  font-family:"Segoe UI","Poppins",sans-serif;isolation:isolate;
+  scroll-margin-top:calc(var(--pjdev-header-h,0px) + var(--pjdev-subnav-h,0px) + 12px);
+}
+.pj-development-build::before{content:"";position:absolute;inset:0;z-index:-3;pointer-events:none;opacity:.55;background-size:56px 56px;
+  background-image:linear-gradient(rgba(78,111,163,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(78,111,163,.055) 1px,transparent 1px)}
+.pj-development-build::after{content:"";position:absolute;right:-180px;top:34%;width:660px;height:660px;z-index:-2;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(29,92,255,.10) 0%,rgba(18,201,224,.035) 36%,transparent 70%)}
+.pj-development-build-wrap{position:relative;z-index:2;width:min(1240px,calc(100% - 80px));margin:0 auto}
+
+/* ---------- HEADING ---------- */
+.pj-development-build-head{max-width:820px}
+.pj-development-build-head-title{margin:0;color:var(--pj-bd-white);font-family:"Poppins","Segoe UI",sans-serif;font-size:clamp(2.4rem,4.6vw,3.9rem);font-weight:700;line-height:1.04;letter-spacing:-.035em}
+.pj-development-build-head-text{max-width:62ch;margin:20px 0 0;color:var(--pj-bd-muted);font-size:clamp(1rem,1.3vw,1.16rem);font-weight:400;line-height:1.58}
+.pj-development-build-head-title,.pj-development-build-head-text{opacity:0;transform:translateY(18px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1)}
+.pj-development-build-head-text{transition-delay:.1s}
+.pj-development-build-head--in .pj-development-build-head-title,.pj-development-build-head--in .pj-development-build-head-text{opacity:1;transform:none}
+
+/* ---------- BENTO GRID ---------- */
+.pj-development-build-bento{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:18px;margin-top:64px;align-items:stretch}
+.pj-development-build-card{position:relative;display:flex;flex-direction:column;justify-content:space-between;min-width:0;min-height:380px;padding:30px;overflow:hidden;border:1px solid var(--pj-bd-border);border-radius:18px;background:var(--pj-bd-card);color:var(--pj-bd-white);
+  opacity:0;transform:translateY(20px);
+  transition:opacity .75s cubic-bezier(.22,1,.36,1),transform .35s cubic-bezier(.22,1,.36,1),border-color .3s ease,background .4s ease,box-shadow .4s ease}
+.pj-development-build-card--in{opacity:1;transform:translateY(0)}
+.pj-development-build-card--d1{transition-delay:.08s}
+.pj-development-build-card--in:hover{transform:translateY(-4px);border-color:var(--pj-bd-border-hover);box-shadow:0 22px 50px rgba(3,11,29,.28)}
+.pj-development-build-card--web{grid-column:span 7;min-height:455px}
+.pj-development-build-card--mobile{grid-column:span 5;min-height:455px}
+.pj-development-build-card--uiux{grid-column:span 5;min-height:428px}
+.pj-development-build-card--ai{grid-column:span 7;min-height:428px}
+.pj-development-build-card--auto{grid-column:span 4;min-height:420px}
+.pj-development-build-card--saas{grid-column:span 8;min-height:420px;background:linear-gradient(150deg,#102653 0%,#0d1c40 45%,#0b1733 100%);border-color:rgba(88,123,196,.34)}
+.pj-development-build-card--saas::before{content:"";position:absolute;right:-8%;top:-30%;width:75%;height:125%;border-radius:50%;pointer-events:none;background:radial-gradient(closest-side,rgba(29,92,255,.21),transparent 72%)}
+.pj-development-build-card--saas>*{position:relative;z-index:2}
+.pj-development-build-body{position:relative;z-index:3}
+
+/* ---------- ICON ---------- */
+.pj-development-build-icon{display:grid;place-items:center;width:50px;height:50px;margin-bottom:23px;border:1px solid rgba(29,92,255,.12);border-radius:14px;background:rgba(29,92,255,.10);color:#6f9eff;transition:background .3s ease,color .3s ease,border-color .3s ease,transform .35s ease}
+.pj-development-build-icon-svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:none;transition:transform .4s cubic-bezier(.22,1,.36,1)}
+.pj-development-build-card:hover .pj-development-build-icon{background:var(--pj-bd-blue);border-color:var(--pj-bd-blue);color:#fff;transform:translateY(-2px)}
+.pj-development-build-card:hover .pj-development-build-icon-svg{transform:scale(1.08)}
+.pj-development-build-card--saas .pj-development-build-icon{background:rgba(110,151,255,.13);color:#92b2ff}
+.pj-development-build-card--saas:hover .pj-development-build-icon{background:#1d5cff;color:#fff}
+
+/* ---------- TEXT ---------- */
+.pj-development-build-title{margin:0;color:var(--pj-bd-white);font-family:"Poppins","Segoe UI",sans-serif;font-size:clamp(1.35rem,2vw,1.75rem);font-weight:700;line-height:1.1;letter-spacing:-.03em}
+.pj-development-build-desc{max-width:45ch;margin:11px 0 0;color:var(--pj-bd-muted);font-size:.97rem;line-height:1.6}
+
+/* ---------- ILLUSTRATION ---------- */
+.pj-development-build-vis{position:relative;margin:30px -8px -22px;overflow:visible}
+.pj-development-build-illustration{display:block;width:100%;height:auto;overflow:visible}
+.pj-development-build-vf{fill:#0f1d40;stroke:#324d7b;stroke-width:1.2}
+.pj-development-build-vl{stroke:#2d4774;stroke-width:1.2;fill:none}
+.pj-development-build-vd{fill:#45618f}
+.pj-development-build-vb{fill:rgba(75,102,154,.34)}
+.pj-development-build-va{fill:#1d5cff}
+.pj-development-build-vt{fill:none;stroke:#1d5cff;stroke-width:1.6}
+.pj-development-build-vn{fill:#0f1d40;stroke:#1d5cff;stroke-width:1.8}
+.pj-development-build-vnf{fill:#1d5cff}
+.pj-development-build-vdash{fill:none;stroke:#6e9bff;stroke-width:1.4;stroke-dasharray:4 4}
+.pj-development-build-vtx{font-size:11px;font-weight:600;fill:#8fa7cc}
+.pj-development-build-up,.pj-development-build-shift{transition:transform .5s cubic-bezier(.22,1,.36,1)}
+.pj-development-build-card:hover .pj-development-build-up{transform:translateY(-5px)}
+.pj-development-build-card:hover .pj-development-build-shift{transform:translateX(6px)}
+.pj-development-build-card--saas .pj-development-build-vf{fill:rgba(255,255,255,.035);stroke:#314b76}
+.pj-development-build-card--saas .pj-development-build-vb{fill:rgba(161,187,241,.15)}
+.pj-development-build-card--saas .pj-development-build-vt{stroke:#3dd9ee}
+
+/* ---------- EXPANDABLE CONTENT ---------- */
+.pj-development-build-more{display:grid;grid-template-rows:0fr;opacity:0;visibility:hidden;transition:grid-template-rows .5s cubic-bezier(.22,1,.36,1),opacity .35s ease,visibility 0s linear .5s}
+.pj-development-build-card--open .pj-development-build-more{grid-template-rows:1fr;opacity:1;visibility:visible;transition-delay:0s}
+.pj-development-build-more-inner{min-height:0;overflow:hidden}
+.pj-development-build-tags{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:18px 0 0;list-style:none}
+.pj-development-build-tags li{padding:7px 12px;border:1px solid var(--pj-bd-border-soft);border-radius:999px;background:rgba(255,255,255,.018);color:#aebed8;font-size:.83rem;line-height:1.25}
+.pj-development-build-link{display:inline-block;margin-top:14px;padding-bottom:2px;border-bottom:1px solid currentColor;color:var(--pj-bd-blue-soft);font-size:.88rem;font-weight:600;text-decoration:none}
+.pj-development-build-card--saas .pj-development-build-link{color:#78deee}
+.pj-development-build-btn{display:inline-flex;align-items:center;gap:10px;width:fit-content;margin:22px 0 0;padding:0;border:0;background:transparent;color:var(--pj-bd-blue-soft);font-family:inherit;font-size:.95rem;font-weight:600;line-height:1;cursor:pointer}
+.pj-development-build-btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .35s cubic-bezier(.22,1,.36,1)}
+.pj-development-build-btn:hover svg{transform:translateX(4px)}
+.pj-development-build-btn[aria-expanded="true"] svg{transform:rotate(90deg)}
+.pj-development-build-card--saas .pj-development-build-btn{color:#77dfef}
+.pj-development-build-btn:focus-visible,.pj-development-build-link:focus-visible{outline:2px solid #5f9dff;outline-offset:4px;border-radius:4px}
+
+/* ---------- DESKTOP SAAS LAYOUT ---------- */
+@media (min-width:1101px){
+  .pj-development-build-card--saas{flex-direction:row;align-items:center;gap:35px}
+  .pj-development-build-card--saas .pj-development-build-body{flex:0 0 39%}
+  .pj-development-build-card--saas .pj-development-build-vis{flex:1;align-self:flex-end;margin:0 -28px -15px 0}
+}
+
+/* ---------- LARGE TABLET ---------- */
+@media (max-width:1100px){
+  .pj-development-build-wrap{width:min(930px,calc(100% - 48px))}
+  .pj-development-build-card--web,.pj-development-build-card--mobile,.pj-development-build-card--uiux,.pj-development-build-card--ai{grid-column:span 6}
+  .pj-development-build-card--auto,.pj-development-build-card--saas{grid-column:span 12}
+  .pj-development-build-card--saas{min-height:380px}
+}
+
+/* ---------- MOBILE ---------- */
+@media (max-width:720px){
+  .pj-development-build{padding:70px 0 80px}
+  .pj-development-build-wrap{width:calc(100% - 28px)}
+  .pj-development-build-head-title{font-size:2.35rem}
+  .pj-development-build-head-text{font-size:.95rem}
+  .pj-development-build-bento{grid-template-columns:1fr;gap:16px;margin-top:44px}
+  .pj-development-build-card,.pj-development-build-card--web,.pj-development-build-card--mobile,.pj-development-build-card--uiux,
+  .pj-development-build-card--ai,.pj-development-build-card--auto,.pj-development-build-card--saas{grid-column:span 1;min-height:380px;padding:24px}
+  .pj-development-build-vis{margin:25px -4px -18px}
+  .pj-development-build-card--saas{display:flex;flex-direction:column;align-items:stretch;gap:18px}
+  .pj-development-build-card--saas .pj-development-build-vis{margin:15px -4px -20px}
+}
+
+/* ---------- SMALL MOBILE ---------- */
+@media (max-width:450px){
+  .pj-development-build-wrap{width:calc(100% - 20px)}
+  .pj-development-build-head-title{font-size:2.05rem}
+  .pj-development-build-card{padding:21px}
+  .pj-development-build-title{font-size:1.28rem}
+  .pj-development-build-desc{font-size:.9rem}
+  .pj-development-build-tags li{font-size:.76rem}
+}
+
+/* ---------- REDUCED MOTION ---------- */
+@media (prefers-reduced-motion:reduce){
+  .pj-development-build-head-title,.pj-development-build-head-text,.pj-development-build-card{opacity:1;transform:none;transition:none}
+  .pj-development-build-more,.pj-development-build-up,.pj-development-build-shift,.pj-development-build-btn svg{transition:none}
+}

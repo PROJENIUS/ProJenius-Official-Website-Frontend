@@ -1,0 +1,258 @@
+/* =============================================================================
+   PREFER TO REACH US DIRECTLY — BASE
+   -----------------------------------------------------------------------------
+   Local design tokens live on the root class so this file has no dependency
+   on any global stylesheet and cannot leak outside this section.
+   ============================================================================= */
+
+.pj-contact-direct {
+  --pj-direct-bg: #f4f6fb;
+  --pj-direct-surface: #ffffff;
+  --pj-direct-text: #0b1030;
+  --pj-direct-muted: #525c7d;
+  --pj-direct-line: #dde2f0;
+  --pj-direct-line-strong: #aab3cf;
+  --pj-direct-primary: #3651ff;
+  --pj-direct-primary-soft: #e9edff;
+  --pj-direct-radius: 14px;
+
+  /* type scale */
+  --pj-direct-fs-sm: 0.875rem;
+  --pj-direct-fs-base: 0.9375rem;
+  --pj-direct-fs-md: 1rem;
+  --pj-direct-fs-xl: 1.2rem;
+  --pj-direct-lh-tight: 1.15;
+  --pj-direct-lh-body: 1.55;
+
+  background-color: var(--pj-direct-bg);
+  color: var(--pj-direct-text);
+  font-family: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: var(--pj-direct-fs-md);
+  line-height: var(--pj-direct-lh-body);
+  scroll-margin-top: 12px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+.pj-contact-direct__content {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 48px 24px 64px;
+}
+
+
+/* =============================================================================
+   PREFER TO REACH US DIRECTLY — BOX SIZING SAFETY (scoped, cannot leak)
+   -----------------------------------------------------------------------------
+   Same sizing on localhost, Vercel or any host, whatever the global CSS does.
+   min-width: 0 stops grid children stretching past their column.
+   ============================================================================= */
+
+.pj-contact-direct,
+.pj-contact-direct *,
+.pj-contact-direct *::before,
+.pj-contact-direct *::after {
+  box-sizing: border-box;
+}
+
+.pj-contact-direct__grid > * {
+  min-width: 0;
+}
+
+
+/* =============================================================================
+   PREFER TO REACH US DIRECTLY — HEADER
+   ============================================================================= */
+
+.pj-contact-direct__header {
+  max-width: 640px;
+  margin-bottom: 28px;
+}
+
+.pj-contact-direct__title {
+  margin: 0;
+  font-family: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  font-size: clamp(2rem, 4.2vw, 2.75rem);
+  font-weight: 700;
+  line-height: var(--pj-direct-lh-tight);
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.pj-contact-direct__description {
+  margin: 10px 0 0;
+  font-size: clamp(1rem, 1.5vw, 1.15rem);
+  line-height: var(--pj-direct-lh-body);
+  color: var(--pj-direct-muted);
+}
+
+
+/* =============================================================================
+   PREFER TO REACH US DIRECTLY — CHANNEL GRID
+   -----------------------------------------------------------------------------
+   Rows grow with their content and every card in a row stays the same height.
+   ============================================================================= */
+
+.pj-contact-direct__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
+  gap: 16px;
+}
+
+
+/* =============================================================================
+   PREFER TO REACH US DIRECTLY — CHANNEL CARD (link or placeholder)
+   ============================================================================= */
+
+.pj-contact-direct__item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 22px;
+  border: 1px solid var(--pj-direct-line);
+  border-radius: var(--pj-direct-radius);
+  background-color: var(--pj-direct-surface);
+  color: var(--pj-direct-text);
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+a.pj-contact-direct__item {
+  cursor: pointer;
+}
+
+a.pj-contact-direct__item:hover {
+  border-color: var(--pj-direct-primary);
+  transform: translateY(-3px);
+  box-shadow: 0 14px 28px -18px rgba(54, 81, 255, 0.55);
+}
+
+a.pj-contact-direct__item:active {
+  transform: translateY(-1px);
+}
+
+a.pj-contact-direct__item:focus-visible {
+  outline: 3px solid var(--pj-direct-primary);
+  outline-offset: 3px;
+}
+
+.pj-contact-direct__item-icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 6px;
+  border-radius: 12px;
+  background-color: var(--pj-direct-primary-soft);
+  color: var(--pj-direct-primary);
+}
+
+.pj-contact-direct__icon {
+  width: 1.2em;
+  height: 1.2em;
+  flex: none;
+}
+
+.pj-contact-direct__item-title {
+  margin: 0;
+  font-family: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  font-size: var(--pj-direct-fs-xl);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.pj-contact-direct__item-sub {
+  font-size: var(--pj-direct-fs-base);
+  line-height: 1.45;
+  color: var(--pj-direct-muted);
+}
+
+.pj-contact-direct__item-value {
+  margin-top: 6px;
+  font-size: var(--pj-direct-fs-md);
+  font-weight: 600;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+
+/* =============================================================================
+   PREFER TO REACH US DIRECTLY — EMPTY (PLACEHOLDER) CARD
+   ============================================================================= */
+
+.pj-contact-direct__item--empty {
+  border-style: dashed;
+  border-color: var(--pj-direct-line-strong);
+  background-color: transparent;
+}
+
+.pj-contact-direct__item--empty .pj-contact-direct__item-value {
+  font-size: var(--pj-direct-fs-sm);
+  font-weight: 500;
+  color: var(--pj-direct-muted);
+}
+
+
+/* =============================================================================
+   PREFER TO REACH US DIRECTLY — TABLET
+   ============================================================================= */
+
+@media (max-width: 1024px) {
+  .pj-contact-direct__content {
+    padding: 44px 24px 56px;
+  }
+
+  .pj-contact-direct__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+
+/* =============================================================================
+   PREFER TO REACH US DIRECTLY — MOBILE
+   ============================================================================= */
+
+@media (max-width: 768px) {
+  .pj-contact-direct__grid {
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto;
+    gap: 12px;
+  }
+}
+
+
+/* =============================================================================
+   PREFER TO REACH US DIRECTLY — SMALL MOBILE
+   ============================================================================= */
+
+@media (max-width: 480px) {
+  .pj-contact-direct__content {
+    padding: 36px 16px 44px;
+  }
+
+  .pj-contact-direct__item {
+    padding: 18px;
+  }
+}
+
+
+/* =============================================================================
+   PREFER TO REACH US DIRECTLY — REDUCED MOTION
+   ============================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .pj-contact-direct__item {
+    transition: none;
+  }
+
+  a.pj-contact-direct__item:hover,
+  a.pj-contact-direct__item:active {
+    transform: none;
+  }
+}

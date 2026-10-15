@@ -1,0 +1,144 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap");
+
+/* NOTE: no global * / html / body rules here (they broke scrolling site-wide).
+   Everything below is scoped to .pj-hero */
+
+.pj-hero {
+  --pj-cyan: #2ec8ff;
+  --pj-muted: #c9ccd3;
+
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;           /* only clips the hero itself */
+  color: #fff;
+  display: flex;
+  align-items: center;
+  font-family: "Poppins", system-ui, sans-serif;
+  background:
+    radial-gradient(ellipse 55% 55% at 78% 50%, rgba(20, 90, 140, 0.35), transparent 70%),
+    radial-gradient(ellipse 45% 40% at 12% 75%, rgba(20, 70, 120, 0.25), transparent 70%),
+    linear-gradient(180deg, #0a1228 0%, #0a1329 100%);
+}
+
+/* scoped reset */
+.pj-hero,
+.pj-hero *,
+.pj-hero *::before,
+.pj-hero *::after {
+  box-sizing: border-box;
+}
+:where(.pj-hero) h1,
+:where(.pj-hero) h3,
+:where(.pj-hero) p {
+  margin: 0;
+  padding: 0;
+}
+
+/* two-column layout: text left, orbs right, both vertically centered */
+.pj-content {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 0 clamp(24px, 6vw, 110px) 8vh;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: clamp(24px, 5vw, 90px);
+}
+
+/* ---------- TEXT ---------- */
+.pj-eyebrow {
+  font-size: clamp(18px, 2.2vw, 34px);
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin-bottom: clamp(12px, 3vh, 32px);
+}
+
+.pj-title {
+  font-size: min(5.6vw, 10.5vh);
+  font-weight: 800;
+  line-height: 1.04;
+  letter-spacing: -0.04em;
+}
+.pj-title .accent { color: var(--pj-cyan); }
+
+.pj-sub {
+  margin-top: clamp(14px, 4vh, 44px);
+  max-width: 34em;
+  font-size: min(1.75vw, 3.4vh);
+  line-height: 1.6;
+  color: var(--pj-muted);
+}
+
+/* ---------- ORBS ---------- */
+.pj-orbs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4vh;
+  width: min(15vw, 24vh);
+  min-width: 90px;
+}
+
+.pj-orb {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 10%;
+  font-size: min(1vw, 1.8vh);
+  line-height: 1.25;
+  color: #1a1a1a;
+  border: 2px solid rgba(46, 200, 255, 0.45);
+  background: rgba(10, 30, 60, 0.35);
+}
+.pj-orb.lg {
+  width: 100%;
+  border: 4px solid var(--pj-cyan);
+  box-shadow: 0 0 22px rgba(46, 200, 255, 0.55), inset 0 0 18px rgba(46, 200, 255, 0.25);
+}
+.pj-orb.md { width: 74%; }
+.pj-orb img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+
+/* ---------- FLOATING DOTS ---------- */
+.pj-dot {
+  position: absolute;
+  z-index: 2;
+  border-radius: 50%;
+  background: var(--pj-cyan);
+  opacity: 0.75;
+  animation: pj-float 6s ease-in-out infinite;
+}
+@keyframes pj-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pj-dot { animation: none; }
+}
+
+/* ---------- BOTTOM ANGLED WAVE ---------- */
+.pj-wave {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 11vh;
+  z-index: 4;
+  display: block;
+}
+
+/* .pj-strip removed: it was the dark navy bar below the white wave */
+
+/* ---------- SMALL SCREENS ---------- */
+@media (max-width: 800px) {
+  .pj-content { grid-template-columns: 1fr; }
+  .pj-orbs { display: none; }
+  .pj-title { font-size: min(11vw, 8vh); }
+  .pj-sub { font-size: min(4vw, 3vh); }
+}

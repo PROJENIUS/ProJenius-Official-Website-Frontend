@@ -1,0 +1,356 @@
+/* =====================================================================
+   StartupJourney.css  |  Block prefix: pjs-path  (unique, project-safe)
+   Link once in public/index.html or your global stylesheet loader.
+   ===================================================================== */
+
+/* ============ 1. TOKENS + SECTION SHELL  (.pjs-path) ============ */
+.pjs-path {
+  --pjs-path-bg: #08111f;
+  --pjs-path-line: #14203a;
+  --pjs-path-text: #f3f6ff;
+  --pjs-path-muted: #9aa8c4;
+  --pjs-path-dim: #6f7d99;
+  --pjs-path-accent: #6c9cff;
+  --pjs-path-cyan: #4de3ee;
+  --pjs-path-route: #5aa9ff;
+  --pjs-path-gap: clamp(16px, 4vw, 48px);
+  --pjs-path-font: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --pjs-path-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+  box-sizing: border-box; /* padding stays inside the one-screen height */
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh; /* exactly one screen: never taller than the frame */
+  padding: clamp(12px, 3vh, 40px) var(--pjs-path-gap);
+  overflow: hidden;
+  background: var(--pjs-path-bg);
+  color: var(--pjs-path-text);
+  font-family: var(--pjs-path-font);
+  contain: layout style;
+}
+
+.pjs-path *,
+.pjs-path *::before,
+.pjs-path *::after {
+  box-sizing: border-box;
+}
+
+/* ============ 2. HEADER  (.pjs-path__eyebrow / __title / __lead) ============ */
+.pjs-path__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 clamp(4px, 1vh, 10px);
+  color: var(--pjs-path-accent);
+  font-family: var(--pjs-path-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.pjs-path__eyebrow::before {
+  content: "";
+  width: 28px;
+  height: 1px;
+  background: var(--pjs-path-accent);
+}
+
+.pjs-path__title {
+  margin: 0 0 clamp(4px, 1vh, 8px);
+  font-size: clamp(1.7rem, min(5.4vw, 8vh), 3.7rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  overflow-wrap: anywhere;
+}
+
+.pjs-path__lead {
+  max-width: 44ch;
+  margin: 0 0 clamp(10px, 3vh, 40px);
+  color: #c3cde2;
+  font-size: clamp(0.9rem, min(1.6vw, 2.4vh), 1.2rem);
+  line-height: 1.65;
+}
+
+/* ============ 3. LAYOUT  (.pjs-path__layout) ============ */
+.pjs-path__layout {
+  display: grid;
+  flex: 1;
+  min-height: 0;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  grid-template-rows: minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 64px);
+  align-items: center;
+}
+
+/* ============ 4. STAGE DETAIL  (.pjs-path__detail / __count / __head / __sub) ============ */
+.pjs-path__detail {
+  min-width: 0;
+}
+
+.pjs-path__detail-body {
+  animation: pjs-path-fade 0.35s ease both;
+}
+
+.pjs-path__count {
+  margin: 0 0 clamp(6px, 1.6vh, 14px);
+  color: var(--pjs-path-dim);
+  font-family: var(--pjs-path-mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+}
+
+.pjs-path__head {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(10px, 2vw, 22px);
+  margin: 0;
+}
+
+.pjs-path__no {
+  color: transparent;
+  font-size: clamp(2.6rem, min(8vw, 13vh), 6.4rem);
+  font-weight: 800;
+  line-height: 1;
+  -webkit-text-stroke: 2px #1d2a45;
+  user-select: none;
+}
+
+.pjs-path__name {
+  font-size: clamp(1.7rem, min(5.4vw, 9vh), 4rem);
+  font-weight: 800;
+  line-height: 1;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+
+.pjs-path__sub {
+  margin: 0 0 4px;
+  color: #b9c4dc;
+  font-size: clamp(1rem, min(2vw, 3.2vh), 1.6rem);
+  font-weight: 600;
+}
+
+/* ============ 5. SERVICE LIST  (.pjs-path__items / __item*) ============ */
+.pjs-path__items {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 24px;
+  max-width: 720px;
+  margin: 0 0 clamp(10px, 3vh, 28px);
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--pjs-path-line);
+}
+
+.pjs-path__item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: clamp(6px, 1.5vh, 14px) 0;
+  border-bottom: 1px solid var(--pjs-path-line);
+  font-size: clamp(0.85rem, min(1.5vw, 2.3vh), 1.15rem);
+}
+
+.pjs-path__item::before {
+  content: "";
+  flex: none;
+  width: 12px;
+  height: 12px;
+  background: var(--pjs-path-cyan);
+  border: 3px solid #0f4a57;
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(77, 227, 238, 0.45);
+}
+
+/* ============ 6. PREV / NEXT BUTTONS  (.pjs-path__nav / __btn) ============ */
+.pjs-path__nav {
+  display: flex;
+  gap: 12px;
+}
+
+.pjs-path__btn {
+  display: grid;
+  place-items: center;
+  width: clamp(40px, 6vh, 52px);
+  height: clamp(40px, 6vh, 52px);
+  background: transparent;
+  border: 0;
+  border-radius: 10px;
+  color: var(--pjs-path-text);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: background-color 0.25s ease, opacity 0.25s ease;
+}
+
+.pjs-path__btn:hover:not(:disabled) {
+  background: #14294a;
+}
+
+.pjs-path__btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* ============ 7. JOURNEY MAP (SVG)  (.pjs-path__map / __seg* / __trail / __dot / __node* / __label*) ============ */
+.pjs-path__map {
+  display: block;
+  width: 100%;
+  max-width: 380px;
+  height: 100%;
+  max-height: 100%;
+  margin-inline: auto;
+  overflow: visible;
+}
+
+.pjs-path__seg {
+  pointer-events: none;
+  fill: none;
+  stroke: #2a3a5c;
+  stroke-width: 1.5;
+  stroke-dasharray: 2 5;
+  stroke-linecap: round;
+  transition: stroke 0.4s ease;
+}
+
+.pjs-path__seg--done {
+  stroke: var(--pjs-path-route);
+  stroke-width: 2.5;
+  stroke-dasharray: none;
+  filter: drop-shadow(0 0 5px rgba(90, 169, 255, 0.7));
+}
+
+/* tracer: bright trail + white dot that loops toward the next stage */
+.pjs-path__trail {
+  fill: none;
+  stroke: #7cc4ff;
+  stroke-width: 2.5;
+  stroke-linecap: butt;
+  stroke-dasharray: 0 1; /* start value; the SVG <animate> grows it */
+  filter: drop-shadow(0 0 5px rgba(90, 169, 255, 0.8));
+  pointer-events: none;
+}
+
+.pjs-path__dot {
+  fill: #fff;
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.9));
+  pointer-events: none;
+}
+
+.pjs-path__node {
+  cursor: pointer;
+  outline: none;
+}
+
+.pjs-path__node-ring {
+  fill: #0a1324;
+  stroke: #33466e;
+  stroke-width: 1.5;
+  transition: fill 0.3s ease, stroke 0.3s ease;
+}
+
+.pjs-path__node-no {
+  fill: var(--pjs-path-muted);
+  font-family: var(--pjs-path-mono);
+  font-size: 11px;
+  font-weight: 700;
+  text-anchor: middle;
+  dominant-baseline: central;
+  pointer-events: none;
+}
+
+.pjs-path__label {
+  fill: var(--pjs-path-dim);
+  font-family: var(--pjs-path-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-anchor: start;
+  dominant-baseline: central;
+  pointer-events: none;
+}
+
+.pjs-path__label--end {
+  text-anchor: end;
+}
+
+.pjs-path__node--done .pjs-path__node-ring {
+  stroke: #6a8fd0;
+  fill: rgba(90, 140, 220, 0.15);
+}
+
+.pjs-path__node--on .pjs-path__node-ring {
+  fill: var(--pjs-path-cyan);
+  stroke: var(--pjs-path-cyan);
+  filter: drop-shadow(0 0 12px rgba(77, 227, 238, 0.7));
+}
+
+.pjs-path__node--on .pjs-path__node-no {
+  fill: #06202a;
+}
+
+.pjs-path__node--on .pjs-path__label {
+  fill: var(--pjs-path-text);
+}
+
+.pjs-path__node:hover .pjs-path__node-ring {
+  stroke: var(--pjs-path-cyan);
+}
+
+/* ============ 8. ACCESSIBILITY  (focus ring) ============ */
+.pjs-path__btn:focus-visible {
+  outline: 2px solid var(--pjs-path-cyan);
+  outline-offset: 2px;
+}
+
+.pjs-path__node:focus-visible .pjs-path__node-ring {
+  stroke: var(--pjs-path-cyan);
+  stroke-width: 3;
+}
+
+/* ============ 9. ANIMATION  (@keyframes pjs-path-fade) ============ */
+@keyframes pjs-path-fade {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============ 10. RESPONSIVE: TABLET  (max 900px) - stacks and may scroll ============ */
+@media (max-width: 900px) {
+  .pjs-path {
+    height: auto;
+    min-height: 100dvh;
+    overflow: visible;
+  }
+  .pjs-path__layout {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto;
+  }
+  .pjs-path__map {
+    height: auto;
+    max-height: none;
+    max-width: 340px;
+  }
+}
+
+/* ============ 11. RESPONSIVE: PHONE  (max 560px) ============ */
+@media (max-width: 560px) {
+  .pjs-path__items {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .pjs-path__head {
+    flex-wrap: wrap;
+  }
+}
+
+/* ============ 12. REDUCED MOTION  (user preference) ============ */
+@media (prefers-reduced-motion: reduce) {
+  .pjs-path *,
+  .pjs-path *::before,
+  .pjs-path *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

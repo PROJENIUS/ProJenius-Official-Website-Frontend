@@ -1,0 +1,158 @@
+/* =========================================================
+   SESSION 1: SECTION WRAPPER & CONTAINER
+   Prefix: prv-* (Proven Results)
+========================================================= */
+
+.prv-section {
+  width: 100%;
+  padding: 85px 24px 105px;
+  background: #ffffff;
+  box-sizing: border-box;
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+.prv-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+/* =========================================================
+   SESSION 2: SECTION HEADER & TYPOGRAPHY
+========================================================= */
+
+.prv-header {
+  text-align: center;
+  max-width: 780px;
+  margin: 0 auto 48px;
+}
+
+.prv-badge {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: #0284c7;
+  margin-bottom: 12px;
+}
+
+.prv-title {
+  margin: 0;
+  font-size: clamp(32px, 3.8vw, 48px);
+  font-weight: 800;
+  line-height: 1.2;
+  color: #0f172a;
+  letter-spacing: -0.8px;
+}
+
+/* =========================================================
+   SESSION 3: STATS CARD CONTAINER (UPDATED TO SWATCH COLOR)
+========================================================= */
+
+.prv-card {
+  width: 100%;
+  background: #f2f6f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 22px;
+  padding: 55px 36px;
+  box-sizing: border-box;
+  box-shadow: 0 16px 36px -8px rgba(15, 23, 42, 0.06), 0 4px 12px rgba(15, 23, 42, 0.02);
+}
+
+/* =========================================================
+   SESSION 4: 4-COLUMN METRICS GRID
+========================================================= */
+
+.prv-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  align-items: center;
+  text-align: center;
+}
+
+.prv-metric-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.25s ease;
+}
+
+.prv-metric-item:hover {
+  transform: translateY(-4px);
+}
+
+.prv-metric-value {
+  color: #d97706;
+  font-size: clamp(36px, 4vw, 54px);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.8px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.prv-metric-label {
+  color: #475569;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  line-height: 1.4;
+  max-width: 180px;
+}
+
+/* =========================================================
+   SESSION 5: RESPONSIVE MEDIA QUERIES (LAP, TAB, MOBILE)
+========================================================= */
+
+/* TABLET (2 COLUMNS) */
+@media (max-width: 860px) {
+  .prv-section {
+    padding: 70px 20px 85px;
+  }
+
+  .prv-card {
+    padding: 44px 24px;
+  }
+
+  .prv-metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 36px 20px;
+  }
+}
+
+/* MOBILE (1 OR 2 COLUMNS) */
+@media (max-width: 520px) {
+  .prv-section {
+    padding: 55px 16px 70px;
+  }
+
+  .prv-header {
+    margin-bottom: 34px;
+  }
+
+  .prv-card {
+    padding: 36px 18px;
+    border-radius: 18px;
+  }
+
+  .prv-metrics-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .prv-metric-value {
+    font-size: 40px;
+  }
+
+  .prv-metric-label {
+    font-size: 12px;
+  }
+}

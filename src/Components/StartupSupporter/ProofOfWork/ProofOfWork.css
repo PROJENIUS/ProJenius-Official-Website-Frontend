@@ -1,0 +1,125 @@
+/* ==========================================================================
+   ProofOfWork.css
+   Every class starts with "pow-" so it cannot clash with the rest of the project.
+   Load once from index.html (never imported inside the JSX).
+   Sections: 1 Tokens + section | 2 Shared mono label | 3 Section wrapper | 4 Header
+             6 Filters | 7 Grid | 8 Card media | 9 Card body | 10 Empty / fallback
+             11 Tablet | 12 Mobile | 13 Motion
+   ========================================================================== */
+
+/* ---- 1. TOKENS ------------------------------------------------------------
+   Classes : pow-section (variables are scoped here only) */
+.pow-section {
+  --pow-bg: #0a1424;
+  --pow-card: #0c1729;
+  --pow-line: #172540;
+  --pow-text: #f4f7ff;
+  --pow-muted: #8d9bb8;
+  --pow-blue: #6b9bff;
+    --pow-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --pow-ease: 0.25s ease;
+
+  /* section wrapper */
+  box-sizing: border-box; width: 100%; max-width: 80rem; margin: 0 auto;
+  padding: clamp(1.25rem, 4vw, 3rem) clamp(1rem, 3vw, 2.5rem);
+  background: var(--pow-bg); color: var(--pow-text);
+  font-family: "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+}
+
+/* ---- 2. SHARED SMALL MONO LABEL -------------------------------------------
+   Classes : pow-mono (added in the JSX to eyebrow, field label, badge, tag) */
+.pow-mono {
+  font-family: var(--pow-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* ---- 3. SECTION WRAPPER (variables + layout live in rule 1) --------------
+   Classes : pow-section */
+
+.pow-section *, .pow-section *::before, .pow-section *::after { box-sizing: inherit; }
+
+/* ---- 4. HEADER ------------------------------------------------------------
+   Classes : pow-eyebrow, pow-heading, pow-lead */
+.pow-eyebrow { display: flex; align-items: center; gap: 0.75rem; margin: 0 0 0.5rem; font-size: 0.72rem; color: var(--pow-blue); }
+.pow-eyebrow::before { content: ""; width: 1.75rem; height: 1px; background: var(--pow-blue); }
+.pow-heading { max-width: 44rem; margin: 0; font-size: clamp(1.9rem, 5vw, 3.4rem); line-height: 1.1; font-weight: 800; }
+.pow-lead { max-width: 36rem; margin: 0.75rem 0 0; font-size: clamp(0.9rem, 1.5vw, 1.05rem); line-height: 1.6; color: var(--pow-muted); }
+
+/* ---- 6. FILTER BAR ---------------------------------------------------------
+   Classes : pow-filter-list, pow-filter-item, pow-filter, pow-filter--active */
+.pow-filter-list {
+  display: flex; gap: 0.25rem; margin: clamp(1.25rem, 3vw, 2rem) 0; padding: 0 0 0.25rem; list-style: none;
+  overflow-x: auto; scrollbar-width: none;
+}
+.pow-filter-list::-webkit-scrollbar { display: none; }
+.pow-filter-item { flex: none; }
+.pow-filter {
+  position: relative; padding: 0.5rem 0.9rem; border: 0; background: transparent; color: var(--pow-text);
+  font-family: inherit; font-size: 0.85rem; cursor: pointer; opacity: 0.75; transition: opacity var(--pow-ease), color var(--pow-ease);
+}
+.pow-filter::after {
+  content: ""; position: absolute; left: 0.9rem; right: 0.9rem; bottom: 0; height: 2px;
+  background: var(--pow-blue); transform: scaleX(0); transition: transform var(--pow-ease);
+}
+.pow-filter:hover { opacity: 1; }
+.pow-filter:focus-visible { outline: 2px solid var(--pow-blue); outline-offset: 2px; }
+.pow-filter--active { opacity: 1; color: var(--pow-blue); }
+.pow-filter--active::after { transform: scaleX(1); }
+
+/* ---- 7. GRID ---------------------------------------------------------------
+   Classes : pow-grid, pow-card */
+.pow-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(0.9rem, 2vw, 1.5rem); margin: 0; padding: 0; list-style: none; }
+.pow-card {
+  display: flex; flex-direction: column; overflow: hidden; background: var(--pow-card);
+  border: 1px solid var(--pow-line); border-radius: 0.75rem; animation: pow-rise 0.4s ease both;
+}
+
+/* ---- 8. CARD MEDIA (image or coloured placeholder) -------------------------
+   Classes : pow-media, pow-media--a .. pow-media--f, pow-media-img, pow-media-badge */
+.pow-media { position: relative; aspect-ratio: 16 / 10; background: var(--pow-tone); }
+.pow-media--a { --pow-tone: linear-gradient(135deg, #2b3550, #6b7a99); }
+.pow-media--b { --pow-tone: linear-gradient(135deg, #1f4a52, #7fb7b0); }
+.pow-media--c { --pow-tone: linear-gradient(135deg, #3c2f57, #8a7bb5); }
+.pow-media--d { --pow-tone: linear-gradient(135deg, #5a3a2a, #c9966b); }
+.pow-media--e { --pow-tone: linear-gradient(135deg, #14304f, #4f86c2); }
+.pow-media--f { --pow-tone: linear-gradient(135deg, #3f4a1f, #a3b05a); }
+.pow-media-img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.pow-media-badge {
+  position: absolute; left: 0.5rem; bottom: 0.5rem; padding: 0.2rem 0.5rem; border-radius: 0.2rem;
+  background: rgba(8, 12, 22, 0.75); font-size: 0.6rem; color: var(--pow-text);
+}
+
+/* ---- 9. CARD BODY ----------------------------------------------------------
+   Classes : pow-card-body, pow-tags, pow-tag, pow-card-title, pow-fields,
+             pow-field-label, pow-field-value */
+.pow-card-body { display: grid; gap: 0.75rem; padding: 1rem 1.1rem 1.25rem; }
+.pow-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0; padding: 0; list-style: none; }
+.pow-tag { padding: 0.15rem 0.5rem; border: 1px solid var(--pow-line); border-radius: 0.25rem; background: #0f2140; font-size: 0.62rem; color: var(--pow-blue); }
+.pow-card-title { margin: 0; font-size: 1.05rem; font-weight: 700; }
+.pow-fields { display: grid; gap: 0.6rem; margin: 0; }
+.pow-field-label { font-size: 0.62rem; color: var(--pow-muted); }
+.pow-field-value { margin: 0.15rem 0 0; padding-left: 1.5rem; font-size: 0.8rem; font-style: italic; color: var(--pow-muted); }
+
+/* ---- 10. EMPTY STATE / FALLBACK -------------------------------------------
+   Classes : pow-empty, pow-fallback */
+.pow-empty, .pow-fallback { margin: 0; padding: 1.5rem; border: 1px dashed var(--pow-line); border-radius: 0.6rem; color: var(--pow-muted); }
+
+/* ---- 11. TABLET (max 900px) : 2 columns ------------------------------------
+   Classes : pow-grid */
+@media (max-width: 900px) {
+  .pow-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ---- 12. MOBILE (max 640px) : 1 column -------------------------------------
+   Classes : pow-grid */
+@media (max-width: 640px) {
+  .pow-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ---- 13. MOTION ------------------------------------------------------------
+   Keyframes : pow-rise   |   Classes : pow-card and all pow- elements */
+@keyframes pow-rise { from { opacity: 0; transform: translateY(0.5rem); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .pow-section *, .pow-section *::before, .pow-section *::after { animation: none; transition: none; }
+}

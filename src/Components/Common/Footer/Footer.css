@@ -1,0 +1,790 @@
+/* =========================================================
+   PROJENIUS FOOTER
+========================================================= */
+
+.pro-footer {
+    position: relative;
+    width: 100%;
+    background: #090d13;
+    color: #ffffff;
+    font-family: "Segoe UI", sans-serif;
+    border-top: 2px solid #2ea8ff;
+    box-sizing: border-box;
+}
+
+.pro-footer *,
+.pro-footer *::before,
+.pro-footer *::after {
+    box-sizing: border-box;
+}
+
+/* =========================================================
+   TOP BAR
+========================================================= */
+
+.footer-top {
+    width: 100%;
+    background: #090d13;
+}
+
+.footer-top-inner {
+    width: min(1250px, 90%);
+    min-height: 132px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* =========================================================
+   LOGO
+========================================================= */
+
+.footer-call-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+    gap: 4px;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.footer-logo-image {
+    width: 48px;
+    height: 48px;
+    display: block;
+    flex: 0 0 48px;
+    object-fit: contain;
+    border-radius: 50%;
+    background: #ffffff;
+}
+
+.footer-logo-text {
+    color: #ffffff;
+    font-size: 34px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -1.5px;
+    white-space: nowrap;
+}
+
+.footer-logo-text span {
+    color: #159ce8;
+}
+
+.footer-call-content h3 {
+    margin: 0;
+    color: #49b7f5;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+/* =========================================================
+   NEWSLETTER
+========================================================= */
+
+.footer-newsletter {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-shrink: 0;
+}
+
+.footer-newsletter-consent { max-width: 430px; display: flex; gap: 8px; align-items: flex-start; color: #aeb5c0; font-size: 12px; line-height: 1.45; }
+.footer-newsletter-consent input { width: auto; margin-top: 2px; accent-color: #38aaf2; }
+.footer-newsletter-message { min-height: 1.2em; margin: 0; color: #bcebd0; font-size: 12px; }
+.footer-newsletter-message.is-error { color: #ffc4c4; }
+.footer-newsletter button:disabled { opacity: .65; cursor: wait; }
+
+.newsletter-title {
+    color: #aeb5c0;
+    font-size: 21px;
+    white-space: nowrap;
+}
+
+.newsletter-title strong {
+    color: #ffffff;
+    font-weight: 700;
+}
+
+.footer-newsletter form {
+    height: 54px;
+    display: flex;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 6px;
+}
+
+.footer-newsletter input {
+    width: 285px;
+    min-width: 0;
+    padding: 0 20px;
+    border: none;
+    outline: none;
+    background: #151a22;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 15px;
+}
+
+.footer-newsletter input::placeholder {
+    color: #7f8793;
+}
+
+.footer-newsletter button {
+    width: 125px;
+    flex-shrink: 0;
+    border: none;
+    background: #38aaf2;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.footer-newsletter button:hover {
+    background: #2195dc;
+}
+
+.footer-newsletter button:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: -4px;
+}
+
+/* =========================================================
+   MAIN FOOTER GRID
+========================================================= */
+
+.footer-main {
+    width: min(1250px, 90%);
+    margin: 0 auto;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1.35fr 0.85fr 1.15fr 1fr;
+    gap: 55px;
+    padding: 55px 0 58px;
+    align-items: start;
+}
+
+/* =========================================================
+   COMPANY DESCRIPTION
+========================================================= */
+
+.footer-company {
+    min-width: 0;
+}
+
+.footer-company > p {
+    max-width: 350px;
+    margin: 0;
+    color: #9ca5b3;
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+/* =========================================================
+   GOOGLE REVIEWS
+========================================================= */
+
+.footer-google-review {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0 0 22px;
+    padding: 10px 38px 10px 12px;
+    gap: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 9px;
+    background: #151a22;
+    color: #ffffff;
+    text-decoration: none;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+    transition:
+        transform 0.25s ease,
+        background 0.25s ease,
+        border-color 0.25s ease;
+}
+
+.footer-google-review:hover {
+    transform: translateY(-2px);
+    background: #1a2029;
+    border-color: rgba(46, 168, 255, 0.45);
+}
+
+.footer-google-review:focus-visible {
+    outline: 2px solid #2ea8ff;
+    outline-offset: 3px;
+}
+
+.google-review-icon {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 38px;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #4285f4;
+    font-family: Arial, sans-serif;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.google-review-content {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    gap: 4px;
+}
+
+.google-review-title {
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.google-review-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    color: #9ca5b3;
+    font-size: 11px;
+}
+
+.google-review-meta strong {
+    color: #ffffff;
+    font-size: 13px;
+}
+
+.google-stars {
+    color: #fbbc04;
+    font-size: 12px;
+    letter-spacing: 1px;
+    line-height: 1;
+}
+
+.google-review-count {
+    color: #8d96a4;
+}
+
+.google-review-arrow {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    color: #2ea8ff;
+    font-size: 18px;
+    line-height: 1;
+    transform: translateY(-50%);
+    transition: transform 0.25s ease;
+}
+
+.footer-google-review:hover .google-review-arrow {
+    transform: translate(3px, -50%);
+}
+
+/* =========================================================
+   SOCIAL MEDIA ICONS
+   Default: Blue icons + dark circles
+   Hover: White icons + blue circles
+========================================================= */
+
+.footer-socials {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 13px;
+    margin-top: 27px;
+}
+
+.footer-socials a {
+    width: 43px;
+    height: 43px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 43px;
+    border-radius: 50%;
+    background: #151a22;
+    text-decoration: none;
+    transition:
+        transform 0.3s ease,
+        background 0.3s ease;
+}
+
+/* Normal state: blue icons */
+.pro-footer .footer-socials a img {
+    display: block;
+    width: 21px;
+    height: 21px;
+    object-fit: contain;
+    filter: brightness(0) saturate(100%)
+        invert(55%) sepia(85%) saturate(1800%)
+        hue-rotate(175deg) brightness(100%);
+    transition: filter 0.3s ease;
+}
+
+/* Hover: blue circle */
+.pro-footer .footer-socials a:hover {
+    background: #2ea8ff;
+    transform: translateY(-5px);
+}
+
+/* Hover: white icons */
+.pro-footer .footer-socials a:hover img {
+    filter: brightness(0) invert(1) !important;
+}
+
+/* Keyboard focus */
+.footer-socials a:focus-visible {
+    outline: 2px solid #2ea8ff;
+    outline-offset: 3px;
+}
+
+/* =========================================================
+   COLUMN HEADINGS
+========================================================= */
+
+.footer-heading {
+    margin: 0;
+    color: #ffffff;
+    font-size: 23px;
+    font-weight: 800;
+    line-height: 1.3;
+}
+
+.footer-heading-line {
+    width: 45px;
+    height: 4px;
+    margin-top: 12px;
+    margin-bottom: 30px;
+    background: #2ea8ff;
+    border-radius: 20px;
+}
+
+/* =========================================================
+   QUICK LINKS
+========================================================= */
+
+.footer-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.footer-links li {
+    margin-bottom: 16px;
+}
+
+.footer-links a {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    color: #9ca5b3;
+    text-decoration: none;
+    font-size: 16px;
+    transition:
+        color 0.25s ease,
+        transform 0.25s ease;
+}
+
+.footer-links a span {
+    color: #2ea8ff;
+    font-size: 21px;
+    line-height: 1;
+}
+
+.footer-links a:hover {
+    color: #ffffff;
+    transform: translateX(4px);
+}
+
+/* =========================================================
+   CONTACT ICONS
+   Blue icons on dark navy circles
+========================================================= */
+
+.footer-contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 17px;
+    margin-bottom: 22px;
+    min-width: 0;
+}
+
+.footer-contact-icon {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 42px;
+    border-radius: 50%;
+    background: rgba(46, 168, 255, 0.10);
+}
+
+.pro-footer .footer-contact-icon img {
+    display: block;
+    width: 19px;
+    height: 19px;
+    object-fit: contain;
+    filter: brightness(0) saturate(100%)
+        invert(55%) sepia(85%) saturate(1800%)
+        hue-rotate(175deg) brightness(100%);
+}
+
+.footer-contact-item p {
+    margin: 2px 0 0;
+    color: #9ca5b3;
+    font-size: 16px;
+    line-height: 1.65;
+}
+
+.footer-contact-item a {
+    margin-top: 9px;
+    color: #9ca5b3;
+    text-decoration: none;
+    font-size: 15px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+    transition: color 0.25s ease;
+}
+
+.footer-contact-item a:hover {
+    color: #2ea8ff;
+}
+
+/* =========================================================
+   GOOGLE MAP
+========================================================= */
+
+.footer-map {
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+    height: 180px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    border-radius: 8px;
+    background: #1a2029;
+}
+
+.footer-map iframe {
+    width: 100%;
+    height: 100%;
+    display: block;
+    border: 0;
+}
+
+.map-label {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    background: #ffffff;
+    color: #2c8ee8;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.footer-location {
+    margin: 0 0 20px;
+    color: #9ca5b3;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+/* =========================================================
+   DIRECTIONS BUTTON
+========================================================= */
+
+.direction-btn {
+    width: 200px;
+    min-height: 50px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 10px 16px;
+    border: 1px solid #2ea8ff;
+    border-radius: 6px;
+    color: #2ea8ff;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 700;
+    transition:
+        background 0.3s ease,
+        color 0.3s ease;
+}
+
+/* Blue arrow normally */
+.pro-footer .direction-btn img {
+    display: block;
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+    filter: brightness(0) saturate(100%)
+        invert(55%) sepia(85%) saturate(1800%)
+        hue-rotate(175deg) brightness(100%);
+    transition:
+        transform 0.3s ease,
+        filter 0.3s ease;
+}
+
+.direction-btn:hover {
+    background: #2ea8ff;
+    color: #ffffff;
+}
+
+.direction-btn:hover img {
+    transform: translateX(5px);
+    filter: brightness(0) invert(1) !important;
+}
+
+/* =========================================================
+   BOTTOM BAR
+========================================================= */
+
+.footer-bottom {
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-bottom p {
+    margin: 0;
+    color: #8d96a4;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.footer-bottom-links {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 25px;
+}
+
+.footer-bottom-links a {
+    color: #9ca5b3;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.25s ease;
+}
+
+.footer-bottom-links a:hover {
+    color: #2ea8ff;
+}
+
+/* =========================================================
+   TABLET RESPONSIVE
+========================================================= */
+
+@media (max-width: 1100px) {
+    .footer-top-inner {
+        gap: 25px;
+    }
+
+    .footer-newsletter {
+        gap: 12px;
+    }
+
+    .newsletter-title {
+        font-size: 17px;
+    }
+
+    .footer-newsletter input {
+        width: 200px;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 45px;
+    }
+
+    .footer-map {
+        max-width: 100%;
+    }
+}
+
+/* =========================================================
+   MOBILE RESPONSIVE
+========================================================= */
+
+@media (max-width: 768px) {
+    .footer-top-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 35px 0;
+        gap: 25px;
+    }
+
+    .footer-logo-image {
+        width: 42px;
+        height: 42px;
+        flex-basis: 42px;
+    }
+
+    .footer-logo-text {
+        font-size: 29px;
+    }
+
+    .footer-call-content h3 {
+        font-size: 16px;
+    }
+
+    .footer-newsletter {
+        width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .footer-newsletter form {
+        width: 100%;
+    }
+
+    .footer-newsletter input {
+        flex: 1;
+        width: auto;
+        min-width: 0;
+    }
+
+    .footer-newsletter button {
+        width: 115px;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 42px;
+        padding: 42px 0;
+    }
+
+    .footer-company > p {
+        max-width: 420px;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 24px 0;
+        gap: 18px;
+    }
+
+    .footer-bottom-links {
+        gap: 18px;
+    }
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+    .footer-main,
+    .footer-top-inner {
+        width: 90%;
+    }
+
+    .footer-newsletter form {
+        height: 48px;
+    }
+
+    .footer-newsletter input {
+        padding: 0 12px;
+        font-size: 13px;
+    }
+
+    .footer-newsletter button {
+        width: 100px;
+        font-size: 13px;
+    }
+
+    .footer-logo-image {
+        width: 38px;
+        height: 38px;
+        flex-basis: 38px;
+    }
+
+    .footer-logo-text {
+        font-size: 26px;
+    }
+
+    .footer-call-content h3 {
+        font-size: 14px;
+    }
+
+    .footer-google-review {
+        max-width: 100%;
+    }
+
+    .google-review-meta {
+        gap: 4px;
+    }
+
+    .google-review-count {
+        font-size: 10px;
+    }
+
+    .footer-heading {
+        font-size: 21px;
+    }
+
+    .footer-contact-item {
+        gap: 12px;
+    }
+
+    .footer-contact-item p {
+        font-size: 14px;
+    }
+
+    .footer-contact-item a {
+        font-size: 13px;
+    }
+
+    .footer-map {
+        height: 190px;
+    }
+
+    .footer-bottom-links {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    .pro-footer *,
+    .pro-footer *::before,
+    .pro-footer *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+    }
+}

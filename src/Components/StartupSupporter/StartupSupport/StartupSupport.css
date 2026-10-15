@@ -1,0 +1,126 @@
+/* ==========================================================================
+   StartupSupport.css
+   Every class starts with "ssj-" so it cannot clash with the rest of the project.
+   Load once from index.html (never imported inside the JSX).
+   Sections: 1 Tokens | 2 Section | 3 Header | 4 Layout | 5 Category list
+             6 Accordion | 7 Fallback | 8 Tablet | 9 Mobile | 10 Motion
+   ========================================================================== */
+
+/* ---- 1. TOKENS ------------------------------------------------------------
+   Classes : ssj-section (variables are scoped here only) */
+.ssj-section {
+  --ssj-bg: #070d1a;
+  --ssj-line: #16223a;
+  --ssj-text: #f4f7ff;
+  --ssj-muted: #8d9bb8;
+  --ssj-soft: #9aa9c6;
+  --ssj-blue: #6b9bff;
+  --ssj-cyan: #4fe3e8;
+  --ssj-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --ssj-ease: 0.3s ease;
+}
+
+/* ---- 2. SECTION WRAPPER ---------------------------------------------------
+   Classes : ssj-section */
+.ssj-section {
+  box-sizing: border-box; width: 100%; max-width: 80rem; margin: 0 auto;
+  padding: clamp(1.25rem, 4vw, 3rem) clamp(1rem, 3vw, 2.5rem);
+  background: var(--ssj-bg); color: var(--ssj-text);
+  font-family: "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+}
+.ssj-section *, .ssj-section *::before, .ssj-section *::after { box-sizing: inherit; }
+
+/* ---- 3. HEADER ------------------------------------------------------------
+   Classes : ssj-header, ssj-eyebrow, ssj-heading, ssj-lead */
+.ssj-eyebrow {
+  display: flex; align-items: center; gap: 0.75rem; margin: 0 0 0.5rem;
+  font: 0.72rem var(--ssj-mono); letter-spacing: 0.15em; text-transform: uppercase; color: var(--ssj-blue);
+}
+.ssj-eyebrow::before { content: ""; width: 1.75rem; height: 1px; background: var(--ssj-blue); }
+.ssj-heading { max-width: 44rem; margin: 0; font-size: clamp(1.9rem, 5vw, 3.4rem); line-height: 1.1; font-weight: 800; }
+.ssj-lead { margin: 0.75rem 0 0; font-size: clamp(0.9rem, 1.5vw, 1.05rem); color: var(--ssj-muted); }
+
+/* ---- 4. LAYOUT (list | accordion) -----------------------------------------
+   Classes : ssj-layout */
+.ssj-layout {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start;
+  gap: clamp(1.5rem, 6vw, 5rem); margin-top: clamp(1.5rem, 4vw, 3rem);
+}
+
+/* ---- 5. CATEGORY LIST (left) ----------------------------------------------
+   Classes : ssj-cat-list, ssj-cat-item, ssj-cat, ssj-cat--active, ssj-cat-num,
+             ssj-cat-title, ssj-cat-meta */
+.ssj-cat-list { margin: 0; padding: 0; list-style: none; border-bottom: 1px solid var(--ssj-line); }
+.ssj-cat-item { border-top: 1px solid var(--ssj-line); }
+.ssj-cat {
+  position: relative; display: grid; grid-template-columns: 2.5rem 1fr auto; align-items: center; gap: 0.5rem; width: 100%;
+  padding: clamp(0.8rem, 2vw, 1.2rem) 0.75rem; border: 0; background: transparent; color: inherit;
+  font: inherit; text-align: left; cursor: pointer;
+}
+.ssj-cat::before {
+  content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 3px; opacity: 0;
+  background: linear-gradient(var(--ssj-cyan), var(--ssj-blue)); transition: opacity var(--ssj-ease);
+}
+.ssj-cat:focus-visible { outline: 2px solid var(--ssj-cyan); outline-offset: -2px; }
+.ssj-cat-num, .ssj-cat-meta { font: 0.72rem var(--ssj-mono); color: var(--ssj-muted); }
+.ssj-cat-title { font-size: clamp(1.25rem, 2.4vw, 1.9rem); font-weight: 800; line-height: 1.15; color: var(--ssj-soft); transition: color var(--ssj-ease); }
+.ssj-cat:hover .ssj-cat-title { color: var(--ssj-text); }
+.ssj-cat--active::before { opacity: 1; }
+.ssj-cat--active .ssj-cat-title { color: var(--ssj-text); }
+.ssj-cat--active .ssj-cat-meta { color: var(--ssj-blue); }
+
+/* ---- 6. ACCORDION (right) -------------------------------------------------
+   Classes : ssj-panel, ssj-area-list, ssj-area, ssj-area--open, ssj-area-head,
+             ssj-area-title, ssj-area-icon, ssj-area-body, ssj-area-inner, ssj-area-text */
+.ssj-area-list { margin: 0; padding: 0; list-style: none; border-bottom: 1px solid var(--ssj-line); }
+.ssj-area { border-top: 1px solid var(--ssj-line); }
+.ssj-area-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem; width: 100%;
+  padding: 1rem 0.25rem; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer;
+}
+.ssj-area-head:focus-visible { outline: 2px solid var(--ssj-cyan); outline-offset: 2px; }
+.ssj-area-title { font-size: 1rem; font-weight: 700; transition: color var(--ssj-ease); }
+.ssj-area--open .ssj-area-title { color: var(--ssj-blue); }
+
+/* plus / minus icon drawn with CSS only */
+.ssj-area-icon {
+  position: relative; flex: none; width: 1.4rem; height: 1.4rem; border-radius: 50%;
+  border: 1px solid var(--ssj-line); transition: background var(--ssj-ease), border-color var(--ssj-ease);
+}
+.ssj-area-icon::before, .ssj-area-icon::after {
+  content: ""; position: absolute; top: 50%; left: 50%; width: 0.6rem; height: 2px; border-radius: 1px;
+  background: var(--ssj-text); transform: translate(-50%, -50%); transition: transform var(--ssj-ease), background var(--ssj-ease);
+}
+.ssj-area-icon::after { transform: translate(-50%, -50%) rotate(90deg); }
+.ssj-area--open .ssj-area-icon { background: var(--ssj-blue); border-color: var(--ssj-blue); }
+.ssj-area--open .ssj-area-icon::before { background: var(--ssj-bg); }
+.ssj-area--open .ssj-area-icon::after { background: var(--ssj-bg); transform: translate(-50%, -50%) rotate(0deg); }
+
+/* smooth open / close without measuring height in JS */
+.ssj-area-body { display: grid; grid-template-rows: 0fr; visibility: hidden; transition: grid-template-rows var(--ssj-ease), visibility var(--ssj-ease); }
+.ssj-area--open .ssj-area-body { grid-template-rows: 1fr; visibility: visible; }
+.ssj-area-inner { overflow: hidden; }
+.ssj-area-text { max-width: 28rem; margin: 0; padding: 0 0.25rem 1.1rem; font-size: 0.9rem; line-height: 1.6; color: var(--ssj-muted); }
+
+/* ---- 7. FALLBACK (shown only if a part fails) -----------------------------
+   Classes : ssj-fallback */
+.ssj-fallback { margin: 0; padding: 1rem; border: 1px solid var(--ssj-line); border-radius: 0.6rem; color: var(--ssj-muted); }
+
+/* ---- 8. TABLET (max 900px) ------------------------------------------------
+   Classes : ssj-layout */
+@media (max-width: 900px) {
+  .ssj-layout { gap: 2rem; }
+}
+
+/* ---- 9. MOBILE (max 640px) : list on top, accordion below -----------------
+   Classes : ssj-layout, ssj-cat */
+@media (max-width: 640px) {
+  .ssj-layout { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+  .ssj-cat { grid-template-columns: 2rem 1fr auto; padding-inline: 0.5rem; }
+}
+
+/* ---- 10. MOTION -------------------------------------------------------------
+   Classes : all ssj- elements */
+@media (prefers-reduced-motion: reduce) {
+  .ssj-section *, .ssj-section *::before, .ssj-section *::after { transition: none; }
+}

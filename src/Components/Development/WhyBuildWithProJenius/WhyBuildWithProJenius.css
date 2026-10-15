@@ -1,0 +1,102 @@
+/* =========================================================
+   WHY BUILD WITH PROJENIUS — ROOT (all classes start with pj-development-why)
+========================================================= */
+.pj-development-why{
+  --pj-wy-bg:#091633;--pj-wy-white:#eef3ff;--pj-wy-text:#eaf0ff;--pj-wy-muted:#91a8cc;
+  --pj-wy-blue:#1d5cff;--pj-wy-blue-light:#6795ff;--pj-wy-cyan:#39d4ee;--pj-wy-border-strong:#38588d;
+  position:relative;width:100%;padding:clamp(78px,9vw,130px) 0;overflow:clip;background:var(--pj-wy-bg);color:var(--pj-wy-text);
+  font-family:"Segoe UI","Poppins",sans-serif;isolation:isolate;
+  scroll-margin-top:calc(var(--pjdev-header-h,0px) + var(--pjdev-subnav-h,0px) + 12px);
+}
+.pj-development-why::before{content:"";position:absolute;inset:0;z-index:-3;pointer-events:none;background-size:58px 58px;
+  background-image:linear-gradient(rgba(78,108,160,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(78,108,160,.035) 1px,transparent 1px)}
+.pj-development-why::after{content:"";position:absolute;right:-220px;top:15%;width:600px;height:600px;z-index:-2;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(29,92,255,.07) 0%,rgba(57,212,238,.025) 35%,transparent 72%)}
+.pj-development-why-wrap{position:relative;width:min(1240px,calc(100% - 80px));margin:0 auto}
+
+/* ---------- HEADING ---------- */
+.pj-development-why-head{max-width:820px}
+.pj-development-why-head-title{margin:0;color:var(--pj-wy-white);font-family:"Poppins","Segoe UI",sans-serif;font-size:clamp(2.1rem,4.6vw,3.9rem);font-weight:700;line-height:1.04;opacity:0;transform:translateY(18px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1)}
+.pj-development-why-head--in .pj-development-why-head-title{opacity:1;transform:none}
+
+/* ---------- GRID ---------- */
+.pj-development-why-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin-top:64px;align-items:start}
+
+/* ---------- CARD (reveal uses an animation so the stagger delay never slows hover) ---------- */
+.pj-development-why-card{position:relative;display:flex;flex-direction:column;justify-content:space-between;min-width:0;min-height:340px;padding:30px 26px 32px;overflow:hidden;border:1px solid transparent;border-radius:28px;opacity:0;
+  transition:transform .45s cubic-bezier(.22,1,.36,1),border-color .3s ease,box-shadow .35s ease,background .35s ease}
+.pj-development-why-grid--in .pj-development-why-card{opacity:1;animation:pjDevelopmentWhyReveal .75s cubic-bezier(.22,1,.36,1) backwards}
+.pj-development-why-grid--in .pj-development-why-card--2{animation-delay:.08s}
+.pj-development-why-grid--in .pj-development-why-card--3{animation-delay:.16s}
+.pj-development-why-grid--in .pj-development-why-card--4{animation-delay:.24s}
+@keyframes pjDevelopmentWhyReveal{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
+.pj-development-why-card--2,.pj-development-why-card--4{margin-top:44px}
+.pj-development-why-card--1{background:linear-gradient(180deg,#0b1735 0%,#091633 100%);border-color:rgba(39,62,103,.65)}
+.pj-development-why-card--2{background:linear-gradient(155deg,#2864ff 0%,#123fd1 100%);border-color:rgba(103,149,255,.45);color:#fff}
+.pj-development-why-card--3{background:linear-gradient(180deg,#0f1d40 0%,#0c1837 100%);border-color:var(--pj-wy-border-strong)}
+.pj-development-why-card--4{background:linear-gradient(165deg,#123a58 0%,#0b1e3f 68%,#0a1834 100%);border-color:rgba(57,212,238,.45)}
+.pj-development-why-grid--in .pj-development-why-card:hover{transform:translateY(-7px);box-shadow:0 26px 55px rgba(0,0,0,.24)}
+.pj-development-why-card--1:hover,.pj-development-why-card--3:hover{border-color:rgba(103,149,255,.58);background:linear-gradient(180deg,#0d1b3d 0%,#0a1734 100%)}
+.pj-development-why-card--2:hover{border-color:rgba(180,225,255,.65);background:linear-gradient(155deg,#3270ff 0%,#1748dc 100%);box-shadow:0 28px 60px rgba(18,63,209,.35)}
+.pj-development-why-card--4:hover{border-color:rgba(57,212,238,.75);background:linear-gradient(165deg,#154768 0%,#0c2447 68%,#0a1835 100%);box-shadow:0 28px 60px rgba(21,123,170,.23)}
+
+/* ---------- DECORATION ---------- */
+.pj-development-why-deco{position:absolute;right:-30px;top:-30px;width:150px;height:150px;pointer-events:none;opacity:.3;stroke:currentColor;stroke-width:1.2;transition:transform .6s cubic-bezier(.22,1,.36,1),opacity .35s ease}
+.pj-development-why-deco--target{color:var(--pj-wy-cyan)}
+.pj-development-why-deco--route{color:#fff}
+.pj-development-why-card:hover .pj-development-why-deco{transform:translate(-7px,7px) rotate(3deg);opacity:.42}
+
+/* ---------- ICON ---------- */
+.pj-development-why-icon-wrap{position:relative;z-index:2;display:grid;place-items:center;width:50px;height:50px;margin-bottom:58px;border-radius:14px;background:rgba(29,92,255,.12);transition:transform .4s cubic-bezier(.22,1,.36,1),background .3s ease}
+.pj-development-why-icon{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;color:var(--pj-wy-blue-light);transition:transform .4s cubic-bezier(.22,1,.36,1),color .3s ease}
+.pj-development-why-card--1 .pj-development-why-icon-wrap{background:rgba(61,217,238,.08)}
+.pj-development-why-card--1 .pj-development-why-icon{color:var(--pj-wy-cyan)}
+.pj-development-why-card--2 .pj-development-why-icon-wrap{background:rgba(255,255,255,.13)}
+.pj-development-why-card--2 .pj-development-why-icon{color:#fff}
+.pj-development-why-card:hover .pj-development-why-icon-wrap{transform:translateY(-3px);background:var(--pj-wy-blue)}
+.pj-development-why-card--1:hover .pj-development-why-icon-wrap{background:var(--pj-wy-cyan)}
+.pj-development-why-card:hover .pj-development-why-icon{transform:scale(1.1);color:#fff}
+
+/* ---------- CONTENT ---------- */
+.pj-development-why-content{position:relative;z-index:2}
+.pj-development-why-num{display:block;margin-bottom:7px;font-family:"Poppins","Segoe UI",sans-serif;font-size:.9rem;font-weight:700;line-height:1;letter-spacing:.05em;color:var(--pj-wy-cyan)}
+.pj-development-why-card--2 .pj-development-why-num{color:#b8f5ff}
+.pj-development-why-title{margin:0;color:currentColor;font-family:"Poppins","Segoe UI",sans-serif;font-size:clamp(1.25rem,1.9vw,1.5rem);font-weight:700;line-height:1.08;letter-spacing:-.025em}
+.pj-development-why-text{max-width:28ch;margin:13px 0 0;color:var(--pj-wy-muted);font-size:.96rem;line-height:1.55}
+.pj-development-why-card--2 .pj-development-why-text{color:rgba(255,255,255,.84)}
+
+/* ---------- SHINE ---------- */
+.pj-development-why-card::before{content:"";position:absolute;left:-120%;top:-30%;width:75%;height:160%;transform:rotate(18deg);pointer-events:none;background:linear-gradient(90deg,transparent,rgba(255,255,255,.07),transparent);transition:left .75s cubic-bezier(.22,1,.36,1)}
+.pj-development-why-card:hover::before{left:135%}
+
+/* ---------- TABLET ---------- */
+@media (max-width:1100px){
+  .pj-development-why-wrap{width:calc(100% - 48px)}
+  .pj-development-why-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .pj-development-why-card--2,.pj-development-why-card--4{margin-top:34px}
+}
+
+/* ---------- MOBILE ---------- */
+@media (max-width:720px){
+  .pj-development-why{padding:70px 0 80px}
+  .pj-development-why-wrap{width:calc(100% - 28px)}
+  .pj-development-why-grid{grid-template-columns:1fr;gap:16px;margin-top:42px}
+  .pj-development-why-card,.pj-development-why-card--2,.pj-development-why-card--4{min-height:300px;margin-top:0;padding:26px 23px 30px;border-radius:23px}
+  .pj-development-why-icon-wrap{margin-bottom:42px}
+  .pj-development-why-text{max-width:34ch}
+}
+@media (max-width:420px){
+  .pj-development-why-wrap{width:calc(100% - 20px)}
+  .pj-development-why-card{min-height:280px}
+  .pj-development-why-title{font-size:1.2rem}
+  .pj-development-why-text{font-size:.9rem}
+  .pj-development-why-deco{width:125px;height:125px}
+}
+
+/* ---------- REDUCED MOTION ---------- */
+@media (prefers-reduced-motion:reduce){
+  .pj-development-why-head-title{opacity:1;transform:none;transition:none}
+  .pj-development-why-card{opacity:1;transform:none;transition:none}
+  .pj-development-why-grid--in .pj-development-why-card{animation:none}
+  .pj-development-why-deco,.pj-development-why-icon-wrap,.pj-development-why-icon,.pj-development-why-card::before{transition:none}
+}

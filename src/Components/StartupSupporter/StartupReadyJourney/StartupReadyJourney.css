@@ -1,0 +1,704 @@
+/* ==========================================================================
+   StartupReadyJourney.css
+   --------------------------------------------------------------------------
+   - Every class starts with "pjsrj-" so it can never clash with other code.
+   - No @import here. Load the two fonts once in your index.html:
+     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+   - Sections:
+       1 Variables      6 Buttons         11 Stage labels
+       2 Section frame  7 Hint line       12 Ruler + side text
+       3 Background     8 Route frame     13 Animations
+       4 Layout         9 Curve           14 Responsive
+       5 Text           10 Stage nodes    15 Safety
+   ========================================================================== */
+
+
+/* ==========================================================================
+   1. VARIABLES  (.pjsrj-journey)
+   Every colour and size lives here once. Media queries only change values.
+   ========================================================================== */
+.pjsrj-journey {
+  --pjsrj-bg: #08111e;
+  --pjsrj-line: rgba(70, 110, 190, 0.07);
+  --pjsrj-white: #f4f7ff;
+  --pjsrj-text: #b4bdd2;
+  --pjsrj-muted: #7e8aa6;
+  --pjsrj-faint: #5a6784;
+  --pjsrj-eyebrow: #84a0d8;
+  --pjsrj-blue: #6f9fff;
+  --pjsrj-cyan: #54e3f2;
+  --pjsrj-violet: #8d98f5;
+  --pjsrj-panel: rgba(12, 24, 44, 0.7);
+  --pjsrj-border: rgba(110, 140, 220, 0.25);
+
+  --pjsrj-font-body: "Noto Sans", "Segoe UI", Roboto, Arial, sans-serif;
+  --pjsrj-font-mono: "JetBrains Mono", "Fira Code", "SFMono-Regular", Consolas,
+    "Liberation Mono", monospace;
+
+  --pjsrj-size-eyebrow: clamp(0.7rem, 0.9vw, 1rem);
+  --pjsrj-size-title: clamp(2.3rem, 4.4vw, 5.4rem);
+  --pjsrj-size-text: clamp(1rem, 1.35vw, 1.6rem);
+  --pjsrj-size-button: clamp(0.92rem, 1.2vw, 1.4rem);
+  --pjsrj-size-hint: clamp(0.7rem, 0.85vw, 1rem);
+  --pjsrj-size-label: clamp(0.78rem, 1.15vw, 1.3rem);
+  --pjsrj-size-note: clamp(0.74rem, 1vw, 1.15rem);
+
+  --pjsrj-pad-block: clamp(56px, 8vw, 120px);
+  --pjsrj-pad-inline: clamp(16px, 1.5vw, 28px);
+  --pjsrj-track-width: 270px;
+  --pjsrj-node: clamp(46px, 3.2vw, 62px);
+  --pjsrj-halo: clamp(210px, 17.6vw, 330px);
+  --pjsrj-label-gap: 18px;
+  --pjsrj-label-max: none;
+}
+
+
+/* ==========================================================================
+   2. SECTION FRAME  (.pjsrj-journey)
+   ========================================================================== */
+.pjsrj-journey {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  padding: var(--pjsrj-pad-block) var(--pjsrj-pad-inline);
+  overflow: hidden;
+  color: var(--pjsrj-white);
+  font-family: var(--pjsrj-font-body);
+  background: var(--pjsrj-bg);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 1200px;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+.pjsrj-journey *,
+.pjsrj-journey *::before,
+.pjsrj-journey *::after {
+  box-sizing: border-box;
+}
+
+
+/* ==========================================================================
+   3. BACKGROUND  (.pjsrj-journey__grid, .pjsrj-journey__glow)
+   Faint square grid that fades downward, plus a soft blue glow top right.
+   ========================================================================== */
+.pjsrj-journey__grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: linear-gradient(var(--pjsrj-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--pjsrj-line) 1px, transparent 1px);
+  background-size: 84px 84px;
+  -webkit-mask-image: linear-gradient(to bottom, #000 35%, transparent 95%);
+  mask-image: linear-gradient(to bottom, #000 35%, transparent 95%);
+}
+
+.pjsrj-journey__glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 55% 45% at 72% 22%,
+    rgba(30, 70, 140, 0.38),
+    transparent 70%
+  );
+}
+
+
+/* ==========================================================================
+   4. LAYOUT  (.pjsrj-journey__inner)
+   Two equal columns: text on the left, route on the right.
+   ========================================================================== */
+.pjsrj-journey__inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: center;
+  column-gap: clamp(24px, 5vw, 110px);
+  width: 100%;
+  max-width: 1840px;
+  margin: 0 auto;
+}
+
+.pjsrj-journey__copy {
+  min-width: 0;
+}
+
+
+/* ==========================================================================
+   5. TEXT  (.pjsrj-journey__eyebrow, __title, __title-accent, __text)
+   ========================================================================== */
+.pjsrj-journey__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin: 0 0 clamp(8px, 1vw, 16px);
+  font-family: var(--pjsrj-font-mono);
+  font-size: var(--pjsrj-size-eyebrow);
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--pjsrj-eyebrow);
+}
+
+.pjsrj-journey__eyebrow::before {
+  content: "";
+  flex: none;
+  width: 38px;
+  height: 1px;
+  background: var(--pjsrj-blue);
+}
+
+.pjsrj-journey__title {
+  margin: 0;
+  font-size: var(--pjsrj-size-title);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  color: var(--pjsrj-white);
+  overflow-wrap: break-word;
+}
+
+.pjsrj-journey__title-accent {
+  display: block;
+  color: var(--pjsrj-cyan);
+  background: linear-gradient(90deg, var(--pjsrj-blue), var(--pjsrj-cyan));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.pjsrj-journey__text {
+  max-width: 34em;
+  margin: 0.4em 0 0;
+  font-size: var(--pjsrj-size-text);
+  font-weight: 400;
+  line-height: 1.8;
+  color: var(--pjsrj-text);
+}
+
+
+/* ==========================================================================
+   6. BUTTONS  (.pjsrj-journey__actions, __btn, __btn--outline, __btn-icon)
+   ========================================================================== */
+.pjsrj-journey__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin-top: clamp(14px, 1.3vw, 24px);
+}
+
+.pjsrj-journey__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8em;
+  padding: 1.15em 1.5em;
+  border: 1px solid transparent;
+  border-radius: 14px;
+  font-family: inherit;
+  font-size: var(--pjsrj-size-button);
+  font-weight: 500;
+  line-height: 1.2;
+  text-decoration: none;
+  color: var(--pjsrj-white);
+  transition: transform 0.25s ease, border-color 0.25s ease,
+    color 0.25s ease;
+}
+
+.pjsrj-journey__btn--outline {
+  font-weight: 600;
+  border-color: var(--pjsrj-border);
+  background: var(--pjsrj-panel);
+}
+
+.pjsrj-journey__btn-icon {
+  display: inline-block;
+  transition: transform 0.25s ease;
+}
+
+.pjsrj-journey__btn:focus-visible {
+  outline: 2px solid var(--pjsrj-cyan);
+  outline-offset: 3px;
+}
+
+@media (hover: hover) {
+  .pjsrj-journey__btn:hover {
+    color: var(--pjsrj-cyan);
+  }
+
+  .pjsrj-journey__btn--outline:hover {
+    border-color: var(--pjsrj-cyan);
+    transform: translateY(-2px);
+  }
+
+  .pjsrj-journey__btn:hover .pjsrj-journey__btn-icon {
+    transform: translateX(4px);
+  }
+
+  .pjsrj-journey__btn--outline:hover .pjsrj-journey__btn-icon {
+    transform: translateY(3px);
+  }
+}
+
+
+/* ==========================================================================
+   7. HINT LINE  (.pjsrj-journey__hint, __hint-dot)
+   ========================================================================== */
+.pjsrj-journey__hint {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: clamp(10px, 1vw, 18px) 0 0;
+  font-family: var(--pjsrj-font-mono);
+  font-size: var(--pjsrj-size-hint);
+  color: var(--pjsrj-muted);
+}
+
+.pjsrj-journey__hint-dot {
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--pjsrj-cyan);
+  box-shadow: 0 0 0 5px rgba(84, 227, 242, 0.16);
+}
+
+
+/* ==========================================================================
+   8. ROUTE FRAME  (.pjsrj-journey__route, __track, __halo)
+   "route" is the whole right column. "track" is the narrow box between the
+   left and right nodes; labels hang outside it on both sides.
+   ========================================================================== */
+.pjsrj-journey__route {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+}
+
+.pjsrj-journey__track {
+  position: relative;
+  flex: none;
+  width: var(--pjsrj-track-width);
+  aspect-ratio: 27 / 100;
+}
+
+/* Big faint circle around the first node (solid outer, dashed inner) */
+.pjsrj-journey__halo {
+  position: absolute;
+  top: 3%;
+  left: 0;
+  width: var(--pjsrj-halo);
+  height: var(--pjsrj-halo);
+  border: 1px solid rgba(110, 140, 200, 0.18);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.pjsrj-journey__halo::before {
+  content: "";
+  position: absolute;
+  inset: 17%;
+  border: 1px dashed rgba(110, 150, 210, 0.22);
+  border-radius: 50%;
+  animation: pjsrj-journey-spin 80s linear infinite;
+}
+
+
+/* ==========================================================================
+   9. CURVE  (.pjsrj-journey__curve, __curve-line, __curve-ghost, __curve-dot)
+   ========================================================================== */
+.pjsrj-journey__curve {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.pjsrj-journey__curve-line,
+.pjsrj-journey__curve-ghost,
+.pjsrj-journey__curve-dot {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.pjsrj-journey__curve-line {
+  stroke-width: 3.2;
+  filter: drop-shadow(0 0 5px rgba(80, 200, 255, 0.45));
+}
+
+.pjsrj-journey__curve-ghost {
+  stroke: rgba(120, 170, 255, 0.28);
+  stroke-width: 2;
+  stroke-dasharray: 1 7;
+  transform: translate(14px, -12px);
+}
+
+/* A tiny dash on a 0-100 scaled path: with round caps it looks like a dot */
+.pjsrj-journey__curve-dot {
+  stroke: #ffffff;
+  stroke-width: 7;
+  stroke-dasharray: 0.01 100;
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.9));
+  animation: pjsrj-journey-travel 7s linear infinite;
+}
+
+.pjsrj-journey__stop-start {
+  stop-color: var(--pjsrj-blue);
+}
+
+.pjsrj-journey__stop-mid {
+  stop-color: #3fd9ee;
+}
+
+.pjsrj-journey__stop-end {
+  stop-color: var(--pjsrj-violet);
+}
+
+
+/* ==========================================================================
+   10. STAGE NODES  (.pjsrj-journey__stages, __stage, __node)
+   Each stage gets its position from two variables (--x and --y):
+   --x comes from the side (left / right), --y from the order in the list.
+   ========================================================================== */
+.pjsrj-journey__stages {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pjsrj-journey__stage {
+  position: absolute;
+  top: var(--y);
+  left: var(--x);
+  width: var(--pjsrj-node);
+  height: var(--pjsrj-node);
+  transform: translate(-50%, -50%);
+}
+
+.pjsrj-journey__stage--left { --x: 0%; }
+.pjsrj-journey__stage--right { --x: 100%; }
+
+.pjsrj-journey__stage:nth-child(1) { --y: 3%; }
+.pjsrj-journey__stage:nth-child(2) { --y: 20.4%; }
+.pjsrj-journey__stage:nth-child(3) { --y: 37.8%; }
+.pjsrj-journey__stage:nth-child(4) { --y: 55.2%; }
+.pjsrj-journey__stage:nth-child(5) { --y: 72.6%; }
+.pjsrj-journey__stage:nth-child(6) { --y: 90%; }
+
+.pjsrj-journey__node {
+  position: absolute;
+  inset: 0;
+  border: 2px solid var(--pjsrj-cyan);
+  border-radius: 50%;
+  background: #07111f;
+  box-shadow: 0 0 16px rgba(84, 227, 242, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Inner dot */
+.pjsrj-journey__node::after {
+  content: "";
+  position: absolute;
+  inset: 31%;
+  border-radius: 50%;
+  background: var(--pjsrj-cyan);
+}
+
+/* Outer decoration: soft glow on left stages, thin ring on right stages */
+.pjsrj-journey__node::before {
+  content: "";
+  position: absolute;
+  inset: -45%;
+  border-radius: 50%;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.pjsrj-journey__stage--left .pjsrj-journey__node::before {
+  background: radial-gradient(
+    circle,
+    rgba(60, 140, 255, 0.32),
+    transparent 68%
+  );
+}
+
+.pjsrj-journey__stage--right .pjsrj-journey__node::before {
+  inset: -40%;
+  border: 2px solid rgba(84, 227, 242, 0.26);
+  background: rgba(84, 227, 242, 0.05);
+}
+
+@media (hover: hover) {
+  .pjsrj-journey__stage:hover .pjsrj-journey__node {
+    transform: scale(1.12);
+    box-shadow: 0 0 28px rgba(84, 227, 242, 0.6);
+  }
+
+  .pjsrj-journey__stage:hover .pjsrj-journey__node::before {
+    transform: scale(1.12);
+  }
+}
+
+
+/* ==========================================================================
+   11. STAGE LABELS  (.pjsrj-journey__label, __label-title, __label-note)
+   Left stages put the label on the left (right-aligned), right stages on
+   the right (left-aligned).
+   ========================================================================== */
+.pjsrj-journey__label {
+  position: absolute;
+  top: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: var(--pjsrj-label-max);
+  transform: translateY(-50%);
+  white-space: nowrap;
+}
+
+.pjsrj-journey__stage--left .pjsrj-journey__label {
+  right: calc(100% + var(--pjsrj-label-gap));
+  align-items: flex-end;
+  text-align: right;
+}
+
+.pjsrj-journey__stage--right .pjsrj-journey__label {
+  left: calc(100% + var(--pjsrj-label-gap));
+  align-items: flex-start;
+  text-align: left;
+}
+
+.pjsrj-journey__label-title {
+  font-family: var(--pjsrj-font-mono);
+  font-size: var(--pjsrj-size-label);
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--pjsrj-white);
+  transition: color 0.3s ease;
+}
+
+.pjsrj-journey__label-note {
+  font-size: var(--pjsrj-size-note);
+  font-weight: 500;
+  line-height: 1.35;
+  color: #a8b2cb;
+  transition: color 0.3s ease;
+}
+
+@media (hover: hover) {
+  .pjsrj-journey__stage:hover .pjsrj-journey__label-title {
+    color: var(--pjsrj-cyan);
+  }
+
+  .pjsrj-journey__stage:hover .pjsrj-journey__label-note {
+    color: var(--pjsrj-white);
+  }
+}
+
+
+/* ==========================================================================
+   12. RULER + SIDE TEXT  (.pjsrj-journey__ruler, __tick, __side-text)
+   ========================================================================== */
+.pjsrj-journey__ruler {
+  position: absolute;
+  top: 4%;
+  bottom: 6%;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.pjsrj-journey__tick {
+  width: 10px;
+  height: 1px;
+  background: rgba(120, 150, 200, 0.3);
+}
+
+/* Every 5th tick (1st, 6th, 11th ...) is longer */
+.pjsrj-journey__tick:nth-child(5n + 1) {
+  width: 24px;
+  background: rgba(120, 150, 200, 0.5);
+}
+
+.pjsrj-journey__side-text {
+  position: absolute;
+  top: 48%;
+  right: 0;
+  margin: 0;
+  font-family: var(--pjsrj-font-mono);
+  font-size: clamp(0.6rem, 0.75vw, 0.85rem);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--pjsrj-faint);
+  writing-mode: vertical-rl;
+  pointer-events: none;
+}
+
+
+/* ==========================================================================
+   13. ANIMATIONS
+   Only transform and one stroke offset are animated, so nothing re-lays out.
+   ========================================================================== */
+@keyframes pjsrj-journey-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pjsrj-journey-travel {
+  from {
+    stroke-dashoffset: 0;
+  }
+
+  to {
+    stroke-dashoffset: -100.01;
+  }
+}
+
+
+/* ==========================================================================
+   14. RESPONSIVE
+   Large desktop (default above) | Laptop | Tablet | Mobile
+   ========================================================================== */
+
+/* ----- Laptop (up to 1280px) ----- */
+@media (max-width: 1280px) {
+  .pjsrj-journey {
+    --pjsrj-track-width: 230px;
+    --pjsrj-label-gap: 14px;
+  }
+}
+
+/* ----- Tablet (up to 899px): text on top, route below ----- */
+@media (max-width: 899px) {
+  .pjsrj-journey {
+    --pjsrj-pad-inline: clamp(20px, 5vw, 48px);
+    --pjsrj-track-width: 220px;
+    --pjsrj-size-eyebrow: 0.78rem;
+    --pjsrj-size-title: clamp(2.2rem, 7vw, 3.6rem);
+    --pjsrj-size-text: clamp(1rem, 2.4vw, 1.25rem);
+    --pjsrj-size-button: 1rem;
+    --pjsrj-size-hint: 0.78rem;
+    --pjsrj-size-label: 0.95rem;
+    --pjsrj-size-note: 0.9rem;
+  }
+
+  .pjsrj-journey__inner {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: clamp(40px, 8vw, 72px);
+  }
+
+  .pjsrj-journey__side-text {
+    display: none;
+  }
+}
+
+/* ----- Mobile (up to 599px): narrow route, labels may wrap ----- */
+@media (max-width: 599px) {
+  .pjsrj-journey {
+    --pjsrj-pad-inline: 18px;
+    --pjsrj-track-width: 130px;
+    --pjsrj-node: 40px;
+    --pjsrj-halo: 150px;
+    --pjsrj-label-gap: 12px;
+    --pjsrj-label-max: calc((100vw - 130px - 36px) / 2 - 40px);
+    --pjsrj-size-title: clamp(2rem, 10vw, 2.6rem);
+    --pjsrj-size-label: 0.78rem;
+    --pjsrj-size-note: 0.78rem;
+  }
+
+  .pjsrj-journey__label {
+    white-space: normal;
+  }
+
+  .pjsrj-journey__label-title {
+    letter-spacing: 0.12em;
+  }
+
+  .pjsrj-journey__ruler {
+    display: none;
+  }
+
+  .pjsrj-journey__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .pjsrj-journey__btn {
+    justify-content: center;
+  }
+}
+
+
+/* ==========================================================================
+   15. SAFETY
+   Reduced motion, high-contrast mode, printing, no-clip-text fallback.
+   ========================================================================== */
+
+/* People who turn off animations in their device settings get a still page */
+@media (prefers-reduced-motion: reduce) {
+  .pjsrj-journey__halo::before,
+  .pjsrj-journey__curve-dot {
+    animation: none;
+  }
+
+  .pjsrj-journey__btn,
+  .pjsrj-journey__btn-icon,
+  .pjsrj-journey__node,
+  .pjsrj-journey__node::before,
+  .pjsrj-journey__label-title,
+  .pjsrj-journey__label-note {
+    transition: none;
+  }
+
+  .pjsrj-journey__curve-dot {
+    display: none;
+  }
+}
+
+/* Browsers that cannot clip a gradient to text keep a plain cyan heading */
+@supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+  .pjsrj-journey__title-accent {
+    background: none;
+    -webkit-text-fill-color: currentColor;
+  }
+}
+
+/* Windows high-contrast mode: keep lines and nodes visible */
+@media (forced-colors: active) {
+  .pjsrj-journey__node {
+    border-color: CanvasText;
+  }
+
+  .pjsrj-journey__curve-line {
+    stroke: CanvasText;
+  }
+
+  .pjsrj-journey__btn--outline {
+    border-color: CanvasText;
+  }
+}
+
+/* Printing: no animation, no cut-off content */
+@media print {
+  .pjsrj-journey {
+    content-visibility: visible;
+  }
+
+  .pjsrj-journey__halo::before,
+  .pjsrj-journey__curve-dot {
+    animation: none;
+  }
+}

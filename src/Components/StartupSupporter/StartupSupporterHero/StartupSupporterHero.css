@@ -1,0 +1,343 @@
+/* ==========================================================================
+   StartupSupporterHero.css
+   --------------------------------------------------------------------------
+   - Every class starts with "pjssh-" so it can never clash with other code.
+   - No @import here. Load the Poppins font once in your index.html:
+     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+   - Sections: 1 Variables | 2 Hero frame | 3 Glow | 4 Dots | 5 Text
+                6 Side circles | 7 Wave | 8 Animation | 9 Responsive | 10 Safety
+   ========================================================================== */
+
+
+/* ==========================================================================
+   1. VARIABLES  (.pjssh-hero)
+   All sizes are defined here once; media queries below only change values.
+   ========================================================================== */
+.pjssh-hero {
+  --pjssh-bg: #070e22;
+  --pjssh-accent: #33ccff;
+  --pjssh-text-main: #f4f6ff;
+  --pjssh-text-soft: #a9adb8;
+  --pjssh-dot: #1e7ec0;
+
+  --pjssh-pad-left: clamp(20px, 3.4vw, 64px);
+  --pjssh-pad-right: clamp(20px, 6vw, 110px);
+  --pjssh-pad-bottom: 14vh;
+  --pjssh-wave-height: 12vh;
+
+  --pjssh-size-eyebrow: clamp(1.1rem, min(1.8vw, 3.6vh), 2.2rem);
+  --pjssh-size-title: clamp(1.75rem, min(5.2vw, 11vh), 6.6rem);
+  --pjssh-size-text: clamp(0.9rem, min(1.5vw, 3vh), 1.9rem);
+  --pjssh-size-orb-text: clamp(0.7rem, 2.2vh, 1.1rem);
+
+  --pjssh-orb-ring: 26vh;
+  --pjssh-orb-soft: 20vh;
+  --pjssh-orb-gap: 4vh;
+}
+
+
+/* ==========================================================================
+   2. HERO FRAME  (.pjssh-hero)
+   Exactly one screen tall, never scrolls, text column + circles column.
+   ========================================================================== */
+.pjssh-hero {
+  position: relative;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 48px;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  padding: 0 var(--pjssh-pad-right) var(--pjssh-pad-bottom) var(--pjssh-pad-left);
+  overflow: hidden;
+  contain: layout paint;
+  color: #ffffff;
+  font-family: "Poppins", "Segoe UI", Roboto, Arial, sans-serif;
+  background: radial-gradient(
+      ellipse at 75% 40%,
+      rgba(20, 60, 110, 0.35) 0%,
+      rgba(8, 16, 36, 0) 60%
+    ),
+    var(--pjssh-bg);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+.pjssh-hero *,
+.pjssh-hero *::before,
+.pjssh-hero *::after {
+  box-sizing: border-box;
+}
+
+
+/* ==========================================================================
+   3. GLOW  (.pjssh-hero__glow)
+   ========================================================================== */
+.pjssh-hero__glow {
+  position: absolute;
+  top: 10%;
+  right: 5%;
+  width: min(600px, 60vh);
+  height: min(600px, 60vh);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(30, 100, 180, 0.18), transparent 70%);
+  pointer-events: none;
+}
+
+
+/* ==========================================================================
+   4. FLOATING DOTS  (.pjssh-hero__dots, .pjssh-hero__dot)
+   Each dot reads its own position/size/delay from the variables below.
+   ========================================================================== */
+.pjssh-hero__dots {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.pjssh-hero__dot {
+  position: absolute;
+  top: var(--y);
+  left: var(--x);
+  width: var(--s);
+  height: var(--s);
+  border-radius: 50%;
+  background: var(--pjssh-dot);
+  opacity: 0.75;
+  animation: pjssh-hero-float 5s ease-in-out var(--d) infinite;
+  will-change: transform;
+}
+
+.pjssh-hero__dot:nth-child(1) { --x: 12%; --y: 24%; --s: 14px; --d: 0s; }
+.pjssh-hero__dot:nth-child(2) { --x: 70%; --y: 20%; --s: 18px; --d: 0.7s; }
+.pjssh-hero__dot:nth-child(3) { --x: 88%; --y: 31%; --s: 20px; --d: 1.4s; }
+.pjssh-hero__dot:nth-child(4) { --x: 55%; --y: 55%; --s: 7px;  --d: 2.1s; }
+.pjssh-hero__dot:nth-child(5) { --x: 81%; --y: 72%; --s: 12px; --d: 2.8s; }
+
+
+/* ==========================================================================
+   5. TEXT CONTENT  (.pjssh-hero__content, __eyebrow, __title, __accent, __text)
+   ========================================================================== */
+.pjssh-hero__content {
+  position: relative;
+  z-index: 2;
+  min-width: 0;
+  margin-top: 20px;
+}
+
+.pjssh-hero__eyebrow {
+  margin: 0 0 4px;
+  font-size: var(--pjssh-size-eyebrow);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  color: #ffffff;
+}
+
+.pjssh-hero__title {
+  margin: 0;
+  font-size: var(--pjssh-size-title);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  color: var(--pjssh-text-main);
+  overflow-wrap: break-word;
+}
+
+.pjssh-hero__accent {
+  color: var(--pjssh-accent);
+}
+
+.pjssh-hero__text {
+  margin: 1.5vh 0 0;
+  max-width: 1100px;
+  font-size: var(--pjssh-size-text);
+  font-weight: 400;
+  line-height: 1.65;
+  color: var(--pjssh-text-soft);
+}
+
+
+/* ==========================================================================
+   6. SIDE CIRCLES  (.pjssh-hero__orbs, .pjssh-hero__orb)
+   First circle = large glowing ring, the others = soft faint circles.
+   ========================================================================== */
+.pjssh-hero__orbs {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--pjssh-orb-gap);
+  width: var(--pjssh-orb-ring);
+  pointer-events: none;
+}
+
+.pjssh-hero__orb {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: var(--pjssh-orb-soft);
+  height: var(--pjssh-orb-soft);
+  border: 2px solid rgba(30, 100, 170, 0.18);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(20, 50, 90, 0.35), rgba(7, 14, 34, 0) 75%);
+  box-shadow: 0 0 30px rgba(30, 100, 180, 0.12);
+  font-size: var(--pjssh-size-orb-text);
+  font-weight: 500;
+  line-height: 1.5;
+  text-align: center;
+  white-space: nowrap;
+  color: #ffffff;
+  animation: pjssh-hero-float 6s ease-in-out infinite;
+  will-change: transform;
+}
+
+.pjssh-hero__orb:first-child {
+  width: var(--pjssh-orb-ring);
+  height: var(--pjssh-orb-ring);
+  border: 4px solid rgba(20, 90, 150, 0.7);
+  background: radial-gradient(circle, rgba(10, 30, 60, 0.6), rgba(7, 14, 34, 0.2));
+  box-shadow: 0 0 40px rgba(30, 140, 220, 0.25),
+    inset 0 0 40px rgba(30, 140, 220, 0.15);
+}
+
+.pjssh-hero__orb:nth-child(2) { animation-delay: 1.2s; }
+.pjssh-hero__orb:nth-child(3) { animation-delay: 2.4s; }
+
+
+/* ==========================================================================
+   7. BOTTOM WAVE  (.pjssh-hero__wave, __wave-edge, __wave-base)
+   ========================================================================== */
+.pjssh-hero__wave {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  z-index: 3;
+  display: block;
+  width: 100%;
+  height: var(--pjssh-wave-height);
+}
+
+.pjssh-hero__wave-edge {
+  fill: var(--pjssh-accent);
+}
+
+.pjssh-hero__wave-base {
+  fill: #ffffff;
+}
+
+
+/* ==========================================================================
+   8. ANIMATION  (@keyframes pjssh-hero-float)
+   Only "transform" is animated, so it runs on the GPU without re-layout.
+   ========================================================================== */
+@keyframes pjssh-hero-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -14px, 0);
+  }
+}
+
+
+/* ==========================================================================
+   9. RESPONSIVE
+   Large desktop (default above) | Laptop | Tablet | Mobile | Short screens
+   ========================================================================== */
+
+/* ----- Laptop (up to 1280px) ----- */
+@media (max-width: 1280px) {
+  .pjssh-hero {
+    column-gap: 32px;
+  }
+}
+
+/* ----- Tablet (up to 899px): circles hidden, text uses the full width ----- */
+@media (max-width: 899px) {
+  .pjssh-hero {
+    grid-template-columns: minmax(0, 1fr);
+    --pjssh-size-eyebrow: clamp(1.1rem, min(3vw, 3.6vh), 1.8rem);
+    --pjssh-size-title: clamp(1.75rem, min(7vw, 9vh), 4.2rem);
+    --pjssh-size-text: clamp(0.95rem, min(2.4vw, 3vh), 1.5rem);
+    --pjssh-pad-right: clamp(20px, 5vw, 48px);
+  }
+
+  .pjssh-hero__orbs {
+    display: none;
+  }
+}
+
+/* ----- Mobile (up to 599px) ----- */
+@media (max-width: 599px) {
+  .pjssh-hero {
+    --pjssh-pad-left: 20px;
+    --pjssh-pad-right: 20px;
+    --pjssh-pad-bottom: 11vh;
+    --pjssh-wave-height: 9vh;
+    --pjssh-size-eyebrow: clamp(1rem, min(5vw, 3.4vh), 1.4rem);
+    --pjssh-size-title: clamp(1.6rem, min(9.5vw, 7.5vh), 3rem);
+    --pjssh-size-text: clamp(0.85rem, min(4vw, 2.8vh), 1.15rem);
+  }
+
+  .pjssh-hero__title {
+    letter-spacing: -0.03em;
+  }
+
+  .pjssh-hero__text {
+    line-height: 1.55;
+  }
+}
+
+/* ----- Short screens, e.g. phones turned sideways ----- */
+@media (max-height: 480px) {
+  .pjssh-hero {
+    --pjssh-pad-bottom: 16vh;
+    --pjssh-wave-height: 14vh;
+  }
+
+  .pjssh-hero__content {
+    margin-top: 0;
+  }
+}
+
+
+/* ==========================================================================
+   10. SAFETY
+   Reduced motion, high-contrast mode, printing.
+   ========================================================================== */
+
+/* People who turn off animations in their device settings get a still page */
+@media (prefers-reduced-motion: reduce) {
+  .pjssh-hero__dot,
+  .pjssh-hero__orb {
+    animation: none;
+    will-change: auto;
+  }
+}
+
+/* Windows high-contrast mode: keep the circles visible */
+@media (forced-colors: active) {
+  .pjssh-hero__orb {
+    border-color: CanvasText;
+  }
+}
+
+/* Printing: drop the animation hints and let the page flow normally */
+@media print {
+  .pjssh-hero {
+    height: auto;
+    min-height: 0;
+  }
+
+  .pjssh-hero__dot,
+  .pjssh-hero__orb {
+    animation: none;
+  }
+}
