@@ -127,6 +127,60 @@
 
 
 /* =========================================================
+   TYPEWRITER (blue words)
+   - sizer : invisible full text, reserves the width so the
+             title never shifts while typing
+   - live  : sits on top of the sizer, holds typed text + cursor
+   Loop: type -> hold (cursor blinks) -> delete -> pause -> type
+========================================================= */
+
+.testi-type {
+    position: relative;
+    display: inline-block;
+    white-space: nowrap;
+    vertical-align: baseline;
+}
+
+.testi-type-sizer {
+    visibility: hidden;
+}
+
+.testi-type-live {
+    position: absolute;
+    top: 0;
+    left: 0;
+    white-space: nowrap;
+}
+
+/* glowing cyan cursor */
+.testi-cursor {
+    display: inline-block;
+    width: 4px;
+    height: 0.82em;
+    margin-left: 5px;
+    vertical-align: -0.04em;
+    border-radius: 2px;
+    background: #35CEFF;
+    box-shadow:
+        0 0 6px rgba(53, 206, 255, 0.9),
+        0 0 14px rgba(53, 206, 255, 0.55);
+    animation: testi-cursor-blink 1s ease-in-out infinite;
+}
+
+/* solid while letters are moving, blinks while the text rests */
+.testi-cursor.is-typing {
+    animation: none;
+    opacity: 1;
+}
+
+@keyframes testi-cursor-blink {
+    0%, 45%  { opacity: 1; }
+    55%, 95% { opacity: 0; }
+    100%     { opacity: 1; }
+}
+
+
+/* =========================================================
    STATIC LINE
    NO BLINKING
 ========================================================= */
@@ -773,6 +827,11 @@
         letter-spacing: -0.8px;
     }
 
+    .testi-cursor {
+        width: 3px;
+        margin-left: 3px;
+    }
+
     .testi-subtitle {
         font-size: 15px;
     }
@@ -924,5 +983,11 @@
     .testi-arrow,
     .testi-dot {
         transition: none;
+    }
+
+    /* no typing, so no cursor either */
+    .testi-cursor {
+        animation: none;
+        opacity: 0;
     }
 }

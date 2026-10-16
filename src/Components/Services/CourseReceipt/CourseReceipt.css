@@ -1,0 +1,50 @@
+.course-receipt-page {
+  display: grid;
+  min-height: 60vh;
+  place-items: center;
+  padding: 48px 20px;
+  background: #f4f8fc;
+  color: #142b43;
+}
+
+.course-receipt-card {
+  width: min(100%, 620px);
+  padding: clamp(24px, 5vw, 44px);
+  border: 1px solid #d9e6f3;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 14px 40px rgba(15, 58, 92, 0.08);
+}
+
+.course-receipt-card h1 {
+  margin: 6px 0 14px;
+  color: #0a347f;
+  font-size: clamp(26px, 4vw, 36px);
+}
+
+.course-receipt-card p {
+  line-height: 1.65;
+}
+
+.course-receipt-eyebrow {
+  margin: 0;
+  color: #087cab;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.course-receipt-card a {
+  display: inline-block;
+  margin: 10px 14px 0 0;
+  color: #0a347f;
+  font-weight: 650;
+}
+
+.course-receipt-card .course-receipt-download {
+  padding: 11px 16px;
+  border-radius: 8px;
+  background: #0a347f;
+  color: #fff;
+  text-decoration: none;
+}

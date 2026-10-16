@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
 
 :root {
@@ -20,7 +21,10 @@
   font-family: 'Poppins', system-ui, sans-serif;
 }
 
-.section-inner { max-width: 1220px; margin: 0 auto; }
+.section-inner {
+  max-width: 1220px;
+  margin: 0 auto;
+}
 
 /* Outlined tag */
 .section-tag {
@@ -45,8 +49,80 @@
   color: var(--navy);
 }
 
-.title-highlight { color: var(--blue); }
+.title-highlight {
+  color: var(--blue);
+}
 
+/* ---------- Typewriter effect ---------- */
+/* Keep the animated heading and cursor on the same line */
+.typed-wrap {
+  position: relative;
+  display: inline-block;
+  vertical-align: baseline;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+/* Invisible text reserves the complete heading width */
+.typed-sizer {
+  display: inline-block;
+  visibility: hidden;
+  white-space: nowrap;
+}
+
+/* Visible animated text */
+.typed-live {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  text-align: left;
+  white-space: nowrap;
+}
+
+/* Blue typing cursor */
+.typed-caret {
+  display: inline-block;
+  width: 3px;
+  height: 0.82em;
+  margin-left: 4px;
+  vertical-align: baseline;
+  border-radius: 2px;
+  background: var(--cyan);
+  box-shadow: 0 0 8px rgba(51, 204, 255, 0.7);
+  animation: typed-caret-blink 700ms steps(1) infinite;
+  white-space: nowrap;
+  flex-shrink: 0;
+  position: relative;
+}
+
+@keyframes typed-caret-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Screen-reader-only text */
+.typed-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .typed-caret {
+    animation: none;
+  }
+}
+
+/* Blue underline below the heading */
 .title-underline {
   display: block;
   width: 78px;
@@ -54,6 +130,7 @@
   margin: 8px auto 18px;
   border-radius: 4px;
   background: var(--blue);
+  flex-shrink: 0;
 }
 
 .section-description {
@@ -64,21 +141,23 @@
   color: var(--muted);
 }
 
-/* Cards grid */
+/* ---------- Founders cards grid ---------- */
 .founders-cards-container {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
 }
 
-/* Card: photo LEFT, text RIGHT */
+/* Person card */
 .person-card {
   display: flex;
   min-height: 290px;
+  min-width: 0;
   overflow: hidden;
   text-align: left;
   background: var(--card-bg);
-  border: 1px solid var(--card-border);
+  border: 1.5px solid var(--cyan);
+  box-sizing: border-box;
   border-radius: 16px;
   transition:
     opacity 0.7s ease var(--d, 0s),
@@ -88,27 +167,20 @@
     transform 0.3s ease;
 }
 
-/* Hover / keyboard focus: solid blue border + soft blue glow */
 .person-card:hover,
 .person-card:focus-within {
   border-color: var(--blue);
-  box-shadow: 0 0 0 1px var(--blue), 0 14px 32px rgba(21, 150, 216, 0.22);
+  box-shadow:
+    0 0 0 1px var(--blue),
+    0 14px 32px rgba(21, 150, 216, 0.22);
   transform: translateY(-4px);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .person-card,
-  .person-card * { transition: none !important; }
-  .person-card:not(.is-visible),
-  .person-card:not(.is-visible) * { opacity: 1 !important; translate: none !important; }
-  .person-card:hover,
-  .person-card:focus-within { transform: none; }
-}
-
-/* Photo panel: cyan background + black corner triangle */
+/* ---------- Photo panel ---------- */
 .person-photo {
   position: relative;
   flex: 0 0 41%;
+  min-width: 0;
   background: var(--cyan);
   overflow: hidden;
 }
@@ -122,6 +194,7 @@
   height: 45%;
   background: var(--black);
   clip-path: polygon(0 0, 100% 0, 0 100%);
+  z-index: 1;
 }
 
 .person-photo img {
@@ -134,31 +207,33 @@
   object-position: bottom center;
 }
 
-/* Per-person photo size (keeps heads clear of the black corner)
-   Harshini = 2nd founder card, Dr. Karthika = advisor card.
-   Lower % = smaller photo, higher % = bigger photo. */
+/* Founder and leadership photo sizing */
 .founders-cards-container .person-card:nth-child(2) .person-photo img,
 .leader-cards-container .person-card .person-photo img {
   height: 90%;
 }
 
-/* Social pill over the photo */
+/* ---------- Social links ---------- */
 .person-socials {
   position: absolute;
   left: 50%;
   bottom: 10px;
   transform: translateX(-50%);
   display: flex;
+  align-items: center;
   gap: 16px;
   padding: 10px 18px;
   border-radius: 999px;
   background: rgba(11, 21, 48, 0.92);
+  z-index: 2;
 }
 
 .person-socials a {
   display: flex;
   color: #fff;
-  transition: color 0.2s ease, transform 0.2s ease;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .person-socials a:hover,
@@ -167,11 +242,16 @@
   transform: translateY(-2px);
 }
 
-.person-socials svg { width: 16px; height: 16px; fill: currentColor; }
+.person-socials svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
 
-/* Text side: same start position + same type scale on every card */
+/* ---------- Text content ---------- */
 .person-text {
   flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -209,8 +289,11 @@
   color: #4a5565;
 }
 
-/* ---------- Reveal animation (runs when the card scrolls into view) ---------- */
-.person-card:not(.is-visible) { opacity: 0; translate: 0 32px; }
+/* ---------- Scroll reveal animation ---------- */
+.person-card:not(.is-visible) {
+  opacity: 0;
+  translate: 0 32px;
+}
 
 .person-name,
 .person-role,
@@ -222,20 +305,55 @@
     translate 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--t, 0s);
 }
 
-.person-name { --t: calc(var(--d, 0s) + 0.25s); }
-.person-role { --t: calc(var(--d, 0s) + 0.4s); }
-.person-photo img { --t: calc(var(--d, 0s) + 0.35s); }
-.person-bio { --t: calc(var(--d, 0s) + 0.7s); }
-.person-socials { --t: calc(var(--d, 0s) + 0.9s); }
+.person-name {
+  --t: calc(var(--d, 0s) + 0.25s);
+}
 
-.person-card:not(.is-visible) .person-name { opacity: 0; translate: 0 -14px; }
-.person-card:not(.is-visible) .person-role { opacity: 0; translate: 0 -10px; }
-.person-card:not(.is-visible) .person-bio { opacity: 0; translate: 0 16px; }
-.person-card:not(.is-visible) .person-socials { opacity: 0; translate: 0 12px; }
-.person-card:not(.is-visible) .person-photo img { opacity: 0; translate: 80px 0; }
+.person-role {
+  --t: calc(var(--d, 0s) + 0.4s);
+}
 
-/* Academic leadership: single centered card (same width as a founder card) */
-.leadership-section { padding-top: 10px; }
+.person-photo img {
+  --t: calc(var(--d, 0s) + 0.35s);
+}
+
+.person-bio {
+  --t: calc(var(--d, 0s) + 0.7s);
+}
+
+.person-socials {
+  --t: calc(var(--d, 0s) + 0.9s);
+}
+
+.person-card:not(.is-visible) .person-name {
+  opacity: 0;
+  translate: 0 -14px;
+}
+
+.person-card:not(.is-visible) .person-role {
+  opacity: 0;
+  translate: 0 -10px;
+}
+
+.person-card:not(.is-visible) .person-bio {
+  opacity: 0;
+  translate: 0 16px;
+}
+
+.person-card:not(.is-visible) .person-socials {
+  opacity: 0;
+  translate: 0 12px;
+}
+
+.person-card:not(.is-visible) .person-photo img {
+  opacity: 0;
+  translate: 80px 0;
+}
+
+/* ---------- Strategic advisor section ---------- */
+.leadership-section {
+  padding-top: 10px;
+}
 
 .leader-cards-container {
   display: flex;
@@ -247,18 +365,74 @@
   flex: 0 1 calc((100% - 12px) / 2);
 }
 
-/* Tablet: one card per row */
-@media (max-width: 960px) {
-  .founders-cards-container { grid-template-columns: 1fr; max-width: 640px; margin: 0 auto; }
-  .leader-cards-container .person-card { flex-basis: 100%; max-width: 640px; }
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .person-card,
+  .person-card * {
+    transition: none !important;
+  }
+
+  .person-card:not(.is-visible),
+  .person-card:not(.is-visible) * {
+    opacity: 1 !important;
+    translate: none !important;
+  }
+
+  .person-card:hover,
+  .person-card:focus-within {
+    transform: none;
+  }
 }
 
-/* Mobile: photo on top, text below */
+/* ---------- Tablet ---------- */
+@media (max-width: 960px) {
+  .founders-cards-container {
+    grid-template-columns: 1fr;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .leader-cards-container .person-card {
+    flex-basis: 100%;
+    max-width: 640px;
+  }
+}
+
+/* ---------- Mobile ---------- */
 @media (max-width: 560px) {
-  .founders-section { padding: 52px 16px 60px; }
-  .person-card { flex-direction: column; text-align: center; }
-  .person-photo { flex: 0 0 300px; }
-  .person-text { align-items: center; padding: 22px 20px 26px; }
-  .person-bio { max-width: 42ch; }
-  .person-role { align-self: center; }
+  .founders-section {
+    padding: 52px 16px 60px;
+  }
+
+  .section-title {
+    font-size: clamp(1.9rem, 8vw, 2.5rem);
+    letter-spacing: -1px;
+  }
+
+  .typed-wrap {
+    max-width: 100%;
+  }
+
+  .person-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .person-photo {
+    flex: 0 0 300px;
+    width: 100%;
+  }
+
+  .person-text {
+    align-items: center;
+    padding: 22px 20px 26px;
+  }
+
+  .person-bio {
+    max-width: 42ch;
+  }
+
+  .person-role {
+    align-self: center;
+  }
 }

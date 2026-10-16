@@ -70,6 +70,17 @@ const MAGAZINE_SECTIONS = [
     { id: "achievements", label: "Achievements", page: 22 },
 ];
 
+/* Section heading. The white part is static, the blue part is typed. */
+const HEADING_WHITE = "Our Successful ";
+const HEADING_BLUE = "Innovation Journey";
+
+/* Typewriter timing (ms): type -> hold (cursor blinks) -> delete -> pause -> type ... */
+const HEAD_START_DELAY = 350; // wait before the very first letter
+const HEAD_TYPE_SPEED = 110; // per letter while typing
+const HEAD_DELETE_SPEED = 65; // per letter while deleting
+const HEAD_HOLD_TIME = 1800; // full text stays visible (cursor blinks)
+const HEAD_EMPTY_PAUSE = 450; // empty pause before typing again
+
 /* ---------- helpers ---------- */
 
 const clampMagazinePage = (n) =>
@@ -234,7 +245,200 @@ const useSwipe = (onSwipe) => {
 };
 
 /* --------------------------------------------------------------------
-   4) Editorial intro
+   4) Section heading with typewriter loop
+   "Our Successful " = white, static
+   "Innovation Journey" = blue, typed -> hold -> deleted -> typed ...
+   -------------------------------------------------------------------- */
+
+const MagazineHeading = () => {
+    const titleRef = useRef(null);
+
+    const headRef = useRef(null);
+
+    /* true while the heading block is on screen: drives the pop-in of the
+       pill, heading and line, and restarts the dot pulse every time */
+    const [visible, setVisible] = useState(false);
+
+    const [typed, setTyped] = useState("");
+
+    /* true  = letters are moving (typing / deleting / short pause) -> solid cursor
+       false = full text is resting                                 -> blinking cursor */
+    const [isTyping, setIsTyping] = useState(false);
+
+    /* APPEAR EVERY TIME: shows when you scroll to it, resets when it
+       leaves the screen, so the pill pulse + pop-in replay on each return */
+    useEffect(() => {
+        const node = headRef.current;
+
+        if (!node) return undefined;
+
+        const reduceMotion = window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+        ).matches;
+
+        if (
+            reduceMotion ||
+            typeof IntersectionObserver === "undefined"
+        ) {
+            setVisible(true);
+            return undefined;
+        }
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (
+                    entry.isIntersecting &&
+                    entry.intersectionRatio >= 0.3
+                ) {
+                    setVisible(true);
+                } else if (!entry.isIntersecting) {
+                    setVisible(false);
+                }
+            },
+            { threshold: [0, 0.3] }
+        );
+
+        observer.observe(node);
+
+        return () => observer.disconnect();
+    }, []);
+
+    useEffect(() => {
+        const title = titleRef.current;
+
+        if (!title) return undefined;
+
+        const reduceMotion = window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+        ).matches;
+
+        if (
+            reduceMotion ||
+            typeof IntersectionObserver === "undefined"
+        ) {
+            setTyped(HEADING_BLUE);
+            return undefined;
+        }
+
+        let timer = null;
+        let count = 0;
+
+        const clearTimers = () => clearTimeout(timer);
+
+        const typeStep = () => {
+            if (count < HEADING_BLUE.length) {
+                count += 1;
+                setTyped(HEADING_BLUE.slice(0, count));
+                setIsTyping(true);
+                timer = setTimeout(typeStep, HEAD_TYPE_SPEED);
+            } else {
+                /* full text shown: cursor blinks, then start deleting */
+                setIsTyping(false);
+                timer = setTimeout(deleteStep, HEAD_HOLD_TIME);
+            }
+        };
+
+        const deleteStep = () => {
+            if (count > 0) {
+                count -= 1;
+                setTyped(HEADING_BLUE.slice(0, count));
+                setIsTyping(true);
+                timer = setTimeout(deleteStep, HEAD_DELETE_SPEED);
+            } else {
+                /* fully deleted: short empty pause, then type again */
+                timer = setTimeout(typeStep, HEAD_EMPTY_PAUSE);
+            }
+        };
+
+        const startLoop = () => {
+            clearTimers();
+            count = 0;
+            setTyped("");
+            setIsTyping(true);
+            timer = setTimeout(typeStep, HEAD_START_DELAY);
+        };
+
+        const resetLoop = () => {
+            clearTimers();
+            count = 0;
+            setTyped("");
+            setIsTyping(false);
+        };
+
+        /* starts when the heading is on screen, resets when it leaves,
+           so the effect replays every time you scroll back to it */
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) startLoop();
+                    else resetLoop();
+                });
+            },
+            { threshold: 0.6 }
+        );
+
+        observer.observe(title);
+
+        return () => {
+            observer.disconnect();
+            clearTimers();
+        };
+    }, []);
+
+    return (
+        <div
+            ref={headRef}
+            className={`hpmag-head${visible ? " hpmag-head--in" : ""}`}
+        >
+            {/* pill tag above the heading */}
+            <span className="hpmag-head__label hpmag-head__pop hpmag-head__pop--1">
+                <span
+                    className="hpmag-head__dot"
+                    aria-hidden="true"
+                />
+                JOURNEY
+            </span>
+
+            <h2
+                ref={titleRef}
+                id="hpmag-heading"
+                className="hpmag-head__title hpmag-head__pop hpmag-head__pop--2"
+                aria-label={HEADING_WHITE + HEADING_BLUE}
+            >
+                {/* white part: static, always visible */}
+                <span aria-hidden="true">{HEADING_WHITE}</span>
+
+                {/* blue part: the sizer reserves the full width so the
+                    centered heading never shifts while typing */}
+                <span className="hpmag-head__type" aria-hidden="true">
+                    <span className="hpmag-head__sizer">
+                        {HEADING_BLUE}
+                    </span>
+
+                    <span className="hpmag-head__live">
+                        <span className="hpmag-head__accent">
+                            {typed}
+                        </span>
+
+                        <span
+                            className={`hpmag-head__cursor${
+                                isTyping ? " is-typing" : ""
+                            }`}
+                        />
+                    </span>
+                </span>
+            </h2>
+
+            <span
+                className="hpmag-head__rule hpmag-head__pop hpmag-head__pop--3"
+                aria-hidden="true"
+            />
+        </div>
+    );
+};
+
+/* --------------------------------------------------------------------
+   5) Editorial intro
    -------------------------------------------------------------------- */
 
 const MagazineIntro = () => (
@@ -263,7 +467,7 @@ const MagazineIntro = () => (
 );
 
 /* --------------------------------------------------------------------
-   5) Actions
+   6) Actions
    -------------------------------------------------------------------- */
 
 const MagazineActions = ({ onExplore }) => (
@@ -290,7 +494,7 @@ const MagazineActions = ({ onExplore }) => (
 );
 
 /* --------------------------------------------------------------------
-   6) "Inside this issue" editorial text navigation
+   7) "Inside this issue" editorial text navigation
    -------------------------------------------------------------------- */
 
 const MagazineToc = ({ page, onSelect }) => {
@@ -339,7 +543,7 @@ const MagazineToc = ({ page, onSelect }) => {
 };
 
 /* --------------------------------------------------------------------
-   7) Publication metadata row
+   8) Publication metadata row
    -------------------------------------------------------------------- */
 
 const MagazineMeta = () => (
@@ -353,7 +557,7 @@ const MagazineMeta = () => (
 );
 
 /* --------------------------------------------------------------------
-   8) Magazine preview
+   9) Magazine preview
    -------------------------------------------------------------------- */
 
 const TURN_MS = 700;
@@ -538,7 +742,7 @@ const MagazineBook = ({
 };
 
 /* --------------------------------------------------------------------
-   9) Page navigation
+   10) Page navigation
    -------------------------------------------------------------------- */
 
 const MagazinePager = ({
@@ -610,7 +814,7 @@ const MagazinePager = ({
 );
 
 /* --------------------------------------------------------------------
-   10) Full-screen reader
+   11) Full-screen reader
    -------------------------------------------------------------------- */
 
 const OUT_MS = 130;
@@ -904,7 +1108,7 @@ const MagazineReader = ({
 };
 
 /* --------------------------------------------------------------------
-   11) Root component
+   12) Root component
    -------------------------------------------------------------------- */
 
 const Magazine = () => {
@@ -988,6 +1192,9 @@ const Magazine = () => {
             }`}
             aria-labelledby="hpmag-title"
         >
+            {/* SECTION HEADING (typewriter loop) */}
+            <MagazineHeading />
+
             <div className="hpmag__inner">
                 <div className="hpmag__intro">
                     <MagazineIntro />

@@ -1,0 +1,72 @@
+/* =========================================================
+   PROJENIUS SHARED LEGAL PAGE LAYOUT
+========================================================= */
+.pj-legal-layout {
+  min-height: 48vh;
+  /* Navbar occupies 104px at desktop: 32px top padding plus a 72px pill. */
+  padding-top: 104px;
+  box-sizing: border-box;
+  background: #fff;
+  color: #243247;
+}
+
+.pj-legal-layout__inner {
+  width: min(1240px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 16px 0 88px;
+  display: grid;
+  grid-template-columns: minmax(210px, 260px) minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(30px, 5vw, 64px);
+}
+
+.pj-legal-layout__content {
+  min-width: 0;
+  max-width: 900px;
+}
+
+.pj-legal-layout__header {
+  margin: 0 0 34px;
+  padding: 0 0 24px;
+  border-bottom: 1px solid #e5eaf0;
+}
+
+.pj-legal-layout__header h1 {
+  margin: 0;
+  color: #102846;
+  font-size: clamp(30px, 4vw, 42px);
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+.pj-legal-layout__updated {
+  margin: 14px 0 0;
+  color: #66758a;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+@media (max-width: 1150px) {
+  .pj-legal-layout {
+    padding-top: 82px;
+  }
+}
+
+@media (max-width: 760px) {
+  /* Small-screen navbar: 14px top padding plus a 54px pill. */
+  .pj-legal-layout {
+    padding-top: 70px;
+  }
+
+  .pj-legal-layout__inner {
+    width: min(100% - 32px, 680px);
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+    padding: 14px 0 56px;
+  }
+
+  .pj-legal-layout__header {
+    margin-bottom: 26px;
+    padding-bottom: 18px;
+  }
+}

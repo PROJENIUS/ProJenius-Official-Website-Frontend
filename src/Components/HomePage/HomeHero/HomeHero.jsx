@@ -5,66 +5,51 @@ import "./HomeHero.css";
 // HOME HERO IMAGES
 // =========================================================
 
-import HomeHero_1 from "../../../assets/Home/HomeHero/HomeHero_1.webp";
-import HomeHero_2 from "../../../assets/Home/HomeHero/HomeHero_2.webp";
-import HomeHero_3 from "../../../assets/Home/HomeHero/HomeHero_3.webp";
+import HomeHero_1 from "../../../assets/Home/HomeHero/HomeHero_1.jpeg";
+import HomeHero_2 from "../../../assets/Home/HomeHero/HomeHero_2.jpeg";
+import HomeHero_3 from "../../../assets/Home/HomeHero/HomeHero_3.jpeg";
 
 // =========================================================
 // HERO DATA
 // =========================================================
 
 const HERO_SLIDES = [
-    {
-        id: 0,
-        image: HomeHero_1,
-        title: "Businesses & Organizations",
-    },
-    {
-        id: 1,
-        image: HomeHero_2,
-        title: "Startups & Institutions",
-    },
-    {
-        id: 2,
-        image: HomeHero_3,
-        title: "Innovators & Entrepreneurs",
-    },
+    { id: 0, image: HomeHero_1, title: "Businesses & Organizations" },
+    { id: 1, image: HomeHero_2, title: "Startups & Institutions" },
+    { id: 2, image: HomeHero_3, title: "Innovators & Entrepreneurs" },
+];
+
+const SERVICES = [
+    "Web",
+    "Mobile Apps",
+    "Software",
+    "AI/ML",
+    "IoT",
+    "Product Engineering",
+    "3D Design",
 ];
 
 // =========================================================
 // CONFIG
 // =========================================================
 
-const SLIDE_DURATION = 5000;
-const TYPING_SPEED = 95;
+const SLIDE_DURATION = 5000; // ms per slide
+const TYPING_SPEED = 60; // ms per character
+
+const pad = (n) => String(n).padStart(2, "0");
 
 // =========================================================
-// PARTICLES
-// =========================================================
-
-const PARTICLES = [
-    { size: 10, top: "25%", left: "12%", duration: "5.2s", delay: "0s" },
-    { size: 6, top: "70%", left: "8%", duration: "6.8s", delay: "1s" },
-    { size: 14, top: "30%", left: "88%", duration: "7.1s", delay: "0.4s" },
-    { size: 8, top: "72%", left: "82%", duration: "5.6s", delay: "2s" },
-    { size: 5, top: "55%", left: "55%", duration: "4.9s", delay: "0.8s" },
-    { size: 12, top: "20%", left: "70%", duration: "6.3s", delay: "1.5s" },
-];
-
-// =========================================================
-// DOT INDICATORS
+// DOT INDICATORS (tablet / mobile only)
 // =========================================================
 
 function DotIndicators({ active, onDotClick }) {
     return (
-        <div className="hero-dot-indicators">
+        <div className="hero-dots">
             {HERO_SLIDES.map((slide, index) => (
                 <button
                     key={slide.id}
                     type="button"
-                    className={`hero-slide-dot ${
-                        index === active ? "active" : ""
-                    }`}
+                    className={`hero-dot ${index === active ? "is-active" : ""}`}
                     aria-label={`Show ${slide.title}`}
                     onClick={() => onDotClick(index)}
                 />
@@ -80,96 +65,15 @@ function DotIndicators({ active, onDotClick }) {
 export default function HomeHero() {
     const [activeSlide, setActiveSlide] = useState(0);
     const [typedText, setTypedText] = useState("");
+    const [isVisible, setIsVisible] = useState(true);
 
     const heroRef = useRef(null);
-    const typingTimerRef = useRef(null);
-    const typingRunRef = useRef(0);
 
     const activeHero = HERO_SLIDES[activeSlide];
 
-    // Always holds the current title, so the observer below
-    // does not need to be recreated on every slide change.
-    const titleRef = useRef(activeHero.title);
-    titleRef.current = activeHero.title;
-
-    // =====================================================
-    // CLEAR TYPING
-    // =====================================================
-
-    const clearTyping = () => {
-        if (typingTimerRef.current) {
-            clearTimeout(typingTimerRef.current);
-            typingTimerRef.current = null;
-        }
-
-        typingRunRef.current += 1;
-    };
-
-    // =====================================================
-    // TYPE CURRENT SLIDE TITLE
-    // =====================================================
-
-    const startTyping = (text) => {
-        clearTyping();
-
-        const currentRun = typingRunRef.current;
-
-        setTypedText("");
-
-        let characterIndex = 0;
-
-        const typeNextCharacter = () => {
-            if (currentRun !== typingRunRef.current) {
-                return;
-            }
-
-            if (characterIndex >= text.length) {
-                typingTimerRef.current = null;
-                return;
-            }
-
-            characterIndex += 1;
-
-            setTypedText(text.slice(0, characterIndex));
-
-            typingTimerRef.current = setTimeout(
-                typeNextCharacter,
-                TYPING_SPEED
-            );
-        };
-
-        typeNextCharacter();
-    };
-
-    // =====================================================
-    // START TYPING WHEN SLIDE CHANGES
-    // =====================================================
-
-    useEffect(() => {
-        startTyping(activeHero.title);
-
-        return () => {
-            clearTyping();
-        };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [activeSlide]);
-
-    // =====================================================
-    // AUTO SLIDE (every 5 seconds)
-    // =====================================================
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setActiveSlide((current) => (current + 1) % HERO_SLIDES.length);
-        }, SLIDE_DURATION);
-
-        return () => clearInterval(interval);
-    }, []);
-
-    // =====================================================
-    // PRELOAD IMAGES
-    // =====================================================
-
+    // -----------------------------------------------------
+    // Preload images
+    // -----------------------------------------------------
     useEffect(() => {
         HERO_SLIDES.forEach((slide) => {
             const image = new Image();
@@ -177,65 +81,68 @@ export default function HomeHero() {
         });
     }, []);
 
-    // =====================================================
-    // HERO VISIBILITY
-    // Created once. Uses titleRef so it never restarts the
-    // typing animation just because the slide changed.
-    // =====================================================
-
+    // -----------------------------------------------------
+    // Pause the carousel while the hero is off-screen
+    // -----------------------------------------------------
     useEffect(() => {
-        const heroElement = heroRef.current;
-
-        if (!heroElement) {
-            return;
-        }
+        const el = heroRef.current;
+        if (!el || typeof IntersectionObserver === "undefined") return;
 
         const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (!entry.isIntersecting) {
-                    clearTyping();
-                } else {
-                    startTyping(titleRef.current);
-                }
-            },
-            {
-                threshold: 0.45,
-            }
+            ([entry]) => setIsVisible(entry.isIntersecting),
+            { threshold: 0.35 }
         );
 
-        observer.observe(heroElement);
-
-        return () => {
-            observer.disconnect();
-            clearTyping();
-        };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        observer.observe(el);
+        return () => observer.disconnect();
     }, []);
 
-    // =====================================================
-    // MANUAL SLIDE CHANGE
-    // =====================================================
+    // -----------------------------------------------------
+    // Auto slide. Depends on activeSlide, so a manual click
+    // restarts the 5s timer instead of skipping early.
+    // -----------------------------------------------------
+    useEffect(() => {
+        if (!isVisible) return;
 
-    const handleSlideChange = (index) => {
-        if (index === activeSlide) {
-            startTyping(HERO_SLIDES[index].title);
+        const timer = setTimeout(() => {
+            setActiveSlide((current) => (current + 1) % HERO_SLIDES.length);
+        }, SLIDE_DURATION);
+
+        return () => clearTimeout(timer);
+    }, [activeSlide, isVisible]);
+
+    // -----------------------------------------------------
+    // Typing effect for the current slide title
+    // -----------------------------------------------------
+    useEffect(() => {
+        const text = HERO_SLIDES[activeSlide].title;
+        const reduceMotion =
+            typeof window !== "undefined" &&
+            window.matchMedia &&
+            window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        if (reduceMotion) {
+            setTypedText(text);
             return;
         }
 
-        setActiveSlide(index);
-    };
+        setTypedText("");
 
-    // =====================================================
-    // CIRCULAR IMAGE POSITIONS
-    // =====================================================
+        let count = 0;
+        let timer;
 
-    const getSlide = (position) => {
-        return HERO_SLIDES[(activeSlide + position) % HERO_SLIDES.length];
-    };
+        const tick = () => {
+            count += 1;
+            setTypedText(text.slice(0, count));
+            if (count < text.length) {
+                timer = setTimeout(tick, TYPING_SPEED);
+            }
+        };
 
-    const topImage = getSlide(0);
-    const secondImage = getSlide(1);
-    const thirdImage = getSlide(2);
+        timer = setTimeout(tick, 250);
+
+        return () => clearTimeout(timer);
+    }, [activeSlide]);
 
     // =====================================================
     // JSX
@@ -243,154 +150,118 @@ export default function HomeHero() {
 
     return (
         <section ref={heroRef} className="hero-wrapper">
-            {/* BACKGROUND (matches the active image) */}
-            <div
-                key={`background-${activeSlide}`}
-                className="hero-background"
-                style={{
-                    backgroundImage: `url(${activeHero.image})`,
-                }}
-            />
-
-            {/* OVERLAY */}
-            <div className="hero-overlay" />
-
-            {/* PARTICLES */}
-            <div className="hero-particles">
-                {PARTICLES.map((particle, index) => (
-                    <span
-                        key={index}
-                        className="hero-particle"
-                        style={{
-                            width: `${particle.size}px`,
-                            height: `${particle.size}px`,
-                            top: particle.top,
-                            left: particle.left,
-                            animationDuration: particle.duration,
-                            animationDelay: particle.delay,
-                        }}
+            {/* BACKGROUND (cross-fades between slides) */}
+            <div className="hero-bg" aria-hidden="true">
+                {HERO_SLIDES.map((slide, index) => (
+                    <div
+                        key={slide.id}
+                        className={`hero-bg-layer ${
+                            index === activeSlide ? "is-active" : ""
+                        }`}
+                        style={{ backgroundImage: `url(${slide.image})` }}
                     />
                 ))}
             </div>
 
-            {/* MAIN CONTENT */}
             <div className="hero-inner">
                 <div className="hero-content">
-                    {/* LEFT SIDE */}
+                    {/* LEFT: MESSAGE */}
                     <div className="hero-text">
-                        <h3 className="subheading">
-                            We Design, Develop &amp; Deliver Impactful
-                            Technology
-                        </h3>
+                        <p className="hero-eyebrow">
+                            We Design, Develop &amp; Deliver Impactful Technology
+                        </p>
 
-                        <h1 className="heading">
-                            <span className="hero-heading-line">
+                        <h1
+                            className="hero-heading"
+                            aria-label={`Technology Solutions for ${activeHero.title}`}
+                        >
+                            <span className="hero-heading-static" aria-hidden="true">
                                 Technology Solutions for
                             </span>
-
-                            <span
-                                key={activeSlide}
-                                className="hero-heading-line hero-dynamic-line"
-                            >
-                                <span className="smart-solutions">
-                                    {typedText}
-
-                                    <span
-                                        className="typing-cursor"
-                                        aria-hidden="true"
-                                    />
-                                </span>
+                            <span className="hero-heading-typed" aria-hidden="true">
+                                {typedText}
+                                <span className="hero-cursor" />
                             </span>
                         </h1>
 
-                        <p className="description">
-                            ProJenius is a technology solutions and
-                            innovation company offering web development,
-                            mobile app development, software solutions,
-                            AI/ML development, IoT solutions, product
-                            engineering, and 3D design. We help businesses,
-                            startups, institutions, and organizations turn
-                            ideas into practical, scalable technology
-                            solutions.
+                        <p className="hero-description">
+                            ProJenius is a technology solutions and innovation
+                            company. We help businesses, startups, institutions,
+                            and organizations turn ideas into practical,
+                            scalable technology.
                         </p>
 
-                        {/* MOBILE DOTS */}
-                        <div className="hero-mobile-dots">
+                        <div className="hero-actions">
+                            <a className="hero-btn hero-btn-primary" href="/services">
+                                Explore Services
+                            </a>
+                            <a className="hero-btn hero-btn-ghost" href="/contact">
+                                Talk to Us
+                            </a>
+                        </div>
+
+                        <ul className="hero-services" aria-label="What we build">
+                            {SERVICES.map((service) => (
+                                <li key={service}>{service}</li>
+                            ))}
+                        </ul>
+
+                        <div className="hero-dots-wrap">
                             <DotIndicators
                                 active={activeSlide}
-                                onDotClick={handleSlideChange}
+                                onDotClick={setActiveSlide}
                             />
                         </div>
                     </div>
 
-                    {/* RIGHT SIDE */}
+                    {/* RIGHT: FEATURED IMAGE + THUMBNAILS (desktop only) */}
                     <div className="hero-visual">
-                        <div className="thumb-wrapper">
-                            {/* TOP / ACTIVE IMAGE */}
-                            <button
-                                type="button"
-                                className="thumb-slot thumb-slot-main"
-                                onClick={() =>
-                                    handleSlideChange(
-                                        (activeSlide + 1) % HERO_SLIDES.length
-                                    )
-                                }
-                                aria-label={`Current slide: ${topImage.title}`}
-                            >
+                        <figure className="hero-stage">
+                            {HERO_SLIDES.map((slide, index) => (
                                 <img
-                                    key={`top-${topImage.id}`}
-                                    src={topImage.image}
-                                    alt={topImage.title}
+                                    key={slide.id}
+                                    className={`hero-stage-img ${
+                                        index === activeSlide ? "is-active" : ""
+                                    }`}
+                                    src={slide.image}
+                                    alt={slide.title}
                                     draggable="false"
                                 />
-                            </button>
+                            ))}
 
-                            {/* SECOND IMAGE */}
-                            <button
-                                type="button"
-                                className="thumb-slot thumb-slot-second"
-                                onClick={() =>
-                                    handleSlideChange(
-                                        (activeSlide + 1) % HERO_SLIDES.length
-                                    )
-                                }
-                                aria-label={`Show ${secondImage.title}`}
-                            >
-                                <img
-                                    key={`second-${secondImage.id}`}
-                                    src={secondImage.image}
-                                    alt={secondImage.title}
-                                    draggable="false"
-                                />
-                            </button>
+                            <figcaption className="hero-stage-caption">
+                                <span>{activeHero.title}</span>
+                                <span className="hero-stage-count">
+                                    {pad(activeSlide + 1)} / {pad(HERO_SLIDES.length)}
+                                </span>
+                            </figcaption>
+                        </figure>
 
-                            {/* THIRD IMAGE */}
-                            <button
-                                type="button"
-                                className="thumb-slot thumb-slot-third"
-                                onClick={() =>
-                                    handleSlideChange(
-                                        (activeSlide + 2) % HERO_SLIDES.length
-                                    )
-                                }
-                                aria-label={`Show ${thirdImage.title}`}
-                            >
-                                <img
-                                    key={`third-${thirdImage.id}`}
-                                    src={thirdImage.image}
-                                    alt={thirdImage.title}
-                                    draggable="false"
-                                />
-                            </button>
+                        <div className="hero-thumbs">
+                            {HERO_SLIDES.map((slide, index) => (
+                                <button
+                                    key={slide.id}
+                                    type="button"
+                                    className={`hero-thumb ${
+                                        index === activeSlide ? "is-active" : ""
+                                    }`}
+                                    style={{ "--slide-duration": `${SLIDE_DURATION}ms` }}
+                                    aria-label={`Show ${slide.title}`}
+                                    aria-current={index === activeSlide}
+                                    onClick={() => setActiveSlide(index)}
+                                >
+                                    <img src={slide.image} alt="" draggable="false" />
+                                    {index === activeSlide && (
+                                        <span
+                                            key={`${activeSlide}-${isVisible}`}
+                                            className="hero-thumb-progress"
+                                        />
+                                    )}
+                                </button>
+                            ))}
                         </div>
                     </div>
                 </div>
-            </div>
-
-            {/* BOTTOM ZIG-ZAG */}
-            <div className="hero-zigzag">
-                <div className="hero-zigzag-cyan" />
-                <div className="hero-zigzag-white" />
             </div>
         </section>
     );

@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import './LeadershipTeam.css';
 
 /* IMAGES */
-import karthickImg from '../../../assets/About/LeadershipTeam/LeadershipTeam_1.webp';
-import harshiniImg from '../../../assets/About/LeadershipTeam/LeadershipTeam_2.webp';
-import karthikaImg from '../../../assets/About/LeadershipTeam/LeadershipTeam_3.webp';
+import karthickImg from '../../../assets/About/LeadershipTeam/LeadershipTeam_1.png';
+import harshiniImg from '../../../assets/About/LeadershipTeam/LeadershipTeam_2.png';
+import karthikaImg from '../../../assets/About/LeadershipTeam/LeadershipTeam_3.png';
 
 const founders = [
   {
@@ -126,6 +126,96 @@ function useInView(threshold = 0.25) {
 }
 
 /* =========================================================
+   TYPEWRITER TEXT (blue words in the headings)
+
+   - types letter by letter with a blinking cursor
+   - holds, deletes, then types again (loops while on screen)
+   - add more words to the `words` array to rotate between them,
+     e.g. words={['Founders', 'Leaders']}
+   - an invisible copy reserves the space, so the white text next
+     to it never shifts while typing
+========================================================= */
+
+const TYPE_START_MS = 350; // wait before the first letter
+const TYPE_MS = 90; // speed of typing each letter
+const DELETE_MS = 45; // speed of deleting each letter
+const HOLD_MS = 1800; // pause when the word is fully typed
+const GAP_MS = 300; // pause when the word is fully deleted
+
+const prefersReducedMotion = () =>
+  typeof window !== 'undefined' &&
+  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function TypedText({ words }) {
+  const [ref, inView] = useInView(0.4);
+  const [wordIndex, setWordIndex] = useState(0);
+  const [count, setCount] = useState(0);
+  const [deleting, setDeleting] = useState(false);
+
+  const reduce = prefersReducedMotion();
+  const longest = words.reduce((a, b) => (b.length > a.length ? b : a), '');
+  const current = words[wordIndex];
+
+  useEffect(() => {
+    if (reduce) return undefined;
+
+    /* off screen -> reset, so it types again when you come back */
+    if (!inView) {
+      setWordIndex(0);
+      setCount(0);
+      setDeleting(false);
+      return undefined;
+    }
+
+    let delay;
+    let next;
+
+    if (!deleting) {
+      if (count < current.length) {
+        delay = count === 0 ? TYPE_START_MS : TYPE_MS;
+        next = () => setCount((c) => c + 1);
+      } else {
+        delay = HOLD_MS;
+        next = () => setDeleting(true);
+      }
+    } else if (count > 0) {
+      delay = DELETE_MS;
+      next = () => setCount((c) => c - 1);
+    } else {
+      delay = GAP_MS;
+      next = () => {
+        setDeleting(false);
+        setWordIndex((i) => (i + 1) % words.length);
+      };
+    }
+
+    const timer = setTimeout(next, delay);
+
+    return () => clearTimeout(timer);
+  }, [inView, count, deleting, current, words.length, reduce]);
+
+  const shown = reduce ? current : current.slice(0, count);
+
+  return (
+    <span ref={ref} className="title-highlight typed-wrap">
+      {/* real text for screen readers */}
+      <span className="typed-sr">{words[0]}</span>
+
+      {/* invisible full-size copy keeps the layout steady */}
+      <span className="typed-sizer" aria-hidden="true">
+        {longest}
+      </span>
+
+      {/* the visible typed text */}
+      <span className="typed-live" aria-hidden="true">
+        {shown}
+        {!reduce && inView && <span className="typed-caret" />}
+      </span>
+    </span>
+  );
+}
+
+/* =========================================================
    PERSON CARD
 ========================================================= */
 
@@ -196,9 +286,7 @@ function LeadershipTeam() {
 
           <h2 className="section-title">
             Meet Our{' '}
-            <span className="title-highlight">
-              Founders
-            </span>
+            <TypedText words={['Founders']} />
           </h2>
 
           <span
@@ -229,9 +317,7 @@ function LeadershipTeam() {
 
           <h2 className="section-title">
             Meet Our{' '}
-            <span className="title-highlight">
-              Strategic Advisor
-            </span>
+            <TypedText words={['Strategic Advisor']} />
           </h2>
 
           <span

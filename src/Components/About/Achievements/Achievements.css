@@ -189,7 +189,36 @@
   text-align: center;
 }
 
-.achievements-header h2 span {
+
+/* =========================================================
+   TYPEWRITER (blue word)
+   - sizer  : invisible full word, reserves the width so the
+              heading never shifts while typing
+   - live   : sits on top of the sizer, holds typed text + cursor
+========================================================= */
+
+.achv-type {
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+  vertical-align: baseline;
+}
+
+.achv-type-sizer {
+  visibility: hidden;
+}
+
+.achv-type-live {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+/* typed letters keep the blue gradient shimmer */
+.achv-type-text {
   color: #1599D6; /* fallback */
   background: linear-gradient(90deg, #1599D6, #35CEFF, #1599D6);
   background-size: 200% 100%;
@@ -197,10 +226,39 @@
   background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: achv-shimmer 5s linear infinite;
+  padding-bottom: 0.12em;
 }
 
 @keyframes achv-shimmer {
   to { background-position: -200% 0; }
+}
+
+/* glowing cyan cursor (kept OUTSIDE the gradient text so it stays solid) */
+.achv-cursor {
+  flex: none;
+  display: inline-block;
+  width: 3px;
+  height: 0.82em;
+  margin-left: 4px;
+  border-radius: 2px;
+  background: #35CEFF;
+  box-shadow:
+    0 0 6px rgba(53, 206, 255, 0.9),
+    0 0 14px rgba(53, 206, 255, 0.55);
+  animation: achv-cursor-blink 1s ease-in-out infinite;
+  animation-iteration-count: infinite;
+}
+
+/* solid (no blink) while letters are being typed */
+.achv-cursor.is-typing {
+  animation: none;
+  opacity: 1;
+}
+
+@keyframes achv-cursor-blink {
+  0%, 45%   { opacity: 1; }
+  55%, 95%  { opacity: 0; }
+  100%      { opacity: 1; }
 }
 
 
@@ -584,6 +642,8 @@
     letter-spacing: -1px;
   }
 
+  .achv-cursor { width: 2px; margin-left: 3px; }
+
   .achievements-heading-line { width: 62px; height: 4px; margin: 4px auto 3px; }
 
   .achievements-header p {
@@ -674,9 +734,13 @@
   .achievements-section::before,
   .achievements-section::after,
   .achievements-dot::after,
-  .achievements-header h2 span {
+  .achv-type-text,
+  .achv-cursor {
     animation: none;
   }
+
+  /* no typing, so no cursor either */
+  .achv-cursor { opacity: 0; }
 
   .achievements-header > *,
   .achievement-card {

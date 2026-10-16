@@ -67,13 +67,112 @@ const achievementImages = [
 const VISIBLE_RATIO = 0.12;
 
 // =========================================================
+// TYPEWRITER SETTINGS (blue heading word)
+// type -> hold (cursor blinks) -> delete -> pause -> type ...
+// =========================================================
+
+const TYPED_WORD = "Recognition";
+const TYPE_START_DELAY = 350; // ms before the very first letter
+const TYPE_SPEED = 110; // ms per letter while typing
+const DELETE_SPEED = 65; // ms per letter while deleting
+const HOLD_TIME = 1800; // full word stays visible (cursor blinks)
+const EMPTY_PAUSE = 450; // empty pause before typing again
+
+// =========================================================
 // ACHIEVEMENTS
 // =========================================================
 
 const Achievements = () => {
   const sectionRef = useRef(null);
   const cardRefs = useRef([]);
+  const titleRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(null);
+  const [typed, setTyped] = useState("");
+
+  // true  = letters are moving (typing / deleting / short pause) -> solid cursor
+  // false = full word is resting                                  -> blinking cursor
+  const [isTyping, setIsTyping] = useState(false);
+
+  // -------------------------------------------------------
+  // TYPEWRITER LOOP (starts when heading is visible, stops
+  // and resets when it leaves, replays when it comes back)
+  // -------------------------------------------------------
+
+  useEffect(() => {
+    const title = titleRef.current;
+    if (!title) return;
+
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    if (reduceMotion || !("IntersectionObserver" in window)) {
+      setTyped(TYPED_WORD);
+      return;
+    }
+
+    let timer = null;
+    let count = 0;
+
+    const clearTimers = () => clearTimeout(timer);
+
+    const typeStep = () => {
+      if (count < TYPED_WORD.length) {
+        count += 1;
+        setTyped(TYPED_WORD.slice(0, count));
+        setIsTyping(true);
+        timer = setTimeout(typeStep, TYPE_SPEED);
+      } else {
+        // full word shown: cursor blinks, then start deleting
+        setIsTyping(false);
+        timer = setTimeout(deleteStep, HOLD_TIME);
+      }
+    };
+
+    const deleteStep = () => {
+      if (count > 0) {
+        count -= 1;
+        setTyped(TYPED_WORD.slice(0, count));
+        setIsTyping(true);
+        timer = setTimeout(deleteStep, DELETE_SPEED);
+      } else {
+        // fully deleted: short empty pause, then type again
+        timer = setTimeout(typeStep, EMPTY_PAUSE);
+      }
+    };
+
+    const startLoop = () => {
+      clearTimers();
+      count = 0;
+      setTyped("");
+      setIsTyping(true);
+      timer = setTimeout(typeStep, TYPE_START_DELAY);
+    };
+
+    const resetLoop = () => {
+      clearTimers();
+      count = 0;
+      setTyped("");
+      setIsTyping(false);
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) startLoop();
+          else resetLoop();
+        });
+      },
+      { threshold: 0.6 }
+    );
+
+    observer.observe(title);
+
+    return () => {
+      observer.disconnect();
+      clearTimers();
+    };
+  }, []);
 
   // -------------------------------------------------------
   // SCROLL REVEAL (direction aware) + IMAGE PARALLAX
@@ -324,8 +423,26 @@ const Achievements = () => {
             ACHIEVEMENTS
           </span>
 
-          <h2 id="achievements-title">
-            Awards & <span>Recognition</span>
+          <h2
+            id="achievements-title"
+            ref={titleRef}
+            aria-label="Awards & Recognition"
+          >
+            <span aria-hidden="true">Awards &amp; </span>
+
+            {/* sizer reserves the full word width, live layer types on top */}
+            <span className="achv-type" aria-hidden="true">
+              <span className="achv-type-sizer">{TYPED_WORD}</span>
+
+              <span className="achv-type-live">
+                <span className="achv-type-text">{typed}</span>
+                <span
+                  className={`achv-cursor${
+                    isTyping ? " is-typing" : ""
+                  }`}
+                />
+              </span>
+            </span>
           </h2>
 
           <div

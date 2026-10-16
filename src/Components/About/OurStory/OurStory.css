@@ -22,7 +22,7 @@
 
 .our-journey-container {
   width: 100%;
-  max-width: 1100px;
+  max-width: 1400px; /* was 1100px */
   margin: 0 auto;
 }
 
@@ -86,11 +86,17 @@
   padding: 0 0 28px;
 }
 
-/* CHANGED: top added so the grey line starts at the first node (245px / 2 = 122.5px) */
+/*
+ * Axis offsets are tied to .journey-card-wrap min-height:
+ *   top        = min-height / 2            (center of first node)
+ *   bottom     = top + 28                  (28px = timeline bottom padding)
+ *   max-height = 100% - (top + bottom)
+ * Desktop: 340 / 2 = 170 -> bottom 198 -> max-height 100% - 368px
+ */
 .journey-axis {
   position: absolute;
-  top: 122.5px;
-  bottom: 150.5px;
+  top: 170px;     /* was 210px */
+  bottom: 198px;  /* was 238px */
   left: 50%;
   width: 3px;
   transform: translateX(-50%);
@@ -99,14 +105,13 @@
   box-shadow: 0 0 2px rgba(255, 255, 255, 0.03);
 }
 
-/* CHANGED: top added so the blue line starts at the first node, max-height adjusted for both ends */
 .journey-axis-progress {
   position: absolute;
-  top: 122.5px;
+  top: 170px; /* was 210px */
   left: 50%;
   width: 3px;
   transform: translateX(-50%);
-  max-height: calc(100% - 273px);
+  max-height: calc(100% - 368px); /* was 100% - 448px */
   border-radius: 999px;
   background: linear-gradient(
     to bottom,
@@ -136,7 +141,7 @@
 .journey-card-wrap {
   position: relative;
   width: 50%;
-  min-height: 245px;
+  min-height: 340px; /* was 420px */
   display: flex;
   align-items: center;
 }
@@ -156,8 +161,8 @@
 .journey-card {
   position: relative;
   width: 100%;
-  max-width: 432px;
-  min-height: 198px;
+  max-width: 600px; /* was 480px */
+  min-height: 0;
   padding: 25px 28px 23px;
   overflow: visible;
   border: 1px solid rgba(148, 163, 184, 0.15);
@@ -213,7 +218,7 @@
 }
 
 .journey-card h3 {
-  margin: 18px 0 10px;
+  margin: 14px 0 6px;
   color: #f4f7fb;
   font-family: "Segoe UI", Arial, sans-serif;
   font-size: 18px;
@@ -223,11 +228,48 @@
 
 .journey-card p {
   margin: 0;
-  color: #858fa1;
+  color: #c5cedb; /* was #858fa1 */
   font-family: "Segoe UI", Arial, sans-serif;
   font-size: 15px;
   font-weight: 500;
-  line-height: 1.48;
+  line-height: 1.55; /* was 1.48, a little more spacing helps reading */
+}
+
+.journey-card .journey-description {
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+.journey-card .journey-subtitle {
+  margin: 0 0 12px;
+  color: #35ceff;
+  font-size: 13px;
+  font-weight: 600;
+  font-style: italic;
+  line-height: 1.4;
+}
+
+/* =========================================================
+   TAGS
+========================================================= */
+
+.journey-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.journey-tag {
+  padding: 5px 11px;
+  border: 1px solid rgba(53, 206, 255, 0.28);
+  border-radius: 999px;
+  background: rgba(53, 206, 255, 0.07);
+  color: #7fd8f7;
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-size: 11.5px;
+  font-weight: 600;
+  line-height: 1;
 }
 
 /* =========================================================
@@ -343,6 +385,185 @@
 }
 
 /* =========================================================
+   SCROLL REVEAL EFFECTS
+   (uses the individual `translate` / `scale` properties so
+   they never clash with the hover `transform` rules)
+========================================================= */
+
+/* ---------- header: eyebrow, typewriter title, bar, subtitle ---------- */
+
+.our-journey-header h2 {
+  min-height: 1.02em;
+  margin-bottom: 14px;
+}
+
+/* white word: static */
+.our-journey-header h2 .journey-title-white {
+  color: #f7f9fc;
+}
+
+/* ---------- typewriter (blue word) ----------
+   sizer : invisible full word, reserves the width so the
+           centered title never shifts while typing
+   live  : sits on top of the sizer, holds typed text + cursor
+*/
+
+.journey-type {
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+  vertical-align: baseline;
+}
+
+.journey-type-sizer {
+  visibility: hidden;
+}
+
+.journey-type-live {
+  position: absolute;
+  top: 0;
+  left: 0;
+  white-space: nowrap;
+}
+
+.journey-type-text {
+  color: #1da9eb;
+}
+
+/* glowing cyan cursor */
+.journey-caret {
+  display: inline-block;
+  width: 3px;
+  height: 0.82em;
+  margin-left: 4px;
+  vertical-align: -0.04em;
+  border-radius: 2px;
+  background: #35ceff;
+  box-shadow:
+    0 0 6px rgba(53, 206, 255, 0.9),
+    0 0 14px rgba(53, 206, 255, 0.55);
+  animation: journey-caret-blink 1s ease-in-out infinite;
+  animation-iteration-count: infinite;
+}
+
+/* solid while letters are being typed, blinks once finished */
+.journey-caret.is-typing {
+  animation: none;
+  opacity: 1;
+}
+
+@keyframes journey-caret-blink {
+  0%, 45%   { opacity: 1; }
+  55%, 95%  { opacity: 0; }
+  100%      { opacity: 1; }
+}
+
+.journey-eyebrow {
+  opacity: 0;
+  translate: 0 14px;
+  transition:
+    opacity 600ms ease,
+    translate 600ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.journey-header-visible .journey-eyebrow {
+  opacity: 1;
+  translate: 0 0;
+}
+
+.journey-title-bar {
+  display: block;
+  width: 56px;
+  height: 3px;
+  margin: 0 auto 16px;
+  border-radius: 999px;
+  background: #1da9eb;
+  box-shadow: 0 0 10px rgba(29, 169, 235, 0.55);
+  opacity: 0;
+  scale: 0 1;
+  transition:
+    opacity 400ms ease,
+    scale 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.journey-header-done .journey-title-bar {
+  opacity: 1;
+  scale: 1 1;
+}
+
+.our-journey-header p {
+  opacity: 0;
+  translate: 0 12px;
+  transition:
+    opacity 700ms ease 150ms,
+    translate 700ms cubic-bezier(0.22, 1, 0.36, 1) 150ms;
+}
+
+.journey-header-done p {
+  opacity: 1;
+  translate: 0 0;
+}
+
+/* ---------- timeline cards: node pops, line grows, card slides in ---------- */
+
+.journey-card-wrap .journey-card {
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease,
+    opacity 650ms ease 220ms,
+    translate 750ms cubic-bezier(0.22, 1, 0.36, 1) 220ms;
+}
+
+.journey-card-wrap .journey-card-connector {
+  transition:
+    background 180ms ease,
+    box-shadow 180ms ease,
+    scale 450ms ease 120ms;
+}
+
+.journey-card-wrap .journey-node {
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    color 180ms ease,
+    transform 180ms ease,
+    scale 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* hidden state (before the card is reached) */
+
+.journey-card-wrap:not(.journey-card-revealed) .journey-card {
+  opacity: 0;
+}
+
+.journey-card-left:not(.journey-card-revealed) .journey-card {
+  translate: -56px 0;
+}
+
+.journey-card-right:not(.journey-card-revealed) .journey-card {
+  translate: 56px 0;
+}
+
+.journey-card-wrap:not(.journey-card-revealed) .journey-node {
+  scale: 0;
+}
+
+.journey-card-wrap:not(.journey-card-revealed) .journey-card-connector {
+  scale: 0 1;
+}
+
+.journey-card-left .journey-card-connector {
+  transform-origin: right center;
+}
+
+.journey-card-right .journey-card-connector {
+  transform-origin: left center;
+}
+
+/* =========================================================
    RESPONSIVE TABLET
 ========================================================= */
 
@@ -378,11 +599,16 @@
   }
 
   .journey-card {
+    max-width: none; /* new: fill available space on tablet */
     padding: 22px 23px;
   }
 
   .journey-card p {
     font-size: 14px;
+  }
+
+  .journey-card .journey-subtitle {
+    font-size: 12.5px;
   }
 }
 
@@ -398,6 +624,11 @@
   .our-journey-header h2 {
     font-size: 43px;
     letter-spacing: -1.8px;
+  }
+
+  .journey-caret {
+    width: 2px;
+    margin-left: 3px;
   }
 
   .our-journey-header p {
@@ -418,20 +649,20 @@
     transform: none;
   }
 
-  /* CHANGED: mobile start and stop points (220px / 2 = 110px top, 110px + 28px = 138px bottom) */
+  /* Mobile: 480 / 2 = 240 top, 240 + 28 = 268 bottom, max-height 100% - 508px */
   .journey-axis {
-    top: 110px;
-    bottom: 138px;
+    top: 240px;
+    bottom: 268px;
   }
 
   .journey-axis-progress {
-    top: 110px;
-    max-height: calc(100% - 248px);
+    top: 240px;
+    max-height: calc(100% - 508px);
   }
 
   .journey-card-wrap {
     width: 100%;
-    min-height: 220px;
+    min-height: 480px;
     padding-left: 58px;
     padding-right: 0;
     align-self: auto;
@@ -440,7 +671,7 @@
 
   .journey-card {
     max-width: none;
-    min-height: 178px;
+    min-height: 0;
     padding: 20px 20px 19px;
     border-radius: 13px;
   }
@@ -463,10 +694,30 @@
     line-height: 1.48;
   }
 
+  .journey-card .journey-subtitle {
+    font-size: 12px;
+  }
+
+  .journey-tag {
+    font-size: 11px;
+    padding: 5px 10px;
+  }
+
   .journey-card-connector {
     left: 17px !important;
     right: auto !important;
     width: 41px;
+  }
+
+  .journey-card-left .journey-card-connector,
+  .journey-card-right .journey-card-connector {
+    transform-origin: left center;
+  }
+
+  /* on mobile the cards rise up instead of sliding sideways */
+  .journey-card-left:not(.journey-card-revealed) .journey-card,
+  .journey-card-right:not(.journey-card-revealed) .journey-card {
+    translate: 0 36px;
   }
 
   .journey-card-left .journey-hover-line,
@@ -497,7 +748,16 @@
   .journey-card,
   .journey-card-connector,
   .journey-node,
-  .journey-hover-line {
+  .journey-hover-line,
+  .journey-eyebrow,
+  .journey-title-bar,
+  .our-journey-header p {
     transition: none !important;
+  }
+
+  /* no typing, so no cursor either */
+  .journey-caret {
+    animation: none;
+    opacity: 0;
   }
 }

@@ -1,5 +1,4 @@
 import React, { useRef, useState } from "react";
-import FooterLogo from "../../../assets/Footer/FooterHero/FooterHero_1.jpeg";
 
 import FooterHero_2 from "../../../assets/Footer/FooterHero/FooterHero_2.svg";
 import FooterHero_3 from "../../../assets/Footer/FooterHero/FooterHero_3.svg";
@@ -75,8 +74,8 @@ export default function Footer() {
                     <div className="footer-call-content">
                         <div className="footer-logo">
                             <img
-                                src={FooterLogo}
-                                alt="ProJenius logo"
+                                src="/ProJenius_Logo.svg"
+                                alt="ProJenius Innovation Technology"
                                 className="footer-logo-image"
                             />
 
@@ -86,7 +85,7 @@ export default function Footer() {
                         </div>
 
                         <h3>
-                            Innovation Technology Private Limited
+                            ProJenius Innovation Technology Private Limited
                         </h3>
                     </div>
 

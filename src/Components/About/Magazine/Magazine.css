@@ -1,6 +1,6 @@
 /* ============================================================================
-   HomepageMagazine.css
-   ProJenius Magazine section — ONE external stylesheet for HomepageMagazine.jsx.
+   Magazine.css
+   ProJenius Magazine section — ONE external stylesheet for Magazine.jsx.
    BLACK THEME. No @import, no CSS modules, no inline styles.
    Every class name starts with "hpmag" so nothing here can affect the rest
    of the site, and nothing from the site can affect this section.
@@ -146,6 +146,186 @@
     opacity: 1;
     transform: none;
     transition: none;
+  }
+}
+
+/* ---------------------------------------------------------------- Section heading (typewriter loop)
+   "Our Successful " = white, static
+   "Innovation Journey" = blue, typed -> hold -> deleted -> typed ...
+   - sizer : invisible full text, reserves the width so the centered
+             heading never shifts while typing
+   - live  : sits on top of the sizer, holds typed text + cursor
+*/
+.hpmag-head {
+  position: relative;
+  max-width: 1240px;
+  margin: 0 auto clamp(36px, 5.5vw, 72px);
+  padding-inline: clamp(20px, 5vw, 56px);
+  text-align: center;
+}
+
+/* pop-in: pill, heading and line appear every time you scroll here */
+.hpmag-head__pop {
+  opacity: 0;
+  transform: translateY(16px) scale(0.94);
+  transition: opacity 0.6s ease, transform 0.75s var(--hpmag-ease-out);
+}
+.hpmag-head__pop--2 { transition-delay: 0.14s; }
+.hpmag-head__pop--3 { transition-delay: 0.28s; }
+.hpmag-head--in .hpmag-head__pop {
+  opacity: 1;
+  transform: none;
+}
+
+/* pill tag with pulsing dot */
+.hpmag-head__label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 0 14px;
+  padding: 8px 16px;
+  border: 1px solid var(--hpmag-brand);
+  border-radius: 999px;
+  background: rgba(21, 150, 216, 0.08);
+  color: var(--hpmag-brand);
+  font-family: var(--hpmag-font-body);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 1px;
+}
+
+.hpmag-head__dot {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--hpmag-brand);
+}
+
+.hpmag-head__dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--hpmag-brand);
+  opacity: 0;
+}
+
+/* the pulse restarts every time the block comes into view */
+.hpmag-head--in .hpmag-head__dot::after {
+  animation: hpmag-head-pulse 2s ease-out infinite;
+}
+
+@keyframes hpmag-head-pulse {
+  from { transform: scale(1); opacity: 0.7; }
+  to   { transform: scale(3); opacity: 0; }
+}
+
+.hpmag-head__title {
+  margin: 0;
+  font-family: var(--hpmag-font-display);
+  font-weight: 800;
+  font-size: clamp(2rem, 4.6vw, 3.6rem);
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+  color: #ffffff;
+}
+
+.hpmag-head__type {
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+  vertical-align: baseline;
+}
+
+.hpmag-head__sizer {
+  visibility: hidden;
+}
+
+.hpmag-head__live {
+  position: absolute;
+  top: 0;
+  left: 0;
+  white-space: nowrap;
+}
+
+/* typed blue letters: standard solid blue */
+.hpmag-head__accent {
+  color: var(--hpmag-brand);
+}
+
+/* glowing cyan cursor */
+.hpmag-head__cursor {
+  display: inline-block;
+  width: 4px;
+  height: 0.82em;
+  margin-left: 5px;
+  vertical-align: -0.04em;
+  border-radius: 2px;
+  background: #35ceff;
+  box-shadow:
+    0 0 6px rgba(53, 206, 255, 0.9),
+    0 0 14px rgba(53, 206, 255, 0.55);
+  animation: hpmag-head-blink 1s ease-in-out infinite;
+}
+
+/* solid while letters are moving, blinks while the text rests */
+.hpmag-head__cursor.is-typing {
+  animation: none;
+  opacity: 1;
+}
+
+@keyframes hpmag-head-blink {
+  0%, 45%  { opacity: 1; }
+  55%, 95% { opacity: 0; }
+  100%     { opacity: 1; }
+}
+
+.hpmag-head__rule {
+  display: block;
+  width: 64px;
+  height: 4px;
+  margin: 20px auto 0;
+  border-radius: 4px;
+  background: var(--hpmag-brand);
+}
+
+@media (max-width: 560px) {
+  .hpmag-head__label {
+    padding: 7px 13px;
+    margin-bottom: 12px;
+    font-size: 11px;
+    letter-spacing: 0.9px;
+  }
+  .hpmag-head__title {
+    font-size: clamp(1.7rem, 7.6vw, 2.2rem);
+    letter-spacing: -0.03em;
+  }
+  .hpmag-head__cursor {
+    width: 3px;
+    margin-left: 3px;
+  }
+  .hpmag-head__rule {
+    width: 54px;
+    margin-top: 16px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hpmag-head--in .hpmag-head__dot::after {
+    animation: none;
+  }
+  .hpmag-head__pop {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  /* no typing, so no cursor either */
+  .hpmag-head__cursor {
+    animation: none;
+    opacity: 0;
   }
 }
 

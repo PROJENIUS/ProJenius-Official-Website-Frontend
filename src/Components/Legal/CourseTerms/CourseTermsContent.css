@@ -1,0 +1,116 @@
+/* Course-specific terms page. */
+.pj-course-terms {
+  box-sizing: border-box;
+  max-width: 1100px;
+  min-height: 65vh;
+  margin: 0 auto;
+  padding: 126px 28px 76px;
+  color: #26374b;
+}
+
+.pj-course-terms__content {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: clamp(24px, 5vw, 52px);
+  border: 1px solid #e1e8f0;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 12px 40px rgba(24, 47, 75, 0.07);
+}
+
+.pj-course-terms__back,
+.pj-course-terms a {
+  color: #075e91;
+  text-underline-offset: 3px;
+}
+
+.pj-course-terms__eyebrow {
+  margin: 28px 0 8px;
+  color: #0788a6;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.pj-course-terms h1 {
+  margin: 0;
+  color: #132b46;
+  font-size: clamp(28px, 4vw, 38px);
+  line-height: 1.2;
+}
+
+.pj-course-terms__version {
+  margin: 12px 0 0;
+  color: #64758b;
+  font-size: 14px;
+}
+
+.pj-course-terms__intro {
+  margin: 28px 0;
+  font-size: 17px;
+  line-height: 1.75;
+}
+
+.pj-course-terms__provisional {
+  margin: 0 0 20px;
+  padding: 11px 14px;
+  border-left: 4px solid #c08a26;
+  background: #fff8e9;
+  color: #624713;
+  font-size: 14px;
+}
+
+.pj-course-terms__sections section {
+  margin: 0 0 24px;
+}
+
+.pj-course-terms__sections h2 {
+  margin: 0 0 8px;
+  color: #1c344f;
+  font-size: 20px;
+}
+
+.pj-course-terms__sections p,
+.pj-course-terms__legal {
+  line-height: 1.75;
+}
+
+.pj-course-terms__legal {
+  margin-top: 28px;
+  padding-top: 18px;
+  border-top: 1px solid #e2e8ef;
+  color: #66758a;
+  font-size: 14px;
+}
+
+.pj-course-terms__error {
+  margin-top: 20px;
+  padding: 16px;
+  border-left: 4px solid #b43838;
+  background: #fff8f8;
+  color: #6e2727;
+}
+
+.pj-course-terms__error button {
+  border: 0;
+  background: transparent;
+  color: #075e91;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  .pj-course-terms {
+    padding: 84px 14px 48px;
+  }
+
+  .pj-course-terms__content {
+    padding: 22px 18px;
+  }
+
+  .pj-course-terms__intro {
+    font-size: 16px;
+  }
+}

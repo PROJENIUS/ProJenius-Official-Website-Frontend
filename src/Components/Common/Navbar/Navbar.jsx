@@ -2,9 +2,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ChevronDown, Menu, X } from "lucide-react";
 
-//LOGO
-import NavLogo from "../../../assets/Navbar/NavbarHero/NavbarHero_1.jpeg";
-
 import "./Navbar.css";
 
 /* =========================================================
@@ -413,10 +410,9 @@ export default function Navbar() {
           window.location.href = "/";
         }} >
           <span className="glass-logo-mark">
-            <img src={NavLogo} alt="ProJenius" className="logo-icon-crop" />
+            <img src="/ProJenius_Logo.svg" alt="ProJenius Innovation Technology" className="logo-icon-crop" />
           </span>
-          <span className="logo-pro"> Pro </span>
-          <span className="logo-jenius"> Jenius </span>
+          <span className="pj-brand-wordmark"><span className="logo-pro">ProJenius</span><span className="logo-jenius">Innovation Technology</span></span>
         </a>
         {/* ===================================================
             DESKTOP NAVIGATION

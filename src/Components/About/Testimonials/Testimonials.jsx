@@ -80,14 +80,116 @@ const API_BASE = (
 ).replace(/\/$/, "");
 
 /* =========================================================
+   TYPEWRITER SETTINGS (blue heading words)
+   type -> hold (cursor blinks) -> delete -> pause -> type ...
+========================================================= */
+
+const TYPED_WORD = "Clients Say";
+const TYPE_START_DELAY = 350; // ms before the very first letter
+const TYPE_SPEED = 110; // ms per letter while typing
+const DELETE_SPEED = 65; // ms per letter while deleting
+const HOLD_TIME = 1800; // full text stays visible (cursor blinks)
+const EMPTY_PAUSE = 450; // empty pause before typing again
+
+/* =========================================================
    COMPONENT
 ========================================================= */
 
 export default function Testimonials() {
     const swiperRef = useRef(null);
+    const titleRef = useRef(null);
 
     const [reviews, setReviews] = useState(FALLBACK_REVIEWS);
     const [loading, setLoading] = useState(true);
+
+    const [typed, setTyped] = useState("");
+
+    // true  = letters are moving (typing / deleting / short pause) -> solid cursor
+    // false = full text is resting                                 -> blinking cursor
+    const [isTyping, setIsTyping] = useState(false);
+
+    /* =====================================================
+       TYPEWRITER LOOP
+       Starts when the heading is visible, stops and resets
+       when it leaves, replays when it comes back.
+    ===================================================== */
+
+    useEffect(() => {
+        const title = titleRef.current;
+
+        if (!title) return undefined;
+
+        const reduceMotion = window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+        ).matches;
+
+        if (reduceMotion || !("IntersectionObserver" in window)) {
+            setTyped(TYPED_WORD);
+            return undefined;
+        }
+
+        let timer = null;
+        let count = 0;
+
+        const clearTimers = () => clearTimeout(timer);
+
+        const typeStep = () => {
+            if (count < TYPED_WORD.length) {
+                count += 1;
+                setTyped(TYPED_WORD.slice(0, count));
+                setIsTyping(true);
+                timer = setTimeout(typeStep, TYPE_SPEED);
+            } else {
+                // full text shown: cursor blinks, then start deleting
+                setIsTyping(false);
+                timer = setTimeout(deleteStep, HOLD_TIME);
+            }
+        };
+
+        const deleteStep = () => {
+            if (count > 0) {
+                count -= 1;
+                setTyped(TYPED_WORD.slice(0, count));
+                setIsTyping(true);
+                timer = setTimeout(deleteStep, DELETE_SPEED);
+            } else {
+                // fully deleted: short empty pause, then type again
+                timer = setTimeout(typeStep, EMPTY_PAUSE);
+            }
+        };
+
+        const startLoop = () => {
+            clearTimers();
+            count = 0;
+            setTyped("");
+            setIsTyping(true);
+            timer = setTimeout(typeStep, TYPE_START_DELAY);
+        };
+
+        const resetLoop = () => {
+            clearTimers();
+            count = 0;
+            setTyped("");
+            setIsTyping(false);
+        };
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) startLoop();
+                    else resetLoop();
+                });
+            },
+            { threshold: 0.6 }
+        );
+
+        observer.observe(title);
+
+        return () => {
+            observer.disconnect();
+            clearTimers();
+        };
+    }, []);
 
     /* =====================================================
        FETCH GOOGLE REVIEWS
@@ -166,10 +268,33 @@ export default function Testimonials() {
                         TESTIMONIALS
                     </span>
 
-                    <h2 className="testi-title">
-                        What Our{" "}
-                        <span className="testi-title-accent">
-                            Clients Say
+                    <h2
+                        className="testi-title"
+                        ref={titleRef}
+                        aria-label="What Our Clients Say"
+                    >
+                        <span aria-hidden="true">What Our </span>
+
+                        {/* sizer reserves the full width, live layer types on top */}
+                        <span
+                            className="testi-type"
+                            aria-hidden="true"
+                        >
+                            <span className="testi-type-sizer">
+                                {TYPED_WORD}
+                            </span>
+
+                            <span className="testi-type-live">
+                                <span className="testi-title-accent">
+                                    {typed}
+                                </span>
+
+                                <span
+                                    className={`testi-cursor${
+                                        isTyping ? " is-typing" : ""
+                                    }`}
+                                />
+                            </span>
                         </span>
                     </h2>
 
