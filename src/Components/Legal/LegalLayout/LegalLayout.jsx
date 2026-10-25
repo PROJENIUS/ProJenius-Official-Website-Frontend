@@ -1,5 +1,5 @@
 import "./LegalLayout.css";
-import LegalSidebar from "../LegalSidebar/LegalSidebar";
+import LegalSidebar from "../LegalSidebar/LegalSidebar.jsx";
 
 export default function LegalLayout({ title, lastUpdated, children }) {
   return (

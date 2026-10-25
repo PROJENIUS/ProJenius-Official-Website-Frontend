@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Target,
   GraduationCap,
@@ -72,21 +72,47 @@ const JOURNEY_DATA = [
   },
 ];
 
-// "Our " is always visible (white, static).
-// Only the blue word is typed, held, deleted, and typed again (loop).
-const TITLE_WHITE = "Our ";
-const TITLE_BLUE = "Journey";
-
-// typewriter timing (ms)
-const FIRST_DELAY = 350; // wait before the very first letter
-const TYPE_SPEED = 110; // per letter while typing
-const DELETE_SPEED = 65; // per letter while deleting
-const HOLD_TIME = 1800; // full word stays visible (cursor blinks)
-const EMPTY_PAUSE = 450; // empty pause before typing again
-
 const prefersReducedMotion = () =>
   typeof window !== "undefined" &&
   window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+const JOURNEY_WORD = "Journey";
+
+function TypedJourneyWord({ active }) {
+  const [length, setLength] = useState(0);
+  const [deleting, setDeleting] = useState(false);
+  const reduce = prefersReducedMotion();
+
+  useEffect(() => {
+    if (!active || reduce) return undefined;
+
+    let timer;
+    if (!deleting && length < JOURNEY_WORD.length) {
+      timer = window.setTimeout(() => setLength((value) => value + 1), length === 0 ? 260 : 105);
+    } else if (!deleting) {
+      timer = window.setTimeout(() => setDeleting(true), 1500);
+    } else if (length > 0) {
+      timer = window.setTimeout(() => setLength((value) => value - 1), 55);
+    } else {
+      timer = window.setTimeout(() => setDeleting(false), 350);
+    }
+
+    return () => window.clearTimeout(timer);
+  }, [active, deleting, length, reduce]);
+
+  const shown = reduce ? JOURNEY_WORD : JOURNEY_WORD.slice(0, length);
+
+  return (
+    <span className="journey-heading-word">
+      <span className="pjds-sr-only">{JOURNEY_WORD}</span>
+      <span className="journey-heading-sizer" aria-hidden="true">{JOURNEY_WORD}</span>
+      <span className="journey-heading-live" aria-hidden="true">
+        {shown}
+        {!reduce && active && <span className="journey-heading-caret" />}
+      </span>
+    </span>
+  );
+}
 
 /* =========================================================
    JOURNEY CARD
@@ -105,7 +131,7 @@ function JourneyCard({
   const isLeft = index % 2 === 0;
 
   return (
-    <article
+    <li
       ref={cardRef}
       className={[
         "journey-card-wrap",
@@ -128,7 +154,7 @@ function JourneyCard({
 
         <p className="journey-description">{item.description}</p>
 
-        <div className="journey-tags">
+        <div className="journey-tags" role="group" aria-label="Milestone themes">
           {item.tags.map((tag) => (
             <span key={tag} className="journey-tag">
               {tag}
@@ -144,7 +170,7 @@ function JourneyCard({
       <div className="journey-node" aria-hidden="true">
         <Icon size={18} strokeWidth={1.9} />
       </div>
-    </article>
+    </li>
   );
 }
 
@@ -154,83 +180,96 @@ function JourneyCard({
 
 export default function OurStory() {
   const sectionRef = useRef(null);
-  const headerRef = useRef(null);
+  const progressRef = useRef(null);
   const cardRefs = useRef([]);
 
   const [activeIndex, setActiveIndex] = useState(-1);
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [headerVisible, setHeaderVisible] = useState(false);
-  const [typedCount, setTypedCount] = useState(0);
-  const [phase, setPhase] = useState("typing"); // "typing" | "deleting"
-  const [introDone, setIntroDone] = useState(false); // first typing finished
   const [revealedCards, setRevealedCards] = useState([]);
+  const [titleActive, setTitleActive] = useState(false);
 
-  const typedText = TITLE_BLUE.slice(0, typedCount);
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section || typeof IntersectionObserver === "undefined") {
+      setTitleActive(true);
+      return undefined;
+    }
 
-  // cursor blinks only while the full word is resting; solid while moving
-  const isHolding =
-    phase === "typing" && typedCount >= TITLE_BLUE.length;
+    const observer = new IntersectionObserver(([entry]) => {
+      setTitleActive(entry.isIntersecting);
+    }, { threshold: 0.05 });
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
 
   /* =======================================================
      SCROLL PROGRESS
+     The cyan line follows the page scroll. It is written straight to a CSS
+     variable (no React state, so no re-render per frame), throttled to one
+     update per animation frame, and only listens while the section is on
+     screen.
   ======================================================= */
 
   useEffect(() => {
     const section = sectionRef.current;
+    const bar = progressRef.current;
 
-    if (!section) {
+    if (!section || !bar) {
       return undefined;
     }
 
     let frame = 0;
+    let listening = false;
 
-    const updateProgress = () => {
+    const update = () => {
       frame = 0;
-
       const rect = section.getBoundingClientRect();
       const viewportHeight = window.innerHeight || 1;
-
-      const sectionTop = window.scrollY + rect.top;
-      const sectionHeight = section.offsetHeight;
-
-      /*
-       * The blue line follows the user's actual page scroll.
-       * It does NOT run by itself.
-       */
-      const travelDistance = Math.max(
-        sectionHeight - viewportHeight * 0.32,
-        1
-      );
-
-      const currentTravel =
-        window.scrollY + viewportHeight * 0.58 - sectionTop;
-
-      const progress = Math.min(
-        1,
-        Math.max(0, currentTravel / travelDistance)
-      );
-
-      setScrollProgress(progress);
+      const travel = Math.max(rect.height - viewportHeight * 0.32, 1);
+      const progress = Math.min(1, Math.max(0, (viewportHeight * 0.58 - rect.top) / travel));
+      bar.style.setProperty("--pja-story-progress", progress.toFixed(4));
     };
 
     const requestUpdate = () => {
-      if (!frame) {
-        frame = requestAnimationFrame(updateProgress);
-      }
+      if (!frame) frame = requestAnimationFrame(update);
     };
 
-    updateProgress();
+    const start = () => {
+      if (listening) return;
+      listening = true;
+      window.addEventListener("scroll", requestUpdate, { passive: true });
+      window.addEventListener("resize", requestUpdate);
+      requestUpdate();
+    };
 
-    window.addEventListener("scroll", requestUpdate, { passive: true });
-    window.addEventListener("resize", requestUpdate);
-
-    return () => {
+    const stop = () => {
+      if (!listening) return;
+      listening = false;
       window.removeEventListener("scroll", requestUpdate);
       window.removeEventListener("resize", requestUpdate);
+    };
 
-      if (frame) {
-        cancelAnimationFrame(frame);
+    if (typeof IntersectionObserver === "undefined") {
+      start();
+      return () => {
+        stop();
+        if (frame) cancelAnimationFrame(frame);
+      };
+    }
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) start();
+      else {
+        stop();
+        update();
       }
+    });
+    observer.observe(section);
+
+    return () => {
+      observer.disconnect();
+      stop();
+      if (frame) cancelAnimationFrame(frame);
     };
   }, []);
 
@@ -241,7 +280,7 @@ export default function OurStory() {
   useEffect(() => {
     const cards = cardRefs.current.filter(Boolean);
 
-    if (!cards.length) {
+    if (!cards.length || typeof IntersectionObserver === "undefined") {
       return undefined;
     }
 
@@ -251,17 +290,12 @@ export default function OurStory() {
           .filter((entry) => entry.isIntersecting)
           .sort(
             (a, b) =>
-              Math.abs(
-                a.boundingClientRect.top - window.innerHeight * 0.48
-              ) -
-              Math.abs(
-                b.boundingClientRect.top - window.innerHeight * 0.48
-              )
+              Math.abs(a.boundingClientRect.top - window.innerHeight * 0.48) -
+              Math.abs(b.boundingClientRect.top - window.innerHeight * 0.48)
           );
 
         if (visible.length) {
-          const index = Number(visible[0].target.dataset.index);
-          setActiveIndex(index);
+          setActiveIndex(Number(visible[0].target.dataset.index));
         }
       },
       {
@@ -276,86 +310,8 @@ export default function OurStory() {
   }, []);
 
   /* =======================================================
-     HEADER REVEAL (starts when the header enters the screen)
-  ======================================================= */
-
-  useEffect(() => {
-    const header = headerRef.current;
-
-    if (!header) {
-      return undefined;
-    }
-
-    if (prefersReducedMotion()) {
-      setHeaderVisible(true);
-      setTypedCount(TITLE_BLUE.length);
-      setIntroDone(true);
-      return undefined;
-    }
-
-    /*
-     * Not disconnected after the first time: when the header leaves the
-     * screen everything resets, so the animation starts fresh on return.
-     */
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && entry.intersectionRatio >= 0.35) {
-          setHeaderVisible(true);
-        } else if (!entry.isIntersecting) {
-          setHeaderVisible(false);
-          setTypedCount(0);
-          setPhase("typing");
-          setIntroDone(false);
-        }
-      },
-      { threshold: [0, 0.35] }
-    );
-
-    observer.observe(header);
-
-    return () => observer.disconnect();
-  }, []);
-
-  /* =======================================================
-     TYPEWRITER LOOP (blue word only)
-     type -> hold (cursor blinks) -> delete -> pause -> type ...
-  ======================================================= */
-
-  useEffect(() => {
-    if (!headerVisible || prefersReducedMotion()) {
-      return undefined;
-    }
-
-    let timer;
-
-    if (phase === "typing") {
-      if (typedCount < TITLE_BLUE.length) {
-        // typing the next letter
-        timer = setTimeout(
-          () => setTypedCount((count) => count + 1),
-          typedCount === 0 ? FIRST_DELAY : TYPE_SPEED
-        );
-      } else {
-        // full word shown: reveal bar + subtitle once, then hold, then delete
-        setIntroDone(true);
-        timer = setTimeout(() => setPhase("deleting"), HOLD_TIME);
-      }
-    } else if (typedCount > 0) {
-      // deleting one letter at a time
-      timer = setTimeout(
-        () => setTypedCount((count) => count - 1),
-        DELETE_SPEED
-      );
-    } else {
-      // fully deleted: short empty pause, then type again
-      timer = setTimeout(() => setPhase("typing"), EMPTY_PAUSE);
-    }
-
-    return () => clearTimeout(timer);
-  }, [headerVisible, typedCount, phase]);
-
-  /* =======================================================
-     CARD REVEAL (each card appears when you reach it)
+     CARD REVEAL (each card appears when you reach it, both
+     scroll directions)
   ======================================================= */
 
   useEffect(() => {
@@ -365,7 +321,7 @@ export default function OurStory() {
       return undefined;
     }
 
-    if (prefersReducedMotion()) {
+    if (prefersReducedMotion() || typeof IntersectionObserver === "undefined") {
       setRevealedCards(cards.map((_, index) => index));
       return undefined;
     }
@@ -376,12 +332,8 @@ export default function OurStory() {
           const index = Number(entry.target.dataset.index);
 
           if (entry.isIntersecting && entry.intersectionRatio >= 0.3) {
-            // reached the card -> play the reveal
-            setRevealedCards((prev) =>
-              prev.includes(index) ? prev : [...prev, index]
-            );
+            setRevealedCards((prev) => (prev.includes(index) ? prev : [...prev, index]));
           } else if (!entry.isIntersecting) {
-            // card fully left the screen -> reset, so it replays on return
             setRevealedCards((prev) => prev.filter((i) => i !== index));
           }
         });
@@ -404,69 +356,30 @@ export default function OurStory() {
   return (
     <section
       ref={sectionRef}
+      id="about-journey"
       className="our-journey-section"
       aria-labelledby="our-journey-title"
     >
-      <div className="our-journey-container">
-        {/* HEADER */}
+      <div className="pjds-container">
+        <header className="our-journey-header">
+          <p className="pjds-eyebrow pjds-eyebrow--on-dark" data-reveal="up">Our Story</p>
 
-        <header
-          ref={headerRef}
-          className={[
-            "our-journey-header",
-            headerVisible ? "journey-header-visible" : "",
-            introDone ? "journey-header-done" : "",
-          ].join(" ")}
-        >
-          <span className="journey-eyebrow">OUR STORY</span>
-
-          <h2 id="our-journey-title" aria-label="Our Journey">
-            {/* white word: static, always visible */}
-            <span aria-hidden="true" className="journey-title-white">
-              {TITLE_WHITE}
-            </span>
-
-            {/* blue word: typewriter loop. The sizer reserves the full
-                width so the centered title never shifts while typing. */}
-            <span className="journey-type" aria-hidden="true">
-              <span className="journey-type-sizer">{TITLE_BLUE}</span>
-
-              <span className="journey-type-live">
-                <span className="journey-type-text">{typedText}</span>
-
-                {headerVisible && (
-                  <span
-                    className={`journey-caret${
-                      isHolding ? "" : " is-typing"
-                    }`}
-                  />
-                )}
-              </span>
-            </span>
+          <h2 id="our-journey-title" data-reveal="up" data-reveal-delay="1">
+            Our <TypedJourneyWord active={titleActive} />
           </h2>
 
-          <span className="journey-title-bar" aria-hidden="true" />
+          <span className="journey-title-bar" aria-hidden="true" data-reveal="line" data-reveal-delay="2" />
 
-          <p>
-            From a bold idea to a growing innovation ecosystem — every
-            milestone has shaped who
-            <br className="journey-desktop-break" />
-            we are.
+          <p data-reveal="up" data-reveal-delay="2">
+            From a bold idea to a growing innovation ecosystem — every milestone has shaped who we are.
           </p>
         </header>
 
-        {/* TIMELINE */}
-
         <div className="journey-timeline">
           <div className="journey-axis" aria-hidden="true" />
+          <div ref={progressRef} className="journey-axis-progress" aria-hidden="true" />
 
-          <div
-            className="journey-axis-progress"
-            aria-hidden="true"
-            style={{ height: `${scrollProgress * 100}%` }}
-          />
-
-          <div className="journey-items">
+          <ol className="journey-items">
             {JOURNEY_DATA.map((item, index) => (
               <JourneyCard
                 key={`${item.year}-${item.title}`}
@@ -481,7 +394,7 @@ export default function OurStory() {
                 }}
               />
             ))}
-          </div>
+          </ol>
         </div>
       </div>
     </section>

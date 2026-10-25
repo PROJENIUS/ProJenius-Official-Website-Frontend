@@ -1,6 +1,4 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
-
 :root {
   --cyan: #33ccff;
   --blue: #1596d8;
@@ -18,7 +16,7 @@
   text-align: center;
   background: #fff;
   color: var(--navy);
-  font-family: 'Poppins', system-ui, sans-serif;
+  font-family: var(--pjds-font-body, system-ui, sans-serif);
 }
 
 .section-inner {
@@ -27,51 +25,62 @@
 }
 
 /* Outlined tag */
-.section-tag {
-  display: inline-block;
-  padding: 6px 20px;
-  margin-bottom: 14px;
-  border: 1px solid var(--blue);
-  border-radius: 999px;
-  background: #fff;
-  color: var(--blue);
-  font-size: 0.9rem;
-  font-weight: 600;
-  letter-spacing: 0.4px;
-}
-
-.section-title {
+.founders-section .section-tag {
+  display: inline-flex;
+  align-items: center;
   margin: 0;
-  font-size: clamp(2.2rem, 5vw, 3.6rem);
-  font-weight: 800;
-  line-height: 1.15;
-  letter-spacing: -1.5px;
-  color: var(--navy);
+  padding: 6px 14px;
+  border: 1px solid var(--pjds-accent-text, var(--blue));
+  border-radius: 999px;
+  background: rgba(32, 200, 245, 0.07);
+  color: var(--pjds-accent-text, var(--blue));
+  font-family: var(--pjds-font-body, system-ui, sans-serif);
+  font-size: var(--pjds-text-eyebrow, 0.8125rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-transform: uppercase;
 }
 
-.title-highlight {
+.founders-section .section-title {
+  margin: 4px 0 0;
+  color: var(--pjds-navy-950, var(--navy));
+  font-family: var(--pjds-font-heading, inherit);
+  font-size: clamp(2rem, 1.25rem + 2.15vw, 2.8rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.founders-section .section-title-static {
+  white-space: nowrap;
+}
+
+.founders-section .title-highlight {
   color: var(--blue);
 }
 
 /* ---------- Typewriter effect ---------- */
 /* Keep the animated heading and cursor on the same line */
-.typed-wrap {
+.founders-section .typed-wrap {
   position: relative;
   display: inline-block;
+  margin-inline-start: 0.16em;
   vertical-align: baseline;
   white-space: nowrap;
   max-width: 100%;
 }
 
 /* Invisible text reserves the complete heading width */
-.typed-sizer {
+.founders-section .typed-sizer {
   display: inline-block;
   visibility: hidden;
   white-space: nowrap;
 }
 
 /* Visible animated text */
-.typed-live {
+.founders-section .typed-live {
   position: absolute;
   top: 0;
   left: 0;
@@ -82,7 +91,7 @@
 }
 
 /* Blue typing cursor */
-.typed-caret {
+.founders-section .typed-caret {
   display: inline-block;
   width: 3px;
   height: 0.82em;
@@ -117,17 +126,17 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .typed-caret {
+  .founders-section .typed-caret {
     animation: none;
   }
 }
 
 /* Blue underline below the heading */
-.title-underline {
+.founders-section .title-underline {
   display: block;
   width: 78px;
-  height: 4px;
-  margin: 8px auto 18px;
+  height: 5px;
+  margin: 5px auto 4px;
   border-radius: 4px;
   background: var(--blue);
   flex-shrink: 0;
@@ -205,6 +214,8 @@
   height: 93%;
   object-fit: contain;
   object-position: bottom center;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 /* Founder and leadership photo sizing */
@@ -404,13 +415,44 @@
     padding: 52px 16px 60px;
   }
 
-  .section-title {
-    font-size: clamp(1.9rem, 8vw, 2.5rem);
-    letter-spacing: -1px;
+  .founders-section .section-tag {
+    padding: 5px 12px;
+    font-size: 0.75rem;
   }
 
-  .typed-wrap {
+  .founders-section .section-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    font-size: clamp(1.75rem, 1rem + 4vw, 2.25rem);
+    letter-spacing: -0.03em;
+  }
+
+  .founders-section .typed-wrap {
+    display: block;
+    margin-inline-start: 0;
+    width: 100%;
     max-width: 100%;
+    min-height: 1.15em;
+    white-space: normal;
+  }
+
+  .founders-section .typed-sizer {
+    display: block;
+    text-align: center;
+    white-space: normal;
+  }
+
+  .founders-section .typed-live {
+    height: 100%;
+    text-align: center;
+    white-space: normal;
+  }
+
+  .founders-section .title-underline {
+    width: 62px;
+    height: 4px;
   }
 
   .person-card {

@@ -1,4 +1,4 @@
-import assert from "node:assert/strict";
+﻿import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 
@@ -7,17 +7,17 @@ const readSource = (path) => readFile(new URL(path, import.meta.url), "utf8");
 test("general legal routes use separate pages and preserve course terms", async () => {
   const app = await readSource("../src/App.jsx");
 
-  assert.match(app, /path="\/terms" element=\{<TermsAndConditions \/>\}/);
-  assert.match(app, /path="\/privacy-policy" element=\{<PrivacyPolicy \/>\}/);
-  assert.match(app, /path="\/services\/courses\/terms" element=\{<CourseTerms \/>\}/);
+  assert.match(app, /path="\/terms" element=\{<TermsAndConditionsPage \/>\}/);
+  assert.match(app, /path="\/privacy-policy" element=\{<PrivacyPolicyPage \/>\}/);
+  assert.match(app, /path="\/services\/courses\/terms" element=\{<CourseTermsPage \/>\}/);
   assert.match(app, /"\/terms": `Terms & Conditions/);
   assert.match(app, /"\/privacy-policy": `Privacy Policy/);
 });
 
 test("legal routes share a layout and fetch document content", async () => {
   const [terms, privacy, layout, sidebar, view, api] = await Promise.all([
-    readSource("../src/Pages/Legal/TermsAndConditions/TermsAndConditions.jsx"),
-    readSource("../src/Pages/Legal/PrivacyPolicy/PrivacyPolicy.jsx"),
+    readSource("../src/Pages/Legal/TermsAndConditionsPage.jsx"),
+    readSource("../src/Pages/Legal/PrivacyPolicyPage.jsx"),
     readSource("../src/Components/Legal/LegalLayout/LegalLayout.jsx"),
     readSource("../src/Components/Legal/LegalSidebar/LegalSidebar.jsx"),
     readSource("../src/Components/Legal/LegalDocumentView/LegalDocumentView.jsx"),
@@ -55,7 +55,7 @@ test("legal layout clears the fixed navbar and styles adapt to narrow screens", 
   assert.match(sidebar, /@media \(max-width: 760px\)/);
   assert.match(content, /overflow-wrap: anywhere/);
 
-  const coursePage = await readSource("../src/Pages/Services/CourseTerms.jsx");
+  const coursePage = await readSource("../src/Pages/Legal/CourseTermsPage.jsx");
   assert.match(coursePage, /<CourseTermsContent \/>/);
   assert.doesNotMatch(coursePage, /fetch\(|useEffect|course-terms-page/);
 

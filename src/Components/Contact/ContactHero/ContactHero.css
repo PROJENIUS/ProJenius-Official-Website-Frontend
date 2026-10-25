@@ -6,19 +6,20 @@
    ============================================================================= */
 
 .pj-contact-hero {
-  --pj-hero-bg: #0a0f2c;
+  --pj-hero-bg: var(--pjds-navy-950);
   --pj-hero-text: #f2f4ff;
   --pj-hero-muted: #aeb7dd;
-  --pj-hero-primary: #4a63ff;
+  --pj-hero-primary: var(--pjds-cyan-500);
   --pj-hero-line: rgba(255, 255, 255, 0.14);
-  --pj-hero-link: #6f86ff;
+  --pj-hero-link: var(--pjds-cyan-400);
   --pj-hero-sun: #1fcba0;
 
   position: relative;
   overflow: hidden;
   background-color: var(--pj-hero-bg);
   color: var(--pj-hero-text);
-  font-family: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-family: var(--pjds-font-body);
+  border-bottom: 2px solid var(--pjds-cyan-500);
 }
 
 .pj-contact-hero::before {
@@ -26,7 +27,7 @@
   position: absolute;
   inset: auto -10% -40% 30%;
   height: 90%;
-  background: radial-gradient(closest-side, rgba(74, 99, 255, 0.3), transparent);
+  background: radial-gradient(closest-side, rgba(32, 200, 245, 0.18), transparent);
   pointer-events: none;
 }
 
@@ -38,12 +39,12 @@
 .pj-contact-hero__content {
   position: relative;
   display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
   align-items: center;
   gap: 32px;
   max-width: 1240px;
   margin: 0 auto;
-  padding: 72px 24px 80px;
+  padding: calc(var(--pjds-nav-offset) + 36px) var(--pjds-gutter) 64px;
 }
 
 
@@ -54,17 +55,20 @@
 .pj-contact-hero__title {
   margin: 0;
   max-width: 12ch;
-  font-family: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
-  font-size: clamp(2.4rem, 5vw, 4.2rem);
-  font-weight: 700;
-  line-height: 1.02;
-  letter-spacing: -0.02em;
+  font-family: var(--pjds-font-heading);
+  font-size: clamp(2.5rem, 1.35rem + 3.6vw, 4.25rem);
+  font-weight: 800;
+  line-height: 1.06;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
 }
+
+.pj-contact-hero__eyebrow { margin: 0 0 18px; color: var(--pjds-cyan-400); font-size: var(--pjds-text-eyebrow); font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
 
 .pj-contact-hero__lead {
   max-width: 34ch;
   margin: 20px 0 0;
-  font-size: clamp(1.1rem, 1.6vw, 1.3rem);
+  font-size: var(--pjds-text-lead);
   line-height: 1.4;
   color: #ffffff;
 }
@@ -100,7 +104,7 @@
 
 .pj-contact-hero__button--primary {
   background-color: var(--pj-hero-primary);
-  color: #ffffff;
+  color: var(--pjds-navy-950);
 }
 
 .pj-contact-hero__button--primary:hover {
@@ -110,7 +114,7 @@
 .pj-contact-hero__button--secondary {
   background-color: transparent;
   border-color: rgba(255, 255, 255, 0.4);
-  color: #ffffff;
+  color: var(--pjds-navy-950);
 }
 
 .pj-contact-hero__button--secondary:hover {
@@ -168,7 +172,7 @@
 
 .pj-contact-hero__core text {
   fill: #ffffff;
-  font-family: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  font-family: var(--pjds-font-heading);
   font-weight: 700;
   font-size: 14px;
   letter-spacing: 0.04em;
@@ -183,7 +187,7 @@
 
 .pj-contact-hero__nodes text {
   fill: #ffffff;
-  font-family: "Hanken Grotesk", system-ui, sans-serif;
+  font-family: var(--pjds-font-body);
   font-weight: 600;
   font-size: 12.5px;
   letter-spacing: 0.03em;
@@ -198,7 +202,7 @@
 @media (max-width: 1024px) {
   .pj-contact-hero__content {
     gap: 24px;
-    padding: 60px 24px 64px;
+    padding: calc(var(--pjds-nav-offset) + 28px) var(--pjds-gutter) 56px;
   }
 }
 
@@ -211,7 +215,7 @@
   .pj-contact-hero__content {
     grid-template-columns: 1fr;
     text-align: center;
-    padding: 48px 20px 52px;
+    padding: calc(var(--pjds-nav-offset) + 20px) var(--pjds-gutter) 48px;
   }
 
   .pj-contact-hero__title,
@@ -237,7 +241,7 @@
 
 @media (max-width: 480px) {
   .pj-contact-hero__content {
-    padding: 40px 16px 44px;
+    padding: calc(var(--pjds-nav-offset) + 16px) var(--pjds-gutter) 40px;
   }
 
   .pj-contact-hero__button {

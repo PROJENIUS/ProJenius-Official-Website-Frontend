@@ -1,0 +1,103 @@
+/* =========================================================
+   REAL-WORLD EXPERIENCE — every rule is scoped beneath
+   .pj-internship-real-world. Light (white) section with a
+   soft cyan wash, like the homepage Who We Are section.
+========================================================= */
+
+.pj-internship-real-world {
+    position: relative;
+    padding-block: var(--pjds-section-space);
+    overflow: hidden;
+    background:
+        radial-gradient(48rem 30rem at 50% 100%, rgba(32, 200, 245, 0.1), transparent 70%),
+        var(--pjds-surface);
+    color: var(--pjds-text);
+}
+
+.pj-internship-real-world *,
+.pj-internship-real-world *::before,
+.pj-internship-real-world *::after {
+    box-sizing: border-box;
+}
+
+.pj-internship-real-world-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 860px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.pj-internship-real-world-header h2 {
+    margin: 0;
+    color: var(--pjds-text);
+}
+
+.pj-internship-real-world-title-static {
+    display: block;
+}
+
+.pj-internship-real-world-intro {
+    max-width: 620px;
+    margin: 16px 0 0;
+    color: var(--pjds-text-muted);
+    font-size: var(--pjds-text-lead);
+    line-height: 1.65;
+}
+
+/* Larger 16:9 frame; allow normal page scrolling instead of shrinking the video to squeeze the section into one viewport. */
+.pj-internship-real-world-video {
+    width: min(100%, 960px);
+    margin: clamp(32px, 4vw, 48px) auto 0;
+}
+
+.pj-internship-real-world-frame {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border: 1px solid rgba(32, 200, 245, 0.35);
+    border-radius: clamp(16px, 2vw, 26px);
+    background: var(--pjds-navy-950);
+    box-shadow:
+        0 0 0 8px rgba(32, 200, 245, 0.06),
+        0 40px 80px -40px rgba(7, 20, 38, 0.55);
+    transition:
+        border-color 220ms ease,
+        box-shadow 220ms ease,
+        transform 220ms ease;
+}
+
+.pj-internship-real-world-frame:hover,
+.pj-internship-real-world-frame:focus-within {
+    border-color: rgba(32, 200, 245, 0.78);
+    box-shadow:
+        0 0 0 10px rgba(32, 200, 245, 0.1),
+        0 44px 88px -40px rgba(7, 20, 38, 0.62);
+    transform: translateY(-2px);
+}
+
+.pj-internship-real-world-frame iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+@media (max-width: 600px) {
+    .pj-internship-real-world-frame {
+        box-shadow: 0 24px 50px -30px rgba(7, 20, 38, 0.55);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pj-internship-real-world-frame {
+        transition: none;
+    }
+
+    .pj-internship-real-world-frame:hover,
+    .pj-internship-real-world-frame:focus-within {
+        transform: none;
+    }
+}

@@ -1,0 +1,325 @@
+/* =========================================================
+   INTERNSHIP HERO — every rule is scoped beneath .pj-internship-hero
+   Navy surface with a soft cyan glow behind the facts panel and a
+   faint grid, content and panel centred against each other.
+   Container width, the label pill, h1 size and lead size come from
+   src/Pages/Learning/LearningPages.css (the homepage system).
+========================================================= */
+
+.pj-internship-hero {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    align-items: center;
+    min-height: min(100svh, 940px);
+    padding: calc(var(--pjds-nav-offset) + 40px) 0 96px;
+    overflow: hidden;
+    background: var(--pjds-navy-950);
+    color: var(--pjds-white);
+    box-sizing: border-box;
+}
+
+/* Background: two soft glows plus a grid that fades out from the panel. */
+.pj-internship-hero-backdrop {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+        radial-gradient(40% 55% at 76% 46%, rgba(32, 200, 245, 0.14), transparent 70%),
+        radial-gradient(38% 50% at 6% 100%, rgba(27, 68, 117, 0.55), transparent 72%),
+        linear-gradient(180deg, var(--pjds-navy-950) 0%, #091a31 100%);
+    pointer-events: none;
+}
+
+.pj-internship-hero-backdrop::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(90, 214, 248, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(90, 214, 248, 0.06) 1px, transparent 1px);
+    background-size: 64px 64px;
+    -webkit-mask-image: radial-gradient(55% 65% at 72% 45%, #000 0%, transparent 75%);
+    mask-image: radial-gradient(55% 65% at 72% 45%, #000 0%, transparent 75%);
+}
+
+/* Layout ---------------------------------------------------------------- */
+.pj-internship-hero-container {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    align-items: center;
+    gap: clamp(40px, 5vw, 80px);
+}
+
+.pj-internship-hero-content {
+    min-width: 0;
+    max-width: 640px;
+}
+
+/* Copy ------------------------------------------------------------------ */
+.pj-internship-hero .pj-internship-hero-label {
+    margin: 0 0 24px;
+}
+
+.pj-internship-hero .pj-internship-hero-title {
+    margin: 0;
+    color: var(--pjds-white);
+    /* Sized so the longest typed phrase stays on one line beside the panel. */
+    font-size: clamp(2.25rem, 1.2rem + 2.9vw, 3.5rem);
+}
+
+.pj-internship-hero-title-static {
+    display: block;
+}
+
+.pj-internship-hero-description {
+    max-width: 580px;
+    margin: 24px 0 0;
+    color: rgba(226, 232, 240, 0.78);
+}
+
+.pj-internship-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 36px;
+}
+
+.pj-internship-hero-highlights {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 28px;
+    max-width: 580px;
+    margin: 40px 0 0;
+    padding: 28px 0 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    list-style: none;
+}
+
+.pj-internship-hero-highlights li {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    color: rgba(226, 232, 240, 0.86);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.pj-internship-hero-highlights svg {
+    flex: none;
+    color: var(--pjds-cyan-400);
+}
+
+/* Facts panel ----------------------------------------------------------- */
+.pj-internship-hero-panel {
+    position: relative;
+    min-width: 0;
+    padding: clamp(22px, 2.2vw, 30px);
+    border: 1px solid rgba(90, 214, 248, 0.16);
+    border-radius: var(--pjds-radius-lg);
+    background: linear-gradient(160deg, rgba(18, 50, 90, 0.72) 0%, rgba(11, 35, 64, 0.62) 100%);
+    box-shadow:
+        0 30px 80px rgba(2, 8, 18, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* Thin cyan light along the top edge. */
+.pj-internship-hero-panel::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 12%;
+    right: 12%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--pjds-cyan-500), transparent);
+}
+
+.pj-internship-hero-panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+.pj-internship-hero-panel-title {
+    margin: 0;
+    color: var(--pjds-white);
+    font-family: var(--pjds-font-heading);
+    font-size: 1.125rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.pj-internship-hero-panel-tag {
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: rgba(32, 200, 245, 0.12);
+    color: var(--pjds-cyan-400);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+/* 2 x 2 grid; the 1px gap shows the panel line colour as dividers. */
+.pj-internship-hero-facts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1px;
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid rgba(90, 214, 248, 0.12);
+    border-radius: 18px;
+    background: rgba(90, 214, 248, 0.12);
+}
+
+.pj-internship-hero-fact {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    min-width: 0;
+    padding: clamp(20px, 2vw, 26px);
+    background: rgba(7, 20, 38, 0.82);
+    transition: background-color 220ms ease;
+}
+
+.pj-internship-hero-fact:hover {
+    background: rgba(11, 35, 64, 0.95);
+}
+
+.pj-internship-hero-fact-icon {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border: 1px solid rgba(90, 214, 248, 0.22);
+    border-radius: 13px;
+    background: rgba(32, 200, 245, 0.1);
+    color: var(--pjds-cyan-400);
+}
+
+.pj-internship-hero-fact-text dt {
+    margin: 0;
+    color: var(--pjds-white);
+    font-family: var(--pjds-font-heading);
+    font-size: 1.0625rem;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.pj-internship-hero-fact-text dd {
+    margin: 6px 0 0;
+    color: rgba(203, 213, 225, 0.82);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    text-wrap: pretty;
+}
+
+/* Tablet and small laptop: content first, panel below at a readable width */
+@media (max-width: 1100px) {
+    .pj-internship-hero {
+        min-height: 0;
+        padding: calc(var(--pjds-nav-offset) + 32px) 0 80px;
+    }
+
+    .pj-internship-hero-container {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 48px;
+    }
+
+    .pj-internship-hero-content,
+    .pj-internship-hero-panel {
+        max-width: 680px;
+    }
+
+    .pj-internship-hero-backdrop {
+        background:
+            radial-gradient(70% 40% at 70% 78%, rgba(32, 200, 245, 0.12), transparent 70%),
+            radial-gradient(60% 40% at 0% 0%, rgba(27, 68, 117, 0.5), transparent 72%),
+            var(--pjds-navy-950);
+    }
+
+    .pj-internship-hero-backdrop::after {
+        -webkit-mask-image: radial-gradient(70% 45% at 60% 75%, #000 0%, transparent 75%);
+        mask-image: radial-gradient(70% 45% at 60% 75%, #000 0%, transparent 75%);
+    }
+}
+
+/* Phones ---------------------------------------------------------------- */
+@media (max-width: 600px) {
+    .pj-internship-hero {
+        padding: calc(var(--pjds-nav-offset) + 20px) 0 64px;
+    }
+
+    .pj-internship-hero .pj-internship-hero-label {
+        margin-bottom: 18px;
+    }
+
+    .pj-internship-hero-description {
+        margin-top: 18px;
+    }
+
+    .pj-internship-hero-actions {
+        margin-top: 28px;
+    }
+
+    .pj-internship-hero-highlights {
+        gap: 10px 20px;
+        margin-top: 32px;
+        padding-top: 22px;
+    }
+
+    .pj-internship-hero-highlights li {
+        font-size: 0.875rem;
+    }
+
+    .pj-internship-hero-panel-title {
+        font-size: 1rem;
+    }
+
+    /* One fact per row: icon beside the text. */
+    .pj-internship-hero-facts {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .pj-internship-hero-fact {
+        flex-direction: row;
+        align-items: center;
+        gap: 16px;
+        padding: 16px 18px;
+    }
+
+    .pj-internship-hero-fact-icon {
+        flex: none;
+        width: 42px;
+        height: 42px;
+    }
+}
+
+@media (max-width: 420px) {
+    .pj-internship-hero-actions .pj-internship-hero-btn {
+        flex: 1 1 100%;
+    }
+}
+
+/* Very narrow phones: the decorative tag gives its room to the title. */
+@media (max-width: 380px) {
+    .pj-internship-hero-panel-tag {
+        display: none;
+    }
+}
+
+@media (hover: none) {
+    .pj-internship-hero-fact:hover {
+        background: rgba(7, 20, 38, 0.82);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pj-internship-hero-fact {
+        transition: none;
+    }
+}

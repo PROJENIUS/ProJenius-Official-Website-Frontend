@@ -22,8 +22,8 @@
   --hpmag-link: #5cc3f5;                   /* lighter blue, readable on black */
   --hpmag-shadow-rgb: 0, 0, 0;
   --hpmag-ratio: 0.704; /* page width / height. Change if your pages differ */
-  --hpmag-font-display: "Inter", "Helvetica Neue", Arial, sans-serif;
-  --hpmag-font-body: "Poppins", "Segoe UI", Arial, sans-serif;
+  --hpmag-font-display: var(--pjds-font-heading);
+  --hpmag-font-body: var(--pjds-font-body);
   --hpmag-ease-out: cubic-bezier(0.16, 0.84, 0.24, 1);
 
   position: relative;
@@ -133,12 +133,47 @@
     grid-template-rows: none;
   }
   .hpmag__stage {
-    margin-top: 34px;
+    margin-top: 24px;
     --hpmag-bw: min(86vw, 400px);
   }
 }
 @media (max-width: 560px) {
-  .hpmag__stage { gap: 22px; }
+  .hpmag__stage {
+    gap: 14px;
+    --hpmag-bw: min(72vw, 280px);
+  }
+
+  .hpmag-intro__headline {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    justify-items: center;
+    justify-content: center;
+    column-gap: clamp(8px, 2.5vw, 18px);
+    row-gap: 2px;
+    width: fit-content;
+    max-width: 100%;
+    margin-inline: auto;
+    font-size: clamp(1.25rem, 5.8vw, 1.75rem);
+    line-height: 1.12;
+    text-align: center;
+  }
+
+  .hpmag-intro__headline span { min-width: 0; }
+
+  .hpmag-intro__rule {
+    margin-inline: auto;
+  }
+
+  .hpmag-intro__lede {
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .hpmag-actions {
+    justify-content: center;
+    gap: 10px;
+    margin-top: 22px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -150,8 +185,8 @@
 }
 
 /* ---------------------------------------------------------------- Section heading (typewriter loop)
-   "Our Successful " = white, static
-   "Innovation Journey" = blue, typed -> hold -> deleted -> typed ...
+   "ProJenius " = white, static
+   "Magazine" = blue, typed -> hold -> deleted -> typed ...
    - sizer : invisible full text, reserves the width so the centered
              heading never shifts while typing
    - live  : sits on top of the sizer, holds typed text + cursor
@@ -177,57 +212,30 @@
   transform: none;
 }
 
-/* pill tag with pulsing dot */
+/* pill tag; kept consistent with the preceding About section */
 .hpmag-head__label {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  margin: 0 0 14px;
-  padding: 8px 16px;
+  gap: 0;
+  margin: 0 0 8px;
+  padding: 6px 14px;
   border: 1px solid var(--hpmag-brand);
   border-radius: 999px;
   background: rgba(21, 150, 216, 0.08);
   color: var(--hpmag-brand);
   font-family: var(--hpmag-font-body);
-  font-size: 15px;
+  font-size: var(--pjds-text-eyebrow, 0.8125rem);
   font-weight: 700;
   line-height: 1;
-  letter-spacing: 1px;
-}
-
-.hpmag-head__dot {
-  position: relative;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--hpmag-brand);
-}
-
-.hpmag-head__dot::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: var(--hpmag-brand);
-  opacity: 0;
-}
-
-/* the pulse restarts every time the block comes into view */
-.hpmag-head--in .hpmag-head__dot::after {
-  animation: hpmag-head-pulse 2s ease-out infinite;
-}
-
-@keyframes hpmag-head-pulse {
-  from { transform: scale(1); opacity: 0.7; }
-  to   { transform: scale(3); opacity: 0; }
+  letter-spacing: 0.12em;
 }
 
 .hpmag-head__title {
   margin: 0;
   font-family: var(--hpmag-font-display);
   font-weight: 800;
-  font-size: clamp(2rem, 4.6vw, 3.6rem);
+  font-size: clamp(2rem, 1.25rem + 2.15vw, 2.8rem);
   line-height: 1.12;
   letter-spacing: -0.035em;
   color: #ffffff;
@@ -253,7 +261,7 @@
 
 /* typed blue letters: standard solid blue */
 .hpmag-head__accent {
-  color: var(--hpmag-brand);
+  color: #1599d6;
 }
 
 /* glowing cyan cursor */
@@ -285,22 +293,21 @@
 
 .hpmag-head__rule {
   display: block;
-  width: 64px;
-  height: 4px;
-  margin: 20px auto 0;
+  width: 78px;
+  height: 5px;
+  margin: 8px auto 0;
   border-radius: 4px;
   background: var(--hpmag-brand);
 }
 
 @media (max-width: 560px) {
   .hpmag-head__label {
-    padding: 7px 13px;
-    margin-bottom: 12px;
-    font-size: 11px;
-    letter-spacing: 0.9px;
+    padding: 5px 12px;
+    margin-bottom: 6px;
+    font-size: 0.75rem;
   }
   .hpmag-head__title {
-    font-size: clamp(1.7rem, 7.6vw, 2.2rem);
+    font-size: clamp(1.75rem, 1rem + 4vw, 2.25rem);
     letter-spacing: -0.03em;
   }
   .hpmag-head__cursor {
@@ -308,14 +315,12 @@
     margin-left: 3px;
   }
   .hpmag-head__rule {
-    width: 54px;
-    margin-top: 16px;
+    width: 62px;
+    height: 4px;
+    margin-top: 6px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .hpmag-head--in .hpmag-head__dot::after {
-    animation: none;
-  }
   .hpmag-head__pop {
     opacity: 1;
     transform: none;

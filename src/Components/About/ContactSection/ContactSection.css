@@ -7,7 +7,7 @@
     padding: 80px 0 75px;
     background: #ffffff;
     overflow: hidden;
-    font-family: "Poppins", sans-serif;
+    font-family: var(--pjds-font-body);
     box-sizing: border-box;
 }
 
@@ -27,7 +27,9 @@
     position: relative;
     width: 100%;
     max-width: 1250px;
-    min-height: 385px;
+    /* Fixed minimum per screen size, so every page using this card
+       (Home, About, Workshop) gets exactly the same box whatever its text. */
+    min-height: 410px;
     margin: 0 auto;
     padding: 45px 60px 42px;
     box-sizing: border-box;
@@ -126,6 +128,12 @@
     justify-content: center;
     width: 100%;
     margin-top: 30px;
+}
+
+/* Each divider + item pair is grouped in the markup only; the group does not
+   take part in the layout, so items and dividers stay direct flex children. */
+.contact-cta-feature-group {
+    display: contents;
 }
 
 /* =========================================
@@ -245,7 +253,7 @@
     justify-content: center;
     gap: 10px;
 
-    font-family: "Poppins", sans-serif;
+    font-family: var(--pjds-font-body);
     font-size: 14px;
     font-weight: 700;
     cursor: pointer;
@@ -260,12 +268,20 @@
     transform: translateY(15px);
 }
 
+/* Previously only declared in the old homepage ContactSection.css, which also
+   styled this section through shared class names. Kept here so keyboard focus
+   stays visible after the homepage CTA moved to its own scoped styles. */
+.contact-cta-btn:focus-visible {
+    outline: 3px solid #ffffff;
+    outline-offset: 4px;
+}
+
 .contact-cta-btn.contact-show {
     opacity: 1;
     transform: translateY(0);
 }
 
-.contact-cta-btn i {
+.contact-cta-btn svg {
     font-size: 16px;
     color: inherit;
 }
@@ -330,7 +346,7 @@
 
     .contact-cta-card {
         max-width: 900px;
-        min-height: 370px;
+        min-height: 400px;
         padding: 42px 30px;
     }
 
@@ -384,7 +400,7 @@
     }
 
     .contact-cta-card {
-        min-height: auto;
+        min-height: 600px;
         padding: 35px 20px;
         border-radius: 28px;
     }
@@ -401,14 +417,15 @@
     }
 
     .contact-cta-description {
-        font-size: 12px;
+        font-size: 14px;
         line-height: 1.7;
     }
 
     .contact-cta-features {
         flex-direction: column;
-        align-items: flex-start;
-        width: fit-content;
+        align-items: stretch;
+        width: min(100%, 330px);
+        margin-inline: auto;
         margin-top: 25px;
         gap: 20px;
     }
@@ -434,7 +451,7 @@
     }
 
     .contact-feature-content span {
-        font-size: 12px;
+        font-size: 13px;
     }
 
     .contact-feature-divider {
@@ -472,7 +489,8 @@
     }
 
     .contact-cta-description {
-        font-size: 11px;
+        font-size: 14px;
+        line-height: 1.65;
     }
 
     .contact-feature-content strong {
@@ -480,7 +498,7 @@
     }
 
     .contact-feature-content span {
-        font-size: 11px;
+        font-size: 12px;
     }
 }
 
@@ -499,4 +517,10 @@
         animation: none;
         transform: translateX(0);
     }
+}
+
+/* Headline in the site heading font (Manrope), like every other section title. */
+.contact-cta-section .contact-cta-title {
+    font-family: var(--pjds-font-heading);
+    letter-spacing: -0.03em;
 }

@@ -1,0 +1,46 @@
+/* =============================================================================
+   PCB HERO VISUAL — every rule is scoped beneath .pjpcb-hero-visual
+   ============================================================================= */
+
+.pjpcb-hero-visual {
+  margin: 0;
+  padding: clamp(18px, 2.4vw, 28px);
+  border: 1px solid rgba(90, 214, 248, 0.18);
+  border-radius: var(--pjds-radius-lg);
+  background: linear-gradient(160deg, rgba(18, 50, 90, 0.55), rgba(7, 20, 38, 0.6));
+  box-shadow: 0 30px 80px rgba(2, 8, 18, 0.45);
+}
+
+.pjpcb-hero-visual__caption {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.pjpcb-hero-visual__caption span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(226, 232, 240, 0.78);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.pjpcb-hero-visual__caption span::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--pjds-cyan-500);
+}
+
+@media (max-width: 420px) {
+  .pjpcb-hero-visual__caption {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 8px 16px;
+  }
+}

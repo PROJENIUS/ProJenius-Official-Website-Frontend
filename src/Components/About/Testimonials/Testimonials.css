@@ -1,993 +1,562 @@
-/* =========================================================
-   TESTIMONIAL SECTION
-========================================================= */
+/* =============================================================================
+   TESTIMONIALS — every rule is scoped beneath .pja-testi
+   Rating summary card + review carousel (Swiper core styles come from
+   "swiper/css"; everything visual here is ProJenius-specific).
+   ============================================================================= */
 
-.testi-section {
-    position: relative;
-    width: 100%;
-    padding: 70px 0;
-    background: #ffffff;
-    overflow: hidden;
-    font-family: "Segoe UI", Arial, sans-serif;
-    box-sizing: border-box;
+.pja-testi {
+  padding-block: var(--pjds-section-space);
+  background: var(--pjds-white);
+  color: var(--pjds-text);
+  font-family: var(--pjds-font-body);
 }
 
-
-/* =========================================================
-   BACKGROUND
-========================================================= */
-
-.testi-bg {
-    position: absolute;
-    border-radius: 50%;
-    pointer-events: none;
-    filter: blur(100px);
-    opacity: 0.45;
+.pja-testi *,
+.pja-testi *::before,
+.pja-testi *::after {
+  box-sizing: border-box;
 }
 
-.testi-bg-one {
-    width: 420px;
-    height: 420px;
-    top: -180px;
-    left: -180px;
-    background: rgba(21, 153, 210, 0.08);
+/* Header --------------------------------------------------------------------- */
+.pja-testi__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 720px;
+  margin: 0 auto clamp(32px, 4vw, 48px);
+  text-align: center;
 }
 
-.testi-bg-two {
-    width: 360px;
-    height: 360px;
-    right: -160px;
-    bottom: -160px;
-    background: rgba(21, 153, 210, 0.06);
+.pja-testi__title {
+  margin: 0;
+  color: var(--pjds-navy-950);
+  font-family: var(--pjds-font-heading);
+  font-size: var(--pjds-text-h2);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.12;
+  text-wrap: balance;
 }
 
-
-/* =========================================================
-   CONTAINER
-========================================================= */
-
-.testi-container {
-    position: relative;
-    z-index: 2;
-    width: min(1100px, calc(100% - 40px));
-    margin: 0 auto;
+.pja-testi__typed {
+  display: inline-grid;
+  vertical-align: baseline;
 }
 
-
-/* =========================================================
-   HEADER
-========================================================= */
-
-.testi-header {
-    text-align: center;
-    margin-bottom: 38px;
+.pja-testi__typed-sizer,
+.pja-testi__typed-live {
+  grid-area: 1 / 1;
+  white-space: nowrap;
 }
 
-
-/* =========================================================
-   BADGE
-   NO DOT
-========================================================= */
-
-.testi-badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    padding: 7px 18px;
-
-    border: 1px solid rgba(21, 153, 210, 0.35);
-    border-radius: 999px;
-
-    background: rgba(21, 153, 210, 0.06);
-
-    color: #1599D2;
-
-    font-family: "Segoe UI", Arial, sans-serif;
-    font-size: 12px;
-    font-weight: 800;
-
-    letter-spacing: 1.4px;
-    text-transform: uppercase;
-
-    margin-bottom: 12px;
+.pja-testi__typed-sizer {
+  visibility: hidden;
 }
 
-
-/* =========================================================
-   TITLE
-========================================================= */
-
-.testi-title {
-    margin: 0;
-
-    color: #0b1328;
-
-    font-family:
-        "Segoe UI Black",
-        "Segoe UI",
-        Arial,
-        sans-serif;
-
-    font-size: 66px;
-    font-weight: 900;
-
-    line-height: 1.1;
-    letter-spacing: -1.5px;
+.pja-testi__typed-live {
+  direction: ltr;
+  color: #1599d6;
+  text-align: left;
 }
 
-
-/* =========================================================
-   BLUE TITLE
-========================================================= */
-
-.testi-title-accent {
-    color: #1599D2;
+.pja-testi__cursor {
+  display: inline-block;
+  width: 3px;
+  height: 0.9em;
+  margin-left: 3px;
+  vertical-align: -0.08em;
+  border-radius: 2px;
+  background: #1599d6;
+  animation: pja-testi-cursor-blink 800ms steps(1) infinite;
 }
 
-
-/* =========================================================
-   TYPEWRITER (blue words)
-   - sizer : invisible full text, reserves the width so the
-             title never shifts while typing
-   - live  : sits on top of the sizer, holds typed text + cursor
-   Loop: type -> hold (cursor blinks) -> delete -> pause -> type
-========================================================= */
-
-.testi-type {
-    position: relative;
-    display: inline-block;
-    white-space: nowrap;
-    vertical-align: baseline;
+@keyframes pja-testi-cursor-blink {
+  50% { opacity: 0; }
 }
 
-.testi-type-sizer {
-    visibility: hidden;
+.pja-testi__line {
+  display: block;
+  width: 64px;
+  height: 4px;
+  margin: 18px auto 16px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--pjds-cyan-700), var(--pjds-cyan-500));
 }
 
-.testi-type-live {
-    position: absolute;
-    top: 0;
-    left: 0;
-    white-space: nowrap;
+.pja-testi__intro {
+  margin: 0;
+  color: var(--pjds-text-muted);
+  font-size: var(--pjds-text-lead);
+  line-height: 1.65;
 }
 
-/* glowing cyan cursor */
-.testi-cursor {
-    display: inline-block;
-    width: 4px;
-    height: 0.82em;
-    margin-left: 5px;
-    vertical-align: -0.04em;
-    border-radius: 2px;
-    background: #35CEFF;
-    box-shadow:
-        0 0 6px rgba(53, 206, 255, 0.9),
-        0 0 14px rgba(53, 206, 255, 0.55);
-    animation: testi-cursor-blink 1s ease-in-out infinite;
+/* Layout: summary | carousel ------------------------------------------------- */
+.pja-testi__layout {
+  display: grid;
+  grid-template-columns: minmax(260px, 320px) minmax(0, 1fr);
+  align-items: stretch;
+  gap: clamp(20px, 2.4vw, 32px);
 }
 
-/* solid while letters are moving, blinks while the text rests */
-.testi-cursor.is-typing {
-    animation: none;
-    opacity: 1;
+/* Summary card */
+.pja-testi__summary {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 28px;
+  border: 1px solid rgba(32, 200, 245, 0.2);
+  border-radius: var(--pjds-radius-lg);
+  background:
+    radial-gradient(70% 60% at 100% 0%, rgba(32, 200, 245, 0.18), transparent 70%),
+    linear-gradient(160deg, var(--pjds-navy-900), var(--pjds-navy-950));
+  box-shadow: var(--pjds-shadow-md);
+  color: var(--pjds-white);
 }
 
-@keyframes testi-cursor-blink {
-    0%, 45%  { opacity: 1; }
-    55%, 95% { opacity: 0; }
-    100%     { opacity: 1; }
+.pja-testi__summary-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px 6px 8px;
+  border-radius: 999px;
+  background: var(--pjds-white);
+  color: var(--pjds-navy-950);
+  font-size: 0.8125rem;
+  font-weight: 700;
 }
 
-
-/* =========================================================
-   STATIC LINE
-   NO BLINKING
-========================================================= */
-
-.testi-title-line {
-    width: 68px;
-    height: 5px;
-
-    margin: 14px auto 13px;
-
-    border-radius: 999px;
-
-    background: #1599D2;
+.pja-testi__score {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 22px 0 6px;
+  font-family: var(--pjds-font-heading);
+  line-height: 1;
 }
 
-
-/* =========================================================
-   SUBTITLE
-========================================================= */
-
-.testi-subtitle {
-    max-width: 650px;
-
-    margin: 0 auto;
-
-    color: #64748b;
-
-    font-family: "Segoe UI", Arial, sans-serif;
-
-    font-size: 18px;
-    font-weight: 400;
-
-    line-height: 1.6;
+.pja-testi__score b {
+  font-size: 3.5rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
 }
 
-
-/* =========================================================
-   CAROUSEL
-========================================================= */
-
-.testi-carousel {
-    position: relative;
-    width: 100%;
-    padding: 0 55px;
-    box-sizing: border-box;
+.pja-testi__score span {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1.125rem;
+  font-weight: 600;
 }
 
-
-/* =========================================================
-   SWIPER
-========================================================= */
-
-.testi-swiper {
-    width: 100%;
-    overflow: hidden;
-    border-radius: 24px;
+.pja-testi__count {
+  margin: 10px 0 0;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.9375rem;
+  font-weight: 500;
 }
 
-.testi-swiper .swiper-wrapper {
-    align-items: stretch;
+.pja-testi__note {
+  margin: 10px 0 0;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.75rem;
+  line-height: 1.5;
 }
 
-.testi-swiper .swiper-slide {
-    height: auto;
+.pja-testi__summary-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  margin-top: auto;
+  padding-top: 26px;
 }
 
+.pja-testi__text-link {
+  color: var(--pjds-cyan-400);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+}
 
-/* =========================================================
-   MAIN CARD
-========================================================= */
+.pja-testi__text-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
 
-.testi-card {
-    position: relative;
+.pja-testi__text-link:focus-visible {
+  outline: none;
+  border-radius: 4px;
+  box-shadow: var(--pjds-focus-ring-inverse);
+}
 
-    width: 100%;
-    height: 380px;
+/* Stars */
+.pja-testi__stars {
+  display: inline-flex;
+  gap: 2px;
+  color: #d4dae2;
+  line-height: 1;
+}
 
+.pja-testi__stars--md { font-size: 1rem; }
+.pja-testi__stars--lg { font-size: 1.375rem; color: rgba(255, 255, 255, 0.25); }
+
+.pja-testi__stars .is-filled {
+  color: #f6b21b;
+}
+
+/* Carousel */
+.pja-testi__reviews {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.pja-testi__swiper {
+  width: 100%;
+  padding: 4px 2px 6px;
+}
+
+.pja-testi__slide {
+  height: auto;
+  display: flex;
+}
+
+.pja-testi__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 26px 26px 24px;
+  overflow: hidden;
+  border: 1px solid #d9e5f0;
+  border-radius: var(--pjds-radius-card);
+  background: linear-gradient(155deg, #ffffff 0%, #f8fbff 100%);
+  box-shadow: 0 12px 30px rgba(7, 20, 38, 0.07);
+  transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+
+.pja-testi__card::before {
+  position: absolute;
+  top: 0;
+  right: 24px;
+  left: 24px;
+  height: 3px;
+  border-radius: 0 0 999px 999px;
+  background: linear-gradient(90deg, #1599d6, var(--pjds-cyan-400));
+  content: "";
+}
+
+.pja-testi__card:hover {
+  border-color: rgba(21, 153, 214, 0.42);
+  box-shadow: 0 18px 36px rgba(7, 20, 38, 0.11);
+  transform: translateY(-2px);
+}
+
+.pja-testi__card-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 12px;
+}
+
+.pja-testi__source {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--pjds-text-subtle);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+a.pja-testi__source:hover {
+  color: var(--pjds-cyan-700);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.pja-testi__source svg {
+  width: 15px;
+  height: 15px;
+}
+
+.pja-testi__text {
+  flex: 1;
+  margin: 18px 0 22px;
+  color: var(--pjds-gray-700);
+  font-size: 0.975rem;
+  line-height: 1.7;
+}
+
+.pja-testi__text--empty {
+  color: var(--pjds-text-subtle);
+  font-style: italic;
+}
+
+.pja-testi__author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 18px;
+  border-top: 1px solid var(--pjds-gray-100);
+}
+
+.pja-testi__avatar {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  overflow: hidden;
+  border-radius: 50%;
+  background: linear-gradient(140deg, var(--pjds-cyan-600), var(--pjds-navy-800));
+  color: var(--pjds-white);
+  font-family: var(--pjds-font-heading);
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.pja-testi__avatar img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pja-testi__name {
+  display: block;
+  color: var(--pjds-navy-950);
+  font-family: var(--pjds-font-heading);
+  font-size: 0.975rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.pja-testi__date {
+  display: block;
+  color: var(--pjds-text-subtle);
+  font-size: 0.8125rem;
+}
+
+.pja-testi__controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.pja-testi__nav {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: 1px solid var(--pjds-border-strong);
+  border-radius: 50%;
+  background: var(--pjds-white);
+  color: var(--pjds-navy-950);
+  cursor: pointer;
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+
+.pja-testi__nav:hover {
+  border-color: var(--pjds-cyan-700);
+  background: var(--pjds-cyan-700);
+  color: var(--pjds-white);
+}
+
+.pja-testi__nav:focus-visible,
+.pja-testi__dot:focus-visible {
+  outline: none;
+  box-shadow: var(--pjds-focus-ring);
+}
+
+.pja-testi__dots {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pja-testi__dot {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--pjds-gray-300);
+  cursor: pointer;
+  transition: width 200ms ease, background-color 200ms ease;
+}
+
+.pja-testi__dot.is-active {
+  width: 24px;
+  background: var(--pjds-cyan-700);
+}
+
+/* Loading / empty */
+.pja-testi__skeletons {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  height: 100%;
+}
+
+.pja-testi__skeleton {
+  min-height: 280px;
+  border-radius: var(--pjds-radius-card);
+  background: linear-gradient(90deg, var(--pjds-gray-50) 0%, var(--pjds-gray-100) 50%, var(--pjds-gray-50) 100%);
+  background-size: 200% 100%;
+  animation: pja-testi-shimmer 1.4s linear infinite;
+}
+
+@keyframes pja-testi-shimmer {
+  to { background-position: -200% 0; }
+}
+
+.pja-testi__empty {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 240px;
+  padding: 32px;
+  border: 1px dashed var(--pjds-border-strong);
+  border-radius: var(--pjds-radius-card);
+  color: var(--pjds-text-muted);
+  text-align: center;
+}
+
+.pja-testi__empty svg {
+  color: var(--pjds-cyan-700);
+}
+
+.pja-testi__empty p {
+  max-width: 360px;
+  margin: 0;
+}
+
+.pja-testi__retry {
+  min-height: 42px;
+  padding: 0 18px;
+  border: 1px solid var(--pjds-border-strong);
+  border-radius: 999px;
+  background: var(--pjds-white);
+  color: var(--pjds-navy-950);
+  font: inherit;
+  font-weight: 650;
+  cursor: pointer;
+  transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease;
+}
+
+.pja-testi__retry:hover {
+  border-color: var(--pjds-cyan-700);
+  background: var(--pjds-cyan-700);
+  color: var(--pjds-white);
+}
+
+.pja-testi__retry:focus-visible {
+  outline: none;
+  box-shadow: var(--pjds-focus-ring);
+}
+
+/* Tablet: summary becomes a horizontal band above the reviews. */
+@media (max-width: 1023px) {
+  .pja-testi__layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pja-testi__summary {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 320px;
-
-    background: #ffffff;
-
-    border: 3px solid rgb(17, 183, 243);
-
-    border-radius: 24px;
-
-    overflow: hidden;
-
-    box-sizing: border-box;
-
-    box-shadow:
-        0 18px 50px rgb(17, 152, 242);
-
-    animation: testiCardIn 0.7s ease both;
-}
-
-
-/* =========================================================
-   CARD ANIMATION
-========================================================= */
-
-@keyframes testiCardIn {
-    from {
-        opacity: 0;
-        transform: translateY(18px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-
-/* =========================================================
-   LEFT CONTENT
-========================================================= */
-
-.testi-content {
-    min-width: 0;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-
-    padding: 42px 48px;
-
-    box-sizing: border-box;
-}
-
-
-/* =========================================================
-   GOOGLE
-========================================================= */
-
-.testi-google {
-    display: flex;
+    grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: center;
-    gap: 12px;
+    column-gap: 24px;
+  }
 
-    width: fit-content;
+  .pja-testi__summary-brand {
+    grid-column: 1 / -1;
+    justify-self: start;
+    margin-bottom: 14px;
+  }
 
-    padding: 7px 15px;
+  .pja-testi__score {
+    margin: 0;
+  }
 
-    margin-bottom: 20px;
+  .pja-testi__summary .pja-testi__stars,
+  .pja-testi__count,
+  .pja-testi__note {
+    grid-column: 2;
+  }
 
-    background: #eef8fd;
+  .pja-testi__count,
+  .pja-testi__note {
+    margin-top: 4px;
+  }
 
-    border-radius: 999px;
+  .pja-testi__summary-actions {
+    grid-column: 3;
+    grid-row: 2 / 5;
+    margin: 0;
+    padding: 0;
+  }
 }
 
-.testi-google-name {
-    color: #4285F4;
+/* Phones: everything stacks; one review per view. */
+@media (max-width: 600px) {
+  .pja-testi__title {
+    font-size: clamp(1.75rem, 1rem + 4vw, 2.25rem);
+    letter-spacing: -0.03em;
+  }
 
-    font-family: "Segoe UI", Arial, sans-serif;
+  .pja-testi__summary {
+    display: flex;
+    padding: 22px;
+  }
 
-    font-size: 14px;
-    font-weight: 700;
-}
+  .pja-testi__summary-actions {
+    align-self: stretch;
+    padding-top: 22px;
+  }
 
-.testi-stars {
-    color: #fbbc04;
-
-    font-size: 13px;
-    letter-spacing: 1px;
-
-    white-space: nowrap;
-}
-
-
-/* =========================================================
-   REVIEW
-========================================================= */
-
-.testi-review {
-    margin: 0 0 22px;
-
-    max-width: 680px;
-
-    color: #334155;
-
-    font-family: "Segoe UI", Arial, sans-serif;
-
-    font-size: 18px;
-    font-weight: 500;
-
-    line-height: 1.75;
-
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 5;
-
-    overflow: hidden;
-}
-
-
-/* =========================================================
-   DIVIDER
-========================================================= */
-
-.testi-divider {
+  .pja-testi__summary-actions .pjds-btn {
     width: 100%;
-    height: 1px;
+  }
 
-    margin-bottom: 20px;
+  .pja-testi__score b {
+    font-size: 3rem;
+  }
 
-    background: linear-gradient(
-        to right,
-        rgba(21, 153, 210, 0.25),
-        transparent
-    );
+  .pja-testi__card {
+    padding: 22px 20px 20px;
+  }
+
+  .pja-testi__skeletons {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pja-testi__skeleton + .pja-testi__skeleton {
+    display: none;
+  }
 }
-
-
-/* =========================================================
-   USER
-========================================================= */
-
-.testi-user {
-    display: flex;
-    align-items: center;
-
-    gap: 13px;
-}
-
-
-/* =========================================================
-   AVATAR
-========================================================= */
-
-.testi-avatar {
-    width: 50px;
-    height: 50px;
-
-    flex: 0 0 50px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 50%;
-
-    background: #1599D2;
-
-    color: #ffffff;
-
-    font-family:
-        "Segoe UI Black",
-        "Segoe UI",
-        Arial,
-        sans-serif;
-
-    font-size: 20px;
-    font-weight: 900;
-
-    box-shadow:
-        0 7px 18px rgba(21, 153, 210, 0.22);
-}
-
-
-/* =========================================================
-   USER INFO
-========================================================= */
-
-.testi-user-info {
-    min-width: 0;
-}
-
-.testi-user-info h3 {
-    margin: 0 0 3px;
-
-    color: #0f172a;
-
-    font-family:
-        "Segoe UI Black",
-        "Segoe UI",
-        Arial,
-        sans-serif;
-
-    font-size: 16px;
-    font-weight: 900;
-
-    line-height: 1.3;
-}
-
-.testi-user-info span {
-    color: #94a3b8;
-
-    font-family: "Segoe UI", Arial, sans-serif;
-
-    font-size: 13px;
-    font-weight: 500;
-}
-
-
-/* =========================================================
-   RIGHT VISUAL
-========================================================= */
-
-.testi-visual {
-    position: relative;
-
-    width: 320px;
-    height: 100%;
-
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-
-    overflow: hidden;
-
-    background:
-        linear-gradient(
-            145deg,
-            #f1f8fc,
-            #e4f2f9
-        );
-}
-
-
-/* =========================================================
-   CIRCLE 1
-========================================================= */
-
-.testi-circle-one {
-    position: absolute;
-
-    width: 245px;
-    height: 245px;
-
-    left: 50%;
-    bottom: 15px;
-
-    transform: translateX(-50%);
-
-    border-radius: 50%;
-
-    background: rgba(21, 153, 210, 0.10);
-
-    z-index: 1;
-}
-
-
-/* =========================================================
-   CIRCLE 2
-========================================================= */
-
-.testi-circle-two {
-    position: absolute;
-
-    width: 185px;
-    height: 185px;
-
-    left: 50%;
-    bottom: 45px;
-
-    transform: translateX(-50%);
-
-    border-radius: 50%;
-
-    border: 2px solid rgba(21, 153, 210, 0.18);
-
-    z-index: 1;
-}
-
-
-/* =========================================================
-   PERSON IMAGE
-========================================================= */
-
-.testi-person {
-    position: absolute;
-
-    left: 50%;
-    bottom: 0;
-
-    transform: translateX(-50%);
-
-    width: 285px;
-    height: 100%;
-
-    object-fit: contain;
-    object-position: center bottom;
-
-    z-index: 3;
-
-    transition:
-        transform 0.45s ease;
-}
-
-
-/* =========================================================
-   IMAGE HOVER
-========================================================= */
-
-.testi-card:hover .testi-person {
-    transform:
-        translateX(-50%)
-        translateY(-3px)
-        scale(1.015);
-}
-
-
-/* =========================================================
-   QUOTE
-========================================================= */
-
-.testi-quote {
-    position: absolute;
-
-    top: 20px;
-    right: 22px;
-
-    z-index: 5;
-
-    width: 58px;
-    height: 58px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.testi-quote span {
-    color: #0b1328;
-
-    font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
-
-    font-size: 76px;
-    font-weight: 900;
-
-    line-height: 1;
-}
-
-
-/* =========================================================
-   NAVIGATION ARROWS
-========================================================= */
-
-.testi-arrow {
-    position: absolute;
-
-    top: 50%;
-
-    width: 46px;
-    height: 46px;
-
-    transform: translateY(-50%);
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border: 1px solid rgba(21, 153, 210, 0.18);
-
-    border-radius: 50%;
-
-    background: #ffffff;
-
-    color: #1599D2;
-
-    cursor: pointer;
-
-    z-index: 20;
-
-    box-shadow:
-        0 7px 20px rgba(15, 23, 42, 0.10);
-
-    transition:
-        background 0.25s ease,
-        color 0.25s ease,
-        transform 0.25s ease,
-        box-shadow 0.25s ease;
-}
-
-.testi-arrow:hover {
-    background: #1599D2;
-
-    color: #ffffff;
-
-    box-shadow:
-        0 10px 25px rgba(21, 153, 210, 0.25);
-
-    transform:
-        translateY(-50%)
-        scale(1.05);
-}
-
-.testi-arrow-prev {
-    left: 0;
-}
-
-.testi-arrow-next {
-    right: 0;
-}
-
-
-/* =========================================================
-   PAGINATION
-========================================================= */
-
-.testi-pagination {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    gap: 7px;
-
-    margin-top: 22px;
-
-    min-height: 10px;
-}
-
-
-/* =========================================================
-   DOT
-========================================================= */
-
-.testi-dot {
-    display: block;
-
-    width: 8px;
-    height: 8px;
-
-    border-radius: 999px;
-
-    background: #cbd5e1;
-
-    cursor: pointer;
-
-    transition:
-        width 0.3s ease,
-        background 0.3s ease;
-}
-
-
-/* =========================================================
-   ACTIVE DOT
-========================================================= */
-
-.testi-dot-active {
-    width: 30px;
-
-    background: #1599D2;
-}
-
-
-/* =========================================================
-   LOADING
-========================================================= */
-
-.testi-loading {
-    margin-top: 10px;
-
-    text-align: center;
-
-    color: #94a3b8;
-
-    font-size: 12px;
-}
-
-
-/* =========================================================
-   TABLET
-========================================================= */
-
-@media (max-width: 991px) {
-
-    .testi-section {
-        padding: 60px 0;
-    }
-
-    .testi-title {
-        font-size: 52px;
-    }
-
-    .testi-subtitle {
-        font-size: 17px;
-    }
-
-    .testi-carousel {
-        padding: 0 45px;
-    }
-
-    .testi-card {
-        grid-template-columns:
-            minmax(0, 1fr)
-            260px;
-
-        height: 350px;
-    }
-
-    .testi-content {
-        padding: 32px;
-    }
-
-    .testi-review {
-        font-size: 16px;
-    }
-
-    .testi-visual {
-        width: 260px;
-    }
-
-    .testi-person {
-        width: 235px;
-    }
-
-    .testi-circle-one {
-        width: 200px;
-        height: 200px;
-    }
-
-    .testi-circle-two {
-        width: 150px;
-        height: 150px;
-    }
-}
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media (max-width: 767px) {
-
-    .testi-section {
-        padding: 50px 0;
-    }
-
-    .testi-container {
-        width: calc(100% - 30px);
-    }
-
-    .testi-header {
-        margin-bottom: 28px;
-    }
-
-    .testi-title {
-        font-size: 40px;
-        letter-spacing: -0.8px;
-    }
-
-    .testi-cursor {
-        width: 3px;
-        margin-left: 3px;
-    }
-
-    .testi-subtitle {
-        font-size: 15px;
-    }
-
-    .testi-title-line {
-        width: 58px;
-        height: 4px;
-    }
-
-    .testi-carousel {
-        padding: 0;
-    }
-
-    .testi-card {
-        display: flex;
-        flex-direction: column;
-
-        height: auto;
-
-        border-radius: 20px;
-    }
-
-    .testi-content {
-        order: 2;
-
-        padding: 28px 22px 26px;
-    }
-
-    .testi-visual {
-        order: 1;
-
-        width: 100%;
-        height: 230px;
-    }
-
-    .testi-person {
-        width: 210px;
-    }
-
-    .testi-circle-one {
-        width: 175px;
-        height: 175px;
-
-        bottom: 5px;
-    }
-
-    .testi-circle-two {
-        width: 130px;
-        height: 130px;
-
-        bottom: 25px;
-    }
-
-    .testi-google {
-        margin-bottom: 17px;
-    }
-
-    .testi-review {
-        font-size: 15px;
-        line-height: 1.65;
-
-        -webkit-line-clamp: 6;
-    }
-
-    .testi-arrow {
-        width: 40px;
-        height: 40px;
-
-        top: 115px;
-    }
-
-    .testi-arrow-prev {
-        left: 8px;
-    }
-
-    .testi-arrow-next {
-        right: 8px;
-    }
-
-    .testi-pagination {
-        margin-top: 18px;
-    }
-}
-
-
-/* =========================================================
-   SMALL MOBILE
-========================================================= */
-
-@media (max-width: 480px) {
-
-    .testi-title {
-        font-size: 34px;
-    }
-
-    .testi-subtitle {
-        font-size: 14px;
-    }
-
-    .testi-badge {
-        font-size: 10px;
-        padding: 6px 14px;
-    }
-
-    .testi-visual {
-        height: 205px;
-    }
-
-    .testi-person {
-        width: 185px;
-    }
-
-    .testi-content {
-        padding: 24px 18px;
-    }
-
-    .testi-review {
-        font-size: 14px;
-    }
-
-    .testi-avatar {
-        width: 44px;
-        height: 44px;
-        flex-basis: 44px;
-        font-size: 18px;
-    }
-
-    .testi-user-info h3 {
-        font-size: 14px;
-    }
-
-    .testi-user-info span {
-        font-size: 12px;
-    }
-}
-
-
-/* =========================================================
-   REDUCED MOTION
-========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
+  .pja-testi__cursor {
+    animation: none;
+  }
 
-    .testi-card {
-        animation: none;
-    }
+  .pja-testi__skeleton {
+    animation: none;
+  }
 
-    .testi-person,
-    .testi-arrow,
-    .testi-dot {
-        transition: none;
-    }
+  .pja-testi__nav,
+  .pja-testi__dot,
+  .pja-testi__card,
+  .pja-testi__retry {
+    transition: none;
+  }
 
-    /* no typing, so no cursor either */
-    .testi-cursor {
-        animation: none;
-        opacity: 0;
-    }
+  .pja-testi__card:hover {
+    transform: none;
+  }
 }

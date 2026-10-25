@@ -273,7 +273,7 @@ const ENQUIRY_TYPES = {
 
     label: "Development",
 
-    description: "Need a digital product, software, AI, SaaS or automation solution?",
+    description: "Need software, AI, automation, hardware, a PCB or a prototype built?",
 
     heading: "Let\u2019s Discuss Your Requirement.",
 
@@ -309,7 +309,7 @@ const ENQUIRY_TYPES = {
 
             span: "full",
 
-            options: ["Website / Web Application", "Mobile Application", "SaaS / Digital Platform", "AI / Machine Learning", "Automation", "UI / UX", "Other"],
+            options: ["Website / Web Application", "Mobile Application", "SaaS / Digital Platform", "AI / Machine Learning", "Automation", "UI / UX", "Hardware / Embedded Systems", "PCB Design & Fabrication", "Rapid Prototyping / 3D Printing", "Other"],
 
           },
 
@@ -1399,6 +1399,10 @@ const WhatCanWeHelpYouWith = () => {
 
   const cardGridRef = useRef(null);
 
+  const formAreaRef = useRef(null);
+
+  const focusedLinkedEnquiryRef = useRef(false);
+
   /* Read ?type= and &from= once on mount so a matching contact URL can
 
      preselect the relevant enquiry type when those parameters are present. */
@@ -1434,6 +1438,35 @@ const WhatCanWeHelpYouWith = () => {
   }, [selectedType]);
 
   const activeType = selectedType ? ENQUIRY_TYPES[selectedType] : null;
+
+  /* A CTA link can preselect an enquiry type and take the visitor straight to
+     the first field. Keep this behavior exclusive to linked arrivals. */
+  useEffect(() => {
+
+    if (!arrivedFromLink || !activeType || focusedLinkedEnquiryRef.current) return;
+
+    focusedLinkedEnquiryRef.current = true;
+
+    const frame = requestAnimationFrame(() => {
+
+      const firstControl = formAreaRef.current?.querySelector(
+        'input:not([type="hidden"]):not([disabled]), textarea:not([disabled]), select:not([disabled])'
+      );
+
+      if (!firstControl) return;
+
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      firstControl.scrollIntoView({
+        behavior: prefersReducedMotion ? "auto" : "smooth",
+        block: "center",
+      });
+      firstControl.focus({ preventScroll: true });
+
+    });
+
+    return () => cancelAnimationFrame(frame);
+
+  }, [arrivedFromLink, activeType]);
 
   /* ---- handlers ---- */
 
@@ -1868,7 +1901,7 @@ const WhatCanWeHelpYouWith = () => {
 
         {activeType && submitStatus !== "success" && (
 
-          <div className="pj-contact-help__form-area">
+          <div className="pj-contact-help__form-area" ref={formAreaRef}>
 
             {/* context / helper panel */}
 

@@ -235,13 +235,14 @@ function PersonCard({
       className={`person-card${inView ? ' is-visible' : ''}`}
       style={{ '--d': `${index * 0.15}s` }}
     >
-      <div className="person-photo">
+      <div className="person-photo" onContextMenu={(event) => event.preventDefault()}>
 
         {image && (
           <img
             src={image}
             alt={`${name}, ${role}`}
             loading="lazy"
+            draggable={false}
           />
         )}
 
@@ -280,21 +281,23 @@ function LeadershipTeam() {
       <section className="founders-section">
         <div className="section-inner">
 
-          <div className="section-tag">
+          <div className="section-tag" data-reveal="up">
             Leadership Team
           </div>
 
-          <h2 className="section-title">
-            Meet Our{' '}
+          <h2 className="section-title" data-reveal="up" data-reveal-delay="1">
+            <span className="section-title-static">Meet Our</span>
             <TypedText words={['Founders']} />
           </h2>
 
           <span
             className="title-underline"
             aria-hidden="true"
+            data-reveal="line"
+            data-reveal-delay="2"
           />
 
-          <p className="section-description">
+          <p className="section-description" data-reveal="up" data-reveal-delay="2">
             Leading our mission to nurture student innovators and turn ideas into real-world ventures.
           </p>
 
@@ -315,14 +318,20 @@ function LeadershipTeam() {
       <section className="founders-section leadership-section">
         <div className="section-inner">
 
-          <h2 className="section-title">
-            Meet Our{' '}
+          <div className="section-tag" data-reveal="up">
+            Leadership Team
+          </div>
+
+          <h2 className="section-title" data-reveal="up" data-reveal-delay="1">
+            <span className="section-title-static">Meet Our</span>
             <TypedText words={['Strategic Advisor']} />
           </h2>
 
           <span
             className="title-underline"
             aria-hidden="true"
+            data-reveal="line"
+            data-reveal-delay="2"
           />
 
           <div className="leader-cards-container">

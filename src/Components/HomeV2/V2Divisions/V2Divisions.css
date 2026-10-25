@@ -1,0 +1,177 @@
+/* =============================================================================
+   HOME V2 DIVISIONS — every rule is scoped beneath .v2d
+   ============================================================================= */
+
+.v2d__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin: clamp(40px, 5vw, 64px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.v2d__card {
+  --spot-x: 50%;
+  --spot-y: 0%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 28px;
+  overflow: hidden;
+  border: 1px solid var(--v2-line);
+  border-radius: 22px;
+  background: var(--v2-sheet);
+  transition: border-color 220ms ease, box-shadow 220ms ease;
+}
+
+/* Pointer spotlight. */
+.v2d__card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(320px circle at var(--spot-x) var(--spot-y), rgba(32, 200, 245, 0.16), transparent 65%);
+  opacity: 0;
+  transition: opacity 260ms ease;
+  pointer-events: none;
+}
+
+.v2d__card:hover {
+  border-color: rgba(4, 120, 168, 0.35);
+  box-shadow: 0 30px 60px -36px rgba(7, 20, 38, 0.4);
+}
+
+.v2d__card:hover::before {
+  opacity: 1;
+}
+
+.v2d__card > * {
+  position: relative;
+}
+
+/* The startup card is the dark one. */
+.v2d__card--startup {
+  border-color: transparent;
+  background:
+    radial-gradient(80% 60% at 100% 0%, rgba(32, 200, 245, 0.2), transparent 70%),
+    var(--v2-ink);
+  color: #ffffff;
+}
+
+.v2d__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 18px;
+  border-bottom: 1px dashed var(--v2-line-dash);
+}
+
+.v2d__card--startup .v2d__top {
+  border-bottom-color: rgba(255, 255, 255, 0.16);
+}
+
+.v2d__code {
+  color: var(--v2-muted);
+  font-family: var(--v2-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.v2d__card--startup .v2d__code {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.v2d__icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #eaf8fd;
+  color: var(--v2-accent-ink);
+}
+
+.v2d__card--startup .v2d__icon {
+  background: rgba(32, 200, 245, 0.14);
+  color: var(--v2-accent);
+}
+
+.v2d__title {
+  margin: 26px 0 0;
+  font-family: var(--v2-head);
+  font-size: clamp(1.375rem, 1.1rem + 0.8vw, 1.75rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+
+.v2d__text {
+  margin: 12px 0 0;
+  color: var(--v2-muted);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.v2d__card--startup .v2d__text {
+  color: rgba(226, 232, 240, 0.78);
+}
+
+.v2d__links {
+  display: grid;
+  margin: auto 0 0;
+  padding: 24px 0 0;
+  list-style: none;
+}
+
+.v2d__links a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+  border-top: 1px solid var(--v2-line);
+  color: var(--v2-ink);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.v2d__card--startup .v2d__links a {
+  border-top-color: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+}
+
+.v2d__links svg {
+  color: var(--v2-accent-ink);
+  transition: transform 200ms var(--v2-ease);
+}
+
+.v2d__card--startup .v2d__links svg {
+  color: var(--v2-accent);
+}
+
+.v2d__links a:hover svg {
+  transform: translate(2px, -2px);
+}
+
+.v2d__links a:focus-visible {
+  outline: none;
+  border-radius: 6px;
+  box-shadow: 0 0 0 2px var(--v2-accent-ink);
+}
+
+@media (max-width: 1023px) {
+  .v2d__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v2d__card,
+  .v2d__card::before,
+  .v2d__links svg {
+    transition: none;
+  }
+}

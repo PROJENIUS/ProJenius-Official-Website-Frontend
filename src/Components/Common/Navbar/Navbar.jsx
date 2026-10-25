@@ -9,56 +9,32 @@ import "./Navbar.css";
 ========================================================= */
 
 const navLinks = [
+  { label: "Home", path: "/" },
+  { label: "About Us", path: "/about" },
   {
-    label: "Home",
-    path: "/",
-  },
-  {
-    label: "About",
-    path: "/about",
-  },
-  {
-    label: "Services",
-    path: "/services",
+    label: "Solutions",
+    path: "/services/development",
     dropdown: [
-      {
-        label: "Development",
-        path: "/services/development",
-      },
-      {
-        label: "Courses",
-        path: "/services/courses",
-      },
-      {
-        label: "Internship",
-        path: "/services/internship",
-      },
-      {
-        label: "Career Guidance",
-        path: "/services/career-guidance",
-      },
+      { label: "Software Development", path: "/services/development" },
+      { label: "Hardware & Embedded Systems", path: "/services/hardware-embedded-systems" },
+      { label: "Rapid Prototyping", path: "/services/rapid-prototyping" },
+      { label: "PCB Design & Fabrication", path: "/services/pcb-design-fabrication" },
     ],
   },
+  { label: "Startup & Innovation", path: "/startup" },
   {
-    label: "Workshop",
-    path: "/workshop",
+    label: "Learning & Development",
+    path: "/services/courses",
+    dropdown: [
+      { label: "Courses", path: "/services/courses" },
+      { label: "Internships", path: "/services/internship" },
+      { label: "Workshops", path: "/workshop" },
+      { label: "Career Guidance", path: "/services/career-guidance" },
+    ],
   },
-  {
-    label: "Startup Supporter",
-    path: "/startup",
-  },
-  // {
-  //   label: "Join Our Team",
-  //   path: "/join-our-team",
-  // },
-  {
-    label: "News & Insights",
-    path: "/news-insights",
-  },
-  {
-    label: "Contact",
-    path: "/contact",
-  },
+  { label: "Products", path: "/products" },
+  { label: "News & Insights", path: "/news-insights" },
+  { label: "Contact Us", path: "/contact" },
 ];
 
 /* =========================================================
@@ -81,11 +57,65 @@ export default function Navbar() {
   const lastScrollY = useRef(0);
   const mobileOpenRef = useRef(false);
   const navbarHoverRef = useRef(false);
+  const navbarRef = useRef(null);
+  const dropdownButtonRef = useRef(null);
+  // Label of a dropdown that was just opened by mouse hover. A click that
+  // follows the hover should keep it open rather than toggle it closed.
+  const hoverOpenedRef = useRef(null);
 
   const [isVisible, setIsVisible] = useState(true);
   const [isScrolled, setIsScrolled] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    const closeOnOutsidePointer = (event) => {
+      if (!navbarRef.current?.contains(event.target)) {
+        setServicesOpen(false);
+        setOpenDropdown(null);
+        if (mobileOpenRef.current) {
+          setMobileOpen(false);
+          mobileOpenRef.current = false;
+        }
+      }
+    };
+    const closeOnEscape = (event) => {
+      if (event.key !== "Escape") return;
+      const expanded = navbarRef.current?.querySelector('[aria-expanded="true"]');
+      if (!expanded) return;
+      const returnFocus = mobileOpenRef.current
+        ? navbarRef.current?.querySelector(".glass-hamburger")
+        : navbarRef.current?.querySelector(".glass-nav-button[aria-expanded='true']");
+      setServicesOpen(false);
+      setOpenDropdown(null);
+      if (mobileOpenRef.current) {
+        setMobileOpen(false);
+        mobileOpenRef.current = false;
+      }
+      returnFocus?.focus();
+    };
+    document.addEventListener("pointerdown", closeOnOutsidePointer);
+    document.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.removeEventListener("pointerdown", closeOnOutsidePointer);
+      document.removeEventListener("keydown", closeOnEscape);
+    };
+  }, []);
+
+  // Close the mobile drawer if resizing moves the layout back to desktop navigation.
+  useEffect(() => {
+    const closeDrawerOnDesktop = () => {
+      if (window.innerWidth <= 1150 || !mobileOpenRef.current) return;
+      mobileOpenRef.current = false;
+      setMobileOpen(false);
+      setServicesOpen(false);
+      setOpenDropdown(null);
+    };
+
+    window.addEventListener("resize", closeDrawerOnDesktop);
+    return () => window.removeEventListener("resize", closeDrawerOnDesktop);
+  }, []);
 
   /* =========================================================
      CLEAR TIMER
@@ -112,7 +142,7 @@ export default function Navbar() {
     ) {
       setIsVisible(false);
     }
-  }, [clearNavbarTimer]);
+  }, [clearNavbarTimer, setIsVisible]);
 
   /* =========================================================
      SHOW NAVBAR FOR 2 SECONDS
@@ -140,20 +170,29 @@ export default function Navbar() {
         setIsVisible(false);
       }
     }, NAVBAR_DISPLAY_TIME);
-  }, [clearNavbarTimer]);
+  }, [clearNavbarTimer, setIsVisible]);
 
   /* =========================================================
      NAVBAR HOVER
   ========================================================= */
 
-  const handleNavbarMouseEnter = useCallback(() => {
+  /*
+    Pointer events filtered to a real mouse: a touch tap also fires
+    mouseenter but never a matching mouseleave, which left the hover
+    flag stuck on phones and the navbar unable to hide.
+  */
+  const handleNavbarMouseEnter = useCallback((event) => {
+    if (event.pointerType !== "mouse") return;
+
     navbarHoverRef.current = true;
 
     clearNavbarTimer();
     setIsVisible(true);
-  }, [clearNavbarTimer]);
+  }, [clearNavbarTimer, setIsVisible]);
 
-  const handleNavbarMouseLeave = useCallback(() => {
+  const handleNavbarMouseLeave = useCallback((event) => {
+    if (event.pointerType !== "mouse") return;
+
     navbarHoverRef.current = false;
 
     /*
@@ -178,7 +217,10 @@ export default function Navbar() {
     const processScroll = () => {
       scrollFrame.current = null;
 
-      const currentScrollY = window.scrollY;
+      // Clamp so iOS rubber-band overscroll at the bottom of the page
+      // is not read as an upward scroll.
+      const maxScrollY = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+      const currentScrollY = Math.min(Math.max(window.scrollY, 0), maxScrollY);
       const previousScrollY = lastScrollY.current;
 
       setIsScrolled(currentScrollY > 20);
@@ -219,15 +261,19 @@ export default function Navbar() {
 
       /* -----------------------------------------------
          SCROLL DOWN
-         → HIDE IMMEDIATELY
+         → HIDE IMMEDIATELY (also when the cursor rests
+           over the navbar, and close any open dropdown)
       ------------------------------------------------ */
 
       if (difference > 0) {
         clearNavbarTimer();
 
-        if (!navbarHoverRef.current) {
-          setIsVisible(false);
-        }
+        // The hidden navbar moves out from under the cursor without a
+        // mouseleave, so the hover flag must not survive the hide.
+        navbarHoverRef.current = false;
+        setOpenDropdown(null);
+        setServicesOpen(false);
+        setIsVisible(false);
 
         lastScrollY.current = currentScrollY;
         return;
@@ -286,16 +332,19 @@ export default function Navbar() {
     clearNavbarTimer();
 
     setServicesOpen(false);
+    setOpenDropdown(null);
     setMobileOpen(false);
     setIsVisible(true);
 
     mobileOpenRef.current = false;
     navbarHoverRef.current = false;
 
+    // Instant: a smooth scroll from deep in the previous page ran
+    // through the new page's reveal animations on the way up.
     window.scrollTo({
       top: 0,
       left: 0,
-      behavior: "smooth",
+      behavior: "instant",
     });
 
     return () => {
@@ -313,7 +362,6 @@ export default function Navbar() {
     if (mobileOpen) {
       document.body.classList.add("nav-open");
       clearNavbarTimer();
-      setIsVisible(true);
     } else {
       document.body.classList.remove("nav-open");
     }
@@ -332,9 +380,7 @@ export default function Navbar() {
       if (link.dropdown) {
         return (
           location.pathname === link.path ||
-          link.dropdown.some(
-            (item) => location.pathname === item.path
-          )
+          link.dropdown.some((item) => location.pathname === item.path || location.pathname.startsWith(`${item.path}/`))
         );
       }
 
@@ -356,8 +402,12 @@ export default function Navbar() {
     mobileOpenRef.current = nextState;
     setIsVisible(true);
 
-    if (!nextState && window.scrollY > TOP_POSITION) {
-      hideNavbar();
+    // Closing the drawer mid-page keeps the bar for the usual 2 seconds
+    // instead of making it vanish under the visitor's finger.
+    if (!nextState) {
+      showNavbarTemporarily();
+      setServicesOpen(false);
+      setOpenDropdown(null);
     }
   };
 
@@ -369,6 +419,7 @@ export default function Navbar() {
     clearNavbarTimer();
 
     setServicesOpen(false);
+    setOpenDropdown(null);
     setMobileOpen(false);
 
     mobileOpenRef.current = false;
@@ -382,13 +433,21 @@ export default function Navbar() {
 
   return (
     <header
+      ref={navbarRef}
       className={`
         glass-header
         ${isScrolled ? "scrolled" : ""}
         ${isVisible ? "header-visible" : "header-hidden"}
       `}
-      onMouseEnter={handleNavbarMouseEnter}
-      onMouseLeave={handleNavbarMouseLeave}
+      onPointerEnter={handleNavbarMouseEnter}
+      onPointerLeave={handleNavbarMouseLeave}
+      onFocus={(event) => {
+        // Keyboard users tabbing in see the navbar and it stays put.
+        if (event.target.matches?.(":focus-visible")) {
+          clearNavbarTimer();
+          setIsVisible(true);
+        }
+      }}
     >
       {/* =====================================================
           NAVBAR
@@ -400,20 +459,16 @@ export default function Navbar() {
             LOGO
         =================================================== */}
 
-        <a href="/" 
+        <Link to="/"
         className="glass-logo" 
-        aria-label="ProJenius Home" 
-        onClick={(event) => {
-          event.preventDefault();
-          // Always perform a full browser refresh, 
-          // even when already on the Home page. 
-          window.location.href = "/";
-        }} >
+        aria-label="ProJenius Home"
+        aria-current={location.pathname === "/" ? "page" : undefined}
+        onClick={handleNavigationClick} >
           <span className="glass-logo-mark">
             <img src="/ProJenius_Logo.svg" alt="ProJenius Innovation Technology" className="logo-icon-crop" />
           </span>
           <span className="pj-brand-wordmark"><span className="logo-pro">ProJenius</span><span className="logo-jenius">Innovation Technology</span></span>
-        </a>
+        </Link>
         {/* ===================================================
             DESKTOP NAVIGATION
         =================================================== */}
@@ -422,7 +477,7 @@ export default function Navbar() {
           className="glass-nav-links"
           aria-label="Main Navigation"
         >
-          {navLinks.map((link) => {
+          {navLinks.map((link, linkIndex) => {
 
             /* -----------------------------------------------
                DROPDOWN
@@ -437,24 +492,39 @@ export default function Navbar() {
                     has-dropdown
                     ${isActive(link) ? "active" : ""}
                   `}
-                  onMouseEnter={() =>
-                    setServicesOpen(true)
-                  }
-                  onMouseLeave={() =>
-                    setServicesOpen(false)
-                  }
+                  onMouseEnter={() => { hoverOpenedRef.current = link.label; setOpenDropdown(link.label); setServicesOpen(true); }}
+                  onMouseLeave={() => { hoverOpenedRef.current = null; setOpenDropdown(null); setServicesOpen(false); }}
                 >
                   <button
+                    ref={linkIndex === 2 ? dropdownButtonRef : undefined}
                     type="button"
                     className="glass-nav-link glass-nav-button"
                     onClick={() => {
-                      setServicesOpen(
-                        (previous) => !previous
-                      );
+                      if (hoverOpenedRef.current === link.label && openDropdown === link.label) {
+                        hoverOpenedRef.current = null;
+                        setServicesOpen(true);
+                        setIsVisible(true);
+                        return;
+                      }
+                      const nextOpen = openDropdown === link.label ? null : link.label;
+                      setOpenDropdown(nextOpen);
+                      setServicesOpen(Boolean(nextOpen));
 
                       setIsVisible(true);
                     }}
-                    aria-expanded={servicesOpen}
+                    onKeyDown={(event) => {
+                      if (event.key === "ArrowDown") {
+                        event.preventDefault();
+                        setOpenDropdown(link.label);
+                        setServicesOpen(true);
+                        window.requestAnimationFrame(() => {
+                          document.getElementById(`nav-dropdown-${link.label.toLowerCase().replaceAll(/[^a-z0-9]+/g, "-")}`)?.querySelector("a")?.focus();
+                        });
+                      }
+                    }}
+                    aria-expanded={servicesOpen && openDropdown === link.label}
+                    aria-haspopup="true"
+                    aria-controls={`nav-dropdown-${link.label.toLowerCase().replaceAll(/[^a-z0-9]+/g, "-")}`}
                   >
                     <span>
                       {link.label}
@@ -463,14 +533,16 @@ export default function Navbar() {
                     <ChevronDown
                       size={15}
                       className={
-                        servicesOpen ? "rotate" : ""
+                        servicesOpen && openDropdown === link.label ? "rotate" : ""
                       }
                     />
                   </button>
 
-                  {servicesOpen && (
+                  {servicesOpen && openDropdown === link.label && (
                     <div
+                      id={`nav-dropdown-${link.label.toLowerCase().replaceAll(/[^a-z0-9]+/g, "-")}`}
                       className="glass-dropdown"
+                      aria-label={`${link.label} links`}
                       onMouseEnter={() =>
                         setServicesOpen(true)
                       }
@@ -491,6 +563,7 @@ export default function Navbar() {
                           `}
                           onClick={() => {
                             setServicesOpen(false);
+                            setOpenDropdown(null);
                             handleNavigationClick();
                           }}
                         >
@@ -518,6 +591,7 @@ export default function Navbar() {
                 <Link
                   to={link.path}
                   className="glass-nav-link"
+                  aria-current={isActive(link) ? "page" : undefined}
                   onClick={handleNavigationClick}
                 >
                   {link.label}
@@ -553,7 +627,7 @@ export default function Navbar() {
       {mobileOpen && (
         <div className="glass-mobile-drawer">
           <nav aria-label="Mobile Navigation">
-            {navLinks.map((link) => {
+          {navLinks.map((link) => {
 
               /* ---------------------------------------------
                  MOBILE SERVICES
@@ -570,15 +644,27 @@ export default function Navbar() {
                       className={`
                         glass-mobile-link
                         glass-mobile-toggle
-                        ${servicesOpen ? "open" : ""}
+                        ${servicesOpen && openDropdown === link.label ? "open" : ""}
                       `}
+                      aria-expanded={servicesOpen && openDropdown === link.label}
+                      aria-haspopup="true"
+                      aria-controls={`mobile-dropdown-${link.label.toLowerCase().replaceAll(/[^a-z0-9]+/g, "-")}`}
                       onClick={() => {
                         clearNavbarTimer();
                         setIsVisible(true);
-
-                        setServicesOpen(
-                          (previous) => !previous
-                        );
+                        const nextOpen = openDropdown === link.label ? null : link.label;
+                        setOpenDropdown(nextOpen);
+                        setServicesOpen(Boolean(nextOpen));
+                      }}
+                      onKeyDown={(event) => {
+                        if (event.key === "ArrowDown") {
+                          event.preventDefault();
+                          setOpenDropdown(link.label);
+                          setServicesOpen(true);
+                          window.requestAnimationFrame(() => {
+                            document.getElementById(`mobile-dropdown-${link.label.toLowerCase().replaceAll(/[^a-z0-9]+/g, "-")}`)?.querySelector("a")?.focus();
+                          });
+                        }
                       }}
                     >
                       <span>
@@ -588,8 +674,8 @@ export default function Navbar() {
                       <ChevronDown size={16} />
                     </button>
 
-                    {servicesOpen && (
-                      <div className="glass-mobile-sub">
+                    {servicesOpen && openDropdown === link.label && (
+                      <div id={`mobile-dropdown-${link.label.toLowerCase().replaceAll(/[^a-z0-9]+/g, "-")}`} className="glass-mobile-sub">
                         {link.dropdown.map((item) => (
                           <Link
                             key={item.path}
@@ -604,6 +690,7 @@ export default function Navbar() {
                             `}
                             onClick={() => {
                               setServicesOpen(false);
+                              setOpenDropdown(null);
                               setMobileOpen(false);
 
                               mobileOpenRef.current = false;
@@ -633,12 +720,14 @@ export default function Navbar() {
                     glass-mobile-link
                     ${isActive(link) ? "active" : ""}
                   `}
+                  aria-current={isActive(link) ? "page" : undefined}
                   onClick={() => {
                     setMobileOpen(false);
 
                     mobileOpenRef.current = false;
 
                     setServicesOpen(false);
+                    setOpenDropdown(null);
 
                     clearNavbarTimer();
                     setIsVisible(true);

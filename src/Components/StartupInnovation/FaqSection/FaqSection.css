@@ -1,0 +1,114 @@
+/* ==========================================================================
+   FaqSection.css
+   Every class starts with "faq-" so it cannot clash with the rest of the project.
+   Load once from index.html (never imported inside the JSX).
+   Sections: 1 Tokens | 2 Section | 3 Layout | 4 Intro | 5 Accordion | 6 Fallback
+             7 Tablet | 8 Mobile | 9 Motion
+   ========================================================================== */
+
+/* ---- 1. TOKENS ------------------------------------------------------------
+   Classes : faq-section (variables are scoped here only) */
+.faq-section {
+  --faq-bg: #0b2340;
+  --faq-line: #1b4475;
+  --faq-text: #f4f7ff;
+  --faq-muted: #8d9bb8;
+  --faq-blue: #20c8f5;
+  --faq-cyan: #5ad6f8;
+  --faq-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --faq-ease: 0.3s ease;
+}
+
+/* ---- 2. SECTION WRAPPER ---------------------------------------------------
+   Classes : faq-section */
+.faq-section {
+  box-sizing: border-box; width: 100%; max-width: 80rem; margin: 0 auto;
+  padding: clamp(1.25rem, 4vw, 3rem) clamp(1rem, 3vw, 2.5rem);
+  background: var(--faq-bg); color: var(--faq-text);
+  font-family: var(--pjds-font-body);
+}
+.faq-section *, .faq-section *::before, .faq-section *::after { box-sizing: inherit; }
+
+/* ---- 3. LAYOUT (intro | questions) ----------------------------------------
+   Classes : faq-layout */
+.faq-layout {
+  display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); align-items: start;
+  gap: clamp(1.5rem, 6vw, 6rem);
+}
+
+/* ---- 4. INTRO (left, stays in view while the list is long) ----------------
+   Classes : faq-intro, faq-eyebrow, faq-heading, faq-lead, faq-ask, faq-ask-arrow */
+.faq-intro { position: sticky; top: 2rem; }
+.faq-eyebrow {
+  display: flex; align-items: center; gap: 0.75rem; margin: 0 0 0.5rem;
+  font: 0.72rem var(--faq-mono); letter-spacing: 0.15em; text-transform: uppercase; color: var(--faq-muted);
+}
+.faq-eyebrow::before { content: ""; width: 1.75rem; height: 1px; background: var(--faq-muted); }
+.faq-heading { max-width: 14rem; margin: 0; font-size: clamp(2rem, 4.5vw, 3.4rem); line-height: 1.1; font-weight: 800; }
+.faq-lead { max-width: 21rem; margin: 0.9rem 0 0; font-size: 0.9rem; line-height: 1.55; color: var(--faq-muted); }
+.faq-ask {
+  display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1rem; padding: 0.5rem 1rem;
+  color: var(--faq-text); font-size: 0.9rem; text-decoration: none; transition: color var(--faq-ease);
+}
+.faq-ask:hover { color: var(--faq-blue); }
+.faq-ask:focus-visible { outline: 2px solid var(--faq-cyan); outline-offset: 2px; }
+.faq-ask-arrow { transition: transform var(--faq-ease); }
+.faq-ask:hover .faq-ask-arrow { transform: translateX(0.25rem); }
+
+/* ---- 5. ACCORDION (right) -------------------------------------------------
+   Classes : faq-list, faq-item, faq-item--open, faq-head, faq-question, faq-icon,
+             faq-body, faq-inner, faq-answer */
+.faq-list { margin: 0; padding: 0; list-style: none; border-bottom: 1px solid var(--faq-line); }
+.faq-item { border-top: 1px solid var(--faq-line); }
+.faq-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem; width: 100%;
+  padding: 1.05rem 0.25rem; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer;
+}
+.faq-head:focus-visible { outline: 2px solid var(--faq-cyan); outline-offset: 2px; }
+.faq-question { font-size: 1rem; font-weight: 700; transition: color var(--faq-ease); }
+.faq-head:hover .faq-question, .faq-item--open .faq-question { color: var(--faq-blue); }
+
+/* plus / minus icon drawn with CSS only */
+.faq-icon {
+  position: relative; flex: none; width: 1.2rem; height: 1.2rem; border-radius: 50%;
+  border: 1px solid var(--faq-line); transition: background var(--faq-ease), border-color var(--faq-ease);
+}
+.faq-icon::before, .faq-icon::after {
+  content: ""; position: absolute; top: 50%; left: 50%; width: 0.5rem; height: 2px; border-radius: 1px;
+  background: var(--faq-text); transform: translate(-50%, -50%); transition: transform var(--faq-ease), background var(--faq-ease);
+}
+.faq-icon::after { transform: translate(-50%, -50%) rotate(90deg); }
+.faq-item--open .faq-icon { background: var(--faq-blue); border-color: var(--faq-blue); }
+.faq-item--open .faq-icon::before, .faq-item--open .faq-icon::after { background: var(--faq-bg); }
+.faq-item--open .faq-icon::after { transform: translate(-50%, -50%) rotate(0deg); }
+
+/* smooth open / close without measuring height in JS */
+.faq-body { display: grid; grid-template-rows: 0fr; visibility: hidden; transition: grid-template-rows var(--faq-ease), visibility var(--faq-ease); }
+.faq-item--open .faq-body { grid-template-rows: 1fr; visibility: visible; }
+.faq-inner { overflow: hidden; }
+.faq-answer { max-width: 36rem; margin: 0; padding: 0 0.25rem 1.1rem; font-size: 0.9rem; line-height: 1.6; color: var(--faq-muted); }
+
+/* ---- 6. FALLBACK (shown only if a part fails) -----------------------------
+   Classes : faq-fallback */
+.faq-fallback { margin: 0; padding: 1rem; border: 1px solid var(--faq-line); border-radius: 0.6rem; color: var(--faq-muted); }
+
+/* ---- 7. TABLET (max 900px) ------------------------------------------------
+   Classes : faq-layout, faq-intro */
+@media (max-width: 900px) {
+  .faq-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 2rem; }
+  .faq-intro { top: 1rem; }
+}
+
+/* ---- 8. MOBILE (max 640px) : intro on top, questions below ----------------
+   Classes : faq-layout, faq-intro, faq-heading, faq-lead */
+@media (max-width: 640px) {
+  .faq-layout { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+  .faq-intro { position: static; }
+  .faq-heading, .faq-lead { max-width: none; }
+}
+
+/* ---- 9. MOTION --------------------------------------------------------------
+   Classes : all faq- elements */
+@media (prefers-reduced-motion: reduce) {
+  .faq-section *, .faq-section *::before, .faq-section *::after { transition: none; }
+}

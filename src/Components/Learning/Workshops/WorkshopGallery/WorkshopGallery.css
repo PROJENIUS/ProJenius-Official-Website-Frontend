@@ -1,0 +1,445 @@
+/* =============================================================================
+   WORKSHOP GALLERY — every rule is scoped beneath .wg-section
+   Navy like the other dark Workshop sections. Hover effects move only
+   transform / opacity, so the grid stays smooth while scrolling.
+   ============================================================================= */
+
+.wg-section {
+  padding: var(--pjds-section-space) 0;
+  background:
+    radial-gradient(40rem 26rem at 0% 0%, rgba(32, 200, 245, 0.1), transparent 70%),
+    linear-gradient(180deg, #071426 0%, #0a1d35 100%);
+  color: var(--pjds-white);
+  font-family: var(--pjds-font-body);
+}
+
+.wg-section *,
+.wg-section *::before,
+.wg-section *::after {
+  box-sizing: border-box;
+}
+
+.wg-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 820px;
+  margin: 0 auto 36px;
+  text-align: center;
+}
+
+.wg-title {
+  margin: 0;
+  color: var(--pjds-white);
+  font-family: var(--pjds-font-heading);
+  font-size: var(--pjds-text-h2);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+}
+
+.wg-title-static {
+  display: block;
+}
+
+.wg-desc {
+  max-width: 640px;
+  margin: 16px 0 0;
+  color: var(--pjds-text-inverse-muted);
+  font-size: var(--pjds-text-lead);
+  line-height: 1.65;
+}
+
+/* Filters */
+.wg-filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.wg-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 18px;
+  border: 1px solid rgba(174, 205, 230, 0.25);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--pjds-white);
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 200ms ease, border-color 200ms ease, color 200ms ease;
+}
+
+.wg-filter span {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  font-size: 0.75rem;
+}
+
+.wg-filter:hover {
+  border-color: var(--pjds-cyan-400);
+}
+
+.wg-filter.is-active {
+  border-color: var(--pjds-cyan-500);
+  background: var(--pjds-cyan-500);
+  color: var(--pjds-navy-950);
+}
+
+.wg-filter.is-active span {
+  background: rgba(7, 20, 38, 0.15);
+}
+
+/* Mosaic grid */
+.wg-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-rows: clamp(150px, 15vw, 210px);
+  grid-auto-flow: dense;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.wg-tile--big { grid-column: span 2; grid-row: span 2; }
+.wg-tile--tall { grid-row: span 2; }
+.wg-tile--wide { grid-column: span 2; }
+
+.wg-tile {
+  min-width: 0;
+}
+
+.wg-tile__btn {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid rgba(174, 205, 230, 0.16);
+  border-radius: 20px;
+  background: #0b1f38;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: zoom-in;
+}
+
+.wg-tile__btn img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Taller than the tile and anchored to the top: the bottom of the photo is
+   cut off (used for photos with a stamp along the bottom edge). */
+.wg-tile--crop-top .wg-tile__btn img {
+  height: 130%;
+  object-position: top;
+}
+
+.wg-tile__shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 45%, rgba(7, 20, 38, 0.9));
+}
+
+.wg-tile__caption {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: grid;
+  gap: 2px;
+  padding: 16px;
+  transform: translateY(6px);
+  transition: transform 400ms ease;
+}
+
+.wg-tile__caption strong {
+  color: var(--pjds-white);
+  font-family: var(--pjds-font-heading);
+  font-size: 0.98rem;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.wg-tile__caption span {
+  color: var(--pjds-cyan-400);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.wg-tile__zoom,
+.wg-tile__play {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+}
+
+.wg-tile__zoom {
+  top: 12px;
+  right: 12px;
+  width: 38px;
+  height: 38px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(7, 20, 38, 0.75);
+  color: var(--pjds-white);
+  opacity: 0;
+  transition: opacity 300ms ease, transform 500ms ease;
+}
+
+.wg-tile__play {
+  top: 50%;
+  left: 50%;
+  width: 62px;
+  height: 62px;
+  margin: -31px 0 0 -31px;
+  background: var(--pjds-cyan-500);
+  color: var(--pjds-navy-950);
+  box-shadow: 0 0 0 8px rgba(32, 200, 245, 0.25);
+  transition: transform 300ms ease;
+}
+
+.wg-tile__btn:hover img,
+.wg-tile__btn:focus-visible img {
+  transform: scale(1.06);
+}
+
+.wg-tile__btn:hover .wg-tile__caption,
+.wg-tile__btn:focus-visible .wg-tile__caption {
+  transform: none;
+}
+
+.wg-tile__btn:hover .wg-tile__zoom,
+.wg-tile__btn:focus-visible .wg-tile__zoom {
+  opacity: 1;
+  transform: rotate(180deg);
+}
+
+.wg-tile__btn:hover .wg-tile__play {
+  transform: scale(1.08);
+}
+
+.wg-tile__btn:focus-visible,
+.wg-filter:focus-visible,
+.wg-more__btn:focus-visible {
+  outline: 3px solid var(--pjds-cyan-400);
+  outline-offset: 3px;
+}
+
+.wg-more {
+  display: flex;
+  justify-content: center;
+  margin-top: 28px;
+}
+
+.wg-more__btn {
+  min-height: 48px;
+  padding: 12px 26px;
+  border: 1px solid var(--pjds-cyan-400);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--pjds-cyan-400);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+.wg-more__btn:hover {
+  background: var(--pjds-cyan-500);
+  color: var(--pjds-navy-950);
+}
+
+/* Full-screen viewer (native dialog, shown in the top layer) */
+.wg-viewer {
+  width: 100vw;
+  max-width: none;
+  height: 100vh;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: rgba(4, 12, 24, 0.94);
+  color: var(--pjds-white);
+}
+
+.wg-viewer::backdrop {
+  background: rgba(4, 12, 24, 0.7);
+}
+
+.wg-viewer__inner {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 64px 84px 24px;
+}
+
+.wg-viewer__figure {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0;
+}
+
+.wg-viewer__figure img {
+  display: block;
+  max-width: 100%;
+  max-height: calc(100dvh - 180px);
+  border-radius: 16px;
+  object-fit: contain;
+}
+
+.wg-viewer__video {
+  width: min(100%, calc((100dvh - 180px) * 16 / 9));
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #000;
+}
+
+.wg-viewer__video iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.wg-viewer__figure figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 6px 14px;
+  text-align: center;
+}
+
+.wg-viewer__figure figcaption strong {
+  font-family: var(--pjds-font-heading);
+  font-size: 1.05rem;
+}
+
+.wg-viewer__figure figcaption span {
+  color: var(--pjds-cyan-400);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.wg-viewer__figure .wg-viewer__count {
+  color: var(--pjds-text-inverse-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.wg-viewer__close,
+.wg-viewer__nav {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--pjds-white);
+  cursor: pointer;
+  transition: background-color 200ms ease, border-color 200ms ease;
+}
+
+.wg-viewer__close {
+  top: 16px;
+  right: 16px;
+  width: 46px;
+  height: 46px;
+}
+
+.wg-viewer__nav {
+  top: 50%;
+  width: 54px;
+  height: 54px;
+  margin-top: -27px;
+}
+
+.wg-viewer__nav--prev { left: 16px; }
+.wg-viewer__nav--next { right: 16px; }
+
+.wg-viewer__close:hover,
+.wg-viewer__nav:hover {
+  border-color: var(--pjds-cyan-400);
+  background: rgba(32, 200, 245, 0.18);
+}
+
+.wg-viewer__close:focus-visible,
+.wg-viewer__nav:focus-visible {
+  outline: 3px solid var(--pjds-cyan-400);
+  outline-offset: 3px;
+}
+
+@media (max-width: 1023px) {
+  .wg-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: clamp(140px, 30vw, 220px);
+  }
+}
+
+@media (max-width: 600px) {
+  .wg-grid {
+    gap: 10px;
+    grid-auto-rows: 140px;
+  }
+
+  .wg-tile__btn {
+    border-radius: 14px;
+  }
+
+  .wg-tile__caption {
+    padding: 10px;
+    transform: none;
+  }
+
+  .wg-tile__caption strong {
+    font-size: 0.82rem;
+  }
+
+  .wg-tile__caption span {
+    font-size: 0.68rem;
+  }
+
+  .wg-viewer__inner {
+    padding: 64px 12px 84px;
+  }
+
+  .wg-viewer__nav {
+    top: auto;
+    bottom: 16px;
+    margin-top: 0;
+  }
+
+  .wg-viewer__nav--prev { left: calc(50% - 64px); }
+  .wg-viewer__nav--next { right: calc(50% - 64px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wg-tile__btn img,
+  .wg-tile__caption,
+  .wg-tile__zoom,
+  .wg-tile__play {
+    transition: none;
+  }
+}

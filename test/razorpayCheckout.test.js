@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { loadRazorpayCheckout, validateCheckoutOrder } from "../src/Components/Courses/ExploreOurCourses/razorpayCheckout.js";
+import { loadRazorpayCheckout, validateCheckoutOrder } from "../src/Components/Learning/Courses/ExploreOurCourses/razorpayCheckout.js";
 
 const validOrder = {
   keyId: "rzp_test_synthetic123",

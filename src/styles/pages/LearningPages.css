@@ -1,0 +1,259 @@
+/* =============================================================================
+   LEARNING PAGES — shared type scale for Internships, Workshops and Career
+   Guidance. Every rule is scoped beneath main.pjl-page (the <main> of those three
+   pages), so nothing here reaches the homepage or any other page.
+
+   It brings the sections onto the homepage system: Manrope headings at the
+   design-system sizes, Inter body text, the lead-paragraph size, and the
+   outlined pill label. Section-specific layout stays in each component's CSS.
+   ============================================================================= */
+
+main.pjl-page {
+  font-family: var(--pjds-font-body);
+}
+
+main.pjl-page :is(
+  h1,
+  h2,
+  h3,
+  h4
+) {
+  font-family: var(--pjds-font-heading);
+}
+
+/* Page heading (one per page, in the hero). */
+main.pjl-page h1 {
+  font-size: clamp(2.375rem, 1.3rem + 3vw, 3.75rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.06;
+  text-wrap: balance;
+}
+
+/* Section headings: the homepage h2 scale. */
+main.pjl-page h2 {
+  font-size: var(--pjds-text-h2);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.12;
+  text-wrap: balance;
+}
+
+/* Section intro paragraphs. */
+main.pjl-page :is(
+  .pj-internship-hero-description,
+  .wh-desc,
+  .di-desc,
+  .hw-lead,
+  .oe-desc,
+  .wp-desc,
+  .qia-help,
+  .cghero-description,
+  .asf-description,
+  .cgaud-subtitle
+) {
+  font-size: var(--pjds-text-lead);
+  line-height: 1.65;
+}
+
+/* Section labels: the homepage outlined pill (light and dark variants). */
+main.pjl-page :is(
+  .pj-internship-hero-label
+) {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 0;
+  padding: 6px 14px;
+  border: 1px solid var(--pjds-cyan-700);
+  border-radius: 999px;
+  background: rgba(32, 200, 245, 0.07);
+  box-shadow: none;
+  color: var(--pjds-cyan-700);
+  font-family: var(--pjds-font-body);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+/* On dark sections. */
+main.pjl-page :is(
+  .pj-internship-hero-label
+) {
+  border-color: var(--pjds-cyan-400);
+  color: var(--pjds-cyan-400);
+}
+
+@media (max-width: 600px) {
+  main.pjl-page :is(
+    .pj-internship-hero-label
+) {
+    padding: 5px 12px;
+    font-size: 0.75rem;
+  }
+}
+
+/* Labels added with the shared homepage class. Component rules such as
+   ".x-left p" would otherwise restyle them, so the pill is re-asserted here. */
+main.pjl-page .pjds-eyebrow {
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 0 16px;
+  padding: 6px 14px;
+  border: 1px solid var(--pjds-accent-text);
+  border-radius: 999px;
+  background: rgba(32, 200, 245, 0.07);
+  color: var(--pjds-accent-text);
+  font-family: var(--pjds-font-body);
+  font-size: var(--pjds-text-eyebrow);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+main.pjl-page .pjds-eyebrow--on-dark {
+  border-color: var(--pjds-cyan-400);
+  color: var(--pjds-cyan-400);
+}
+
+@media (max-width: 600px) {
+  main.pjl-page .pjds-eyebrow {
+    padding: 5px 12px;
+    font-size: 0.75rem;
+  }
+}
+
+/* Section headings in the homepage navy; intro paragraphs in the muted
+   body colour (two Workshop sections had them in cyan). */
+main.pjl-page .di-desc {
+  color: var(--pjds-text-muted);
+}
+
+/* Icon chips: one brand treatment instead of purple / orange / pink / green
+   variants. */
+main.pjl-page :is(
+  .pj-internship-learning-icon,
+  .pj-internship-success-highlight-icon,
+  .pj-internship-success-stat-icon
+) {
+  background: var(--pjds-cyan-50);
+  color: var(--pjds-cyan-700);
+}
+
+/* =============================================================================
+   SCROLL REVEAL — the homepage motion system (see src/styles/pages/HomePage.css),
+   scoped to these three pages. Pairs with src/hooks/useScrollReveal.js, which
+   sets data-revealed while an element is in view (both scroll directions).
+   Only opacity and transform animate, so nothing shifts the layout.
+   ============================================================================= */
+
+/* These had their own one-shot entrance; the shared reveal replaces it. */
+main.pjl-page :is(
+  .pj-internship-domains-header,
+  .pj-internship-domains-filters,
+  .pj-internship-real-world-header
+) {
+  opacity: 1;
+  transform: none;
+}
+
+main.pjl-page [data-reveal] {
+  transition:
+    opacity 640ms var(--pjds-ease),
+    transform 720ms var(--pjds-ease);
+}
+
+main.pjl-page [data-reveal]:not([data-revealed]) { opacity: 0; }
+
+main.pjl-page [data-reveal="up"]:not([data-revealed]) { transform: translateY(28px); }
+main.pjl-page [data-reveal="left"]:not([data-revealed]) { transform: translateX(-32px); }
+main.pjl-page [data-reveal="right"]:not([data-revealed]) { transform: translateX(32px); }
+main.pjl-page [data-reveal="scale"]:not([data-revealed]) { transform: scale(0.96); }
+
+main.pjl-page [data-reveal-delay="1"] { transition-delay: 70ms; }
+main.pjl-page [data-reveal-delay="2"] { transition-delay: 140ms; }
+main.pjl-page [data-reveal-delay="3"] { transition-delay: 210ms; }
+main.pjl-page [data-reveal-delay="4"] { transition-delay: 280ms; }
+
+/* Elements leave instantly (no delay) so re-entry always animates cleanly. */
+main.pjl-page [data-reveal]:not([data-revealed]) { transition-delay: 0ms; }
+
+/* Side slides would push past the viewport edge on narrow screens. */
+@media (max-width: 767px) {
+  main.pjl-page :is(
+  [data-reveal="left"],
+  [data-reveal="right"]
+):not([data-revealed]) {
+    transform: translateY(28px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  main.pjl-page [data-reveal],
+  main.pjl-page [data-reveal]:not([data-revealed]) {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* =============================================================================
+   CONTAINER — every section on these pages uses the homepage container
+   (.pjds-container: 1280px content + the responsive --pjds-gutter), so
+   content edges line up from section to section and with the homepage.
+   ============================================================================= */
+
+main.pjl-page {
+  overflow-x: clip; /* side reveals start 32px off-axis; never a page scrollbar */
+}
+
+main.pjl-page :is(
+  .pj-internship-learning,
+  .qia-section,
+  .cghero-section,
+  .asf-section,
+  .gp-section,
+  .nja-section,
+  .cgaud-section,
+  .njac-section
+) {
+  padding-inline: 0;
+}
+
+main.pjl-page :is(
+  .pj-internship-hero-container,
+  .pj-internship-real-world-container,
+  .pj-internship-domains-container,
+  .pj-internship-tech__container,
+  .pj-internship-learning-container,
+  .pj-internship-success-container,
+  .wh-container,
+  .ew-container,
+  .di-container,
+  .hw-container,
+  .qia-container,
+  .cghero-container,
+  .asf-container,
+  .gp-container,
+  .nja-container,
+  .cgaud-container,
+  .njac-container
+) {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: calc(var(--pjds-container) + (var(--pjds-gutter) * 2));
+  margin-inline: auto;
+  padding-inline: var(--pjds-gutter);
+}
+
+/* The closing Internship call-to-action is a card: same width as the
+   container content, keeping its own inner padding. */
+main.pjl-page .pj-internship-ready-container {
+  width: min(var(--pjds-container), calc(100% - (var(--pjds-gutter) * 2)));
+}

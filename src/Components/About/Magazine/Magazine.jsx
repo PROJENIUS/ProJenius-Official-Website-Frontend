@@ -71,8 +71,8 @@ const MAGAZINE_SECTIONS = [
 ];
 
 /* Section heading. The white part is static, the blue part is typed. */
-const HEADING_WHITE = "Our Successful ";
-const HEADING_BLUE = "Innovation Journey";
+const HEADING_WHITE = "ProJenius ";
+const HEADING_BLUE = "Magazine";
 
 /* Typewriter timing (ms): type -> hold (cursor blinks) -> delete -> pause -> type ... */
 const HEAD_START_DELAY = 350; // wait before the very first letter
@@ -392,11 +392,7 @@ const MagazineHeading = () => {
         >
             {/* pill tag above the heading */}
             <span className="hpmag-head__label hpmag-head__pop hpmag-head__pop--1">
-                <span
-                    className="hpmag-head__dot"
-                    aria-hidden="true"
-                />
-                JOURNEY
+                OUR MAGAZINE
             </span>
 
             <h2

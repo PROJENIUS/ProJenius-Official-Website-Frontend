@@ -1,0 +1,77 @@
+/* =============================================================================
+   ENGINEERING & INNOVATION PAGES — Software Development, Hardware & Embedded
+   Systems, PCB Design & Fabrication, Rapid Prototyping, Startup & Innovation.
+   Every rule is scoped beneath main.pjsv-page (the <main> of those pages), so
+   nothing here reaches the homepage or any other page.
+   ============================================================================= */
+
+main.pjsv-page {
+  overflow-x: clip; /* side reveals start 32px off-axis; never a page scrollbar */
+  font-family: var(--pjds-font-body);
+}
+
+/* Headings of the existing Software / Startup sections use the homepage
+   heading font (several were set in Poppins / Segoe UI). */
+main.pjsv-page :is(h1, h2, h3) {
+  font-family: var(--pjds-font-heading);
+}
+
+/* =============================================================================
+   SCROLL REVEAL — the homepage motion system (src/styles/pages/HomePage.css),
+   paired with src/hooks/useScrollReveal.js. Elements reveal when they enter
+   the viewport from either direction. Only opacity and transform animate.
+   ============================================================================= */
+
+main.pjsv-page [data-reveal] {
+  transition:
+    opacity 640ms var(--pjds-ease),
+    transform 720ms var(--pjds-ease);
+}
+
+main.pjsv-page [data-reveal]:not([data-revealed]) { opacity: 0; }
+
+main.pjsv-page [data-reveal="up"]:not([data-revealed]) { transform: translateY(28px); }
+main.pjsv-page [data-reveal="left"]:not([data-revealed]) { transform: translateX(-32px); }
+main.pjsv-page [data-reveal="right"]:not([data-revealed]) { transform: translateX(32px); }
+main.pjsv-page [data-reveal="scale"]:not([data-revealed]) { transform: scale(0.96); }
+
+main.pjsv-page [data-reveal-delay="1"] { transition-delay: 70ms; }
+main.pjsv-page [data-reveal-delay="2"] { transition-delay: 140ms; }
+main.pjsv-page [data-reveal-delay="3"] { transition-delay: 210ms; }
+main.pjsv-page [data-reveal-delay="4"] { transition-delay: 280ms; }
+
+/* Elements leave instantly so re-entry always animates cleanly. */
+main.pjsv-page [data-reveal]:not([data-revealed]) { transition-delay: 0ms; }
+
+@media (max-width: 767px) {
+  main.pjsv-page :is([data-reveal="left"], [data-reveal="right"]):not([data-revealed]) {
+    transform: translateY(28px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  main.pjsv-page [data-reveal],
+  main.pjsv-page [data-reveal]:not([data-revealed]) {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* =============================================================================
+   STARTUP & INNOVATION — the kept sections were boxed at 80rem with their own
+   background (white strips either side) and their own gutters. Here they run
+   full width with content aligned to the homepage container.
+   ============================================================================= */
+
+main.pjsv-startup :is(.pjs-stage, .cmap-section, .ssj-section, .faq-section) {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding-block: var(--pjds-section-space);
+  padding-inline: max(var(--pjds-gutter), calc((100% - var(--pjds-container)) / 2));
+}
+
+main.pjsv-startup .cmap-section {
+  min-height: 0;
+}

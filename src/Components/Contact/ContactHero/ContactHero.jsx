@@ -20,6 +20,7 @@ const ContactHero = () => {
             HERO — COPY (heading, supporting text, call-to-action buttons)
             =================================================================== */}
         <div className="pj-contact-hero__copy">
+          <p className="pj-contact-hero__eyebrow">Contact ProJenius</p>
           <h1 className="pj-contact-hero__title" id="pj-contact-hero-title">
             Let&rsquo;s Start a Conversation.
           </h1>

@@ -1,13 +1,15 @@
 /* News & Insights listing, article detail, and responsive media styles. */
 .pj-publishing {
+  box-sizing: border-box;
   min-height: 48vh;
-  padding: 76px 20px 100px;
-  background: #f6f9fc;
-  color: #152238;
+  padding: calc(var(--pjds-nav-offset) + 36px) var(--pjds-gutter) 88px;
+  background: var(--pjds-surface-muted);
+  color: var(--pjds-text);
+  font-family: var(--pjds-font-body);
 }
 
 .pj-publishing__wrap {
-  max-width: 1120px;
+  max-width: var(--pjds-container);
   margin: 0 auto;
 }
 
@@ -19,16 +21,26 @@
 
 .pj-publishing h1 {
   margin: 8px 0;
-  color: #0a347f;
-  font-size: clamp(2rem, 5vw, 3.4rem);
+  color: var(--pjds-text);
+  font-family: var(--pjds-font-heading);
+  font-size: var(--pjds-text-h2);
+  font-weight: 800;
+  line-height: var(--pjds-leading-tight);
+  letter-spacing: -.03em;
+  text-wrap: balance;
 }
 
 .pj-publishing__eyebrow {
-  color: #008ea6;
-  font-size: 0.78rem;
+  color: var(--pjds-cyan-700);
+  font-size: var(--pjds-text-eyebrow);
   font-weight: 700;
   letter-spacing: 0.13em;
   text-transform: uppercase;
+}
+
+@media (max-width: 600px) {
+  .pj-publishing { padding-top: calc(var(--pjds-nav-offset) + 28px); padding-bottom: 64px; }
+  .pj-publishing header { margin-bottom: 30px; }
 }
 
 .pj-publishing__grid {

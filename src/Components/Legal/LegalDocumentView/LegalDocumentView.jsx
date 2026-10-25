@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import LegalLayout from "../LegalLayout/LegalLayout";
+import LegalLayout from "../LegalLayout/LegalLayout.jsx";
 import {
   fetchLegalDocument,
   formatLegalDate,
-} from "../../../utils/legalDocuments";
+} from "../../../utils/legalDocuments.js";
 import "./LegalDocumentView.css";
 const DOCUMENT_TITLES = {
   terms: "Terms & Conditions",

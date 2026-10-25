@@ -1,26 +1,32 @@
 import { BrowserRouter, Routes, Route, Navigate, useLocation, useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 
-import Navbar from "./Components/Common/Navbar/Navbar";
-import Footer from "./Components/Common/Footer/Footer";
+import Navbar from "./Components/Common/Navbar/Navbar.jsx";
+import Footer from "./Components/Common/Footer/Footer.jsx";
 
-import Home from "./Pages/Home";
-import About from "./Pages/About";
-import Contact from "./Pages/Contact";
-
-import Development from "./Pages/Services/Development";
-import Courses from "./Pages/Services/Courses";
-import CourseTerms from "./Pages/Services/CourseTerms";
-import CourseReceipt from "./Pages/Services/CourseReceipt";
-import Internship from "./Pages/Services/Internship";
-import CareerGuidancePage from "./Pages/Services/CareerGuidancePage";
-
-import Workshop from "./Pages/Workshop";
-import StartupSupporter from "./Pages/StartupSupporter";
-import NewsInsights from "./Pages/NewsInsights";
-import NewsletterAction from "./Pages/NewsletterAction";
-import TermsAndConditions from "./Pages/Legal/TermsAndConditions/TermsAndConditions";
-import PrivacyPolicy from "./Pages/Legal/PrivacyPolicy/PrivacyPolicy";
+const HomePage = lazy(() => import("./Pages/Home/HomePage.jsx"));
+const AboutPage = lazy(() => import("./Pages/About/AboutPage.jsx"));
+const ContactPage = lazy(() => import("./Pages/Contact/ContactPage.jsx"));
+const SoftwareDevelopmentPage = lazy(() => import("./Pages/Solutions/SoftwareDevelopment/SoftwareDevelopmentPage.jsx"));
+const HardwareEmbeddedSystemsPage = lazy(() => import("./Pages/Solutions/HardwareEmbeddedSystems/HardwareEmbeddedSystemsPage.jsx"));
+const RapidPrototypingPage = lazy(() => import("./Pages/Solutions/RapidPrototyping/RapidPrototypingPage.jsx"));
+const PCBDesignFabricationPage = lazy(() => import("./Pages/Solutions/PCBDesignFabrication/PCBDesignFabricationPage.jsx"));
+const CoursesPage = lazy(() => import("./Pages/Learning/Courses/CoursesPage.jsx"));
+const CourseTermsPage = lazy(() => import("./Pages/Legal/CourseTermsPage.jsx"));
+const CourseReceiptPage = lazy(() => import("./Pages/CourseReceipt/CourseReceiptPage.jsx"));
+const InternshipsPage = lazy(() => import("./Pages/Learning/Internships/InternshipsPage.jsx"));
+const CareerGuidancePage = lazy(() => import("./Pages/Learning/CareerGuidance/CareerGuidancePage.jsx"));
+const WorkshopsPage = lazy(() => import("./Pages/Learning/Workshops/WorkshopsPage.jsx"));
+const StartupInnovationPage = lazy(() => import("./Pages/StartupInnovation/StartupInnovationPage.jsx"));
+const NewsInsightsPage = lazy(() => import("./Pages/NewsInsights/NewsInsightsPage.jsx"));
+const NewsletterActionPage = lazy(() => import("./Pages/Newsletter/NewsletterActionPage.jsx"));
+const TermsAndConditionsPage = lazy(() => import("./Pages/Legal/TermsAndConditionsPage.jsx"));
+const PrivacyPolicyPage = lazy(() => import("./Pages/Legal/PrivacyPolicyPage.jsx"));
+const ProductsPage = lazy(() => import("./Pages/Products/ProductsPage.jsx"));
+// Design preview of the proposed new homepage; not linked anywhere, noindex.
+const HomeV2Page = lazy(() => import("./Pages/Preview/HomeV2Page.jsx"));
+const HomeV3Page = lazy(() => import("./Pages/Preview/HomeV3Page.jsx"));
+const JoinOurTeamPage = lazy(() => import("./Pages/JoinOurTeamPage.jsx"));
 
 function LegacyBlogArticle() {
   const { slug } = useParams();
@@ -32,7 +38,11 @@ const ROUTE_TITLES = {
   "/": `${COMPANY_DISPLAY_NAME} | Technology Solutions & Training`,
   "/about": `About Us | ${COMPANY_DISPLAY_NAME}`,
   "/contact": `Contact Us | ${COMPANY_DISPLAY_NAME}`,
-  "/services/development": `Technology Development Services | ${COMPANY_DISPLAY_NAME}`,
+  "/services/development": `Software Development | ${COMPANY_DISPLAY_NAME}`,
+  "/services/hardware-embedded-systems": `Hardware & Embedded Systems | ${COMPANY_DISPLAY_NAME}`,
+  "/services/rapid-prototyping": `Rapid Prototyping | ${COMPANY_DISPLAY_NAME}`,
+  "/services/pcb-design-fabrication": `PCB Design & Fabrication | ${COMPANY_DISPLAY_NAME}`,
+  "/products": `Products | ${COMPANY_DISPLAY_NAME}`,
   "/services/courses": `Explore Courses | ${COMPANY_DISPLAY_NAME}`,
   "/services/courses/terms": `Course Terms & Refund Policy | ${COMPANY_DISPLAY_NAME}`,
   "/terms": `Terms & Conditions | ${COMPANY_DISPLAY_NAME}`,
@@ -40,7 +50,7 @@ const ROUTE_TITLES = {
   "/services/internship": `Technology Internship | ${COMPANY_DISPLAY_NAME}`,
   "/services/career-guidance": `Career Guidance | ${COMPANY_DISPLAY_NAME}`,
   "/workshop": `Workshops & Training | ${COMPANY_DISPLAY_NAME}`,
-  "/startup": `Startup Support | ${COMPANY_DISPLAY_NAME}`,
+  "/startup": `Startup & Innovation | ${COMPANY_DISPLAY_NAME}`,
   "/join-our-team": `Join Our Team | ${COMPANY_DISPLAY_NAME}`,
   "/news-insights": `News & Insights | ${COMPANY_DISPLAY_NAME}`,
   "/newsletter/confirm": `Newsletter Subscription | ${COMPANY_DISPLAY_NAME}`,
@@ -62,43 +72,83 @@ function RouteTitle() {
   return null;
 }
 
+function RouteLoadingFallback() {
+  const { pathname } = useLocation();
+  const usesDarkHero = pathname === "/"
+    || pathname === "/about"
+    || pathname === "/startup"
+    || pathname === "/products"
+    || pathname === "/join-our-team"
+    || pathname === "/services/internship"
+    || pathname.startsWith("/services/development")
+    || pathname.startsWith("/services/hardware-embedded-systems")
+    || pathname.startsWith("/services/rapid-prototyping")
+    || pathname.startsWith("/services/pcb-design-fabrication");
+
+  return (
+    <main
+      className={`pjds-route-loading${usesDarkHero ? " pjds-route-loading--dark" : ""}`}
+      role="status"
+      aria-live="polite"
+      aria-label="Loading page"
+      aria-busy="true"
+    >
+      <div className="pjds-route-loading__content">
+        <div className="pjds-route-loading__brand" aria-hidden="true">
+          <img src="/ProJenius_Logo.svg" alt="" width="44" height="44" />
+          <span>Pro<span>Jenius</span></span>
+        </div>
+        <p className="pjds-route-loading__label">Preparing your page</p>
+        <span className="pjds-route-loading__progress" aria-hidden="true" />
+      </div>
+    </main>
+  );
+}
+
 function App() {
   return (
     <BrowserRouter>
       <RouteTitle />
       <Navbar />
 
-      <Routes>
-        {/* MAIN PAGES */}
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
+      <Suspense fallback={<RouteLoadingFallback />}>
+        <Routes>
+          {/* MAIN PAGES */}
+          <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
 
-        {/* SERVICES */}
-        <Route path="/services/development" element={<Development />} />
-        <Route path="/services/courses" element={<Courses />} />
-        <Route path="/services/courses/:slug" element={<Courses />} />
-        <Route path="/services/courses/terms" element={<CourseTerms />} />
-        <Route path="/terms" element={<TermsAndConditions />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="/services/courses/receipt/:token" element={<CourseReceipt />} />
-        <Route path="/services/internship" element={<Internship />} />
-        <Route path="/services/career-guidance" element={<CareerGuidancePage />} />
+          {/* SERVICES */}
+          <Route path="/services/development" element={<SoftwareDevelopmentPage />} />
+          <Route path="/services/hardware-embedded-systems" element={<HardwareEmbeddedSystemsPage />} />
+          <Route path="/services/rapid-prototyping" element={<RapidPrototypingPage />} />
+          <Route path="/services/pcb-design-fabrication" element={<PCBDesignFabricationPage />} />
+          <Route path="/services/courses" element={<CoursesPage />} />
+          <Route path="/services/courses/terms" element={<CourseTermsPage />} />
+          <Route path="/services/courses/receipt/:token" element={<CourseReceiptPage />} />
+          <Route path="/services/courses/:slug" element={<CoursesPage />} />
+          <Route path="/terms" element={<TermsAndConditionsPage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/services/internship" element={<InternshipsPage />} />
+          <Route path="/services/career-guidance" element={<CareerGuidancePage />} />
 
-        {/* OTHER PAGES */}
-        <Route path="/workshop" element={<Workshop />} />
-        <Route path="/startup" element={<StartupSupporter />} />
-        <Route path="/join-our-team" element={<div>Join Our Team</div>} />
-        <Route path="/news-insights" element={<NewsInsights />} />
-        <Route path="/news-insights/:slug" element={<NewsInsights />} />
-        <Route path="/news-insights/:contentType/:slug" element={<NewsInsights />} />
-        <Route path="/blog" element={<Navigate replace to="/news-insights" />} />
-        <Route path="/blog/:slug" element={<LegacyBlogArticle />} />
-        <Route path="/newsletter/confirm" element={<NewsletterAction mode="confirm" />} />
-        <Route path="/newsletter/unsubscribe/:subscriberId" element={<NewsletterAction mode="unsubscribe" />} />
-      </Routes>
-
-      <Footer />
+          {/* OTHER PAGES */}
+          <Route path="/workshop" element={<WorkshopsPage />} />
+          <Route path="/startup" element={<StartupInnovationPage />} />
+          <Route path="/join-our-team" element={<JoinOurTeamPage />} />
+          <Route path="/products" element={<ProductsPage />} />
+          <Route path="/preview/home-v2" element={<HomeV2Page />} />
+          <Route path="/preview/home-v3" element={<HomeV3Page />} />
+          <Route path="/news-insights" element={<NewsInsightsPage />} />
+          <Route path="/news-insights/:slug" element={<NewsInsightsPage />} />
+          <Route path="/news-insights/:contentType/:slug" element={<NewsInsightsPage />} />
+          <Route path="/blog" element={<Navigate replace to="/news-insights" />} />
+          <Route path="/blog/:slug" element={<LegacyBlogArticle />} />
+          <Route path="/newsletter/confirm" element={<NewsletterActionPage mode="confirm" />} />
+          <Route path="/newsletter/unsubscribe/:subscriberId" element={<NewsletterActionPage mode="unsubscribe" />} />
+        </Routes>
+        <Footer />
+      </Suspense>
     </BrowserRouter>
   );
 }

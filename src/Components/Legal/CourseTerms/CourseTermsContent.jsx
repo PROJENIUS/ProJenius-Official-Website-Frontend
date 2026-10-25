@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import {
   fetchLegalDocument,
   formatLegalDate,
-} from "../../../utils/legalDocuments";
+} from "../../../utils/legalDocuments.js";
 import "./CourseTermsContent.css";
 
 export default function CourseTermsContent() {

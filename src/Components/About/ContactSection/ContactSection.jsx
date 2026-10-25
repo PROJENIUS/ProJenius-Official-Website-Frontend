@@ -1,22 +1,66 @@
-import React, { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { ArrowRight, Phone } from "lucide-react";
+
 import "./ContactSection.css";
 
 import ContactSection_1 from "../../../assets/About/ContactSection/ContactSection_1.svg";
 import ContactSection_2 from "../../../assets/About/ContactSection/ContactSection_2.svg";
 import ContactSection_3 from "../../../assets/About/ContactSection/ContactSection_3.svg";
 
-export default function ContactSection() {
+/* =============================================================================
+   CLOSING CALL TO ACTION — the blue card at the end of the Home and About
+   pages, also used by other pages so every page ends with the same card.
+   -----------------------------------------------------------------------------
+   Every prop is optional; without props it shows the Home/About content.
+     id            heading id (unique per page)
+     title         heading text
+     description   paragraph under the heading
+     features      three points: [{ title, text, icon }] where icon is an
+                   image URL (black artwork, shown white) or a lucide
+                   component passed as Icon
+     primary       { label, href } main button (opens in a new tab)
+     secondary     { label, href } second button (same tab, e.g. tel:)
+   ============================================================================= */
+
+const DEFAULT_FEATURES = [
+    { title: "Fast Delivery", text: "Efficient development", icon: ContactSection_1 },
+    { title: "Reliable Solutions", text: "Built for real impact", icon: ContactSection_2 },
+    { title: "Dedicated Support", text: "We're here to help", icon: ContactSection_3 },
+];
+
+const DEFAULT_PRIMARY = {
+    label: "Start Your Project",
+    href: "https://wa.me/918925450473?text=Hi%2C%20I%20would%20like%20to%20discuss%20a%20project%20with%20ProJenius.",
+};
+
+const DEFAULT_SECONDARY = { label: "Talk to Our Team", href: "tel:+918925450473" };
+
+export default function ContactSection({
+    id = "contact-cta-title",
+    title = "Let's Build Something Great Together",
+    description = "Have an idea, project, or business challenge? Let's turn your vision into a powerful digital experience with the right technology and strategy.",
+    features = DEFAULT_FEATURES,
+    primary = DEFAULT_PRIMARY,
+    secondary = DEFAULT_SECONDARY,
+}) {
+    const sectionRef = useRef(null);
+
     useEffect(() => {
-        const elements = document.querySelectorAll(
+        const section = sectionRef.current;
+        if (!section) return undefined;
+        const elements = section.querySelectorAll(
             ".contact-cta-card, .contact-cta-item, .contact-cta-btn"
         );
+
+        if (typeof IntersectionObserver === "undefined") {
+            elements.forEach((element) => element.classList.add("contact-show"));
+            return undefined;
+        }
 
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add("contact-show");
-                    }
+                    entry.target.classList.toggle("contact-show", entry.isIntersecting);
                 });
             },
             {
@@ -29,26 +73,22 @@ export default function ContactSection() {
         return () => observer.disconnect();
     }, []);
 
-    const openWhatsApp = () => {
-        window.open(
-            "https://wa.me/918925450473?text=Hi%2C%20I%20would%20like%20to%20discuss%20a%20project%20with%20ProJenius.",
-            "_blank",
-            "noopener,noreferrer"
-        );
+    const openPrimary = () => {
+        window.open(primary.href, "_blank", "noopener,noreferrer");
     };
 
-    const callTeam = () => {
-        window.location.href = "tel:+918925450473";
+    const openSecondary = () => {
+        window.location.href = secondary.href;
     };
 
     return (
-        <section className="contact-cta-section">
+            <section ref={sectionRef} className="contact-cta-section" aria-labelledby={id}>
             <div className="contact-cta-container">
                 <div className="contact-cta-card">
 
                     {/* HEADING */}
-                    <h2 className="contact-cta-title">
-                        Let's Build Something Great Together
+                    <h2 className="contact-cta-title" id={id}>
+                        {title}
                     </h2>
 
                     {/* TITLE LINE */}
@@ -58,95 +98,56 @@ export default function ContactSection() {
 
                     {/* DESCRIPTION */}
                     <p className="contact-cta-description">
-                        Have an idea, project, or business challenge?
-                        Let's turn your vision into a powerful digital
-                        experience with the right technology and strategy.
+                        {description}
                     </p>
 
                     {/* FEATURES */}
                     <div className="contact-cta-features">
+                        {features.map((feature, index) => {
+                            const { Icon } = feature;
+                            return (
+                                <div key={feature.title} className="contact-cta-feature-group">
+                                    {index > 0 && <div className="contact-feature-divider"></div>}
+                                    <div className="contact-cta-item">
+                                        <div className="contact-feature-icon">
+                                            {Icon ? (
+                                                <Icon size={28} strokeWidth={1.9} color="#ffffff" aria-hidden="true" />
+                                            ) : (
+                                                <img src={feature.icon} alt="" aria-hidden="true" />
+                                            )}
+                                        </div>
 
-                        {/* FEATURE 1: FAST DELIVERY */}
-                        <div className="contact-cta-item">
-                            <div className="contact-feature-icon">
-                                <img
-                                    src={ContactSection_1}
-                                    alt=""
-                                    aria-hidden="true"
-                                />
-                            </div>
-
-                            <div className="contact-feature-content">
-                                <strong>Fast Delivery</strong>
-                                <span>Efficient development</span>
-                            </div>
-                        </div>
-
-                        <div className="contact-feature-divider"></div>
-
-                        {/* FEATURE 2: RELIABLE SOLUTIONS */}
-                        <div className="contact-cta-item">
-                            <div className="contact-feature-icon">
-                                <img
-                                    src={ContactSection_2}
-                                    alt=""
-                                    aria-hidden="true"
-                                />
-                            </div>
-
-                            <div className="contact-feature-content">
-                                <strong>Reliable Solutions</strong>
-                                <span>Built for real impact</span>
-                            </div>
-                        </div>
-
-                        <div className="contact-feature-divider"></div>
-
-                        {/* FEATURE 3: DEDICATED SUPPORT */}
-                        <div className="contact-cta-item">
-                            <div className="contact-feature-icon">
-                                <img
-                                    src={ContactSection_3}
-                                    alt=""
-                                    aria-hidden="true"
-                                />
-                            </div>
-
-                            <div className="contact-feature-content">
-                                <strong>Dedicated Support</strong>
-                                <span>We're here to help</span>
-                            </div>
-                        </div>
-
+                                        <div className="contact-feature-content">
+                                            <strong>{feature.title}</strong>
+                                            <span>{feature.text}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
                     </div>
 
                     {/* BUTTONS */}
                     <div className="contact-cta-actions">
 
-                        {/* WHATSAPP BUTTON */}
+                        {/* PRIMARY (WhatsApp) BUTTON */}
                         <button
                             type="button"
                             className="contact-cta-btn contact-cta-primary"
-                            onClick={openWhatsApp}
+                            onClick={openPrimary}
                         >
-                            <span>Start Your Project</span>
-                            <i
-                                className="bi bi-arrow-right"
-                                aria-hidden="true"
-                            ></i>
+                            <span>{primary.label}</span>
+                            <ArrowRight size={18} aria-hidden="true" />
                         </button>
 
-                        {/* CALL BUTTON */}
+                        {/* SECONDARY (call) BUTTON */}
                         <button
                             type="button"
                             className="contact-cta-btn contact-cta-secondary"
-                            onClick={callTeam}
+                            onClick={openSecondary}
                         >
-                            <i
-                                className="bi bi-telephone-fill"
-                                aria-hidden="true"
-                            ></i>
-                            <span>Talk to Our Team</span>
+                            <Phone size={17} aria-hidden="true" />
+                            <span>{secondary.label}</span>
                         </button>
 
                     </div>

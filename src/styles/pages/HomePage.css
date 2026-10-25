@@ -1,0 +1,58 @@
+/* =============================================================================
+   HOMEPAGE MOTION — every rule is scoped beneath .pjh-page
+   -----------------------------------------------------------------------------
+   Pairs with src/hooks/useScrollReveal.js, which toggles data-revealed.
+
+   Markup:
+     data-reveal="up | fade | left | right | scale | line | image"
+     data-reveal-delay="1".."6"   (optional stagger step, 70ms each)
+
+   Only opacity, transform and clip-path animate, so reveals never move
+   surrounding content (no layout shift). With reduced motion nothing is
+   hidden and nothing moves.
+   ============================================================================= */
+
+.pjh-page [data-reveal] {
+  transition:
+    opacity 640ms var(--pjds-ease),
+    transform 720ms var(--pjds-ease),
+    clip-path 900ms var(--pjds-ease);
+}
+
+.pjh-page [data-reveal]:not([data-revealed]) { opacity: 0; }
+
+.pjh-page [data-reveal="up"]:not([data-revealed]) { transform: translateY(28px); }
+.pjh-page [data-reveal="left"]:not([data-revealed]) { transform: translateX(-32px); }
+.pjh-page [data-reveal="right"]:not([data-revealed]) { transform: translateX(32px); }
+.pjh-page [data-reveal="scale"]:not([data-revealed]) { transform: scale(0.96); }
+/* Accent underlines draw outwards from the centre. */
+.pjh-page [data-reveal="line"]:not([data-revealed]) { transform: scaleX(0.3); }
+
+/* Images wipe in from the bottom edge instead of fading. Use only on plain
+   image wrappers: clip-path also clips shadows and overflowing decoration. */
+.pjh-page [data-reveal="image"] { clip-path: inset(0 0 0 0); }
+.pjh-page [data-reveal="image"]:not([data-revealed]) {
+  opacity: 1;
+  clip-path: inset(18% 0 0 0);
+  transform: translateY(16px);
+}
+
+.pjh-page [data-reveal-delay="1"] { transition-delay: 70ms; }
+.pjh-page [data-reveal-delay="2"] { transition-delay: 140ms; }
+.pjh-page [data-reveal-delay="3"] { transition-delay: 210ms; }
+.pjh-page [data-reveal-delay="4"] { transition-delay: 280ms; }
+.pjh-page [data-reveal-delay="5"] { transition-delay: 350ms; }
+.pjh-page [data-reveal-delay="6"] { transition-delay: 420ms; }
+
+/* Elements leave instantly (no delay) so re-entry always animates cleanly. */
+.pjh-page [data-reveal]:not([data-revealed]) { transition-delay: 0ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .pjh-page [data-reveal],
+  .pjh-page [data-reveal]:not([data-revealed]) {
+    opacity: 1;
+    transform: none;
+    clip-path: none;
+    transition: none;
+  }
+}

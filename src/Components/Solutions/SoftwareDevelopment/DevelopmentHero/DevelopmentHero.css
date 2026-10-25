@@ -1,0 +1,178 @@
+/* =========================================================
+   DEVELOPMENT HERO — ROOT
+   All classes start with pj-development-hero
+========================================================= */
+.pj-development-hero,.pj-development-hero *{box-sizing:border-box}
+.pj-development-hero{
+  --pj-hero-white:#fff;--pj-hero-text:rgba(255,255,255,.72);--pj-hero-cyan:#35ceff;
+  position:relative;width:100%;height:100vh;height:100svh;min-height:100svh;max-height:100svh;
+  margin:0;padding:0;overflow:hidden;isolation:isolate;color:var(--pj-hero-white);
+  font-family:var(--pjds-font-body);
+  background:linear-gradient(135deg,rgba(7,16,31,.96),rgba(10,22,42,.92)),linear-gradient(180deg,#08162c 0%,#071326 55%,#061224 100%);
+}
+
+/* ---------- BACKGROUND GRID ---------- */
+.pj-development-hero-background{
+  position:absolute;inset:0;z-index:-3;pointer-events:none;opacity:.95;
+  background:
+    radial-gradient(circle at 78% 38%,rgba(53,206,255,.10),transparent 30%),
+    radial-gradient(circle at 18% 65%,rgba(53,206,255,.05),transparent 28%),
+    linear-gradient(rgba(53,206,255,.045) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(53,206,255,.045) 1px,transparent 1px);
+  background-size:auto,auto,56px 56px,56px 56px;
+}
+
+/* ---------- LAYOUT (top space keeps content below fixed navbar) ---------- */
+.pj-development-hero-inner{
+  position:relative;z-index:2;width:100%;height:100%;margin:0;overflow:hidden;
+  padding:clamp(118px,13vh,142px) 24px 78px;display:flex;align-items:center;justify-content:center;
+}
+.pj-development-hero-content{
+  position:relative;width:min(1260px,100%);max-width:1260px;height:100%;min-height:0;margin:0 auto;
+  display:grid;grid-template-columns:minmax(0,740px) minmax(390px,440px);
+  align-items:center;justify-content:center;column-gap:clamp(35px,4vw,70px);
+}
+
+/* ---------- LEFT COPY ---------- */
+.pj-development-hero-copy{position:relative;z-index:5;width:100%;max-width:740px;min-width:0;margin:0;transform:translateY(-2px)}
+.pj-development-hero-eyebrow{display:flex;align-items:center;gap:9px;width:fit-content;margin:0 0 19px;color:#b7c1d3;font-size:13px;font-weight:700;line-height:1;letter-spacing:1.25px}
+.pj-development-hero-eyebrow-dot{width:9px;height:9px;flex:0 0 9px;border-radius:50%;background:var(--pj-hero-cyan);box-shadow:0 0 0 4px rgba(53,206,255,.08),0 0 14px rgba(53,206,255,.55)}
+.pj-development-hero-title{width:100%;max-width:740px;margin:0;color:#fff;font-size:clamp(48px,4.45vw,66px);font-weight:800;line-height:1.045;letter-spacing:-2.7px}
+.pj-development-hero-title-line{display:block;width:100%;white-space:nowrap}
+.pj-development-hero-title-line--cyan{color:#35ceff;-webkit-text-fill-color:#35ceff}
+.pj-development-hero-description{width:100%;max-width:660px;margin:22px 0 0;color:var(--pj-hero-text);font-size:16px;font-weight:400;line-height:1.62}
+
+/* ---------- BUTTONS ---------- */
+.pj-development-hero-actions{display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin-top:22px}
+.pj-development-hero-button{
+  display:inline-flex;align-items:center;justify-content:center;gap:18px;min-height:48px;padding:12px 24px;
+  border:0;border-radius:30px;background:var(--pj-hero-cyan);color:#061018;font-size:15px;font-weight:600;line-height:1.35;
+  text-decoration:none;white-space:nowrap;cursor:pointer;box-shadow:0 8px 22px rgba(53,206,255,.20);
+  transition:transform .25s ease,background .25s ease,border-color .25s ease,box-shadow .25s ease;
+}
+.pj-development-hero-button:hover{background:#63dbff;color:#061018;transform:translateY(-2px);box-shadow:0 12px 28px rgba(53,206,255,.30)}
+.pj-development-hero-button:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.pj-development-hero-button--secondary{background:#343a40;color:#e8edf3;border:1px solid rgba(255,255,255,.10);box-shadow:0 8px 22px rgba(0,0,0,.16)}
+.pj-development-hero-button--secondary:hover{background:#3f464d;color:#f6f8fb;border-color:rgba(255,255,255,.16);box-shadow:0 10px 24px rgba(0,0,0,.22)}
+
+/* ---------- ANIMATION INDEX HELPERS (replace inline styles) ---------- */
+.pj-development-hero-i0{--pj-i:0;--pj-m:0}
+.pj-development-hero-i1{--pj-i:1;--pj-m:1}
+.pj-development-hero-i2{--pj-i:2;--pj-m:2}
+.pj-development-hero-i3{--pj-i:3;--pj-m:0}
+.pj-development-hero-i4{--pj-i:4;--pj-m:1}
+.pj-development-hero-i5{--pj-i:5;--pj-m:2}
+.pj-development-hero-i6{--pj-i:6;--pj-m:0}
+
+/* ---------- JOURNEY (SVG) ---------- */
+.pj-development-hero-journey{position:relative;z-index:5;width:min(440px,100%);height:min(470px,56vh);min-height:380px;max-height:470px;margin:0 auto;display:flex;align-items:center;justify-content:center;opacity:0}
+.pj-development-hero--visible .pj-development-hero-journey{animation:pjDevelopmentHeroJourneyIn .95s cubic-bezier(.22,1,.36,1) .3s forwards}
+.pj-development-hero-svg{display:block;width:100%;height:100%;overflow:visible;transform:scale(1.10);transform-origin:center}
+.pj-development-hero-path{fill:none;stroke-width:3.4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;opacity:0;filter:drop-shadow(0 0 7px rgba(23,105,255,.42))}
+.pj-development-hero--visible .pj-development-hero-path{animation:pjDevelopmentHeroPathDraw 1.45s cubic-bezier(.22,1,.36,1) .55s forwards}
+.pj-development-hero-loop{fill:none;stroke-width:2.2;stroke-linecap:round;opacity:0;stroke-dasharray:1;stroke-dashoffset:1;filter:drop-shadow(0 0 5px rgba(53,206,255,.22))}
+.pj-development-hero--visible .pj-development-hero-loop{animation:pjDevelopmentHeroLoopDraw 1.25s ease-out .95s forwards}
+.pj-development-hero-loop-arrow{fill:#35ceff;opacity:0}
+.pj-development-hero--visible .pj-development-hero-loop-arrow{animation:pjDevelopmentHeroArrowIn .55s ease 1.85s forwards}
+.pj-development-hero-tie{fill:none;stroke:rgba(57,138,213,.72);stroke-width:1.25;stroke-dasharray:4 6;opacity:0}
+.pj-development-hero--visible .pj-development-hero-tie{animation:pjDevelopmentHeroTie .85s ease calc(.9s + var(--pj-i) * .28s) forwards}
+.pj-development-hero-node{opacity:0;transform-box:fill-box;transform-origin:center}
+.pj-development-hero--visible .pj-development-hero-node{animation:pjDevelopmentHeroNodeIn .78s cubic-bezier(.22,1,.36,1) calc(.75s + var(--pj-i) * .42s) forwards}
+.pj-development-hero-ring{fill:#071326;stroke-width:2.7}
+.pj-development-hero-label{fill:#c6d0df;font-size:17px;font-weight:700;letter-spacing:-.1px}
+.pj-development-hero-label--first{fill:#f2f6fc;font-size:18px;font-weight:800}
+.pj-development-hero-pulse{fill:none;stroke:rgba(35,139,255,.28);stroke-width:1.8;transform-origin:270px 60px}
+.pj-development-hero--visible .pj-development-hero-pulse{animation:pjDevelopmentHeroPulse 2.4s ease-out 2.45s infinite}
+.pj-development-hero--visible .pj-development-hero-pulse--second{animation-delay:3.65s}
+.pj-development-hero-packet{fill:#35ceff;filter:drop-shadow(0 0 7px rgba(53,206,255,.9))}
+.pj-development-hero-sat{opacity:0}
+.pj-development-hero--visible .pj-development-hero-sat{animation:pjDevelopmentHeroSat .8s cubic-bezier(.22,1,.36,1) calc(1.35s + var(--pj-i) * .42s) forwards}
+.pj-development-hero-sat-float{transform-box:fill-box;transform-origin:center}
+.pj-development-hero--visible .pj-development-hero-sat-float{animation:pjDevelopmentHeroFloat calc(3.4s + var(--pj-m) * .35s) ease-in-out calc(2.25s + var(--pj-i) * .28s) infinite}
+.pj-development-hero-chip{fill:rgba(10,28,54,.88);stroke:rgba(53,206,255,.48);stroke-width:1.2;filter:drop-shadow(0 4px 8px rgba(0,0,0,.16))}
+.pj-development-hero-chip-text{fill:#c7d2e2;font-size:13px;font-weight:600}
+
+/* ---------- BOTTOM ZIG-ZAG ---------- */
+
+/* ---------- ENTRANCE ANIMATION ---------- */
+.pj-development-hero-copy>*{opacity:0}
+.pj-development-hero--visible .pj-development-hero-copy>*{animation:pjDevelopmentHeroItemIn .75s cubic-bezier(.22,1,.36,1) forwards}
+.pj-development-hero--visible .pj-development-hero-eyebrow{animation-delay:.10s}
+.pj-development-hero--visible .pj-development-hero-title{animation-delay:.34s}
+.pj-development-hero--visible .pj-development-hero-description{animation-delay:.66s}
+.pj-development-hero--visible .pj-development-hero-actions{animation-delay:.94s}
+
+@keyframes pjDevelopmentHeroItemIn{from{opacity:0;transform:translate3d(0,18px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
+@keyframes pjDevelopmentHeroJourneyIn{from{opacity:0;transform:translate3d(25px,0,0) scale(.98)}to{opacity:1;transform:translate3d(0,0,0) scale(1)}}
+@keyframes pjDevelopmentHeroTie{from{opacity:0}to{opacity:.7}}
+@keyframes pjDevelopmentHeroPathDraw{from{opacity:0;stroke-dashoffset:1}25%{opacity:1}to{opacity:1;stroke-dashoffset:0}}
+@keyframes pjDevelopmentHeroLoopDraw{from{opacity:0;stroke-dashoffset:1}to{opacity:.84;stroke-dashoffset:0}}
+@keyframes pjDevelopmentHeroArrowIn{from{opacity:0;transform:scale(.7);transform-box:fill-box;transform-origin:center}to{opacity:.85;transform:scale(1);transform-box:fill-box;transform-origin:center}}
+@keyframes pjDevelopmentHeroNodeIn{from{opacity:0;transform:scale(.78)}to{opacity:1;transform:scale(1)}}
+@keyframes pjDevelopmentHeroPulse{0%{opacity:.8;transform:scale(.8)}70%,100%{opacity:0;transform:scale(1.8)}}
+@keyframes pjDevelopmentHeroSat{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pjDevelopmentHeroFloat{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(0,-5px,0)}}
+
+/* ---------- LAPTOP ---------- */
+@media (min-width:992px) and (max-width:1199px){
+  .pj-development-hero-inner{padding:112px 20px 70px}
+  .pj-development-hero-content{width:min(1080px,100%);grid-template-columns:minmax(0,1fr) 350px;column-gap:22px}
+  .pj-development-hero-title{font-size:54px;line-height:1.04;letter-spacing:-2.2px}
+  .pj-development-hero-description{max-width:590px;font-size:15px}
+  .pj-development-hero-journey{width:350px;height:405px;min-height:0}
+  .pj-development-hero-svg{transform:scale(1.06)}
+}
+
+/* ---------- TABLET (height becomes flexible so nothing is clipped) ---------- */
+@media (max-width:991px){
+  .pj-development-hero{height:auto;min-height:100vh;min-height:100svh;max-height:none}
+  .pj-development-hero-inner{height:auto;min-height:100vh;min-height:100svh;padding:110px 24px 90px}
+  .pj-development-hero-content{width:min(780px,100%);height:auto;display:flex;align-items:center;justify-content:center}
+  .pj-development-hero-copy{max-width:740px;text-align:center;transform:translateY(-4px)}
+  .pj-development-hero-eyebrow{width:100%;justify-content:center}
+  .pj-development-hero-title{margin-left:auto;margin-right:auto;font-size:clamp(40px,7vw,58px);line-height:1.06;letter-spacing:-1.5px}
+  .pj-development-hero-title-line{white-space:normal}
+  .pj-development-hero-description{max-width:680px;margin-left:auto;margin-right:auto;font-size:15px;line-height:1.58}
+  .pj-development-hero-actions{justify-content:center}
+  .pj-development-hero-journey{display:none}
+}
+
+/* ---------- MOBILE ---------- */
+@media (max-width:767px){
+  .pj-development-hero-inner{padding:100px 18px 84px}
+  .pj-development-hero-eyebrow{margin-bottom:15px;font-size:11px;letter-spacing:.9px}
+  .pj-development-hero-title{font-size:clamp(32px,9vw,46px);line-height:1.06;letter-spacing:-1px}
+  .pj-development-hero-description{margin-top:18px;font-size:14px;line-height:1.55}
+  .pj-development-hero-actions{margin-top:19px;gap:9px}
+  .pj-development-hero-button{min-height:45px;padding:10px 19px;font-size:14px}
+}
+
+/* ---------- VERY SHORT DESKTOP SCREENS ---------- */
+@media (max-height:680px) and (min-width:992px){
+  .pj-development-hero-inner{padding-top:105px;padding-bottom:70px}
+  .pj-development-hero-title{font-size:48px;line-height:1.02}
+  .pj-development-hero-description{margin-top:16px;font-size:14px;line-height:1.5}
+  .pj-development-hero-actions{margin-top:15px}
+  .pj-development-hero-journey{height:390px;min-height:0}
+}
+
+/* ---------- REDUCED MOTION ---------- */
+@media (prefers-reduced-motion:reduce){
+  .pj-development-hero *{animation:none!important;transition:none!important}
+  .pj-development-hero-copy>*,.pj-development-hero-journey,.pj-development-hero-path,.pj-development-hero-loop,
+  .pj-development-hero-loop-arrow,.pj-development-hero-tie,.pj-development-hero-node,.pj-development-hero-sat{opacity:1;transform:none;stroke-dashoffset:0}
+}
+
+/* Use the shared font and let copy determine height on short and narrow screens. */
+.pj-development-hero {
+  height: auto;
+  min-height: min(800px, 100svh);
+  max-height: none;
+  border-bottom: 2px solid var(--pjds-cyan-500);
+  font-family: var(--pjds-font-body);
+}
+.pj-development-hero-inner { min-height: min(800px, 100svh); height: auto; padding-bottom: 58px; }
+.pj-development-hero-title { font-family: var(--pjds-font-heading); }
+@media (max-width: 991px) {
+  .pj-development-hero-inner { min-height: 0; }
+}

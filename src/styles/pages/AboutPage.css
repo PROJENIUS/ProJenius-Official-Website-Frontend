@@ -1,0 +1,53 @@
+/* =============================================================================
+   ABOUT PAGE MOTION — every rule is scoped beneath .pja-page
+   -----------------------------------------------------------------------------
+   Same reveal language as the homepage (see styles/pages/HomePage.css), driven
+   by src/hooks/useScrollReveal.js, which toggles data-revealed in both scroll
+   directions.
+
+   Markup:
+     data-reveal="up | fade | left | right | scale | line"
+     data-reveal-delay="1".."6"   (optional stagger step, 70ms each)
+
+   Only opacity and transform animate. If IntersectionObserver is missing,
+   the hook marks every element revealed, and with reduced motion nothing
+   is hidden or moves.
+   ============================================================================= */
+
+.pja-page [data-reveal] {
+  transition:
+    opacity 640ms var(--pjds-ease),
+    transform 720ms var(--pjds-ease);
+}
+
+.pja-page [data-reveal]:not([data-revealed]) { opacity: 0; }
+
+.pja-page [data-reveal="up"]:not([data-revealed]) { transform: translateY(28px); }
+.pja-page [data-reveal="left"]:not([data-revealed]) { transform: translateX(-32px); }
+.pja-page [data-reveal="right"]:not([data-revealed]) { transform: translateX(32px); }
+.pja-page [data-reveal="scale"]:not([data-revealed]) { transform: scale(0.96); }
+.pja-page [data-reveal="line"]:not([data-revealed]) { transform: scaleX(0.3); }
+
+.pja-page [data-reveal-delay="1"] { transition-delay: 70ms; }
+.pja-page [data-reveal-delay="2"] { transition-delay: 140ms; }
+.pja-page [data-reveal-delay="3"] { transition-delay: 210ms; }
+.pja-page [data-reveal-delay="4"] { transition-delay: 280ms; }
+.pja-page [data-reveal-delay="5"] { transition-delay: 350ms; }
+.pja-page [data-reveal-delay="6"] { transition-delay: 420ms; }
+
+/* Elements leave instantly (no delay) so re-entry always animates cleanly. */
+.pja-page [data-reveal]:not([data-revealed]) { transition-delay: 0ms; }
+
+/* In-page anchors (hero buttons) land below the floating navbar. */
+.pja-page section[id] {
+  scroll-margin-top: calc(var(--pjds-nav-offset) - 16px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pja-page [data-reveal],
+  .pja-page [data-reveal]:not([data-revealed]) {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

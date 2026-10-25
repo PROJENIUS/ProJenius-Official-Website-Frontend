@@ -1,487 +1,345 @@
-import React, { useEffect, useRef, useState } from "react";
-
+import { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-
-import { Navigation, Autoplay, Pagination } from "swiper/modules";
-
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { A11y, Autoplay, Keyboard, Navigation, Pagination } from "swiper/modules";
+import { ArrowUpRight, ChevronLeft, ChevronRight, Quote } from "lucide-react";
 
 import "swiper/css";
-
-import "swiper/css/navigation";
-
-import "swiper/css/pagination";
-
 import "./Testimonials.css";
 
-/* =========================================================
-   FALLBACK REVIEWS
-   Used only when Google Reviews API is unavailable
-========================================================= */
+import {
+    GOOGLE_PROFILE_URL,
+    GOOGLE_REVIEWS_API_CONFIGURED,
+    GOOGLE_REVIEWS_URL,
+    fetchGoogleReviews,
+} from "./googleReviews.js";
 
-const FALLBACK_REVIEWS = [
-    {
-        id: 1,
-        name: "Kanniappan C",
-        role: "Client",
-        review:
-            "Projenius provided a very good learning experience. The course content was well-structured and easy to understand, even for beginners. The explanations and practical examples helped me gain a clear understanding of the concepts.",
-    },
-    {
-        id: 2,
-        name: "MATHAN KUMAR",
-        role: "Client",
-        review:
-            "Just came across this amazing page that provides solutions for final year projects, and honestly, I’m impressed! The quality of work is top-notch, well-structured, and clearly shows deep understanding of the concepts.",
-    },
-    {
-        id: 3,
-        name: "Sowbharnika Srinivasan",
-        role: "Client",
-        review:
-            "I had a good and positive experience. The support and guidance provided during my project were really helpful and made things much clearer and easier to improve on.",
-    },
-    {
-        id: 4,
-        name: "Harshini 33",
-        role: "Client",
-        review:
-            "Projenius is not just a service provider; they’re a problem-solving partner. If you’re a student looking to bring a project to life, or a startup aiming to build scalable tech solutions, Projenius is a reliable choice.",
-    },
-    {
-        id: 5,
-        name: "Dhivena Dharshana",
-        role: "Client",
-        review:
-            "I asked Projenius Freelancing to create a website for me, and they did an excellent job. The design is neat, user-friendly, and exactly what I wanted.",
-    },
-    {
-        id: 6,
-        name: "Suba Dhayalan",
-        role: "Client",
-        review:
-            "A trust worthy place where you can build your skills and future in a friendly and coexisting environment.",
-    },
-    {
-        id: 7,
-        name: "Keerthana Seenivasagan",
-        role: "Intern",
-        review:
-            "I had a great experience during my internship. The environment was supportive, and I had the opportunity to learn practical skills.",
-    },
-];
+/* =============================================================================
+   TESTIMONIALS — Google reviews
+   -----------------------------------------------------------------------------
+   1. Asks the ProJenius backend for live Google reviews (/api/reviews).
+   2. While waiting: skeleton cards.
+   3. Live reviews → shown as returned (name, rating, date, text).
+      Live but empty → a short message and the Google link.
+      Unavailable (no endpoint / network error) → the verified snapshot from
+      googleReviews.js, labelled with the date it was checked.
+   Autoplay pauses on hover, on keyboard focus and while off screen, and is
+   off with prefers-reduced-motion.
+   ============================================================================= */
 
-/* =========================================================
-   API
-========================================================= */
+const prefersReducedMotion = () =>
+    typeof window !== "undefined" &&
+    typeof window.matchMedia === "function" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-const API_BASE = (
-    import.meta.env.VITE_API_BASE_URL || ""
-).replace(/\/$/, "");
+const TESTIMONIAL_PHRASES = ["Clients Say", "Learners Say", "Partners Say"];
 
-/* =========================================================
-   TYPEWRITER SETTINGS (blue heading words)
-   type -> hold (cursor blinks) -> delete -> pause -> type ...
-========================================================= */
-
-const TYPED_WORD = "Clients Say";
-const TYPE_START_DELAY = 350; // ms before the very first letter
-const TYPE_SPEED = 110; // ms per letter while typing
-const DELETE_SPEED = 65; // ms per letter while deleting
-const HOLD_TIME = 1800; // full text stays visible (cursor blinks)
-const EMPTY_PAUSE = 450; // empty pause before typing again
-
-/* =========================================================
-   COMPONENT
-========================================================= */
-
-export default function Testimonials() {
-    const swiperRef = useRef(null);
-    const titleRef = useRef(null);
-
-    const [reviews, setReviews] = useState(FALLBACK_REVIEWS);
-    const [loading, setLoading] = useState(true);
-
-    const [typed, setTyped] = useState("");
-
-    // true  = letters are moving (typing / deleting / short pause) -> solid cursor
-    // false = full text is resting                                 -> blinking cursor
-    const [isTyping, setIsTyping] = useState(false);
-
-    /* =====================================================
-       TYPEWRITER LOOP
-       Starts when the heading is visible, stops and resets
-       when it leaves, replays when it comes back.
-    ===================================================== */
+function TestimonialTypingLine({ active }) {
+    const [phraseIndex, setPhraseIndex] = useState(0);
+    const [length, setLength] = useState(0);
+    const [deleting, setDeleting] = useState(false);
+    const reduce = prefersReducedMotion();
+    const phrase = TESTIMONIAL_PHRASES[phraseIndex];
+    const longestPhrase = TESTIMONIAL_PHRASES.reduce(
+        (longest, current) => current.length > longest.length ? current : longest,
+        ""
+    );
 
     useEffect(() => {
-        const title = titleRef.current;
+        if (!active || reduce) return undefined;
 
-        if (!title) return undefined;
-
-        const reduceMotion = window.matchMedia(
-            "(prefers-reduced-motion: reduce)"
-        ).matches;
-
-        if (reduceMotion || !("IntersectionObserver" in window)) {
-            setTyped(TYPED_WORD);
-            return undefined;
+        let delay;
+        let next;
+        if (!deleting && length < phrase.length) {
+            delay = length === 0 ? 250 : 90;
+            next = () => setLength((value) => value + 1);
+        } else if (!deleting) {
+            delay = 1600;
+            next = () => setDeleting(true);
+        } else if (length > 0) {
+            delay = 55;
+            next = () => setLength((value) => value - 1);
+        } else {
+            delay = 350;
+            next = () => {
+                setDeleting(false);
+                setPhraseIndex((value) => (value + 1) % TESTIMONIAL_PHRASES.length);
+            };
         }
 
-        let timer = null;
-        let count = 0;
+        const timer = window.setTimeout(next, delay);
+        return () => window.clearTimeout(timer);
+    }, [active, deleting, length, phrase, reduce]);
 
-        const clearTimers = () => clearTimeout(timer);
-
-        const typeStep = () => {
-            if (count < TYPED_WORD.length) {
-                count += 1;
-                setTyped(TYPED_WORD.slice(0, count));
-                setIsTyping(true);
-                timer = setTimeout(typeStep, TYPE_SPEED);
-            } else {
-                // full text shown: cursor blinks, then start deleting
-                setIsTyping(false);
-                timer = setTimeout(deleteStep, HOLD_TIME);
-            }
-        };
-
-        const deleteStep = () => {
-            if (count > 0) {
-                count -= 1;
-                setTyped(TYPED_WORD.slice(0, count));
-                setIsTyping(true);
-                timer = setTimeout(deleteStep, DELETE_SPEED);
-            } else {
-                // fully deleted: short empty pause, then type again
-                timer = setTimeout(typeStep, EMPTY_PAUSE);
-            }
-        };
-
-        const startLoop = () => {
-            clearTimers();
-            count = 0;
-            setTyped("");
-            setIsTyping(true);
-            timer = setTimeout(typeStep, TYPE_START_DELAY);
-        };
-
-        const resetLoop = () => {
-            clearTimers();
-            count = 0;
-            setTyped("");
-            setIsTyping(false);
-        };
-
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) startLoop();
-                    else resetLoop();
-                });
-            },
-            { threshold: 0.6 }
-        );
-
-        observer.observe(title);
-
-        return () => {
-            observer.disconnect();
-            clearTimers();
-        };
-    }, []);
-
-    /* =====================================================
-       FETCH GOOGLE REVIEWS
-    ===================================================== */
-
-    useEffect(() => {
-        let mounted = true;
-
-        const loadReviews = async () => {
-            try {
-                const response = await fetch(
-                    `${API_BASE}/api/reviews`,
-                    {
-                        method: "GET",
-                        headers: {
-                            Accept: "application/json",
-                        },
-                    }
-                );
-
-                if (!response.ok) {
-                    throw new Error("Failed to fetch reviews");
-                }
-
-                const data = await response.json();
-
-                if (
-                    mounted &&
-                    Array.isArray(data?.reviews) &&
-                    data.reviews.length > 0
-                ) {
-                    setReviews(data.reviews);
-                }
-            } catch (error) {
-                console.warn(
-                    "Google Reviews unavailable. Showing fallback reviews."
-                );
-            } finally {
-                if (mounted) {
-                    setLoading(false);
-                }
-            }
-        };
-
-        loadReviews();
-
-        return () => {
-            mounted = false;
-        };
-    }, []);
-
-    /* =====================================================
-       SAFE INITIAL
-    ===================================================== */
-
-    const getInitial = (name = "") => {
-        return name.trim().charAt(0).toUpperCase() || "P";
-    };
+    const shown = reduce ? TESTIMONIAL_PHRASES[0] : phrase.slice(0, length);
 
     return (
-        <section className="testi-section">
+        <span className="pja-testi__typed">
+            <span className="pjds-sr-only">{TESTIMONIAL_PHRASES.join(", ")}</span>
+            <span className="pja-testi__typed-sizer" aria-hidden="true">{longestPhrase}</span>
+            <span className="pja-testi__typed-live" aria-hidden="true">
+                {shown}
+                {!reduce && active && <span className="pja-testi__cursor" />}
+            </span>
+        </span>
+    );
+}
 
-            {/* Background */}
-            <div className="testi-bg testi-bg-one"></div>
-            <div className="testi-bg testi-bg-two"></div>
+function Stars({ rating, size = "md" }) {
+    const filled = Math.max(0, Math.min(5, Math.round(rating)));
+    return (
+        <span className={`pja-testi__stars pja-testi__stars--${size}`} aria-hidden="true">
+            {Array.from({ length: 5 }, (_, index) => (
+                <span key={index} className={index < filled ? "is-filled" : ""}>★</span>
+            ))}
+        </span>
+    );
+}
 
-            <div className="testi-container">
+function GoogleMark() {
+    return (
+        <svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
+            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z" />
+            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z" />
+            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
+        </svg>
+    );
+}
 
-                {/* =================================================
-                   HEADER
-                ================================================= */}
+function ReviewCard({ review }) {
+    const [avatarFailed, setAvatarFailed] = useState(false);
 
-                <header className="testi-header">
+    return (
+        <article className="pja-testi__card">
+            <div className="pja-testi__card-top">
+                <Stars rating={review.rating} />
+                {review.reviewUrl ? (
+                    <a className="pja-testi__source" href={review.reviewUrl} target="_blank" rel="noopener noreferrer">
+                        <GoogleMark /> Google review
+                    </a>
+                ) : (
+                    <span className="pja-testi__source"><GoogleMark /> Google review</span>
+                )}
+            </div>
+            <p className={`pja-testi__text${review.text ? "" : " pja-testi__text--empty"}`}>
+                <span className="pjds-sr-only">Rated {review.rating} out of 5. </span>
+                {review.text || "No written comment."}
+            </p>
+            <footer className="pja-testi__author">
+                <span className="pja-testi__avatar" aria-hidden="true">
+                    {review.profilePhotoUrl && !avatarFailed ? (
+                        <img
+                            src={review.profilePhotoUrl}
+                            alt=""
+                            loading="lazy"
+                            decoding="async"
+                            onError={() => setAvatarFailed(true)}
+                        />
+                    ) : review.name.trim().charAt(0).toUpperCase()}
+                </span>
+                <span>
+                    <span className="pja-testi__name">{review.name}</span>
+                    {review.date && <span className="pja-testi__date">{review.date}</span>}
+                </span>
+            </footer>
+        </article>
+    );
+}
 
-                    <span className="testi-badge">
-                        TESTIMONIALS
-                    </span>
+export default function Testimonials() {
+    const sectionRef = useRef(null);
+    const swiperRef = useRef(null);
+    const [data, setData] = useState({ status: "loading" });
+    const [retryCount, setRetryCount] = useState(0);
+    const [isOnScreen, setIsOnScreen] = useState(() => typeof IntersectionObserver === "undefined");
+    const reduceMotion = prefersReducedMotion();
 
-                    <h2
-                        className="testi-title"
-                        ref={titleRef}
-                        aria-label="What Our Clients Say"
-                    >
-                        <span aria-hidden="true">What Our </span>
+    useEffect(() => {
+        let controller;
+        let disposed = false;
+        let requestInFlight = false;
 
-                        {/* sizer reserves the full width, live layer types on top */}
-                        <span
-                            className="testi-type"
-                            aria-hidden="true"
-                        >
-                            <span className="testi-type-sizer">
-                                {TYPED_WORD}
-                            </span>
+        const refreshReviews = async () => {
+            if (requestInFlight || disposed) return;
+            requestInFlight = true;
+            controller = new AbortController();
+            try {
+                const result = await fetchGoogleReviews(controller.signal);
+                if (!disposed) setData(result);
+            } catch (error) {
+                if (disposed || controller.signal.aborted) return;
+                if (import.meta.env.DEV) console.warn("Google reviews unavailable:", error.message);
+                setData((current) => current.status === "live" ? { ...current, refreshError: true } : { status: "error" });
+            } finally {
+                requestInFlight = false;
+            }
+        };
 
-                            <span className="testi-type-live">
-                                <span className="testi-title-accent">
-                                    {typed}
-                                </span>
+        refreshReviews();
+        // Refresh live reviews periodically and when a visitor returns to the tab.
+        // Google credentials and synchronization stay on the backend.
+        const refreshTimer = GOOGLE_REVIEWS_API_CONFIGURED
+            ? window.setInterval(refreshReviews, 15 * 60 * 1000)
+            : undefined;
+        const onVisibilityChange = () => {
+            if (GOOGLE_REVIEWS_API_CONFIGURED && document.visibilityState === "visible") refreshReviews();
+        };
+        document.addEventListener("visibilitychange", onVisibilityChange);
+        return () => {
+            disposed = true;
+            if (refreshTimer !== undefined) window.clearInterval(refreshTimer);
+            document.removeEventListener("visibilitychange", onVisibilityChange);
+            controller?.abort();
+        };
+    }, [retryCount]);
 
-                                <span
-                                    className={`testi-cursor${
-                                        isTyping ? " is-typing" : ""
-                                    }`}
-                                />
-                            </span>
-                        </span>
+    useEffect(() => {
+        const section = sectionRef.current;
+        if (!section || typeof IntersectionObserver === "undefined") return undefined;
+        const observer = new IntersectionObserver(([entry]) => setIsOnScreen(entry.isIntersecting), { threshold: 0.2 });
+        observer.observe(section);
+        return () => observer.disconnect();
+    }, []);
+
+    // Autoplay only while the carousel is on screen (and motion is allowed).
+    useEffect(() => {
+        const autoplay = swiperRef.current?.autoplay;
+        if (!autoplay || reduceMotion) return;
+        if (isOnScreen) autoplay.start();
+        else autoplay.stop();
+    }, [isOnScreen, reduceMotion, data.status]);
+
+    const isLive = data.status === "live" || data.status === "empty";
+    const reviews = data.status === "live" ? data.reviews : [];
+    const rating = isLive ? data.rating : null;
+    const totalReviews = isLive ? data.totalReviews : null;
+    const reviewsUrl = isLive ? data.url : GOOGLE_REVIEWS_URL;
+
+    return (
+        <section ref={sectionRef} className="pja-testi" aria-labelledby="pja-testi-title" aria-busy={data.status === "loading"}>
+            <div className="pjds-container">
+                <header className="pja-testi__header">
+                    <p className="pjds-eyebrow" data-reveal="up">Testimonials</p>
+                    <h2 id="pja-testi-title" className="pja-testi__title" data-reveal="up" data-reveal-delay="1">
+                        What Our <TestimonialTypingLine active={isOnScreen} />
                     </h2>
-
-                    {/* STATIC LINE */}
-                    <div className="testi-title-line"></div>
-
-                    <p className="testi-subtitle">
-                        Real stories from students, startups, and businesses
-                        we've partnered with.
+                    <span className="pja-testi__line" aria-hidden="true" data-reveal="line" data-reveal-delay="2" />
+                    <p className="pja-testi__intro" data-reveal="up" data-reveal-delay="2">
+                        Reviews from students, interns, startups and businesses, as published on our Google
+                        Business Profile.
                     </p>
-
                 </header>
 
-                {/* =================================================
-                   CAROUSEL
-                ================================================= */}
+                <div className="pja-testi__layout">
+                    {/* Rating summary ---------------------------------------- */}
+                    <aside className="pja-testi__summary" data-reveal="up" data-reveal-delay="2" aria-label="Google rating">
+                        <span className="pja-testi__summary-brand"><GoogleMark /> Google Reviews</span>
+                        {rating ? (
+                            <>
+                                <p className="pja-testi__score">
+                                    <b>{rating.toFixed(1)}</b>
+                                    <span>/ 5</span>
+                                </p>
+                                <Stars rating={rating} size="lg" />
+                                <p className="pja-testi__count">
+                                    {totalReviews ? `Based on ${totalReviews} Google reviews` : "Google rating"}
+                                    <span className="pjds-sr-only">: rated {rating.toFixed(1)} out of 5</span>
+                                </p>
+                            </>
+                        ) : (
+                            <p className="pja-testi__count">See our rating on Google.</p>
+                        )}
+                        {data.status === "error" && <p className="pja-testi__note">Live review data is temporarily unavailable.</p>}
+                        {data.refreshError && <p className="pja-testi__note">Showing the latest reviews we could load. Refresh failed.</p>}
+                        <div className="pja-testi__summary-actions">
+                            <a className="pjds-btn pjds-btn--primary" href={reviewsUrl} target="_blank" rel="noopener noreferrer">
+                                Read all reviews
+                                <ArrowUpRight size={17} aria-hidden="true" />
+                                <span className="pjds-sr-only">(opens Google in a new tab)</span>
+                            </a>
+                            <a className="pja-testi__text-link" href={GOOGLE_PROFILE_URL} target="_blank" rel="noopener noreferrer">
+                                View our Google profile
+                                <span className="pjds-sr-only">(opens in a new tab)</span>
+                            </a>
+                        </div>
+                    </aside>
 
-                <div className="testi-carousel">
-
-                    <Swiper
-                        modules={[
-                            Navigation,
-                            Autoplay,
-                            Pagination,
-                        ]}
-                        slidesPerView={1}
-                        spaceBetween={24}
-                        loop={reviews.length > 1}
-                        speed={700}
-                        autoplay={{
-                            delay: 5000,
-                            disableOnInteraction: false,
-                            pauseOnMouseEnter: true,
+                    {/* Reviews ------------------------------------------------- */}
+                    <div
+                        className="pja-testi__reviews"
+                        data-reveal="up"
+                        data-reveal-delay="3"
+                        onFocus={(event) => { if (event.target.matches?.(":focus-visible")) swiperRef.current?.autoplay?.stop(); }}
+                        onBlur={(event) => {
+                            if (!event.currentTarget.contains(event.relatedTarget) && isOnScreen && !reduceMotion) swiperRef.current?.autoplay?.start();
                         }}
-                        pagination={{
-                            clickable: true,
-                            el: ".testi-pagination",
-                            bulletClass: "testi-dot",
-                            bulletActiveClass: "testi-dot-active",
-                        }}
-                        onSwiper={(swiper) => {
-                            swiperRef.current = swiper;
-                        }}
-                        className="testi-swiper"
                     >
+                        {data.status === "loading" && (
+                            <div className="pja-testi__skeletons" role="status">
+                                <span className="pjds-sr-only">Loading reviews…</span>
+                                <span className="pja-testi__skeleton" aria-hidden="true" />
+                                <span className="pja-testi__skeleton" aria-hidden="true" />
+                            </div>
+                        )}
 
-                        {reviews.map((review, index) => (
+                        {data.status === "empty" && (
+                            <div className="pja-testi__empty">
+                                <Quote size={28} aria-hidden="true" />
+                                <p>No reviews to show right now. Read and write reviews on our Google profile.</p>
+                            </div>
+                        )}
 
-                            <SwiperSlide
-                                key={review.id || index}
-                            >
+                        {data.status === "error" && (
+                            <div className="pja-testi__empty" role="alert">
+                                <Quote size={28} aria-hidden="true" />
+                                <p>Google reviews are temporarily unavailable. Try again or view our Google profile.</p>
+                                <button type="button" className="pja-testi__retry" onClick={() => {
+                                    setData({ status: "loading" });
+                                    setRetryCount((count) => count + 1);
+                                }}>
+                                    Try again
+                                </button>
+                            </div>
+                        )}
 
-                                <article className="testi-card">
+                        {reviews.length > 0 && (
+                            <>
+                                <Swiper
+                                    modules={[A11y, Autoplay, Keyboard, Navigation, Pagination]}
+                                    className="pja-testi__swiper"
+                                    slidesPerView={1}
+                                    spaceBetween={20}
+                                    breakpoints={{ 760: { slidesPerView: 2 } }}
+                                    loop={reviews.length > 2}
+                                    speed={reduceMotion ? 0 : 600}
+                                    autoplay={reduceMotion ? false : { delay: 6000, disableOnInteraction: false, pauseOnMouseEnter: true }}
+                                    keyboard={{ enabled: true, onlyInViewport: true }}
+                                    navigation={{ prevEl: ".pja-testi__nav--prev", nextEl: ".pja-testi__nav--next" }}
+                                    pagination={{ el: ".pja-testi__dots", clickable: true, dynamicBullets: true, dynamicMainBullets: 3, bulletClass: "pja-testi__dot", bulletActiveClass: "is-active" }}
+                                    a11y={{ prevSlideMessage: "Previous review", nextSlideMessage: "Next review", paginationBulletMessage: "Go to review {{index}}" }}
+                                    onSwiper={(swiper) => { swiperRef.current = swiper; if (!reduceMotion) swiper.autoplay?.stop(); }}
+                                >
+                                    {reviews.map((review) => (
+                                        <SwiperSlide key={review.id} className="pja-testi__slide">
+                                            <ReviewCard review={review} />
+                                        </SwiperSlide>
+                                    ))}
+                                </Swiper>
 
-                                    {/* =================================================
-                                       LEFT CONTENT
-                                    ================================================= */}
-
-                                    <div className="testi-content">
-
-                                        {/* Google */}
-                                        <div className="testi-google">
-
-                                            <span className="testi-google-name">
-                                                Google
-                                            </span>
-
-                                            <span className="testi-stars">
-                                                ★★★★★
-                                            </span>
-
-                                        </div>
-
-                                        {/* Review */}
-                                        <p className="testi-review">
-                                            “
-                                            {String(
-                                                review.review || ""
-                                            ).replace(
-                                                /^["“]|["”]$/g,
-                                                ""
-                                            )}
-                                            ”
-                                        </p>
-
-                                        {/* Divider */}
-                                        <div className="testi-divider"></div>
-
-                                        {/* User */}
-                                        <div className="testi-user">
-
-                                            <div className="testi-avatar">
-                                                {getInitial(review.name)}
-                                            </div>
-
-                                            <div className="testi-user-info">
-
-                                                <h3>
-                                                    {review.name}
-                                                </h3>
-
-                                                <span>
-                                                    {review.role ||
-                                                        "Google Reviewer"}
-                                                </span>
-
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                    {/* =================================================
-                                       RIGHT IMAGE
-                                    ================================================= */}
-
-                                    <div className="testi-visual">
-
-                                        {/* Background Circle */}
-                                        <div className="testi-circle testi-circle-one"></div>
-                                        <div className="testi-circle testi-circle-two"></div>
-
-                                        {/* Person Image */}
-                                        <img
-                                            src="https://pngimg.com/uploads/businessman/businessman_PNG6564.png"
-                                            alt="Client testimonial"
-                                            className="testi-person"
-                                            loading="lazy"
-                                        />
-
-                                        {/* Quote */}
-                                        <div className="testi-quote">
-                                            <span>”</span>
-                                        </div>
-
-                                    </div>
-
-                                </article>
-
-                            </SwiperSlide>
-
-                        ))}
-
-                    </Swiper>
-
-                    {/* =================================================
-                       ARROWS
-                    ================================================= */}
-
-                    <button
-                        type="button"
-                        className="testi-arrow testi-arrow-prev"
-                        aria-label="Previous testimonial"
-                        onClick={() =>
-                            swiperRef.current?.slidePrev()
-                        }
-                    >
-                        <ChevronLeft size={22} />
-                    </button>
-
-                    <button
-                        type="button"
-                        className="testi-arrow testi-arrow-next"
-                        aria-label="Next testimonial"
-                        onClick={() =>
-                            swiperRef.current?.slideNext()
-                        }
-                    >
-                        <ChevronRight size={22} />
-                    </button>
-
-                </div>
-
-                {/* =================================================
-                   PAGINATION
-                ================================================= */}
-
-                <div className="testi-pagination"></div>
-
-                {loading && (
-                    <div className="testi-loading">
-                        Loading reviews...
+                                {reviews.length > 1 && <div className="pja-testi__controls">
+                                    <button type="button" className="pja-testi__nav pja-testi__nav--prev" aria-label="Previous review">
+                                        <ChevronLeft size={20} aria-hidden="true" />
+                                    </button>
+                                    <div className="pja-testi__dots" />
+                                    <button type="button" className="pja-testi__nav pja-testi__nav--next" aria-label="Next review">
+                                        <ChevronRight size={20} aria-hidden="true" />
+                                    </button>
+                                </div>}
+                            </>
+                        )}
                     </div>
-                )}
-
+                </div>
             </div>
-
         </section>
     );
 }

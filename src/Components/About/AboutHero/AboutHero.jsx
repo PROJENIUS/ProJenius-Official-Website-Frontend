@@ -1,239 +1,138 @@
-import React, { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
-    Lightbulb,
-    Code2,
-    Wifi,
-    BookOpen,
-    Boxes,
-    ShieldCheck,
-    Cpu,
-    Rocket,
-    GraduationCap,
     ArrowDown,
     ArrowRight,
+    BookOpen,
+    Boxes,
+    Code2,
+    Cpu,
+    GraduationCap,
+    Lightbulb,
+    MapPin,
+    Rocket,
+    ShieldCheck,
+    Wifi,
 } from "lucide-react";
 
+import TypedPhrase from "../../Common/TypedPhrase/TypedPhrase.jsx";
+import useOnScreen from "../../../hooks/useOnScreen.js";
 import "./AboutHero.css";
 
 import logo from "../../../assets/About/AboutHero/AboutHero_1.png";
 
-/* =========================================================
-   ECOSYSTEM ITEMS  (order = clockwise, starting from top)
-========================================================= */
+/* =============================================================================
+   ABOUT HERO
+   -----------------------------------------------------------------------------
+   Copy on the left (pill, static line + typed line, lead, buttons); on the
+   right a clean ecosystem panel: the ProJenius name and a 3 × 3 grid of the
+   nine practice areas. One tile is highlighted at a time and the highlight
+   moves on every 2.2 s (paused on hover, off screen and with reduced motion).
+   - Every class is prefixed pja-hero and scoped beneath .pja-hero.
+   - Only transform / opacity / colours animate, so the motion stays cheap.
+   ============================================================================= */
 
 const ECOSYSTEM_ITEMS = [
-    { id: "software",    title: "Software Development",    Icon: Code2 },
-    { id: "iot",         title: "IoT & Embedded Systems",  Icon: Wifi },
-    { id: "product",     title: "Product Development",     Icon: Boxes },
+    { id: "software", title: "Software Development", Icon: Code2 },
+    { id: "iot", title: "IoT & Embedded Systems", Icon: Wifi },
+    { id: "product", title: "Product Development", Icon: Boxes },
     { id: "fabrication", title: "3D Design & Fabrication", Icon: Cpu },
-    { id: "training",    title: "Workshops & Training",    Icon: GraduationCap },
-    { id: "startup",     title: "Startup Support",         Icon: Rocket },
-    { id: "patent",      title: "Patent Support",          Icon: ShieldCheck },
-    { id: "academia",    title: "Academia",                Icon: BookOpen },
-    { id: "innovation",  title: "Innovation",              Icon: Lightbulb },
+    { id: "training", title: "Workshops & Training", Icon: GraduationCap },
+    { id: "startup", title: "Startup Support", Icon: Rocket },
+    { id: "patent", title: "Patent Support", Icon: ShieldCheck },
+    { id: "academia", title: "Academia", Icon: BookOpen },
+    { id: "innovation", title: "Innovation", Icon: Lightbulb },
 ];
 
-/* =========================================================
-   NETWORK GEOMETRY  (SVG viewBox 1000 x 1000)
-   Radius 380 = 38%, matches the CSS node positions.
-========================================================= */
+const HIGHLIGHT_MS = 2200;
 
-const CENTER = 500;
-const NETWORK_RADIUS = 380;
-
-const networkNodes = ECOSYSTEM_ITEMS.map((item, index) => {
-    const radians = ((-90 + index * 40) * Math.PI) / 180;
-
-    return {
-        ...item,
-        index: index + 1,
-        x2: CENTER + NETWORK_RADIUS * Math.cos(radians),
-        y2: CENTER + NETWORK_RADIUS * Math.sin(radians),
-        duration: 3.8,
-        delay: index * 0.35,
-    };
-});
-
-/* =========================================================
-   NETWORK LINE
-========================================================= */
-
-function NetworkLine({ x2, y2, active }) {
-    return (
-        <line
-            className={`about-hero-network-line${active ? " is-active" : ""}`}
-            x1={CENTER}
-            y1={CENTER}
-            x2={x2}
-            y2={y2}
-        />
-    );
-}
-
-/* =========================================================
-   MOVING DOT
-========================================================= */
-
-function MovingDot({ x2, y2, index, duration, delay }) {
-    const pathId = `about-hero-motion-path-${index}`;
-
-    return (
-        <g className="about-hero-moving-dot-group" aria-hidden="true">
-            <path
-                id={pathId}
-                d={`M ${CENTER} ${CENTER} L ${x2} ${y2}`}
-                fill="none"
-                stroke="none"
-            />
-
-            <circle className="about-hero-moving-dot" r="5">
-                <animateMotion
-                    dur={`${duration}s`}
-                    begin={`-${delay}s`}
-                    repeatCount="indefinite"
-                >
-                    <mpath href={`#${pathId}`} />
-                </animateMotion>
-            </circle>
-        </g>
-    );
-}
-
-/* =========================================================
-   ECOSYSTEM NODE
-========================================================= */
-
-function EcosystemNode({ item, active, onActivate, onDeactivate }) {
-    const Icon = item.Icon;
-
-    return (
-        <div
-            className={`about-hero-ecosystem-node about-hero-node-${item.id}${
-                active ? " is-active" : ""
-            }`}
-            tabIndex={0}
-            role="img"
-            aria-label={item.title}
-            onMouseEnter={() => onActivate(item.id)}
-            onMouseLeave={onDeactivate}
-            onFocus={() => onActivate(item.id)}
-            onBlur={onDeactivate}
-        >
-            <div className="about-hero-ecosystem-icon">
-                <Icon strokeWidth={1.9} aria-hidden="true" />
-            </div>
-
-            <span className="about-hero-ecosystem-label">{item.title}</span>
-        </div>
-    );
-}
-
-/* =========================================================
-   ABOUT HERO
-========================================================= */
+const prefersReducedMotion = () =>
+    typeof window !== "undefined" &&
+    typeof window.matchMedia === "function" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 export default function AboutHero() {
-    const [activeId, setActiveId] = useState(null);
+    const panelRef = useRef(null);
+    const isOnScreen = useOnScreen(panelRef);
+    const [active, setActive] = useState(0);
+    const [paused, setPaused] = useState(false);
+
+    useEffect(() => {
+        if (!isOnScreen || paused || prefersReducedMotion()) return undefined;
+        const timer = window.setInterval(
+            () => setActive((current) => (current + 1) % ECOSYSTEM_ITEMS.length),
+            HIGHLIGHT_MS
+        );
+        return () => window.clearInterval(timer);
+    }, [isOnScreen, paused]);
 
     return (
-        <section className="about-hero" aria-labelledby="about-hero-title">
-            <div className="about-hero-grid" aria-hidden="true" />
-            <div className="about-hero-glow about-hero-glow-left" aria-hidden="true" />
-            <div className="about-hero-glow about-hero-glow-right" aria-hidden="true" />
+        <section className="pja-hero" aria-labelledby="pja-hero-title">
+            <div className="pja-hero__backdrop" aria-hidden="true" />
 
-            <div className="about-hero-inner">
-                {/* LEFT CONTENT */}
-                <div className="about-hero-content">
-                    <h1 id="about-hero-title" className="about-hero-title">
-                        <span className="about-hero-title-line">Technology.</span>
-                        <span className="about-hero-title-line about-hero-title-blue">
-                            Innovation.
-                        </span>
-                        <span className="about-hero-title-line">Possibility.</span>
+            <div className="pjds-container pja-hero__layout">
+                {/* Copy ------------------------------------------------------ */}
+                <div className="pja-hero__copy">
+                    <p className="pjds-eyebrow pjds-eyebrow--on-dark" data-reveal="up">About ProJenius</p>
+
+                    <h1 id="pja-hero-title" className="pja-hero__title" data-reveal="up" data-reveal-delay="1">
+                        <span className="pja-hero__title-static">Technology. Innovation.</span>
+                        <TypedPhrase tone="dark" phrases={["Possibility.", "Real-World Impact.", "Built in Madurai."]} />
                     </h1>
 
-                    <p className="about-hero-description">
-                        A multidisciplinary organization bringing technology,
-                        learning, innovation and collaboration into one evolving
-                        ecosystem.
+                    <p className="pja-hero__lead" data-reveal="up" data-reveal-delay="2">
+                        ProJenius Innovation Technology is a multidisciplinary organization in Madurai,
+                        bringing technology, learning, innovation and collaboration together in one
+                        evolving ecosystem.
                     </p>
 
-                    <div className="about-hero-actions">
-                        <a href="#ecosystem" className="about-hero-primary-btn">
-                            <span>Explore ProJenius</span>
-                            <ArrowDown size={18} strokeWidth={2.2} aria-hidden="true" />
+                    <div className="pja-hero__actions" data-reveal="up" data-reveal-delay="3">
+                        <a href="#about-leadership" className="pjds-btn pjds-btn--primary pjds-btn--on-dark">
+                            Meet Our Team
+                            <ArrowDown size={18} aria-hidden="true" />
                         </a>
-
-                        <a href="#services" className="about-hero-secondary-btn">
-                            <span>What We Do</span>
-                            <ArrowRight size={18} strokeWidth={2.2} aria-hidden="true" />
+                        <a href="#about-journey" className="pjds-btn pjds-btn--ghost">
+                            Our Journey
+                            <ArrowRight size={18} aria-hidden="true" />
                         </a>
                     </div>
                 </div>
 
-                {/* RIGHT ECOSYSTEM NETWORK */}
-                <div className="about-hero-visual" aria-label="ProJenius ecosystem network">
-                    <div className={`about-hero-network${activeId ? " has-active" : ""}`}>
-                        <svg
-                            className="about-hero-network-lines"
-                            viewBox="0 0 1000 1000"
-                            preserveAspectRatio="xMidYMid meet"
-                            aria-hidden="true"
-                        >
-                            {networkNodes.map((node) => (
-                                <NetworkLine
-                                    key={`line-${node.index}`}
-                                    x2={node.x2}
-                                    y2={node.y2}
-                                    active={activeId === node.id}
-                                />
-                            ))}
-
-                            {networkNodes.map((node) => (
-                                <MovingDot
-                                    key={`dot-${node.index}`}
-                                    x2={node.x2}
-                                    y2={node.y2}
-                                    index={node.index}
-                                    duration={node.duration}
-                                    delay={node.delay}
-                                />
-                            ))}
-                        </svg>
-
-                        {/* CENTER LOGO */}
-                        <div className="about-hero-network-core" aria-hidden="true">
-                            <div className="about-hero-network-core-glow">
-                                <div className="about-hero-network-core-ring">
-                                    <div className="about-hero-network-core-circle">
-                                        <img
-                                            src={logo}
-                                            alt=""
-                                            className="about-hero-network-logo"
-                                            loading="eager"
-                                            decoding="async"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* ECOSYSTEM NODES */}
-                        {networkNodes.map((node) => (
-                            <EcosystemNode
-                                key={node.id}
-                                item={node}
-                                active={activeId === node.id}
-                                onActivate={setActiveId}
-                                onDeactivate={() => setActiveId(null)}
-                            />
-                        ))}
+                {/* Ecosystem panel ------------------------------------------- */}
+                <div
+                    ref={panelRef}
+                    className="pja-hero__panel"
+                    data-reveal="right"
+                    data-reveal-delay="2"
+                    onMouseEnter={() => setPaused(true)}
+                    onMouseLeave={() => setPaused(false)}
+                >
+                    <div className="pja-hero__panel-head">
+                        <span className="pja-hero__logo">
+                            <img src={logo} alt="" width="56" height="56" decoding="async" />
+                        </span>
+                        <span className="pja-hero__panel-name">
+                            <strong>ProJenius Innovation Technology</strong>
+                            <span><MapPin size={14} aria-hidden="true" /> Madurai, Tamil Nadu</span>
+                        </span>
                     </div>
+
+                    <h2 className="pja-hero__panel-title">One ecosystem, nine practice areas</h2>
+
+                    <ul className="pja-hero__grid">
+                        {ECOSYSTEM_ITEMS.map(({ id, title, Icon }, index) => (
+                            <li
+                                key={id}
+                                className={`pja-hero__tile pja-hero__tile--${(index % 3) + 1}${index === active ? " is-active" : ""}`}
+                            >
+                                <span className="pja-hero__tile-icon" aria-hidden="true">
+                                    <Icon size={22} strokeWidth={1.9} />
+                                </span>
+                                <span className="pja-hero__tile-label">{title}</span>
+                            </li>
+                        ))}
+                    </ul>
                 </div>
             </div>
-
-            <div className="about-hero-zigzag about-hero-zigzag-blue" aria-hidden="true" />
-            <div className="about-hero-zigzag about-hero-zigzag-white" aria-hidden="true" />
         </section>
     );
 }

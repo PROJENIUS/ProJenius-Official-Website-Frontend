@@ -1,0 +1,43 @@
+/* =============================================================================
+   TYPED PHRASE — every rule is scoped beneath .pjtp.
+   Colours follow the homepage typed heading (#1599d6 on light backgrounds,
+   brand cyan on navy).
+   ============================================================================= */
+
+.pjtp {
+  display: grid;
+  width: 100%;
+  color: #1599d6;
+}
+
+.pjtp--dark {
+  color: var(--pjds-cyan-500);
+}
+
+/* Sizer and live text share one cell: the sizer reserves the room. */
+.pjtp__sizer,
+.pjtp__live {
+  grid-area: 1 / 1;
+}
+
+.pjtp__sizer {
+  visibility: hidden;
+}
+
+.pjtp__cursor {
+  display: inline-block;
+  margin-left: 3px;
+  font-weight: 500;
+  animation: pjtp-blink 0.8s steps(1) infinite;
+}
+
+@keyframes pjtp-blink {
+  0%, 45% { opacity: 1; }
+  46%, 100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pjtp__cursor {
+    animation: none;
+  }
+}

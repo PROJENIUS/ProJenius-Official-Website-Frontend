@@ -1,4 +1,4 @@
-import assert from "node:assert/strict";
+﻿import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 import { normalizeApiBase, resolveApiUrl } from "../src/utils/apiUrl.js";
@@ -16,13 +16,14 @@ test("public content navigation exposes News & Insights and keeps Blog routes on
 
   assert.match(navbar, /label: "News & Insights"/);
   assert.doesNotMatch(navbar, /label: "Blog"/);
-  assert.match(footer, /News &amp; Insights/);
+  // The footer Company list links to Join Our Team; News & Insights stays in the navbar.
+  assert.match(footer, /<Link to="\/join-our-team">Join Our Team<\/Link>/);
   assert.doesNotMatch(footer, /<li><a href="\/blog"/);
   assert.match(app, /path="\/blog\/:slug" element=\{<LegacyBlogArticle \/>\}/);
 });
 
 test("News & Insights page delegates to its feature component", async () => {
-  const page = await readSource("../src/Pages/NewsInsights.jsx");
+  const page = await readSource("../src/Pages/NewsInsights/NewsInsightsPage.jsx");
   const component = await readSource(newsContentPath);
 
   assert.match(page, /<NewsInsightsContent \/>/);
@@ -105,8 +106,8 @@ test("public API URL resolution removes duplicated API prefixes and production l
 
 test("course cards and details preserve complete saved cover images", async () => {
   const [page, styles] = await Promise.all([
-    readSource("../src/Components/Courses/ExploreOurCourses/ExploreOurCourses.jsx"),
-    readSource("../src/Components/Courses/ExploreOurCourses/ExploreOurCourses.css"),
+    readSource("../src/Components/Learning/Courses/ExploreOurCourses/ExploreOurCourses.jsx"),
+    readSource("../src/Components/Learning/Courses/ExploreOurCourses/ExploreOurCourses.css"),
   ]);
 
   assert.match(page, /resolveApiUrl\(item\.coverImage\.url, API, window\.location\.origin\)/);
@@ -134,17 +135,17 @@ test("course cards and details preserve complete saved cover images", async () =
   assert.match(page, /termsAccepted: true, termsVersion: terms\.version/);
   assert.doesNotMatch(
     page,
-    /2,310 reviews|12,480 already enrolled|4\.8 â˜…/i,
+    /2,310 reviews|12,480 already enrolled|4\.8 Ã¢Ëœâ€¦/i,
     "unsupported demonstration metrics are not presented as real course data",
   );
 });
 
 test("public course details retain structured content and checkout", async () => {
   const [page, termsPage, termsContent, styles] = await Promise.all([
-    readSource("../src/Components/Courses/ExploreOurCourses/ExploreOurCourses.jsx"),
-    readSource("../src/Pages/Services/CourseTerms.jsx"),
+    readSource("../src/Components/Learning/Courses/ExploreOurCourses/ExploreOurCourses.jsx"),
+    readSource("../src/Pages/Legal/CourseTermsPage.jsx"),
     readSource("../src/Components/Legal/CourseTerms/CourseTermsContent.jsx"),
-    readSource("../src/Components/Courses/ExploreOurCourses/ExploreOurCourses.css"),
+    readSource("../src/Components/Learning/Courses/ExploreOurCourses/ExploreOurCourses.css"),
   ]);
   const fields = [
     "aboutContent",
@@ -179,7 +180,7 @@ test("website branding uses the public logo and route-aware titles", async () =>
     readSource("../src/Components/Common/Footer/Footer.jsx"),
     readSource("../src/Components/About/AboutHero/AboutHero.jsx"),
     readSource(newsContentPath),
-    readSource("../src/Components/Courses/ExploreOurCourses/ExploreOurCourses.jsx"),
+    readSource("../src/Components/Learning/Courses/ExploreOurCourses/ExploreOurCourses.jsx"),
     readFile(new URL("../public/ProJenius_Logo.svg", import.meta.url), "utf8"),
   ]);
 
@@ -189,8 +190,9 @@ test("website branding uses the public logo and route-aware titles", async () =>
   assert.match(navbar, /ProJenius<\/span><span className="logo-jenius">Innovation Technology/);
   assert.match(footer, /src="\/ProJenius_Logo\.svg"/);
   assert.match(footer, /ProJenius Innovation Technology Private Limited/);
-  assert.match(about, /src="\/ProJenius_Logo\.svg"/);
-  assert.doesNotMatch(navbar + footer + about, /from ["'][^"']*(?:NavbarHero_1|FooterHero_1|AboutHero_1)/);
+  assert.match(about, /import logo from ["']\.\.\/\.\.\/\.\.\/assets\/About\/AboutHero\/AboutHero_1\.png["']/);
+  assert.match(about, /src=\{logo\}/);
+  assert.doesNotMatch(navbar + footer, /from ["'][^"']*(?:NavbarHero_1|FooterHero_1)/);
   assert.match(app, /ROUTE_TITLES/);
 
   const routes = [

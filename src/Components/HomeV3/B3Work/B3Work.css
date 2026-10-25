@@ -1,0 +1,226 @@
+/* =============================================================================
+   HOME V3 SELECTED WORK — every rule is scoped beneath .b3w
+   --p comes from useSectionProgress, --dist from the component's measure().
+   ============================================================================= */
+
+.b3w {
+  --p: 0;
+  --dist: 0px;
+
+  position: relative;
+  padding-block: var(--b3-space);
+  background: var(--b3-night);
+}
+
+.b3w__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px 48px;
+  margin-bottom: clamp(32px, 5vh, 56px);
+}
+
+.b3w__progress {
+  display: none;
+  width: 200px;
+  height: 2px;
+  margin-bottom: 14px;
+  background: var(--b3-line-strong);
+}
+
+.b3w__progress span {
+  display: block;
+  height: 100%;
+  background: var(--b3-cyan);
+  box-shadow: 0 0 12px var(--b3-cyan);
+  transform: scaleX(var(--p));
+  transform-origin: left;
+}
+
+/* ---------------------------------------------------------------------------
+   Track (swipeable row by default)
+   --------------------------------------------------------------------------- */
+.b3w__track {
+  display: flex;
+  gap: clamp(16px, 2vw, 28px);
+  margin: 0;
+  padding: 0 max(var(--b3-gutter), calc((100% - var(--b3-wrap)) / 2)) 18px;
+  overflow-x: auto;
+  list-style: none;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--b3-gutter);
+  scrollbar-color: var(--b3-line-strong) transparent;
+  scrollbar-width: thin;
+}
+
+.b3w__card {
+  position: relative;
+  display: flex;
+  flex: 0 0 clamp(280px, 30vw, 420px);
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--b3-line-strong);
+  border-radius: 24px;
+  background: linear-gradient(180deg, var(--b3-panel-2), var(--b3-panel));
+  scroll-snap-align: start;
+  transition: border-color 300ms ease, transform 400ms var(--b3-ease);
+}
+
+.b3w__card:hover {
+  border-color: rgba(32, 200, 245, 0.6);
+  transform: translateY(-6px);
+}
+
+.b3w__media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--b3-deep);
+}
+
+.b3w__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  transition: transform 800ms var(--b3-ease);
+}
+
+.b3w__card:hover .b3w__media img {
+  transform: scale(1.05);
+}
+
+.b3w__icon {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  color: var(--b3-cyan);
+  filter: drop-shadow(0 0 18px var(--b3-cyan-glow));
+}
+
+.b3w__index {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: rgba(3, 10, 20, 0.75);
+  color: var(--b3-cyan-bright);
+  font-family: var(--b3-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.b3w__body {
+  padding: 22px 24px 26px;
+}
+
+.b3w__title {
+  margin: 14px 0 0;
+  color: var(--b3-text);
+  font-family: var(--b3-head);
+  font-size: 1.3125rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+.b3w__text {
+  margin: 10px 0 0;
+  color: var(--b3-muted);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+/* Closing card */
+.b3w__card--next {
+  justify-content: flex-end;
+  align-items: flex-start;
+  gap: 20px;
+  min-height: 320px;
+  padding: clamp(24px, 3vw, 36px);
+  border-style: dashed;
+  border-color: rgba(32, 200, 245, 0.55);
+  background: radial-gradient(80% 60% at 20% 100%, rgba(32, 200, 245, 0.16), transparent 70%), transparent;
+}
+
+.b3w__next-kicker {
+  margin: 0;
+  color: var(--b3-cyan);
+  font-family: var(--b3-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.b3w__next-title {
+  margin: 0;
+  color: var(--b3-text);
+  font-family: var(--b3-head);
+  font-size: clamp(1.75rem, 1.2rem + 1.6vw, 2.75rem);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1.02;
+}
+
+/* ---------------------------------------------------------------------------
+   Pinned (desktop, motion allowed): vertical scroll slides the track
+   --------------------------------------------------------------------------- */
+.b3w[data-pinned="true"] {
+  height: calc(100vh + var(--dist));
+  padding-block: 0;
+}
+
+/* Pinned with data-pin from useSectionProgress (sticky cannot work here). */
+.b3w[data-pinned="true"] .b3w__pin {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.b3w[data-pinned="true"][data-pin="pinned"] .b3w__pin {
+  position: fixed;
+}
+
+.b3w[data-pinned="true"][data-pin="after"] .b3w__pin {
+  top: auto;
+  bottom: 0;
+}
+
+.b3w[data-pinned="true"] .b3w__progress {
+  display: block;
+}
+
+.b3w[data-pinned="true"] .b3w__track {
+  overflow: visible;
+  padding-bottom: 0;
+  transform: translateX(calc(var(--p) * var(--dist) * -1));
+  will-change: transform;
+}
+
+.b3w[data-pinned="true"] .b3w__card {
+  height: min(60vh, 560px);
+}
+
+.b3w[data-pinned="true"] .b3w__media {
+  flex: 1;
+  aspect-ratio: auto;
+  min-height: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .b3w__card,
+  .b3w__media img {
+    transition: none;
+  }
+}

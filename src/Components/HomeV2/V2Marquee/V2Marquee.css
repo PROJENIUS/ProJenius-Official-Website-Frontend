@@ -1,0 +1,59 @@
+/* =============================================================================
+   HOME V2 MARQUEE — every rule is scoped beneath .v2m
+   ============================================================================= */
+
+.v2m {
+  overflow: hidden;
+  padding-block: 20px;
+  background: var(--v2-ink);
+  color: #ffffff;
+}
+
+.v2m__track {
+  display: flex;
+  width: max-content;
+  animation: v2m-scroll 40s linear infinite;
+}
+
+.v2m.is-paused .v2m__track {
+  animation-play-state: paused;
+}
+
+.v2m__list {
+  display: flex;
+  flex: none;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.v2m__list li {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  padding-right: 36px;
+  font-family: var(--v2-head);
+  font-size: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.v2m__list li::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--v2-accent);
+  transform: rotate(45deg);
+}
+
+@keyframes v2m-scroll {
+  to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v2m__track {
+    animation: none;
+  }
+}

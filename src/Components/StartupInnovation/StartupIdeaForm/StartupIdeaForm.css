@@ -1,0 +1,323 @@
+/* =============================================================================
+   STARTUP IDEA FORM — every rule is scoped beneath .pjsi-form
+   ============================================================================= */
+
+.pjsi-form {
+  padding-block: var(--pjds-section-space);
+  background: var(--pjds-gray-50);
+  font-family: var(--pjds-font-body);
+}
+
+.pjsi-form__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  align-items: start;
+  gap: clamp(36px, 5vw, 72px);
+}
+
+.pjsi-form__intro {
+  position: sticky;
+  top: calc(var(--pjds-nav-offset) + 24px);
+}
+
+.pjsi-form__notes {
+  display: grid;
+  gap: 14px;
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pjsi-form__notes li {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 10px;
+  color: var(--pjds-text-muted);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+
+.pjsi-form__notes svg {
+  margin-top: 2px;
+  color: var(--pjds-cyan-700);
+}
+
+.pjsi-form__alt {
+  margin: 24px 0 0;
+  color: var(--pjds-text-muted);
+  font-size: 0.9375rem;
+}
+
+.pjsi-form__alt a {
+  color: var(--pjds-cyan-700);
+  font-weight: 700;
+}
+
+/* Card -------------------------------------------------------------------- */
+.pjsi-form__card {
+  min-width: 0;
+  padding: clamp(24px, 3.4vw, 40px);
+  border: 1px solid var(--pjds-border);
+  border-radius: var(--pjds-radius-lg);
+  background: var(--pjds-white);
+  box-shadow: var(--pjds-shadow-md);
+}
+
+.pjsi-form__form {
+  display: grid;
+  gap: 26px;
+}
+
+.pjsi-form__group {
+  display: grid;
+  gap: 18px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.pjsi-form__group legend {
+  margin-bottom: 4px;
+  padding: 0;
+  color: var(--pjds-navy-950);
+  font-family: var(--pjds-font-heading);
+  font-size: 1.125rem;
+  font-weight: 800;
+}
+
+.pjsi-form__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.pjsi-form__field {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+}
+
+.pjsi-form__field > label,
+.pjsi-form__label {
+  color: var(--pjds-navy-950);
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.pjsi-form__optional {
+  color: var(--pjds-text-subtle);
+  font-weight: 500;
+}
+
+.pjsi-form__field input:not([type="checkbox"]),
+.pjsi-form__field select,
+.pjsi-form__field textarea {
+  width: 100%;
+  min-height: 48px;
+  padding: 11px 14px;
+  border: 1px solid var(--pjds-border-strong);
+  border-radius: 12px;
+  background: var(--pjds-white);
+  color: var(--pjds-text);
+  font: inherit;
+  font-size: 1rem;
+  box-sizing: border-box;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.pjsi-form__field textarea {
+  min-height: 0;
+  resize: vertical;
+  line-height: 1.55;
+}
+
+.pjsi-form__field input:not([type="checkbox"]):focus,
+.pjsi-form__field select:focus,
+.pjsi-form__field textarea:focus {
+  outline: none;
+  border-color: var(--pjds-cyan-700);
+  box-shadow: 0 0 0 3px rgba(4, 120, 168, 0.18);
+}
+
+.pjsi-form__field [aria-invalid="true"] {
+  border-color: #c2410c;
+}
+
+.pjsi-form__hint {
+  color: var(--pjds-text-subtle);
+  font-size: 0.8125rem;
+}
+
+.pjsi-form__error {
+  color: #b42318;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+/* Support choices ----------------------------------------------------------- */
+.pjsi-form__choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  outline: none;
+}
+
+.pjsi-form__choice {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 8px 14px;
+  border: 1px solid var(--pjds-border-strong);
+  border-radius: 999px;
+  background: var(--pjds-white);
+  color: var(--pjds-text);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 160ms ease, background-color 160ms ease;
+}
+
+.pjsi-form__choice input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--pjds-cyan-700);
+}
+
+.pjsi-form__choice.is-checked {
+  border-color: var(--pjds-cyan-700);
+  background: var(--pjds-cyan-50);
+  color: var(--pjds-navy-950);
+}
+
+.pjsi-form__choice:has(input:focus-visible) {
+  box-shadow: var(--pjds-focus-ring);
+}
+
+/* Optional details ----------------------------------------------------------- */
+.pjsi-form__more {
+  display: grid;
+  gap: 16px;
+  padding: 14px 16px;
+  border: 1px dashed var(--pjds-border-strong);
+  border-radius: 14px;
+}
+
+.pjsi-form__more summary {
+  color: var(--pjds-cyan-700);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.pjsi-form__more[open] summary {
+  margin-bottom: 14px;
+}
+
+.pjsi-form__more .pjsi-form__field + .pjsi-form__field {
+  margin-top: 14px;
+}
+
+.pjsi-form__check {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  gap: 12px;
+  color: var(--pjds-text-muted);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.55;
+  cursor: pointer;
+}
+
+.pjsi-form__check input {
+  width: 18px;
+  height: 18px;
+  margin: 2px 0 0;
+  accent-color: var(--pjds-cyan-700);
+}
+
+.pjsi-form__submit-error {
+  margin: 0;
+  padding: 12px 16px;
+  border-left: 3px solid #b42318;
+  border-radius: 0 10px 10px 0;
+  background: #fef3f2;
+  color: #912018;
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.pjsi-form .pjsi-form__submit {
+  justify-self: start;
+  min-width: 220px;
+}
+
+.pjsi-form__submit:disabled {
+  opacity: 0.75;
+  cursor: progress;
+}
+
+.pjsi-form__spin {
+  animation: pjsi-spin 900ms linear infinite;
+}
+
+@keyframes pjsi-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Done -------------------------------------------------------------------- */
+.pjsi-form__done {
+  display: grid;
+  justify-items: start;
+  gap: 12px;
+  padding: 12px 0;
+  color: var(--pjds-text-muted);
+}
+
+.pjsi-form__done svg {
+  color: var(--pjds-cyan-700);
+}
+
+.pjsi-form__done h3 {
+  margin: 0;
+  color: var(--pjds-navy-950);
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.pjsi-form__done p {
+  margin: 0;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+
+.pjsi-form__ref strong {
+  color: var(--pjds-navy-950);
+}
+
+@media (max-width: 1023px) {
+  .pjsi-form__layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pjsi-form__intro {
+    position: static;
+  }
+}
+
+@media (max-width: 600px) {
+  .pjsi-form__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pjsi-form .pjsi-form__submit {
+    justify-self: stretch;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pjsi-form__spin {
+    animation: none;
+  }
+}

@@ -1,0 +1,326 @@
+/* =============================================================================
+   HOME V3 HERO — every rule is scoped beneath .b3h
+   ============================================================================= */
+
+.b3h {
+  --gx: 70%;
+  --gy: 40%;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: calc(var(--pjds-nav-offset) + 24px) 0 0;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(60% 50% at 75% 45%, rgba(32, 200, 245, 0.12), transparent 70%),
+    radial-gradient(80% 60% at 10% 100%, rgba(14, 36, 64, 0.9), transparent 70%),
+    var(--b3-night);
+}
+
+/* Grid fades out towards the edges. */
+.b3h__grid {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  -webkit-mask-image: radial-gradient(75% 70% at 60% 45%, #000 30%, transparent 85%);
+  mask-image: radial-gradient(75% 70% at 60% 45%, #000 30%, transparent 85%);
+}
+
+/* A brighter copy of the grid, visible only around the pointer. */
+.b3h__grid--lit {
+  --b3-line: rgba(127, 227, 255, 0.35);
+  --b3-line-strong: rgba(127, 227, 255, 0.6);
+
+  -webkit-mask-image: radial-gradient(220px circle at var(--gx) var(--gy), #000, transparent 75%);
+  mask-image: radial-gradient(220px circle at var(--gx) var(--gy), #000, transparent 75%);
+}
+
+.b3h__glow {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(420px circle at var(--gx) var(--gy), rgba(32, 200, 245, 0.1), transparent 70%);
+  pointer-events: none;
+}
+
+/* ---------------------------------------------------------------------------
+   Technical drawing (draws itself in once, on load)
+   --------------------------------------------------------------------------- */
+.b3h__drawing {
+  position: absolute;
+  top: 50%;
+  right: max(-120px, calc(50% - 760px));
+  z-index: -1;
+  width: min(62vw, 820px);
+  height: auto;
+  transform: translateY(-46%);
+  overflow: visible;
+}
+
+.b3h__drawing :is(circle, line, rect, path) {
+  fill: none;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  stroke-linecap: round;
+  animation: b3h-draw 1.8s var(--b3-ease) forwards;
+}
+
+.b3h__ring circle {
+  stroke: rgba(32, 200, 245, 0.35);
+  stroke-width: 1;
+  stroke-dasharray: 0.004 0.012;
+  stroke-dashoffset: 0;
+  animation: none;
+}
+
+.b3h__ring {
+  transform-origin: 400px 400px;
+  animation: b3h-spin 90s linear infinite;
+}
+
+.b3h__construct :is(circle, line) {
+  stroke: rgba(140, 200, 255, 0.18);
+  stroke-width: 1;
+  animation-delay: 200ms;
+}
+
+.b3h__part :is(rect, path, circle) {
+  stroke: var(--b3-cyan);
+  stroke-width: 2;
+  filter: drop-shadow(0 0 6px rgba(32, 200, 245, 0.55));
+  animation-duration: 2.4s;
+  animation-delay: 500ms;
+}
+
+.b3h__part rect:nth-child(2) { animation-delay: 800ms; }
+.b3h__part rect:nth-child(3) { animation-delay: 1100ms; }
+.b3h__part rect:nth-child(4) { animation-delay: 1200ms; }
+.b3h__part path { animation-delay: 1500ms; }
+.b3h__part circle { animation-delay: 1700ms; }
+
+.b3h__dims path {
+  stroke: rgba(127, 227, 255, 0.55);
+  stroke-width: 1;
+  animation-delay: 1900ms;
+}
+
+.b3h__notes text {
+  fill: rgba(147, 167, 192, 0.85);
+  font-family: var(--b3-mono);
+  font-size: 15px;
+  letter-spacing: 0.12em;
+  opacity: 0;
+  animation: b3h-fade 800ms ease 2.2s forwards;
+}
+
+.b3h[data-idle] .b3h__ring {
+  animation-play-state: paused;
+}
+
+@keyframes b3h-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes b3h-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes b3h-fade {
+  to { opacity: 1; }
+}
+
+/* ---------------------------------------------------------------------------
+   Copy
+   --------------------------------------------------------------------------- */
+.b3h__inner {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-block: clamp(32px, 6vh, 72px);
+}
+
+.b3h__label {
+  opacity: 0;
+  animation: b3h-fade 700ms ease 100ms forwards;
+}
+
+.b3h__title {
+  max-width: 900px;
+  margin: 0;
+  color: var(--b3-text);
+  font-family: var(--b3-head);
+  font-size: clamp(3rem, 1.2rem + 5.6vw, 6.75rem);
+  font-weight: 800;
+  letter-spacing: -0.06em;
+  line-height: 0.95;
+}
+
+/* Each line rises out of a mask. */
+.b3h__line {
+  display: block;
+  padding-bottom: 0.08em;
+  overflow: hidden;
+}
+
+.b3h__line > span {
+  display: inline-block;
+  transform: translateY(105%);
+  animation: b3h-rise 1.1s var(--b3-ease) 250ms forwards;
+}
+
+.b3h__line:nth-child(2) > span {
+  animation-delay: 420ms;
+}
+
+@keyframes b3h-rise {
+  to { transform: translateY(0); }
+}
+
+.b3h__lead {
+  max-width: 540px;
+  margin: 28px 0 0;
+  color: var(--b3-muted);
+  font-size: clamp(1.0625rem, 1rem + 0.4vw, 1.3125rem);
+  line-height: 1.6;
+  opacity: 0;
+  animation: b3h-fade 900ms ease 800ms forwards;
+}
+
+.b3h__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 40px;
+  opacity: 0;
+  animation: b3h-fade 900ms ease 1s forwards;
+}
+
+/* ---------------------------------------------------------------------------
+   Foot bar
+   --------------------------------------------------------------------------- */
+.b3h__foot {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 32px;
+  padding-block: 22px 28px;
+  border-top: 1px solid var(--b3-line);
+  color: var(--b3-muted);
+  font-family: var(--b3-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0;
+  animation: b3h-fade 900ms ease 1.3s forwards;
+}
+
+.b3h__rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--b3-muted);
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+
+.b3h__rating svg {
+  color: var(--b3-gold);
+}
+
+.b3h__rating strong {
+  color: var(--b3-text);
+}
+
+.b3h__rating:hover {
+  color: var(--b3-text);
+}
+
+.b3h__disciplines {
+  margin: 0;
+}
+
+.b3h__cue {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.b3h__cue span {
+  position: relative;
+  width: 1px;
+  height: 28px;
+  overflow: hidden;
+  background: var(--b3-line-strong);
+}
+
+.b3h__cue span::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--b3-cyan);
+  transform: translateY(-100%);
+  animation: b3h-cue 2s var(--b3-ease) infinite;
+}
+
+.b3h[data-idle] .b3h__cue span::after {
+  animation-play-state: paused;
+}
+
+@keyframes b3h-cue {
+  0% { transform: translateY(-100%); }
+  60%, 100% { transform: translateY(100%); }
+}
+
+/* ---------------------------------------------------------------------------
+   Responsive
+   --------------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  .b3h__drawing {
+    top: auto;
+    right: -30%;
+    bottom: 6%;
+    width: 110vw;
+    opacity: 0.45;
+    transform: none;
+  }
+
+  .b3h__disciplines {
+    display: none;
+  }
+}
+
+@media (max-width: 520px) {
+  .b3h__title {
+    font-size: clamp(2.5rem, 1rem + 8.4vw, 3.25rem);
+  }
+
+  .b3h__actions .b3-btn {
+    flex: 1 1 100%;
+  }
+
+  .b3h__cue {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .b3h *,
+  .b3h *::before,
+  .b3h *::after {
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  .b3h__ring {
+    animation: none;
+  }
+}

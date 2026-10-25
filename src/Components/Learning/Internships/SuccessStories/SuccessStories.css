@@ -1,0 +1,230 @@
+/* =========================================================
+   SUCCESS STORIES — every rule is scoped beneath
+   .pj-internship-success. Light muted section; heading and
+   four highlights on the left, four statistics on the right.
+========================================================= */
+
+.pj-internship-success {
+    position: relative;
+    padding-block: var(--pjds-section-space);
+    overflow: hidden;
+    background:
+        radial-gradient(40rem 26rem at 0% 0%, rgba(32, 200, 245, 0.08), transparent 70%),
+        var(--pjds-surface-muted);
+    color: var(--pjds-text);
+}
+
+.pj-internship-success *,
+.pj-internship-success *::before,
+.pj-internship-success *::after {
+    box-sizing: border-box;
+}
+
+.pj-internship-success-container {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(32px, 5vw, 72px);
+    align-items: center;
+}
+
+.pj-internship-success-left h2 {
+    margin: 0;
+    color: var(--pjds-text);
+}
+
+.pj-internship-success-title-static {
+    display: block;
+}
+
+.pj-internship-success-intro {
+    max-width: 480px;
+    margin: 16px 0 0;
+    color: var(--pjds-text-muted);
+    font-size: var(--pjds-text-lead);
+    line-height: 1.65;
+}
+
+/* ---------------- Highlights ---------------- */
+.pj-internship-success-highlights {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 32px;
+}
+
+.pj-internship-success-highlight {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-height: 84px;
+    padding: 16px 18px;
+    border: 1px solid var(--pjds-border);
+    border-radius: 18px;
+    background: var(--pjds-surface);
+    box-shadow: var(--pjds-shadow-sm);
+    color: var(--pjds-text);
+    text-decoration: none;
+    transition: border-color 250ms ease, box-shadow 250ms ease, transform 250ms var(--pjds-ease);
+}
+
+a.pj-internship-success-highlight:hover {
+    border-color: rgba(32, 200, 245, 0.45);
+    box-shadow: var(--pjds-shadow-md);
+    transform: translateY(-3px);
+}
+
+a.pj-internship-success-highlight:focus-visible {
+    outline: none;
+    box-shadow: var(--pjds-focus-ring);
+}
+
+.pj-internship-success-highlight-icon,
+.pj-internship-success-stat-icon {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 13px;
+    background: linear-gradient(145deg, var(--pjds-navy-800), var(--pjds-navy-950));
+    color: var(--pjds-cyan-500);
+}
+
+.pj-internship-success-highlight-icon svg,
+.pj-internship-success-stat-icon svg {
+    transform-origin: center;
+    transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+a.pj-internship-success-highlight:hover .pj-internship-success-highlight-icon svg,
+.pj-internship-success-stat:hover .pj-internship-success-stat-icon svg {
+    transform: rotate(180deg); /* half turn on hover, back to 0 on leave */
+}
+
+
+.pj-internship-success-highlight-title {
+    flex: 1;
+    min-width: 0;
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+.pj-internship-success-highlight-arrow {
+    flex: none;
+    color: var(--pjds-cyan-700);
+    transition: transform 220ms ease;
+}
+
+a.pj-internship-success-highlight:hover .pj-internship-success-highlight-arrow {
+    transform: translate(2px, -2px);
+}
+
+/* ---------------- Statistics ---------------- */
+.pj-internship-success-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin: 0;
+}
+
+.pj-internship-success-stat {
+    position: relative;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    gap: 6px;
+    min-height: 210px;
+    padding: 26px;
+    overflow: hidden;
+    border: 1px solid var(--pjds-border);
+    border-radius: 22px;
+    background: var(--pjds-surface);
+    box-shadow: var(--pjds-shadow-sm);
+    transition: border-color 250ms ease, box-shadow 250ms ease, transform 250ms var(--pjds-ease);
+}
+
+/* Accent bar across the top edge. */
+.pj-internship-success-stat::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--pjds-cyan-500), var(--pjds-cyan-600));
+    transition: width 420ms var(--pjds-ease);
+}
+
+.pj-internship-success-stat:hover {
+    border-color: rgba(32, 200, 245, 0.45);
+    box-shadow: var(--pjds-shadow-md);
+    transform: translateY(-4px);
+}
+
+.pj-internship-success-stat:hover::before {
+    width: 100%;
+}
+
+/* Visual order (column-reverse): icon, number, label. */
+.pj-internship-success-stat-icon {
+    order: 3;
+    margin-bottom: auto;
+}
+
+.pj-internship-success-stat dd {
+    order: 2;
+    margin: 28px 0 0;
+    color: var(--pjds-text);
+    font-family: var(--pjds-font-heading);
+    font-size: clamp(2.4rem, 1.6rem + 2.2vw, 3.4rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+.pj-internship-success-stat dt {
+    order: 1;
+    color: var(--pjds-text-muted);
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+/* ---------------- Responsive ---------------- */
+@media (max-width: 960px) {
+    .pj-internship-success-container {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .pj-internship-success-highlights {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .pj-internship-success-stat {
+        min-height: 170px;
+        padding: 20px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pj-internship-success-highlight,
+    .pj-internship-success-stat,
+    .pj-internship-success-stat::before {
+        transition: none;
+    }
+
+    a.pj-internship-success-highlight:hover,
+    .pj-internship-success-stat:hover {
+        transform: none;
+    }
+
+    a.pj-internship-success-highlight:hover .pj-internship-success-highlight-icon svg,
+    .pj-internship-success-stat:hover .pj-internship-success-stat-icon svg {
+        transform: none;
+        transition: none;
+    }
+}

@@ -1,0 +1,143 @@
+/* =============================================================================
+   RAPID PROTOTYPING HERO VISUAL — scoped beneath .pjrp-hero-visual / .pjrp-part
+   ============================================================================= */
+
+.pjrp-hero-visual {
+  margin: 0;
+  padding: clamp(20px, 2.6vw, 32px);
+  border: 1px solid rgba(90, 214, 248, 0.18);
+  border-radius: var(--pjds-radius-lg);
+  background: linear-gradient(160deg, rgba(18, 50, 90, 0.55), rgba(7, 20, 38, 0.6));
+  box-shadow: 0 30px 80px rgba(2, 8, 18, 0.45);
+}
+
+.pjrp-hero-visual__stages {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+}
+
+.pjrp-hero-visual__stage {
+  position: relative;
+  min-width: 0;
+  padding: 44px 10px 14px;
+  border: 1px dashed rgba(90, 214, 248, 0.3);
+  border-radius: 18px;
+  background:
+    linear-gradient(rgba(90, 214, 248, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(90, 214, 248, 0.06) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+.pjrp-hero-visual__stage--printed {
+  border-style: solid;
+  border-color: rgba(90, 214, 248, 0.2);
+  background: radial-gradient(70% 60% at 50% 70%, rgba(32, 200, 245, 0.14), transparent 70%);
+}
+
+.pjrp-hero-visual__label {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  color: var(--pjds-cyan-400);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.pjrp-hero-visual__arrow {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--pjds-cyan-500);
+  color: var(--pjds-navy-950);
+}
+
+.pjrp-hero-visual__caption {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(203, 213, 225, 0.7);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+/* The part ------------------------------------------------------------------ */
+.pjrp-part {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.pjrp-part--cad path {
+  fill: none;
+  stroke: var(--pjds-cyan-400);
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+}
+
+.pjrp-part--cad .pjrp-part__slot {
+  stroke-dasharray: 4 4;
+}
+
+.pjrp-part__dims path {
+  stroke: rgba(226, 232, 240, 0.45);
+  stroke-width: 1;
+}
+
+.pjrp-part__dims text {
+  fill: rgba(226, 232, 240, 0.6);
+  font-family: var(--pjds-font-body);
+  font-size: 10px;
+}
+
+.pjrp-part--printed .pjrp-part__top { fill: #e8f8fe; }
+.pjrp-part--printed .pjrp-part__left { fill: #9fdcf0; }
+.pjrp-part--printed .pjrp-part__right { fill: #5ad6f8; }
+.pjrp-part--printed .pjrp-part__slot { fill: #12325a; }
+
+.pjrp-part--printed path:not(.pjrp-part__layer) {
+  stroke: rgba(7, 20, 38, 0.35);
+  stroke-width: 1;
+  stroke-linejoin: round;
+}
+
+.pjrp-part__layer {
+  fill: none;
+  stroke: rgba(7, 20, 38, 0.14);
+  stroke-width: 1;
+}
+
+/* Builds up from the bottom once, like a print in progress. */
+.pjrp-part__build {
+  transform-box: fill-box;
+  transform-origin: bottom;
+  animation: pjrp-print 2.4s var(--pjds-ease) 0.5s both;
+}
+
+@keyframes pjrp-print {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+
+@media (max-width: 420px) {
+  .pjrp-hero-visual__stages {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: stretch;
+  }
+
+  .pjrp-hero-visual__arrow {
+    justify-self: center;
+    transform: rotate(90deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pjrp-part__build {
+    animation: none;
+  }
+}

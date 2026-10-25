@@ -1,0 +1,188 @@
+/* =============================================================================
+   PCB BOARD — every rule is scoped beneath .pjpcb-board
+   Colours: brand navy solder mask, cyan copper, light pads.
+   ============================================================================= */
+
+.pjpcb-board {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.pjpcb-board text {
+  font-family: var(--pjds-font-body);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.pjpcb-board__outline {
+  fill: #0d2a4b;
+  stroke: rgba(90, 214, 248, 0.45);
+  stroke-width: 2;
+}
+
+.pjpcb-board__hole {
+  fill: var(--pjds-navy-950);
+  stroke: #c6d0dd;
+  stroke-width: 3;
+}
+
+.pjpcb-board__trace {
+  fill: none;
+  stroke: var(--pjds-cyan-500);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.85;
+}
+
+.pjpcb-board__plane {
+  fill: none;
+  stroke: rgba(32, 200, 245, 0.35);
+  stroke-width: 6;
+  stroke-linecap: round;
+}
+
+.pjpcb-board__via {
+  fill: var(--pjds-navy-950);
+  stroke: var(--pjds-cyan-400);
+  stroke-width: 2.5;
+}
+
+.pjpcb-board__pads rect {
+  fill: #c6d0dd;
+}
+
+.pjpcb-board__chip {
+  fill: var(--pjds-navy-950);
+  stroke: rgba(255, 255, 255, 0.16);
+  stroke-width: 1.5;
+}
+
+.pjpcb-board__chip-dot {
+  fill: rgba(255, 255, 255, 0.35);
+}
+
+.pjpcb-board__chip-label {
+  fill: rgba(255, 255, 255, 0.85);
+  font-size: 15px;
+}
+
+.pjpcb-board__part {
+  fill: #1f2937;
+  stroke: rgba(255, 255, 255, 0.18);
+}
+
+.pjpcb-board__part--cap {
+  fill: #12325a;
+}
+
+.pjpcb-board__part--led {
+  fill: var(--pjds-cyan-600);
+}
+
+.pjpcb-board__connector {
+  fill: #111827;
+  stroke: rgba(255, 255, 255, 0.2);
+  stroke-width: 1.5;
+}
+
+.pjpcb-board__silk text {
+  fill: rgba(255, 255, 255, 0.72);
+}
+
+.pjpcb-board__silk-small {
+  font-size: 9px;
+}
+
+.pjpcb-board__schematic {
+  fill: none;
+  stroke: var(--pjds-navy-950);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.pjpcb-board__schematic text {
+  fill: var(--pjds-navy-950);
+  stroke: none;
+}
+
+.pjpcb-board__review circle {
+  fill: rgba(32, 200, 245, 0.12);
+  stroke: var(--pjds-cyan-500);
+  stroke-width: 2;
+  stroke-dasharray: 4 4;
+}
+
+/* Layers per stage -------------------------------------------------------- */
+.pjpcb-board__schematic,
+.pjpcb-board__review {
+  display: none;
+}
+
+.pjpcb-board--schematic > :not(.pjpcb-board__schematic) {
+  display: none;
+}
+
+.pjpcb-board--schematic .pjpcb-board__schematic {
+  display: inline;
+}
+
+/* Layout and review: the drawing on screen, before manufacture. */
+.pjpcb-board--layout .pjpcb-board__outline,
+.pjpcb-board--review .pjpcb-board__outline {
+  fill: transparent;
+  stroke: var(--pjds-navy-950);
+  stroke-dasharray: 8 6;
+}
+
+.pjpcb-board--layout :is(.pjpcb-board__parts, .pjpcb-board__silk),
+.pjpcb-board--review :is(.pjpcb-board__parts, .pjpcb-board__silk) {
+  display: none;
+}
+
+.pjpcb-board--layout .pjpcb-board__hole,
+.pjpcb-board--review .pjpcb-board__hole {
+  fill: transparent;
+  stroke: var(--pjds-navy-950);
+}
+
+.pjpcb-board--layout .pjpcb-board__trace,
+.pjpcb-board--review .pjpcb-board__trace {
+  stroke: var(--pjds-cyan-700);
+}
+
+.pjpcb-board--layout .pjpcb-board__pads rect,
+.pjpcb-board--review .pjpcb-board__pads rect {
+  fill: #8a97a8;
+}
+
+.pjpcb-board--review .pjpcb-board__review {
+  display: inline;
+}
+
+/* Fabrication: bare board, no components yet. */
+.pjpcb-board--fabrication .pjpcb-board__parts {
+  display: none;
+}
+
+/* Hero: copper draws in once. */
+.pjpcb-board--hero .pjpcb-board__trace {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: pjpcb-draw 1.6s var(--pjds-ease) 0.4s forwards;
+}
+
+@keyframes pjpcb-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pjpcb-board--hero .pjpcb-board__trace {
+    stroke-dashoffset: 0;
+    animation: none;
+  }
+}
