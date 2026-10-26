@@ -5,7 +5,8 @@
 .asf-section {
   width: 100%;
   padding: 85px 24px 105px;
-  background: #f8fafc;
+  /* White, so it differs from the light-grey section that follows. */
+  background: #ffffff;
   box-sizing: border-box;
   font-family: var(--pjds-font-body);
   position: relative;

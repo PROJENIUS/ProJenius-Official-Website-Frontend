@@ -29,7 +29,13 @@
   left: 12%;
   height: 2px;
   background: repeating-linear-gradient(90deg, var(--pjds-cyan-500) 0 10px, transparent 10px 18px);
+  background-size: 28px 2px;
   opacity: 0.6;
+  animation: pjhw-signal-flow 8s linear infinite;
+}
+
+@keyframes pjhw-signal-flow {
+  to { background-position: 28px 0; }
 }
 
 .pjhw-layers__node {
@@ -188,4 +194,6 @@
   .pjhw-layers__node-icon {
     transition: none;
   }
+
+  .pjhw-layers__chain::before { animation: none; }
 }

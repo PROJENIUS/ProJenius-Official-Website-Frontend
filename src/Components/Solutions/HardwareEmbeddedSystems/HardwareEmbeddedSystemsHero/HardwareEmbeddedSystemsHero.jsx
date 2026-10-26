@@ -1,39 +1,29 @@
-import { ArrowRight } from "lucide-react";
-
 import ServiceHero from "../../Shared/ServiceHero/ServiceHero.jsx";
 import { contactLink } from "../../Shared/serviceLinks.js";
+import HeroPhotoStack from "../../../Common/HeroPhotoStack/HeroPhotoStack.jsx";
+import { heroPhotos } from "../../../Common/HeroPhotoStack/heroPhotos.js";
 import labPhoto from "../../../../assets/Home/HeroSlides/hero-slide-3.webp";
-import "./HardwareEmbeddedSystemsHero.css";
+import benchPhoto from "../../../../assets/Home/OurProjects/OurProjects_2.webp";
+import iotKitPhoto from "../../../../assets/Home/OurProducts/OurProducts_2.webp";
+import machinePhoto from "../../../../assets/Home/OurProducts/OurProducts_1.webp";
 
 /* =============================================================================
    HARDWARE & EMBEDDED SYSTEMS HERO
-   Visual: the homepage lab photo (students working on a hardware
-   prototype) with the signal chain the page explains below.
+   Backdrop: the lab photo (students working on a hardware prototype) under
+   the navy layer. Visual: the shared rotating photo stack.
+   Photos: src/assets/Heroes/hardware/ (see its README); the real photos
+   below are used until photos are added there.
    ============================================================================= */
 
-const CHAIN = ["Sensor", "Controller", "Firmware", "Output / Cloud"];
-
-function HardwareHeroVisual() {
-  return (
-    <figure className="pjhw-hero-visual">
-      <img
-        src={labPhoto}
-        width="1600"
-        height="721"
-        alt="Students working together on a hardware prototype in a lab"
-        decoding="async"
-      />
-      <figcaption className="pjhw-hero-visual__chain">
-        {CHAIN.map((step, index) => (
-          <span key={step} className="pjhw-hero-visual__step">
-            {step}
-            {index < CHAIN.length - 1 && <ArrowRight size={14} strokeWidth={2.4} aria-hidden="true" />}
-          </span>
-        ))}
-      </figcaption>
-    </figure>
-  );
-}
+const HERO = heroPhotos("hardware", {
+  backdrop: labPhoto,
+  cards: [
+    { image: labPhoto, category: "Prototype", title: "Testing a hardware prototype" },
+    { image: benchPhoto, category: "Embedded", title: "Circuit and firmware testing" },
+    { image: iotKitPhoto, category: "IoT Product", title: "ProJenius IoT Learning Kit" },
+    { image: machinePhoto, category: "Automation", title: "Groundnut processing machine" },
+  ],
+});
 
 export default function HardwareEmbeddedSystemsHero() {
   return (
@@ -41,11 +31,12 @@ export default function HardwareEmbeddedSystemsHero() {
       id="hardware-hero-title"
       eyebrow="Hardware & Embedded Systems"
       title="Electronics and Firmware"
-      highlight="Built for the Real World"
+      phrases={["Built for the Real World", "Connected Devices", "Reliable Embedded Systems"]}
       description="Embedded systems, firmware, sensor integration and connected IoT devices, from the first circuit to a working, testable system."
       primary={{ label: "Discuss Hardware Requirements", to: contactLink("development", "hardware-embedded-systems") }}
       secondary={{ label: "See How It Fits Together", to: "#hardware-system" }}
-      visual={<HardwareHeroVisual />}
+      backdrop={HERO.backdrop}
+      visual={<HeroPhotoStack items={HERO.cards} label="Hardware work by ProJenius" badge={{ title: "Circuit to system", text: "Built and tested by ProJenius" }} />}
       className="pjhw-hero"
     />
   );

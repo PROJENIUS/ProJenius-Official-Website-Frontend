@@ -1,55 +1,28 @@
-import { Link } from "react-router-dom";
-import { FlaskConical, Lightbulb, Package, Rocket, Wrench } from "lucide-react";
-
 import ServiceHero from "../../Solutions/Shared/ServiceHero/ServiceHero.jsx";
-import { SERVICE_ROUTES } from "../../Solutions/Shared/serviceLinks.js";
+import HeroPhotoStack from "../../Common/HeroPhotoStack/HeroPhotoStack.jsx";
+import { heroPhotos } from "../../Common/HeroPhotoStack/heroPhotos.js";
 import recognitionEvent from "../../../assets/Home/HeroSlides/hero-slide-5.webp";
-import "./StartupSupporterHero.css";
+import aiEventPhoto from "../../../assets/Home/HeroSlides/hero-slide-2.webp";
+import recognitionPhoto from "../../../assets/Home/Optimized/hero-recognition-960.webp";
+import labPhoto from "../../../assets/Home/HeroSlides/hero-slide-3.webp";
 
 /* =============================================================================
    STARTUP & INNOVATION HERO
-   Backdrop: the homepage science-and-innovation event photo under the navy
-   layer. Visual: the idea-to-product path, each stage linked to the service
-   that supports it.
+   Backdrop: the science-and-innovation event photo under the navy layer.
+   Visual: the shared rotating photo stack of ProJenius events and work.
+   Photos: src/assets/Heroes/startup/ (see its README); the real photos
+   below are used until photos are added there.
    ============================================================================= */
 
-const PATH = [
-  { Icon: Lightbulb, stage: "Idea", text: "A problem worth solving" },
-  { Icon: FlaskConical, stage: "Validate", text: "Feasibility and research" },
-  { Icon: Wrench, stage: "Prototype", text: "Hardware, PCB or 3D parts", links: [
-    { to: SERVICE_ROUTES.hardware, label: "Hardware" },
-    { to: SERVICE_ROUTES.pcb, label: "PCB" },
-    { to: SERVICE_ROUTES.prototyping, label: "Prototyping" },
-  ] },
-  { Icon: Package, stage: "MVP", text: "A first version for real users", links: [
-    { to: SERVICE_ROUTES.software, label: "Software" },
-  ] },
-  { Icon: Rocket, stage: "Next stage", text: "IP, registration and readiness guidance" },
-];
-
-function JourneyCard() {
-  return (
-    <figure className="pjsi-hero-path">
-      <figcaption className="pjsi-hero-path__title">From idea to product</figcaption>
-      <ol className="pjsi-hero-path__list">
-        {PATH.map(({ Icon, stage, text, links }) => (
-          <li key={stage} className="pjsi-hero-path__item">
-            <span className="pjsi-hero-path__icon" aria-hidden="true"><Icon size={18} strokeWidth={2.1} /></span>
-            <div className="pjsi-hero-path__text">
-              <span className="pjsi-hero-path__stage">{stage}</span>
-              <span className="pjsi-hero-path__desc">{text}</span>
-              {links && (
-                <span className="pjsi-hero-path__links">
-                  {links.map((link) => <Link key={link.to} to={link.to}>{link.label}</Link>)}
-                </span>
-              )}
-            </div>
-          </li>
-        ))}
-      </ol>
-    </figure>
-  );
-}
+const HERO = heroPhotos("startup", {
+  backdrop: recognitionEvent,
+  cards: [
+    { image: aiEventPhoto, category: "Ecosystem", title: "Connect Madurai AI event" },
+    { image: recognitionEvent, category: "Recognition", title: "Science and innovation recognition" },
+    { image: labPhoto, category: "Prototype", title: "Ideas becoming working prototypes" },
+    { image: recognitionPhoto, category: "Recognition", title: "Innovation recognition" },
+  ],
+});
 
 export default function StartupSupporterHero() {
   return (
@@ -57,12 +30,12 @@ export default function StartupSupporterHero() {
       id="startup-hero-title"
       eyebrow="Startup & Innovation"
       title="From an Idea"
-      highlight="to a Working Product"
+      phrases={["to a Working Product", "to a Tested Prototype", "to a Launch-Ready MVP"]}
       description="For founders, students and innovators with a product idea: we help clarify the problem, check what is feasible and build the prototype or MVP across software, electronics and product design."
       primary={{ label: "Submit Your Idea", to: "#submit-idea" }}
       secondary={{ label: "See What Happens Next", to: "#idea-journey" }}
-      backdrop={recognitionEvent}
-      visual={<JourneyCard />}
+      backdrop={HERO.backdrop}
+      visual={<HeroPhotoStack items={HERO.cards} label="ProJenius innovation events and work" badge={{ title: "Idea to product", text: "Supported by ProJenius" }} />}
       className="pjsi-hero"
     />
   );

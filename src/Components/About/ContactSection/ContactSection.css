@@ -5,7 +5,7 @@
 .contact-cta-section {
     width: 100%;
     padding: 80px 0 75px;
-    background: #ffffff;
+    background: var(--pjds-surface-muted);
     overflow: hidden;
     font-family: var(--pjds-font-body);
     box-sizing: border-box;

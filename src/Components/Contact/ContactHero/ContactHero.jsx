@@ -1,112 +1,131 @@
+import {
+  ArrowDown,
+  ArrowUpRight,
+  BookOpen,
+  BriefcaseBusiness,
+  Code2,
+  Compass,
+  Lightbulb,
+  Mail,
+  MapPin,
+  MessageCircle,
+  MessagesSquare,
+  Phone,
+  Presentation,
+} from "lucide-react";
+
+import TypedPhrase from "../../Common/TypedPhrase/TypedPhrase.jsx";
+import { whatsappHref } from "../../../utils/whatsapp.js";
+import HeroBackdrop from "../../Common/HeroPhotoStack/HeroBackdrop.jsx";
+import { heroPhotos } from "../../Common/HeroPhotoStack/heroPhotos.js";
+import teamPhoto from "../../../assets/Home/Optimized/who-we-are-team-900.webp";
+import "./ContactHero.css";
+
+/* Background photo: src/assets/Heroes/contact/backdrop.* (see its README). */
+const HERO = heroPhotos("contact", { backdrop: teamPhoto });
+
 /* =============================================================================
    CONTACT HERO
    -----------------------------------------------------------------------------
-   The opening section of the Contact page. Introduces the page, gives the
-   visitor two entry points ("Start an Enquiry" / "Reach Us Directly"), and
-   shows a decorative visual of the ProJenius ecosystem.
+   Navy hero like the other pages: pill, static line + typed line, one lead
+   line, two actions and the direct contact details. On the right a "What
+   would you like to talk about?" panel: each tile jumps to the enquiry form
+   and selects that enquiry type there.
 
-   Both call-to-action buttons are plain in-page anchor links (href="#...")
-   pointing at the section ids rendered by WhatCanWeHelpYouWith and
-   PreferToReachUsDirectly. This keeps the component free of event
-   listeners, state and effects — navigation works even before React
-   finishes hydrating, and each section stays fully independent.
+   Tiles are plain "#pj-contact-help" links (they scroll even before React
+   loads) and also announce the chosen type with ENQUIRY_REQUEST_EVENT, which
+   WhatCanWeHelpYouWith listens for. The keys match its ENQUIRY_TYPES.
    ============================================================================= */
 
-const ContactHero = () => {
+const ENQUIRY_REQUEST_EVENT = "pj-contact-enquiry-request";
+
+const TOPICS = [
+  { key: "startup", title: "Startup & Innovation", Icon: Lightbulb },
+  { key: "development", title: "Development", Icon: Code2 },
+  { key: "workshop", title: "Workshop", Icon: Presentation },
+  { key: "course", title: "Courses & Learning", Icon: BookOpen },
+  { key: "internship", title: "Internship", Icon: BriefcaseBusiness },
+  { key: "career", title: "Join Our Team", Icon: Compass },
+];
+
+const PHONE_DISPLAY = "+91 89254 50473";
+const PHONE_HREF = "tel:+918925450473";
+const EMAIL = "teamprojenius@gmail.com";
+
+const requestEnquiry = (key) =>
+  window.dispatchEvent(new CustomEvent(ENQUIRY_REQUEST_EVENT, { detail: { type: key } }));
+
+export default function ContactHero() {
   return (
     <section className="pj-contact-hero" aria-labelledby="pj-contact-hero-title">
-      <div className="pj-contact-hero__content">
-        {/* ===================================================================
-            HERO — COPY (heading, supporting text, call-to-action buttons)
-            =================================================================== */}
+      <HeroBackdrop image={HERO.backdrop} />
+      <div className="pjds-container pj-contact-hero__layout">
         <div className="pj-contact-hero__copy">
-          <p className="pj-contact-hero__eyebrow">Contact ProJenius</p>
-          <h1 className="pj-contact-hero__title" id="pj-contact-hero-title">
-            Let&rsquo;s Start a Conversation.
+          <p className="pjds-eyebrow pjds-eyebrow--on-dark" data-reveal="up">Contact ProJenius</p>
+          <h1 id="pj-contact-hero-title" className="pj-contact-hero__title" data-reveal="up" data-reveal-delay="1">
+            <span className="pj-contact-hero__title-static">Let&rsquo;s Start</span>
+            <TypedPhrase tone="dark" phrases={["a Conversation", "Your Next Project", "Something Great"]} />
           </h1>
-
-          <p className="pj-contact-hero__lead">
-            Tell us what you&rsquo;re looking for. We&rsquo;ll help you find the right ProJenius pathway.
+          <p className="pj-contact-hero__lead" data-reveal="up" data-reveal-delay="2">
+            An idea to build, a workshop to run, a technology to learn or a project to discuss: tell us
+            what you need and we&rsquo;ll connect you with the right ProJenius team.
           </p>
 
-          <p className="pj-contact-hero__description">
-            Whether you have an idea to develop, a workshop to conduct, a technology to learn, an
-            internship to explore, or a project to discuss &mdash; tell us what you&rsquo;re looking for.
-          </p>
-
-          <div className="pj-contact-hero__actions">
-            <a className="pj-contact-hero__button pj-contact-hero__button--primary" href="#pj-contact-help">
-              Start an Enquiry
+          <div className="pj-contact-hero__actions" data-reveal="up" data-reveal-delay="3">
+            <a className="pjds-btn pjds-btn--primary pjds-btn--on-dark" href="#pj-contact-help">
+              Start an Enquiry <ArrowDown size={18} aria-hidden="true" />
             </a>
-            <a className="pj-contact-hero__button pj-contact-hero__button--secondary" href="#pj-contact-direct">
-              Reach Us Directly
+            <a
+              className="pjds-btn pjds-btn--ghost"
+              href={whatsappHref("Hi ProJenius, I would like to discuss an enquiry with your team.")}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <MessageCircle size={18} aria-hidden="true" /> Chat on WhatsApp
+              <span className="pjds-sr-only">(opens in a new tab)</span>
             </a>
           </div>
+
+          <ul className="pj-contact-hero__quick" data-reveal="up" data-reveal-delay="4">
+            <li>
+              <a href={PHONE_HREF}><Phone size={16} aria-hidden="true" />{PHONE_DISPLAY}</a>
+            </li>
+            <li>
+              <a href={`mailto:${EMAIL}`}><Mail size={16} aria-hidden="true" />{EMAIL}</a>
+            </li>
+            <li>
+              <span><MapPin size={16} aria-hidden="true" />Madurai, Tamil Nadu</span>
+            </li>
+          </ul>
         </div>
 
-        {/* ===================================================================
-            HERO — VISUAL (decorative ecosystem graphic, hidden from screen
-            readers since it repeats information already in the page text)
-            =================================================================== */}
-        <figure className="pj-contact-hero__visual">
-          <svg
-            className="pj-contact-hero__graphic"
-            viewBox="0 0 440 440"
-            aria-hidden="true"
-            focusable="false"
-          >
-            <circle className="pj-contact-hero__ring" cx="220" cy="220" r="150" />
-
-            <g className="pj-contact-hero__links">
-              <line x1="220" y1="220" x2="220" y2="70" />
-              <line x1="220" y1="220" x2="350" y2="145" />
-              <line x1="220" y1="220" x2="350" y2="295" />
-              <line x1="220" y1="220" x2="220" y2="370" />
-              <line x1="220" y1="220" x2="90" y2="295" />
-              <line x1="220" y1="220" x2="90" y2="145" />
-            </g>
-
-            <g className="pj-contact-hero__core">
-              <circle cx="220" cy="220" r="54" />
-              <text x="220" y="225" textAnchor="middle">
-                PROJENIUS
-              </text>
-            </g>
-
-            <g className="pj-contact-hero__nodes">
-              <g transform="translate(220 70)">
-                <rect x="-70" y="-21" width="140" height="42" rx="21" />
-                <text x="8" y="5" textAnchor="middle">STARTUP</text>
-              </g>
-              <g transform="translate(350 145)">
-                <rect x="-75" y="-21" width="150" height="42" rx="21" />
-                <text x="8" y="5" textAnchor="middle">DEVELOPMENT</text>
-              </g>
-              <g transform="translate(350 295)">
-                <rect x="-70" y="-21" width="140" height="42" rx="21" />
-                <text x="8" y="5" textAnchor="middle">WORKSHOP</text>
-              </g>
-              <g transform="translate(220 370)">
-                <rect x="-70" y="-21" width="140" height="42" rx="21" />
-                <text x="8" y="5" textAnchor="middle">LEARNING</text>
-              </g>
-              <g transform="translate(90 295)">
-                <rect x="-72" y="-21" width="144" height="42" rx="21" />
-                <text x="8" y="5" textAnchor="middle">INTERNSHIP</text>
-              </g>
-              <g transform="translate(90 145)">
-                <rect x="-65" y="-21" width="130" height="42" rx="21" />
-                <text x="8" y="5" textAnchor="middle">CAREER</text>
-              </g>
-            </g>
-          </svg>
-          <figcaption className="pj-contact-hero__caption">
-            One ecosystem. Multiple ways to connect.
-          </figcaption>
-        </figure>
+        <nav className="pj-contact-hero__panel" aria-labelledby="pj-contact-hero-panel-title" data-reveal="right" data-reveal-delay="2">
+          <h2 id="pj-contact-hero-panel-title" className="pj-contact-hero__panel-title">
+            What would you like to talk about?
+          </h2>
+          <ul className="pj-contact-hero__topics">
+            {TOPICS.map(({ key, title, Icon }) => (
+              <li key={key}>
+                <a
+                  className={`pj-contact-hero__topic pj-contact-hero__topic--${key}`}
+                  href="#pj-contact-help"
+                  onClick={() => requestEnquiry(key)}
+                >
+                  <span className="pj-contact-hero__topic-icon" aria-hidden="true">
+                    <Icon size={22} strokeWidth={1.9} />
+                  </span>
+                  <span className="pj-contact-hero__topic-title">{title}</span>
+                  <ArrowUpRight className="pj-contact-hero__topic-go" size={16} aria-hidden="true" />
+                </a>
+              </li>
+            ))}
+          </ul>
+          <a className="pj-contact-hero__general" href="#pj-contact-help" onClick={() => requestEnquiry("general")}>
+            <MessagesSquare size={18} aria-hidden="true" />
+            <span>Something else? <strong>Send a general enquiry</strong></span>
+          </a>
+        </nav>
       </div>
     </section>
   );
-};
-
-export default ContactHero;
+}

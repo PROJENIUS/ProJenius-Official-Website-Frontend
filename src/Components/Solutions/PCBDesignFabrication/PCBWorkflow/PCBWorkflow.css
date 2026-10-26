@@ -141,6 +141,18 @@
   text-transform: uppercase;
 }
 
+.pjpcb-flow__partner-note {
+  max-width: 900px;
+  margin: 22px 0 0;
+  padding: 14px 18px;
+  border-left: 3px solid var(--pjds-cyan-500);
+  border-radius: 0 10px 10px 0;
+  background: var(--pjds-gray-50);
+  color: var(--pjds-text-muted);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
 @media (max-width: 900px) {
   .pjpcb-flow__tabs {
     display: flex;
@@ -155,6 +167,8 @@
   .pjpcb-flow__tab {
     flex: 0 0 auto;
   }
+
+  .pjpcb-flow__partner-note { margin-top: 18px; }
 
   .pjpcb-flow__panel {
     grid-template-columns: minmax(0, 1fr);

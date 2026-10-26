@@ -19,6 +19,12 @@
   font-family: var(--pjds-font-body, system-ui, sans-serif);
 }
 
+/* The advisor section follows the founders section directly, so it takes
+   the light-grey tone and the two never share the same background. */
+.founders-section.leadership-section {
+  background: var(--pjds-surface-muted);
+}
+
 .section-inner {
   max-width: 1220px;
   margin: 0 auto;

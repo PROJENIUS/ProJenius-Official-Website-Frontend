@@ -3,18 +3,20 @@
    Link once in public/index.html or your global stylesheet loader.
    ===================================================================== */
 
-/* ============ 1. TOKENS + SECTION SHELL  (.pjs-stage) ============ */
+/* ============ 1. TOKENS + SECTION SHELL  (.pjs-stage) ============
+   White section right after the navy hero, so dark and light sections
+   alternate on the Startup page. */
 .pjs-stage {
-  --pjs-bg: #071426;
-  --pjs-surface: #0b2340;
-  --pjs-surface-hover: #12325a;
-  --pjs-chip: #0b2340;
-  --pjs-line: #1b4475;
-  --pjs-text: #f3f6ff;
-  --pjs-muted: #9aa8c4;
-  --pjs-dim: #6f7d99;
-  --pjs-accent: #20c8f5;
-  --pjs-accent-alt: #5ad6f8;
+  --pjs-bg: #ffffff;
+  --pjs-surface: #ffffff;
+  --pjs-surface-hover: #eef5fb;
+  --pjs-chip: #f4f7fb;
+  --pjs-line: #d6e2ee;
+  --pjs-text: var(--pjds-text);
+  --pjs-muted: var(--pjds-text-muted);
+  --pjs-dim: #5b6b82;
+  --pjs-accent: #1599d6;
+  --pjs-accent-alt: #20c8f5;
   --pjs-radius: 18px;
   --pjs-gap: clamp(16px, 4vw, 48px);
   --pjs-font-sans: var(--pjds-font-body);
@@ -81,7 +83,7 @@
   background: var(--pjs-surface);
   border: 1px solid var(--pjs-line);
   border-radius: var(--pjs-radius);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 30px 70px -50px rgba(13, 27, 46, 0.55);
 }
 
 /* ============ 4. STAGE LIST  (.pjs-stage__list / __tab*) ============ */
@@ -169,7 +171,7 @@
   min-width: 0;
   padding: clamp(20px, 4vw, 56px);
   border-left: 1px solid var(--pjs-line);
-  background-image: radial-gradient(rgba(32, 200, 245, 0.12) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(21, 153, 214, 0.14) 1px, transparent 1px);
   background-size: 22px 22px;
 }
 
@@ -190,7 +192,7 @@
   font-size: clamp(3.6rem, 8vw, 7rem);
   font-weight: 800;
   line-height: 1;
-  -webkit-text-stroke: 2px #1f2d4a;
+  -webkit-text-stroke: 2px #d6e2ee;
   user-select: none;
 }
 
@@ -224,7 +226,7 @@
 .pjs-stage__dot {
   width: 12px;
   height: 12px;
-  border: 1px solid #2a3a5c;
+  border: 1px solid #b9cbdc;
   border-radius: 50%;
   transition: background-color 0.3s ease, border-color 0.3s ease;
 }
@@ -256,7 +258,7 @@
 .pjs-stage__tag {
   padding: 8px 14px;
   background: var(--pjs-chip);
-  border: 1px solid #25334f;
+  border: 1px solid var(--pjs-line);
   border-radius: 8px;
   color: var(--pjs-muted);
   font-size: clamp(0.82rem, 1.2vw, 0.95rem);

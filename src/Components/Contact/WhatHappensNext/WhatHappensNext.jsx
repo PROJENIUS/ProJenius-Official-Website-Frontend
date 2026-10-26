@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+import TypedPhrase from "../../Common/TypedPhrase/TypedPhrase.jsx";
+
 /* =============================================================================
    WHAT HAPPENS NEXT?
    -----------------------------------------------------------------------------
@@ -95,10 +97,12 @@ const WhatHappensNext = () => {
             HEADER
             =================================================================== */}
         <header className="pj-contact-next__header">
-          <h2 className="pj-contact-next__title" id="pj-contact-next-title">
-            What Happens Next?
+          <p className="pjds-eyebrow pjds-eyebrow--on-dark" data-reveal="up">After You Write</p>
+          <h2 className="pj-contact-next__title" id="pj-contact-next-title" data-reveal="up" data-reveal-delay="1">
+            <span className="pj-contact-next__title-static">What Happens</span>
+            <TypedPhrase tone="dark" phrases={["Next?", "After You Send It?", "Step by Step?"]} />
           </h2>
-          <p className="pj-contact-next__description">
+          <p className="pj-contact-next__description" data-reveal="up" data-reveal-delay="2">
             From your first message to the next step &mdash; here&rsquo;s how it works.
           </p>
         </header>
@@ -108,7 +112,7 @@ const WhatHappensNext = () => {
             =================================================================== */}
         <ol className="pj-contact-next__steps">
           {PROCESS_STEPS.map((step) => (
-            <li className="pj-contact-next__step" key={step.number}>
+            <li className="pj-contact-next__step" key={step.number} data-reveal="up" data-reveal-delay={String(Number(step.number))}>
               <span className="pj-contact-next__number" aria-hidden="true">
                 {step.number}
               </span>
@@ -122,7 +126,7 @@ const WhatHappensNext = () => {
             NEXT-STEP EXAMPLES BY ENQUIRY TYPE
             The item matching the selected enquiry type is highlighted.
             =================================================================== */}
-        <div className="pj-contact-next__examples">
+        <div className="pj-contact-next__examples" data-reveal="up">
           <h3 className="pj-contact-next__examples-title">What the next step looks like for each enquiry</h3>
 
           <p className="pj-contact-next__selected" role="status" aria-live="polite">

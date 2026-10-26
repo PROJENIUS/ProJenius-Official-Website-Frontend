@@ -1,0 +1,213 @@
+/* =============================================================================
+   HERO PHOTO STACK — every rule is scoped beneath .pj-hps
+   Same card positions and motion as the Products hero. Only transform and
+   opacity animate; no blur filters, so it stays smooth.
+   ============================================================================= */
+
+.pj-hps {
+  position: relative;
+  width: min(100%, 520px);
+  margin-inline: auto;
+}
+
+.pj-hps *,
+.pj-hps *::before,
+.pj-hps *::after {
+  box-sizing: border-box;
+}
+
+.pj-hps__stack {
+  position: relative;
+  aspect-ratio: 1 / 0.9;
+  contain: layout style;
+}
+
+.pj-hps__card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 68%;
+  margin: 0;
+  backface-visibility: hidden;
+  transition:
+    transform 900ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 700ms ease;
+}
+
+.pj-hps__card.is-waiting .pj-hps__link {
+  visibility: hidden;
+}
+
+/* back (left) → middle (top right) → front (centre) → gone (drops away). */
+.pj-hps__card.is-front {
+  z-index: 4;
+  opacity: 1;
+  transform: translate(-50%, -50%) rotate(-2deg);
+}
+
+.pj-hps__card.is-middle {
+  z-index: 3;
+  opacity: 1;
+  transform: translate(-22%, -74%) rotate(8deg) scale(0.9);
+}
+
+.pj-hps__card.is-back {
+  z-index: 2;
+  opacity: 1;
+  transform: translate(-80%, -30%) rotate(-11deg) scale(0.84);
+}
+
+.pj-hps__card.is-waiting {
+  z-index: 1;
+  opacity: 0;
+  transform: translate(-92%, -22%) rotate(-16deg) scale(0.74);
+  pointer-events: none;
+}
+
+.pj-hps__card.is-gone {
+  z-index: 1;
+  opacity: 0;
+  transform: translate(-50%, -18%) rotate(-6deg) scale(0.9);
+  pointer-events: none;
+}
+
+.pj-hps__link {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border: 1px solid rgba(174, 205, 230, 0.24);
+  border-radius: 22px;
+  background: #0a1a30;
+  box-shadow: 0 30px 70px -30px rgba(1, 10, 23, 0.9);
+  color: var(--pjds-white);
+  text-decoration: none;
+  transition: border-color 250ms ease, box-shadow 250ms ease;
+}
+
+.pj-hps__card.is-front a.pj-hps__link:hover,
+a.pj-hps__link:focus-visible {
+  border-color: var(--pjds-cyan-400);
+  box-shadow: 0 30px 70px -30px rgba(32, 200, 245, 0.55);
+}
+
+a.pj-hps__link:focus-visible {
+  outline: 3px solid var(--pjds-cyan-400);
+  outline-offset: 4px;
+}
+
+.pj-hps__link img,
+.pj-hps__placeholder {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.pj-hps__placeholder {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 10px;
+  background:
+    radial-gradient(60% 60% at 50% 40%, rgba(32, 200, 245, 0.18), transparent 70%),
+    repeating-linear-gradient(0deg, transparent 0 22px, rgba(174, 205, 230, 0.06) 22px 23px),
+    #0a1a30;
+  color: var(--pjds-cyan-400);
+}
+
+.pj-hps__placeholder span {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.pj-hps__link figcaption {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 2px 10px;
+  padding: 36px 14px 12px;
+  background: linear-gradient(180deg, transparent, rgba(7, 20, 38, 0.92) 55%);
+}
+
+.pj-hps__category {
+  grid-column: 1;
+  color: var(--pjds-cyan-400);
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.pj-hps__title {
+  grid-column: 1;
+  overflow: hidden;
+  color: var(--pjds-white);
+  font-family: var(--pjds-font-heading);
+  font-size: 0.92rem;
+  font-weight: 800;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pj-hps__go {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--pjds-cyan-500);
+  color: var(--pjds-navy-950);
+  transition: transform 220ms ease;
+}
+
+a.pj-hps__link:hover .pj-hps__go {
+  transform: translate(2px, -2px);
+}
+
+.pj-hps__badge {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 5;
+  margin: 0;
+  padding: 12px 16px;
+  border: 1px solid rgba(32, 200, 245, 0.45);
+  border-radius: 18px;
+  background: #071426;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.pj-hps__badge strong {
+  display: block;
+  color: var(--pjds-white);
+  font-family: var(--pjds-font-heading);
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+@media (max-width: 600px) {
+  .pj-hps__badge {
+    padding: 10px 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pj-hps__card,
+  .pj-hps__link,
+  .pj-hps__go {
+    transition: none;
+  }
+}

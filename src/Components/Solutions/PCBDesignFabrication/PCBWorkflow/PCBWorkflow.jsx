@@ -119,6 +119,10 @@ export default function PCBWorkflow() {
             </p>
           </div>
         </div>
+
+        <p className="pjpcb-flow__partner-note" data-reveal="up" data-reveal-delay="1">
+          PCB design and development are scoped by ProJenius. Board fabrication and assembly are arranged through external partners when required, with the delivery approach confirmed for each project.
+        </p>
       </div>
     </section>
   );

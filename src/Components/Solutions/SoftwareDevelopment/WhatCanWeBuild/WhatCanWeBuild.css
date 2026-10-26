@@ -2,8 +2,8 @@
    WHAT CAN WE BUILD — ROOT (all classes start with pj-development-build)
 ========================================================= */
 .pj-development-build{
-  --pj-bd-bg:#0b2340;--pj-bd-card:#071426;--pj-bd-white:#e8f8fe;--pj-bd-muted:#91a9cf;
-  --pj-bd-blue:#0478a8;--pj-bd-blue-soft:#5ad6f8;--pj-bd-border:#1b4475;--pj-bd-border-soft:#1b4475;--pj-bd-border-hover:#1b4475;
+  --pj-bd-bg:#f4f7fb;--pj-bd-card:#ffffff;--pj-bd-white:#0d1b2e;--pj-bd-muted:#4a5a70;
+  --pj-bd-blue:#0478a8;--pj-bd-blue-soft:#0478a8;--pj-bd-border:#dde4ee;--pj-bd-border-soft:#c6d0dd;--pj-bd-border-hover:rgba(4,120,168,.42);
   position:relative;width:100%;padding:clamp(76px,9vw,140px) 0;overflow:clip;background:var(--pj-bd-bg);color:var(--pj-bd-white);
   font-family: var(--pjds-font-body);isolation:isolate;
   scroll-margin-top:calc(var(--pjdev-header-h,0px) + var(--pjdev-subnav-h,0px) + 12px);
@@ -77,7 +77,10 @@
 .pj-development-build-card--open .pj-development-build-more{grid-template-rows:1fr;opacity:1;visibility:visible;transition-delay:0s}
 .pj-development-build-more-inner{min-height:0;overflow:hidden}
 .pj-development-build-tags{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:18px 0 0;list-style:none}
-.pj-development-build-tags li{padding:7px 12px;border:1px solid var(--pj-bd-border-soft);border-radius:999px;background:rgba(255,255,255,.018);color:#aebed8;font-size:.83rem;line-height:1.25}
+.pj-development-build-tags li{padding:7px 12px;border:1px solid var(--pj-bd-border-soft);border-radius:999px;background:var(--pjds-gray-50);color:var(--pj-bd-muted);font-size:.83rem;line-height:1.25}
+.pj-development-build-card--saas .pj-development-build-title{color:#fff}
+.pj-development-build-card--saas .pj-development-build-desc{color:rgba(226,232,240,.82)}
+.pj-development-build-card--saas .pj-development-build-tags li{border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:#dce6f7}
 .pj-development-build-link{display:inline-block;margin-top:14px;padding-bottom:2px;border-bottom:1px solid currentColor;color:var(--pj-bd-blue-soft);font-size:.88rem;font-weight:600;text-decoration:none}
 .pj-development-build-card--saas .pj-development-build-link{color:#78deee}
 .pj-development-build-btn{display:inline-flex;align-items:center;gap:10px;width:fit-content;margin:22px 0 0;padding:0;border:0;background:transparent;color:var(--pj-bd-blue-soft);font-family:inherit;font-size:.95rem;font-weight:600;line-height:1;cursor:pointer}

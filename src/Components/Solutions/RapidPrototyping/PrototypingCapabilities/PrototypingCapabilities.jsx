@@ -1,5 +1,7 @@
-import { Box, Boxes, Cog, Lightbulb, PackageCheck } from "lucide-react";
+import { ArrowRight, Box, Boxes, Cog, Lightbulb, PackageCheck, Wrench } from "lucide-react";
+import { Link } from "react-router-dom";
 
+import { contactLink } from "../../Shared/serviceLinks.js";
 import "./PrototypingCapabilities.css";
 
 /* =============================================================================
@@ -58,6 +60,28 @@ export default function PrototypingCapabilities() {
             </li>
           ))}
         </ul>
+
+        <aside className="pjrp-caps__mechanical" aria-labelledby="pjrp-mechanical-title" data-reveal="up">
+          <span className="pjrp-caps__mechanical-icon" aria-hidden="true"><Wrench size={24} strokeWidth={1.9} /></span>
+          <div className="pjrp-caps__mechanical-copy">
+            <p className="pjrp-caps__mechanical-kicker">Available as a standalone service</p>
+            <h3 id="pjrp-mechanical-title">Mechanical engineering and product design</h3>
+            <p>Engage us for mechanical design on its own, or as part of a wider product prototype. We can shape the CAD model, assemblies and enclosure around your requirements.</p>
+            <ul className="pjrp-caps__mechanical-tags" aria-label="Mechanical engineering capabilities">
+              <li>Mechanical design</li>
+              <li>3D CAD modelling</li>
+              <li>Assemblies and enclosures</li>
+              <li>Prototype refinement</li>
+            </ul>
+          </div>
+          <div className="pjrp-caps__mechanical-action">
+            <Link className="pjrp-caps__mechanical-link" to={contactLink("development", "mechanical-engineering")}>
+              Discuss mechanical design
+              <ArrowRight size={17} strokeWidth={2.2} aria-hidden="true" />
+            </Link>
+            <p>Physical fabrication may involve external partners; the arrangement is confirmed for each project.</p>
+          </div>
+        </aside>
       </div>
     </section>
   );

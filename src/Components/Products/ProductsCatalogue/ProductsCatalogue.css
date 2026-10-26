@@ -1,7 +1,7 @@
 /* =============================================================================
    PRODUCTS PAGE CATALOGUE — every rule is scoped beneath .pjpr-catalogue
-   Light section after the navy hero, like the homepage (navy hero, then a
-   light section). Product names use the homepage typed-heading blue.
+   White section after the navy hero and before the light-grey closing card,
+   so the backgrounds alternate. Product names use the typed-heading blue.
    ============================================================================= */
 
 .pjpr-catalogue {
@@ -9,8 +9,8 @@
   padding-block: clamp(56px, 7vw, 96px) var(--pjds-section-space);
   overflow: hidden;
   background:
-    radial-gradient(42rem 28rem at 94% 12%, rgba(32, 200, 245, 0.08), transparent 70%),
-    var(--pjds-surface-muted);
+    radial-gradient(42rem 28rem at 94% 12%, rgba(32, 200, 245, 0.06), transparent 70%),
+    var(--pjds-white);
   color: var(--pjds-text);
   font-family: var(--pjds-font-body);
 }

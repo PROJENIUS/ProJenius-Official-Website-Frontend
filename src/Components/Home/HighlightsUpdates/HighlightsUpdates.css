@@ -4,7 +4,7 @@
 
 .pjh-updates {
   padding-block: var(--pjds-section-space);
-  background: var(--pjds-surface-muted);
+  background: var(--pjds-white);
   color: var(--pjds-text);
   font-family: var(--pjds-font-body);
 }

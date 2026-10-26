@@ -3,6 +3,8 @@ import { ArrowRight } from "lucide-react";
 
 import TypedPhrase from "../../../Common/TypedPhrase/TypedPhrase.jsx";
 import useOnScreen from "../../../../hooks/useOnScreen.js";
+import HeroBackdrop from "../../../Common/HeroPhotoStack/HeroBackdrop.jsx";
+import { heroPhotos } from "../../../Common/HeroPhotoStack/heroPhotos.js";
 import "./CareerGuidanceHero.css";
 
 import sessionPhoto from "../../../../assets/About/Achievements/Achievements_5.webp";
@@ -12,6 +14,9 @@ import certificatePhoto from "../../../../assets/Home/Optimized/who-we-are-team-
 import classroomPhoto from "../../../../assets/About/Achievements/Achievements_2.webp";
 import awardsPhoto from "../../../../assets/Home/Optimized/hero-recognition-960.webp";
 import eventPhoto from "../../../../assets/Home/Optimized/hero-ai-event-960.webp";
+
+/* Background photo: src/assets/Heroes/career-guidance/backdrop.* (see its README). */
+const HERO_BACKDROP = heroPhotos("career-guidance", { backdrop: sessionPhoto }).backdrop;
 
 /* =========================================================
    CAREER GUIDANCE HERO
@@ -68,6 +73,7 @@ export default function CareerGuidanceHero() {
 
   return (
     <section className="cghero-section" aria-labelledby="cghero-title">
+      <HeroBackdrop image={HERO_BACKDROP} />
       <div className="pjds-container cghero-container">
         <div className="cghero-content">
           <p className="pjds-eyebrow pjds-eyebrow--on-dark" data-reveal="up">Career Guidance</p>

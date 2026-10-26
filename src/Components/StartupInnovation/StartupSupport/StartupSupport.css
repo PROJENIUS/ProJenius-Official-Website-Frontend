@@ -7,15 +7,17 @@
    ========================================================================== */
 
 /* ---- 1. TOKENS ------------------------------------------------------------
-   Classes : ssj-section (variables are scoped here only) */
+   Classes : ssj-section (variables are scoped here only)
+   Light section (between the navy Capability Map and the white process)
+   so dark and light sections alternate on the Startup page. */
 .ssj-section {
-  --ssj-bg: #071426;
-  --ssj-line: #1b4475;
-  --ssj-text: #f4f7ff;
-  --ssj-muted: #8d9bb8;
-  --ssj-soft: #9aa9c6;
-  --ssj-blue: #20c8f5;
-  --ssj-cyan: #5ad6f8;
+  --ssj-bg: #f4f7fb;
+  --ssj-line: #d6e2ee;
+  --ssj-text: var(--pjds-text);
+  --ssj-muted: var(--pjds-text-muted);
+  --ssj-soft: #5b6b82;
+  --ssj-blue: #1599d6;
+  --ssj-cyan: #0e7490;
   --ssj-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
   --ssj-ease: 0.3s ease;
 }
@@ -23,8 +25,9 @@
 /* ---- 2. SECTION WRAPPER ---------------------------------------------------
    Classes : ssj-section */
 .ssj-section {
-  box-sizing: border-box; width: 100%; max-width: 80rem; margin: 0 auto;
-  padding: clamp(1.25rem, 4vw, 3rem) clamp(1rem, 3vw, 2.5rem);
+  box-sizing: border-box; width: 100%; margin: 0;
+  /* Full-width background; content stays within 80rem in the middle. */
+  padding: clamp(3rem, 7vw, 5.5rem) max(clamp(1rem, 3vw, 2.5rem), calc((100% - 80rem) / 2 + 2.5rem));
   background: var(--ssj-bg); color: var(--ssj-text);
   font-family: var(--pjds-font-body);
 }

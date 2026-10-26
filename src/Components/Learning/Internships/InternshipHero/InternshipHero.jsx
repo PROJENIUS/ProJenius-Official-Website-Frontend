@@ -9,7 +9,13 @@ import {
     UsersRound,
 } from "lucide-react";
 import TypedPhrase from "../../../Common/TypedPhrase/TypedPhrase.jsx";
+import HeroBackdrop from "../../../Common/HeroPhotoStack/HeroBackdrop.jsx";
+import { heroPhotos } from "../../../Common/HeroPhotoStack/heroPhotos.js";
+import internsPhoto from "../../../../assets/About/Achievements/Achievements_2.webp";
 import "./InternshipHero.css";
+
+/* Background photo: src/assets/Heroes/internship/backdrop.* (see its README). */
+const HERO = heroPhotos("internship", { backdrop: internsPhoto });
 
 /* =========================================================
    INTERNSHIP HERO
@@ -57,6 +63,7 @@ const InternshipHero = () => {
             aria-labelledby="pj-internship-hero-title"
         >
             <div className="pj-internship-hero-backdrop" aria-hidden="true" />
+            <HeroBackdrop image={HERO.backdrop} />
 
             <div className="pj-internship-hero-container">
 

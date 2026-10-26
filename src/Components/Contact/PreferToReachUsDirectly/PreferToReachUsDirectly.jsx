@@ -15,6 +15,8 @@
    ============================================================================= */
 
 
+import TypedPhrase from "../../Common/TypedPhrase/TypedPhrase.jsx";
+
 /* ===========================================================================
    CONFIG — official contact details (single place to edit)
    =========================================================================== */
@@ -138,7 +140,7 @@ function DirectIcon({ name }) {
    CARD — one channel. Clickable link when the details are valid, otherwise a
    quiet dashed placeholder. Written once and reused for all four channels.
    =========================================================================== */
-function ChannelCard({ channel }) {
+function ChannelCard({ channel, index }) {
   const isLive = Boolean(channel.value && channel.href);
 
   const content = (
@@ -153,12 +155,14 @@ function ChannelCard({ channel }) {
   );
 
   if (!isLive) {
-    return <div className="pj-contact-direct__item pj-contact-direct__item--empty">{content}</div>;
+    return <div className={`pj-contact-direct__item pj-contact-direct__item--${channel.key} pj-contact-direct__item--empty`} data-reveal="up" data-reveal-delay={String(index + 1)}>{content}</div>;
   }
 
   return (
     <a
-      className="pj-contact-direct__item"
+      className={`pj-contact-direct__item pj-contact-direct__item--${channel.key}`}
+      data-reveal="up"
+      data-reveal-delay={String(index + 1)}
       href={channel.href}
       aria-label={`${channel.action} ${channel.value}${channel.external ? " (opens in a new tab)" : ""}`}
       {...(channel.external ? EXTERNAL_LINK_PROPS : {})}
@@ -179,18 +183,22 @@ const PreferToReachUsDirectly = () => (
           HEADER
           ===================================================================== */}
       <header className="pj-contact-direct__header">
-        <h2 className="pj-contact-direct__title" id="pj-contact-direct-title">
-          Prefer to Reach Us Directly?
+        <p className="pjds-eyebrow" data-reveal="up">Reach Us Directly</p>
+        <h2 className="pj-contact-direct__title" id="pj-contact-direct-title" data-reveal="up" data-reveal-delay="1">
+          <span className="pj-contact-direct__title-static">Prefer to Reach Us</span>
+          <TypedPhrase phrases={["Directly?", "by Phone?", "on WhatsApp?", "by Email?"]} />
         </h2>
-        <p className="pj-contact-direct__description">Use the official ProJenius channels below.</p>
+        <p className="pj-contact-direct__description" data-reveal="up" data-reveal-delay="2">
+          Use the official ProJenius channels below.
+        </p>
       </header>
 
       {/* =====================================================================
           CHANNEL CARDS
           ===================================================================== */}
       <div className="pj-contact-direct__grid">
-        {CHANNELS.map((channel) => (
-          <ChannelCard channel={channel} key={channel.key} />
+        {CHANNELS.map((channel, index) => (
+          <ChannelCard channel={channel} index={index} key={channel.key} />
         ))}
       </div>
     </div>

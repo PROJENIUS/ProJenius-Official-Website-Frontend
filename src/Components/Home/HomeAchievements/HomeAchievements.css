@@ -10,7 +10,7 @@
   overflow: hidden;
   background:
     radial-gradient(45% 50% at 0% 0%, rgba(32, 200, 245, 0.1), transparent 70%),
-    var(--pjds-surface-muted);
+    var(--pjds-white);
   color: var(--pjds-text);
   font-family: var(--pjds-font-body);
 }

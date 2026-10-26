@@ -79,6 +79,7 @@ function RouteLoadingFallback() {
     || pathname === "/startup"
     || pathname === "/products"
     || pathname === "/join-our-team"
+    || pathname === "/contact"
     || pathname === "/services/internship"
     || pathname.startsWith("/services/development")
     || pathname.startsWith("/services/hardware-embedded-systems")

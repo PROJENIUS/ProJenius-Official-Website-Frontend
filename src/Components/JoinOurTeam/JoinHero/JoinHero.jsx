@@ -2,7 +2,13 @@ import { ArrowDown, ArrowRight, ArrowUpRight, BriefcaseBusiness } from "lucide-r
 
 import TypedPhrase from "../../Common/TypedPhrase/TypedPhrase.jsx";
 import { OPENINGS } from "../openings.js";
+import HeroBackdrop from "../../Common/HeroPhotoStack/HeroBackdrop.jsx";
+import { heroPhotos } from "../../Common/HeroPhotoStack/heroPhotos.js";
+import labPhoto from "../../../assets/Home/HeroSlides/hero-slide-3.webp";
 import "./JoinHero.css";
+
+/* Background photo: src/assets/Heroes/join-our-team/backdrop.* (see its README). */
+const HERO = heroPhotos("join-our-team", { backdrop: labPhoto });
 
 /* =============================================================================
    JOIN OUR TEAM — HERO
@@ -14,6 +20,7 @@ import "./JoinHero.css";
 export default function JoinHero() {
   return (
     <section className="pjj-hero" aria-labelledby="pjj-hero-title">
+      <HeroBackdrop image={HERO.backdrop} />
       <div className="pjds-container pjj-hero__layout">
         <div className="pjj-hero__copy">
           <p className="pjds-eyebrow pjds-eyebrow--on-dark" data-reveal="up">Careers at ProJenius</p>

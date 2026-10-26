@@ -2,12 +2,29 @@ import { ArrowRight } from "lucide-react";
 
 import ServiceHero from "../../Shared/ServiceHero/ServiceHero.jsx";
 import { contactLink } from "../../Shared/serviceLinks.js";
+import HeroPhotoStack from "../../../Common/HeroPhotoStack/HeroPhotoStack.jsx";
+import { heroPhotos } from "../../../Common/HeroPhotoStack/heroPhotos.js";
+import machinePhoto from "../../../../assets/Home/OurProducts/OurProducts_1.webp";
+import labPhoto from "../../../../assets/Home/HeroSlides/hero-slide-3.webp";
+import iotKitPhoto from "../../../../assets/Home/OurProducts/OurProducts_2.webp";
 import "./RapidPrototypingHero.css";
+
+/* Hero photos: src/assets/Heroes/prototyping/ (see its README); these real
+   photos are used until photos are added there. */
+const HERO = heroPhotos("prototyping", {
+  backdrop: machinePhoto,
+  cards: [
+    { image: machinePhoto, category: "Built Prototype", title: "Groundnut processing machine" },
+    { image: labPhoto, category: "Testing", title: "Students testing a working prototype" },
+    { image: iotKitPhoto, category: "Product", title: "ProJenius IoT Learning Kit" },
+  ],
+});
 
 /* =============================================================================
    RAPID PROTOTYPING HERO
-   Visual: an illustrated enclosure as a CAD wireframe, then as a printed part
-   that builds up layer by layer (once, on load).
+   Visual: the shared rotating photo stack. PrototypeVisual (an illustrated
+   enclosure as CAD wireframe, then printed layer by layer) is kept for the
+   Home V2 preview.
    ============================================================================= */
 
 /* Isometric enclosure: top face, two side faces and a lid opening. */
@@ -78,11 +95,12 @@ export default function RapidPrototypingHero() {
       id="prototype-hero-title"
       eyebrow="Rapid Prototyping"
       title="Turn Your Concept Into"
-      highlight="Something You Can Hold"
+      phrases={["Something You Can Hold", "A Testable Prototype", "A Product You Can Refine"]}
       description="Rapid prototyping and 3D printing for product concepts, custom components, functional parts and development-ready prototypes."
       primary={{ label: "Discuss Your Prototype", to: contactLink("development", "rapid-prototyping") }}
       secondary={{ label: "How Prototyping Works", to: "#prototyping-process" }}
-      visual={<PrototypeVisual />}
+      backdrop={HERO.backdrop}
+      visual={<HeroPhotoStack items={HERO.cards} label="Prototypes built by ProJenius" badge={{ title: "Concept to prototype", text: "Built by ProJenius" }} />}
       className="pjrp-hero"
     />
   );

@@ -6,15 +6,15 @@
    ============================================================================= */
 
 .pj-contact-direct {
-  --pj-direct-bg: #f4f6fb;
+  --pj-direct-bg: var(--pjds-white);
   --pj-direct-surface: #ffffff;
-  --pj-direct-text: #0b1030;
-  --pj-direct-muted: #525c7d;
-  --pj-direct-line: #dde2f0;
-  --pj-direct-line-strong: #aab3cf;
-  --pj-direct-primary: #3651ff;
-  --pj-direct-primary-soft: #e9edff;
-  --pj-direct-radius: 14px;
+  --pj-direct-text: var(--pjds-text);
+  --pj-direct-muted: var(--pjds-text-muted);
+  --pj-direct-line: var(--pjds-border);
+  --pj-direct-line-strong: #b9cbdc;
+  --pj-direct-primary: #1599d6;
+  --pj-direct-primary-soft: #e7f5fc;
+  --pj-direct-radius: 20px;
 
   /* type scale */
   --pj-direct-fs-sm: 0.875rem;
@@ -26,10 +26,10 @@
 
   background-color: var(--pj-direct-bg);
   color: var(--pj-direct-text);
-  font-family: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-family: var(--pjds-font-body);
   font-size: var(--pj-direct-fs-md);
   line-height: var(--pj-direct-lh-body);
-  scroll-margin-top: 12px;
+  scroll-margin-top: var(--pjds-nav-offset);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -40,7 +40,7 @@
 .pj-contact-direct__content {
   max-width: 1240px;
   margin: 0 auto;
-  padding: 48px 24px 64px;
+  padding: var(--pjds-section-space) 24px;
 }
 
 
@@ -68,24 +68,31 @@
    ============================================================================= */
 
 .pj-contact-direct__header {
-  max-width: 640px;
-  margin-bottom: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 760px;
+  margin: 0 auto 40px;
+  text-align: center;
 }
 
 .pj-contact-direct__title {
   margin: 0;
-  font-family: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
-  font-size: clamp(2rem, 4.2vw, 2.75rem);
-  font-weight: 700;
-  line-height: var(--pj-direct-lh-tight);
-  letter-spacing: -0.02em;
-  text-wrap: balance;
+  font-family: var(--pjds-font-heading);
+  font-size: var(--pjds-text-h2);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+}
+
+.pj-contact-direct__title-static {
+  display: block;
 }
 
 .pj-contact-direct__description {
-  margin: 10px 0 0;
-  font-size: clamp(1rem, 1.5vw, 1.15rem);
-  line-height: var(--pj-direct-lh-body);
+  margin: 16px 0 0;
+  font-size: 1.0625rem;
+  line-height: 1.7;
   color: var(--pj-direct-muted);
 }
 
@@ -129,7 +136,7 @@ a.pj-contact-direct__item {
 a.pj-contact-direct__item:hover {
   border-color: var(--pj-direct-primary);
   transform: translateY(-3px);
-  box-shadow: 0 14px 28px -18px rgba(54, 81, 255, 0.55);
+  box-shadow: 0 14px 28px -18px rgba(13, 27, 46, 0.35);
 }
 
 a.pj-contact-direct__item:active {
@@ -141,6 +148,35 @@ a.pj-contact-direct__item:focus-visible {
   outline-offset: 3px;
 }
 
+/* One accent per channel: top strip, icon tile and hover border. */
+.pj-contact-direct__item--phone { --pj-direct-accent: #1599d6; --pj-direct-accent-soft: rgba(21, 153, 214, 0.12); }
+.pj-contact-direct__item--email { --pj-direct-accent: #6366f1; --pj-direct-accent-soft: rgba(99, 102, 241, 0.12); }
+.pj-contact-direct__item--whatsapp { --pj-direct-accent: #16a34a; --pj-direct-accent-soft: rgba(37, 211, 102, 0.14); }
+.pj-contact-direct__item--office { --pj-direct-accent: #0d9488; --pj-direct-accent-soft: rgba(20, 184, 166, 0.12); }
+
+.pj-contact-direct__item {
+  position: relative;
+  overflow: hidden;
+}
+
+.pj-contact-direct__item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 4px;
+  background: var(--pj-direct-accent, var(--pj-direct-primary));
+}
+
+a.pj-contact-direct__item:hover {
+  border-color: var(--pj-direct-accent, var(--pj-direct-primary));
+}
+
+a.pj-contact-direct__item:hover .pj-contact-direct__icon {
+  transform: rotate(180deg);
+}
+
 .pj-contact-direct__item-icon {
   display: grid;
   place-items: center;
@@ -148,19 +184,20 @@ a.pj-contact-direct__item:focus-visible {
   height: 44px;
   margin-bottom: 6px;
   border-radius: 12px;
-  background-color: var(--pj-direct-primary-soft);
-  color: var(--pj-direct-primary);
+  background-color: var(--pj-direct-accent-soft, var(--pj-direct-primary-soft));
+  color: var(--pj-direct-accent, var(--pj-direct-primary));
 }
 
 .pj-contact-direct__icon {
   width: 1.2em;
   height: 1.2em;
   flex: none;
+  transition: transform 500ms ease;
 }
 
 .pj-contact-direct__item-title {
   margin: 0;
-  font-family: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  font-family: var(--pjds-font-heading);
   font-size: var(--pj-direct-fs-xl);
   font-weight: 700;
   line-height: 1.2;

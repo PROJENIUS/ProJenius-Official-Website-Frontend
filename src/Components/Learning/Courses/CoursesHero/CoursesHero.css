@@ -1,5 +1,6 @@
 .pjc-hero {
   position: relative;
+  isolation: isolate;
   overflow: hidden;
   border-bottom: 2px solid var(--pjds-cyan-500);
   background:
@@ -19,7 +20,6 @@
 
 .pjc-hero__copy { min-width: 0; max-width: 660px; }
 .pjc-hero__title {
-  max-width: 13ch;
   margin: 0;
   color: var(--pjds-white);
   font-family: var(--pjds-font-heading);
@@ -27,9 +27,10 @@
   font-weight: 800;
   letter-spacing: -0.045em;
   line-height: 1.06;
-  text-wrap: balance;
 }
-.pjc-hero__title span { color: var(--pjds-cyan-500); }
+.pjc-hero__title-static { display: block; }
+.pjc-hero__title .pjtp__sizer,
+.pjc-hero__title .pjtp__live { white-space: normal; }
 .pjc-hero__description {
   max-width: 58ch;
   margin: 22px 0 30px;
@@ -38,45 +39,15 @@
   line-height: var(--pjds-leading-body);
   text-wrap: pretty;
 }
-.pjc-hero__visual {
-  position: relative;
-  min-width: 0;
-  margin: 0;
-  overflow: hidden;
-  border: 1px solid rgba(90, 214, 248, 0.36);
-  border-radius: var(--pjds-radius-lg);
-  background: var(--pjds-navy-900);
-  box-shadow: var(--pjds-shadow-lg);
-}
-.pjc-hero__visual::after {
-  position: absolute;
-  inset: 35% 0 0;
-  background: linear-gradient(transparent, rgba(7, 20, 38, 0.9));
-  content: "";
-}
-.pjc-hero__visual img { display: block; width: 100%; aspect-ratio: 1.35; object-fit: cover; }
-.pjc-hero__visual figcaption {
-  position: absolute;
-  z-index: 1;
-  right: 22px;
-  bottom: 20px;
-  left: 22px;
-  color: var(--pjds-white);
-  font-family: var(--pjds-font-heading);
-  font-size: 0.95rem;
-  font-weight: 700;
-}
 .pjc-hero .pjds-btn { width: fit-content; }
 
 @media (max-width: 900px) {
   .pjc-hero__layout { grid-template-columns: minmax(0, 1fr); gap: 34px; min-height: auto; }
   .pjc-hero__copy { max-width: 720px; }
-  .pjc-hero__visual { width: min(100%, 680px); }
 }
 @media (max-width: 600px) {
   .pjc-hero__layout { gap: 28px; padding-block: calc(var(--pjds-nav-offset) + 26px) 44px; }
   .pjc-hero__title { font-size: clamp(2.2rem, 9vw, 3rem); }
   .pjc-hero__description { margin: 18px 0 24px; font-size: 1rem; }
   .pjc-hero .pjds-btn { width: 100%; }
-  .pjc-hero__visual figcaption { right: 16px; bottom: 15px; left: 16px; font-size: 0.875rem; }
 }

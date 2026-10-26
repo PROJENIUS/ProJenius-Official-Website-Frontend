@@ -6,14 +6,14 @@
    ============================================================================= */
 
 .pj-contact-next {
-  --pj-next-bg: #f4f6fb;
-  --pj-next-surface: #ffffff;
-  --pj-next-surface-2: #eceffa;
-  --pj-next-text: #0b1030;
-  --pj-next-muted: #525c7d;
-  --pj-next-line-strong: #aab3cf;
-  --pj-next-primary: #3651ff;
-  --pj-next-primary-soft: #e9edff;
+  --pj-next-bg: var(--pjds-navy-950);
+  --pj-next-surface: #0b1f38;
+  --pj-next-surface-2: rgba(255, 255, 255, 0.04);
+  --pj-next-text: var(--pjds-white);
+  --pj-next-muted: var(--pjds-text-inverse-muted);
+  --pj-next-line-strong: rgba(174, 205, 230, 0.3);
+  --pj-next-primary: var(--pjds-cyan-400);
+  --pj-next-primary-soft: rgba(32, 200, 245, 0.14);
 
   /* type scale */
   --pj-next-fs-sm: 0.875rem;
@@ -24,9 +24,11 @@
   --pj-next-lh-tight: 1.15;
   --pj-next-lh-body: 1.55;
 
-  background-color: var(--pj-next-bg);
+  background:
+    radial-gradient(40rem 26rem at 100% 0%, rgba(32, 200, 245, 0.1), transparent 70%),
+    linear-gradient(180deg, #071426 0%, #0a1d35 100%);
   color: var(--pj-next-text);
-  font-family: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-family: var(--pjds-font-body);
   font-size: var(--pj-next-fs-md);
   line-height: var(--pj-next-lh-body);
   -webkit-font-smoothing: antialiased;
@@ -39,7 +41,7 @@
 .pj-contact-next__content {
   max-width: 1240px;
   margin: 0 auto;
-  padding: 48px 24px 72px;
+  padding: var(--pjds-section-space) 24px;
 }
 
 
@@ -67,24 +69,31 @@
    ============================================================================= */
 
 .pj-contact-next__header {
-  max-width: 640px;
-  margin-bottom: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 760px;
+  margin: 0 auto 44px;
+  text-align: center;
 }
 
 .pj-contact-next__title {
   margin: 0;
-  font-family: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
-  font-size: clamp(2rem, 4.2vw, 2.75rem);
-  font-weight: 700;
-  line-height: var(--pj-next-lh-tight);
-  letter-spacing: -0.02em;
-  text-wrap: balance;
+  font-family: var(--pjds-font-heading);
+  font-size: var(--pjds-text-h2);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+}
+
+.pj-contact-next__title-static {
+  display: block;
 }
 
 .pj-contact-next__description {
-  margin: 10px 0 0;
-  font-size: clamp(1rem, 1.5vw, 1.15rem);
-  line-height: var(--pj-next-lh-body);
+  margin: 16px 0 0;
+  font-size: 1.0625rem;
+  line-height: 1.7;
   color: var(--pj-next-muted);
 }
 
@@ -126,14 +135,14 @@
   border-radius: 50%;
   background-color: var(--pj-next-surface);
   color: var(--pj-next-primary);
-  font-family: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  font-family: var(--pjds-font-heading);
   font-size: var(--pj-next-fs-lg);
   font-weight: 700;
 }
 
 .pj-contact-next__step-title {
   margin: 14px 0 0;
-  font-family: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  font-family: var(--pjds-font-heading);
   font-size: var(--pj-next-fs-xl);
   font-weight: 700;
   line-height: 1.2;
@@ -153,15 +162,16 @@
    ============================================================================= */
 
 .pj-contact-next__examples {
-  margin-top: 36px;
-  padding: 22px;
-  border-radius: 14px;
+  margin-top: 44px;
+  padding: 24px;
+  border: 1px solid rgba(174, 205, 230, 0.16);
+  border-radius: 20px;
   background-color: var(--pj-next-surface-2);
 }
 
 .pj-contact-next__examples-title {
   margin: 0;
-  font-family: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  font-family: var(--pjds-font-heading);
   font-size: var(--pj-next-fs-lg);
   font-weight: 700;
   line-height: 1.3;
@@ -200,13 +210,18 @@
   padding: 8px 14px;
   border: 1.5px solid var(--pj-next-line-strong);
   border-radius: 999px;
-  background-color: var(--pj-next-surface);
+  background-color: transparent;
+  color: var(--pj-next-muted);
   font-size: var(--pj-next-fs-base);
   line-height: 1.4;
   transition: border-color 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease;
 }
 
+.pj-contact-next__examples-item strong {
+  color: var(--pj-next-text);
+}
 .pj-contact-next__examples-item--active {
+  color: var(--pj-next-text);
   border-color: var(--pj-next-primary);
   background-color: var(--pj-next-primary-soft);
   box-shadow: 0 0 0 1.5px var(--pj-next-primary);

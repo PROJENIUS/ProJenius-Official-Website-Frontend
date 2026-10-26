@@ -19,6 +19,12 @@ import useOnScreen from "../../../hooks/useOnScreen.js";
 import "./AboutHero.css";
 
 import logo from "../../../assets/About/AboutHero/AboutHero_1.png";
+import teamPhoto from "../../../assets/Home/Optimized/who-we-are-team-900.webp";
+import HeroBackdrop from "../../Common/HeroPhotoStack/HeroBackdrop.jsx";
+import { heroPhotos } from "../../Common/HeroPhotoStack/heroPhotos.js";
+
+/* Background photo: src/assets/Heroes/about/backdrop.* (see its README). */
+const HERO = heroPhotos("about", { backdrop: teamPhoto });
 
 /* =============================================================================
    ABOUT HERO
@@ -68,6 +74,7 @@ export default function AboutHero() {
     return (
         <section className="pja-hero" aria-labelledby="pja-hero-title">
             <div className="pja-hero__backdrop" aria-hidden="true" />
+            <HeroBackdrop image={HERO.backdrop} />
 
             <div className="pjds-container pja-hero__layout">
                 {/* Copy ------------------------------------------------------ */}

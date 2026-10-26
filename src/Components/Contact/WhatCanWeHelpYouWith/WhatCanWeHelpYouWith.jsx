@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
+import TypedPhrase from "../../Common/TypedPhrase/TypedPhrase.jsx";
+
 /* =============================================================================
 
    WHAT CAN WE HELP YOU WITH?
@@ -58,6 +60,9 @@ const MAX_FILE_SIZE_MB = 5;
    =========================================================================== */
 
 const ENQUIRY_CHANGE_EVENT = "pj-contact-enquiry-change";
+
+/* Sent by the Contact hero's topic tiles ({ detail: { type } }) to select a type here. */
+const ENQUIRY_REQUEST_EVENT = "pj-contact-enquiry-request";
 
 /* ===========================================================================
 
@@ -1490,6 +1495,23 @@ const WhatCanWeHelpYouWith = () => {
 
   };
 
+  /* The hero's topic tiles select a type through ENQUIRY_REQUEST_EVENT. The
+     ref always holds the latest handler, so the listener is added only once. */
+  const selectTypeRef = useRef(handleSelectType);
+
+  useEffect(() => {
+    selectTypeRef.current = handleSelectType;
+  });
+
+  useEffect(() => {
+    const handleRequest = (event) => {
+      const key = event.detail && event.detail.type;
+      if (Object.prototype.hasOwnProperty.call(ENQUIRY_TYPES, key)) selectTypeRef.current(key);
+    };
+    window.addEventListener(ENQUIRY_REQUEST_EVENT, handleRequest);
+    return () => window.removeEventListener(ENQUIRY_REQUEST_EVENT, handleRequest);
+  }, []);
+
   const handleChangeType = () => {
 
     setSelectedType(null);
@@ -1775,19 +1797,25 @@ const WhatCanWeHelpYouWith = () => {
 
         <header className="pj-contact-help__header">
 
-          <h2 className="pj-contact-help__title" id="pj-contact-help-title">
+          <p className="pjds-eyebrow" data-reveal="up">Start an Enquiry</p>
 
-            What Can We Help You With?
+          <h2 className="pj-contact-help__title" id="pj-contact-help-title" data-reveal="up" data-reveal-delay="1">
+
+            <span className="pj-contact-help__title-static">What Can We</span>
+
+            <TypedPhrase phrases={["Help You With?", "Build for You?", "Plan Together?"]} />
 
           </h2>
 
-          <p className="pj-contact-help__description">Choose what you would like to discuss with ProJenius.</p>
+          <p className="pj-contact-help__description" id="pj-contact-help-choose" data-reveal="up" data-reveal-delay="2">
+            Choose what you would like to discuss with ProJenius.
+          </p>
 
         </header>
 
         {/* ===== ENQUIRY TYPE SELECTOR ===== */}
 
-        <div ref={cardGridRef} className="pj-contact-help__grid" role="radiogroup" aria-labelledby="pj-contact-help-title">
+        <div ref={cardGridRef} className="pj-contact-help__grid" role="radiogroup" aria-labelledby="pj-contact-help-choose">
 
           {ENQUIRY_ORDER.map((key) => {
 
