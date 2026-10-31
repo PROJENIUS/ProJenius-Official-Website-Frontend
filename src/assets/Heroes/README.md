@@ -1,11 +1,9 @@
 # Hero photos for every page
 
-One folder per page. Each folder has its own README with the exact file
-names to use. In short:
+One folder per page. Put ONE photo named backdrop.webp (or .jpg / .png)
+in a page's folder and it becomes that page's full-width hero photo.
+Best size: 1920 x 1080 px, under ~350 KB.
 
-- backdrop.webp            -> the faded photo behind the navy hero
-- 1-caption-words.webp ... -> the rotating cards (pages with a card stack)
-
-Pages: about, development, hardware, prototyping, pcb, startup, workshop,
-internship, career-guidance, courses, join-our-team, contact.
-(Products uses src/assets/Products/ instead.)
+Pages: about, products, development, hardware, prototyping, pcb, startup,
+workshop, internship, career-guidance, courses, join-our-team, contact.
+(The homepage hero is separate and is not changed by these folders.)

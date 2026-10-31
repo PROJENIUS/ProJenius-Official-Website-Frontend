@@ -1,12 +1,13 @@
-# Hero photos: Career Guidance page
+# Hero photo: Career Guidance page
 
-Drop real ProJenius photos into this folder. No code change is needed;
-they appear after the dev server reloads (or the next build).
+Drop ONE real ProJenius photo into this folder and name it
 
-1. BACKGROUND PHOTO (faded behind the navy hero)
-   Name it  backdrop.webp  (or backdrop.jpg / backdrop.png).
+    backdrop.webp   (or backdrop.jpg / backdrop.png)
 
-This page keeps its information panel on the right, so only the
-background photo is used here.
+It fills the whole hero behind the navy fade, zooming in slowly once.
+No code change is needed; it appears after the dev server reloads (or
+the next build). Until then the page uses an existing ProJenius photo.
 
-Tips: landscape photos, about 1600 px wide, under ~300 KB (.webp is best).
+Tips: landscape, 1920 x 1080 px, under ~350 KB (.webp is best). Keep
+the subject on the right half; the headline sits on the left.
+Other image files in this folder are ignored by the hero.

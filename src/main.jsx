@@ -2,7 +2,6 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 // Global design foundation (tokens, minimal base, opt-in primitives). Must stay first.
 import './styles/foundation.css'
-import './Components/Contact/ContactHero/ContactHero.css'
 import './Components/Contact/PreferToReachUsDirectly/PreferToReachUsDirectly.css'
 import './Components/Contact/WhatCanWeHelpYouWith/WhatCanWeHelpYouWith.css'
 import './Components/Contact/WhatHappensNext/WhatHappensNext.css'

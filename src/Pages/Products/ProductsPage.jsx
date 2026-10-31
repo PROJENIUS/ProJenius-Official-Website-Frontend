@@ -11,11 +11,11 @@
 import { useRef } from "react";
 import { Cpu, Lightbulb, PackageCheck } from "lucide-react";
 
-import ServiceHero from "../../Components/Solutions/Shared/ServiceHero/ServiceHero.jsx";
+import CinematicHero from "../../Components/Common/CinematicHero/CinematicHero.jsx";
 import ContactSection from "../../Components/About/ContactSection/ContactSection.jsx";
-import ProductsHeroVisual from "../../Components/Products/ProductsHeroVisual/ProductsHeroVisual.jsx";
 import ProductsCatalogue from "../../Components/Products/ProductsCatalogue/ProductsCatalogue.jsx";
 import { PRODUCTS } from "../../Components/Products/productsData.js";
+import { heroPhotos } from "../../Components/Common/HeroPhotoStack/heroPhotos.js";
 import useMetaDescription from "../../hooks/useMetaDescription.js";
 import useScrollReveal from "../../hooks/useScrollReveal.js";
 import { whatsappHref } from "../../utils/whatsapp.js";
@@ -27,6 +27,10 @@ const CLOSING_FEATURES = [
   { title: "Ready to Use", text: "Built for real-world work", Icon: PackageCheck },
 ];
 
+/* Hero photo: src/assets/Heroes/products/backdrop.* (see its README); the
+   first product photo is used until one is added there. */
+const HERO = heroPhotos("products", { backdrop: PRODUCTS.find((product) => product.image)?.image });
+
 const DESCRIPTION =
   "Products by ProJenius Innovation Technology, including the groundnut-to-peanut processing machine, the IoT Learning Kit and 3D printing and prototyping services.";
 
@@ -37,16 +41,21 @@ export default function ProductsPage() {
 
   return (
     <main ref={pageRef} className="pjsv-page pj-products-page">
-      <ServiceHero
+      <CinematicHero
         id="products-title"
         eyebrow="Products & Innovations"
         title="Products Engineered"
-        phrases={["for Real-World Problems", "for Farms and Industry", "for Learners and Makers"]}
+        accent="for Real-World Problems"
         description="Discover innovative products and engineering solutions developed by ProJenius to address practical challenges across industries."
         primary={{ label: "Explore Products", to: "#product-list" }}
         secondary={{ label: "Talk to Our Team", to: "/contact" }}
-        backdrop={PRODUCTS[0].image}
-        visual={<ProductsHeroVisual />}
+        photo={HERO.backdrop}
+        facts={PRODUCTS.filter((product) => product.image).slice(0, 2).map((product) => ({
+          label: product.category,
+          title: product.title,
+          to: "#product-list",
+        }))}
+        band={["Smarter Agriculture", "Connected Solutions", "IoT Learning Kit", "3D Printing", "Prototyping", "Product Development"]}
       />
 
       <ProductsCatalogue />
