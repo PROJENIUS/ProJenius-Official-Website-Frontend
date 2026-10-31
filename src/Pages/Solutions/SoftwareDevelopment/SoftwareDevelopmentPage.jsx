@@ -14,7 +14,7 @@
 
 import { useRef } from "react";
 
-import CinematicHero from "../../../Components/Common/CinematicHero/CinematicHero.jsx";
+import CinematicHero, { HeroTerminal } from "../../../Components/Common/CinematicHero/CinematicHero.jsx";
 import ServiceCTA from "../../../Components/Solutions/Shared/ServiceCTA/ServiceCTA.jsx";
 import { RELATED, contactLink } from "../../../Components/Solutions/Shared/serviceLinks.js";
 import { heroPhotos } from "../../../Components/Common/HeroPhotoStack/heroPhotos.js";
@@ -39,6 +39,18 @@ const ENQUIRY = contactLink("development", "software-development");
    the real team photo below is used until one is added there. */
 const HERO = heroPhotos("development", { backdrop: teamPhoto });
 
+/* Hero terminal: the steps follow how the work runs on this page
+   (requirements, scope, build, test, launch, support after launch). */
+const TERMINAL = [
+  { kind: "cmd", text: "projenius build --app \"your business\"" },
+  { kind: "info", text: "understanding what you need..." },
+  { kind: "ok", text: "scope and first milestone agreed" },
+  { kind: "ok", text: "design approved" },
+  { kind: "ok", text: "web + mobile app built" },
+  { kind: "ok", text: "tested and launched" },
+  { kind: "done", text: "supported after launch" },
+];
+
 export default function SoftwareDevelopmentPage() {
   const pageRef = useRef(null);
   useMetaDescription(DESCRIPTION);
@@ -49,16 +61,13 @@ export default function SoftwareDevelopmentPage() {
       <CinematicHero
         id="software-hero-title"
         eyebrow="Software Development"
-        title="Software That Moves Your Business"
-        accent="Forward"
+        title="Software That Moves"
+        accent="Your Business Forward"
         description="We design and build websites, web and mobile applications, SaaS platforms, AI solutions and automation tools around what your business actually needs."
         primary={{ label: "Discuss Your Project", to: ENQUIRY }}
         secondary={{ label: "Explore Our Capabilities", to: "#pj-development-build" }}
         photo={HERO.backdrop}
-        facts={[
-          { label: "We build", title: "Websites, apps and SaaS", chips: ["Web apps", "Mobile apps", "SaaS"] },
-          { label: "AI & automation", title: "AI solutions and automation tools", to: "#pj-development-build" },
-        ]}
+        aside={<HeroTerminal file="deploy.sh" label="How a software project runs" lines={TERMINAL} />}
         band={["Websites", "Web Applications", "Mobile Apps", "SaaS Platforms", "AI Solutions", "Automation"]}
       />
 

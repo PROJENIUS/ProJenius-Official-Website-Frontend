@@ -11,7 +11,7 @@
 import { useRef } from "react";
 import { Cpu, Lightbulb, PackageCheck } from "lucide-react";
 
-import CinematicHero from "../../Components/Common/CinematicHero/CinematicHero.jsx";
+import CinematicHero, { HeroTerminal } from "../../Components/Common/CinematicHero/CinematicHero.jsx";
 import ContactSection from "../../Components/About/ContactSection/ContactSection.jsx";
 import ProductsCatalogue from "../../Components/Products/ProductsCatalogue/ProductsCatalogue.jsx";
 import { PRODUCTS } from "../../Components/Products/productsData.js";
@@ -30,6 +30,15 @@ const CLOSING_FEATURES = [
 /* Hero photo: src/assets/Heroes/products/backdrop.* (see its README); the
    first product photo is used until one is added there. */
 const HERO = heroPhotos("products", { backdrop: PRODUCTS.find((product) => product.image)?.image });
+
+/* Hero terminal: lists the real products from productsData.js (placeholder
+   entries without a photo are left out). */
+const TERMINAL = [
+  { kind: "cmd", text: "projenius products --list" },
+  { kind: "info", text: "loading products..." },
+  ...PRODUCTS.filter((product) => product.image).map((product) => ({ kind: "ok", text: product.title })),
+  { kind: "done", text: "see every product below" },
+];
 
 const DESCRIPTION =
   "Products by ProJenius Innovation Technology, including the groundnut-to-peanut processing machine, the IoT Learning Kit and 3D printing and prototyping services.";
@@ -50,11 +59,7 @@ export default function ProductsPage() {
         primary={{ label: "Explore Products", to: "#product-list" }}
         secondary={{ label: "Talk to Our Team", to: "/contact" }}
         photo={HERO.backdrop}
-        facts={PRODUCTS.filter((product) => product.image).slice(0, 2).map((product) => ({
-          label: product.category,
-          title: product.title,
-          to: "#product-list",
-        }))}
+        aside={<HeroTerminal file="products.sh" label="ProJenius products" lines={TERMINAL} />}
         band={["Smarter Agriculture", "Connected Solutions", "IoT Learning Kit", "3D Printing", "Prototyping", "Product Development"]}
       />
 

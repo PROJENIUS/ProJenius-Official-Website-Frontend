@@ -277,8 +277,8 @@ function PersonCard({
 function LeadershipTeam() {
   return (
     <>
-      {/* FOUNDERS */}
-      <section className="founders-section">
+      {/* FOUNDERS (target of the About hero's "Meet Our Team" link) */}
+      <section id="about-leadership" className="founders-section">
         <div className="section-inner">
 
           <div className="section-tag" data-reveal="up">

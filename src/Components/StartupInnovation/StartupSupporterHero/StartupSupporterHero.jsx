@@ -1,14 +1,24 @@
-import CinematicHero from "../../Common/CinematicHero/CinematicHero.jsx";
+import CinematicHero, { HeroTerminal } from "../../Common/CinematicHero/CinematicHero.jsx";
 import { heroPhotos } from "../../Common/HeroPhotoStack/heroPhotos.js";
 import recognitionEvent from "../../../assets/Home/HeroSlides/hero-slide-5.webp";
 
 /* =============================================================================
-   STARTUP & INNOVATION HERO — the shared cinematic hero.
-   Photo: src/assets/Heroes/startup/backdrop.* (see its README); the real
-   event photo below is used until one is added there.
+   STARTUP & INNOVATION HERO — the shared cinematic hero with the typing
+   terminal. The steps follow the page's idea journey.
+   Photo: src/assets/Heroes/startup/backdrop.* (see its README).
    ============================================================================= */
 
 const HERO = heroPhotos("startup", { backdrop: recognitionEvent });
+
+const TERMINAL = [
+  { kind: "cmd", text: "projenius start --idea \"your product\"" },
+  { kind: "info", text: "clarifying the problem..." },
+  { kind: "ok", text: "idea validated" },
+  { kind: "ok", text: "technical feasibility checked" },
+  { kind: "ok", text: "prototype and MVP built" },
+  { kind: "ok", text: "IP and registration options reviewed" },
+  { kind: "done", text: "ready to grow" },
+];
 
 export default function StartupSupporterHero() {
   return (
@@ -21,10 +31,7 @@ export default function StartupSupporterHero() {
       primary={{ label: "Submit Your Idea", to: "#submit-idea" }}
       secondary={{ label: "See What Happens Next", to: "#idea-journey" }}
       photo={HERO.backdrop}
-      facts={[
-        { label: "The journey", title: "Idea, validate, build, protect, grow", to: "#idea-journey" },
-        { label: "Who it's for", title: "Founders, students and innovators", chips: ["Prototype", "MVP"] },
-      ]}
+      aside={<HeroTerminal file="idea.sh" label="How an idea becomes a product" lines={TERMINAL} />}
       band={["Idea Validation", "Technical Feasibility", "Prototype & MVP", "IP & Patents", "Registration", "Ongoing Support"]}
       className="pjsi-hero"
     />

@@ -1,13 +1,11 @@
-import CinematicHero from "../../Common/CinematicHero/CinematicHero.jsx";
+import CinematicHero, { HeroLinks } from "../../Common/CinematicHero/CinematicHero.jsx";
 import { heroPhotos } from "../../Common/HeroPhotoStack/heroPhotos.js";
 import teamPhoto from "../../../assets/Home/Optimized/who-we-are-team-900.webp";
-import logo from "../../../assets/About/AboutHero/AboutHero_1.png";
 
 /* =============================================================================
-   ABOUT HERO — the shared cinematic hero.
-   Photo: src/assets/Heroes/about/backdrop.* (see its README); the team
-   photo below is used until one is added there. The band lists the nine
-   practice areas.
+   ABOUT HERO — the shared cinematic hero with "On this page" links.
+   Photo: src/assets/Heroes/about/backdrop.* (see its README). The band
+   lists the nine practice areas.
    ============================================================================= */
 
 const HERO = heroPhotos("about", { backdrop: teamPhoto });
@@ -24,6 +22,13 @@ const PRACTICE_AREAS = [
   "Innovation",
 ];
 
+const PAGE_LINKS = [
+  { label: "Leadership", to: "#about-leadership" },
+  { label: "Our journey", to: "#about-journey" },
+  { label: "Achievements", to: "#about-achievements" },
+  { label: "Magazine", to: "#hpmag-heading" },
+];
+
 export default function AboutHero() {
   return (
     <CinematicHero
@@ -35,15 +40,7 @@ export default function AboutHero() {
       primary={{ label: "Meet Our Team", to: "#about-leadership" }}
       secondary={{ label: "Our Journey", to: "#about-journey" }}
       photo={HERO.backdrop}
-      facts={[
-        {
-          label: "Based in",
-          title: "Madurai, Tamil Nadu",
-          text: "ProJenius Innovation Technology",
-          icon: <img src={logo} alt="" width="34" height="34" decoding="async" />,
-        },
-        { label: "One ecosystem", title: "Nine practice areas", chips: ["Software", "IoT", "Training"] },
-      ]}
+      aside={<HeroLinks items={PAGE_LINKS} />}
       band={PRACTICE_AREAS}
       className="pja-hero"
     />
