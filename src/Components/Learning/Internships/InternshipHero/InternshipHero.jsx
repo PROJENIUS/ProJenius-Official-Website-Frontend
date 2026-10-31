@@ -25,7 +25,7 @@ const InternshipHero = () => (
         accent="Built on Real Work"
         description="Gain hands-on experience through structured training, mentor support, live projects, and career preparation designed for students and freshers entering the tech industry."
         primary={{ label: "Start Your Journey", to: "/contact?type=internship" }}
-        secondary={{ label: "Explore Domains", to: "#internship-domains" }}
+        secondary={{ label: "Talk to a Mentor", to: "/services/career-guidance" }}
         photo={HERO.backdrop}
         aside={<HeroLinks items={PAGE_LINKS} />}
         band={["Live Projects", "Mentor Support", "Structured Training", "Career Preparation", "Online & Offline", "Certification"]}

@@ -12,9 +12,9 @@ import teamPhoto from "../../../assets/Home/Optimized/who-we-are-team-900.webp";
 const HERO = heroPhotos("contact", { backdrop: teamPhoto });
 
 const PAGE_LINKS = [
-  { label: "Start an enquiry", to: "#pj-contact-help" },
   { label: "What happens next", to: "#pj-contact-next" },
   { label: "Reach us directly", to: "#pj-contact-direct" },
+  { label: "Call +91 89254 50473", to: "tel:+918925450473" },
 ];
 
 export default function ContactHero() {

@@ -12,7 +12,7 @@ import "./QuestionsInstitutionsAsk.css";
      title      static heading line
      phrases    typed lines under it
      contactTo  link for "Can't find your answer?"
-     idPrefix   unique prefix for the answer ids
+     idPrefix   unique prefix for the answer ids and the section id (<idPrefix>-faq)
 ========================================================= */
 
 const WORKSHOP_FAQS = [
@@ -77,7 +77,7 @@ export default function QuestionsInstitutionsAsk({
   };
 
   return (
-    <section className="qia-section">
+    <section id={`${idPrefix}-faq`} className="qia-section">
       <div className="qia-container">
         <div ref={leftRef} className="qia-left">
           <div ref={pinRef} className="qia-left-pin" data-pin="off" data-reveal="left">

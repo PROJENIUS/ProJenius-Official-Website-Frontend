@@ -37,8 +37,8 @@ export default function AboutHero() {
       title="Technology. Innovation."
       accent="Possibility."
       description="ProJenius Innovation Technology is a multidisciplinary organization in Madurai, bringing technology, learning, innovation and collaboration together in one evolving ecosystem."
-      primary={{ label: "Meet Our Team", to: "#about-leadership" }}
-      secondary={{ label: "Our Journey", to: "#about-journey" }}
+      primary={{ label: "Talk to Our Team", to: "/contact" }}
+      secondary={{ label: "Join Our Team", to: "/join-our-team" }}
       photo={HERO.backdrop}
       aside={<HeroLinks items={PAGE_LINKS} />}
       band={PRACTICE_AREAS}

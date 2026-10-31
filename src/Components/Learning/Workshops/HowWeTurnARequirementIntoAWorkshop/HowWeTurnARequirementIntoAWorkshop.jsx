@@ -69,7 +69,7 @@ export default function Howweturnarequirementintoaworkshop() {
   }, [isNear]);
 
   return (
-    <section ref={sectionRef} className="hw-section">
+    <section id="workshop-process" ref={sectionRef} className="hw-section">
       <div className="hw-container">
         <div className="hw-left" data-reveal="left">
           <p className="pjds-eyebrow">Our Process</p>
