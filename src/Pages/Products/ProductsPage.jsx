@@ -11,7 +11,8 @@
 import { useRef } from "react";
 import { Cpu, Lightbulb, PackageCheck } from "lucide-react";
 
-import CinematicHero, { HeroTerminal } from "../../Components/Common/CinematicHero/CinematicHero.jsx";
+import CinematicHero from "../../Components/Common/CinematicHero/CinematicHero.jsx";
+import { HeroShowcase } from "../../Components/Common/CinematicHero/HeroPanels.jsx";
 import ContactSection from "../../Components/About/ContactSection/ContactSection.jsx";
 import ProductsCatalogue from "../../Components/Products/ProductsCatalogue/ProductsCatalogue.jsx";
 import { PRODUCTS } from "../../Components/Products/productsData.js";
@@ -31,14 +32,14 @@ const CLOSING_FEATURES = [
    first product photo is used until one is added there. */
 const HERO = heroPhotos("products", { backdrop: PRODUCTS.find((product) => product.image)?.image });
 
-/* Hero terminal: lists the real products from productsData.js (placeholder
-   entries without a photo are left out). */
-const TERMINAL = [
-  { kind: "cmd", text: "projenius products --list" },
-  { kind: "info", text: "loading products..." },
-  ...PRODUCTS.filter((product) => product.image).map((product) => ({ kind: "ok", text: product.title })),
-  { kind: "done", text: "see every product below" },
-];
+/* Hero showcase: the real products that have a photo (placeholder entries
+   without one are left out). */
+const SHOWCASE = PRODUCTS.filter((product) => product.image).map((product) => ({
+  image: product.image,
+  label: product.category,
+  title: product.title,
+  alt: product.alt || product.title,
+}));
 
 const DESCRIPTION =
   "Products by ProJenius Innovation Technology, including the groundnut-to-peanut processing machine, the IoT Learning Kit and 3D printing and prototyping services.";
@@ -59,7 +60,7 @@ export default function ProductsPage() {
         primary={{ label: "Explore Products", to: "#product-list" }}
         secondary={{ label: "Talk to Our Team", to: "/contact" }}
         photo={HERO.backdrop}
-        aside={<HeroTerminal file="products.sh" label="ProJenius products" lines={TERMINAL} />}
+        aside={<HeroShowcase items={SHOWCASE} label="Choose a product photo" />}
         band={["Smarter Agriculture", "Connected Solutions", "IoT Learning Kit", "3D Printing", "Prototyping", "Product Development"]}
       />
 

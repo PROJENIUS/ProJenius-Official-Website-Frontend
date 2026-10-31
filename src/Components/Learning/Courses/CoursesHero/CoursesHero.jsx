@@ -1,23 +1,23 @@
-import CinematicHero, { HeroTerminal } from "../../../Common/CinematicHero/CinematicHero.jsx";
+import CinematicHero from "../../../Common/CinematicHero/CinematicHero.jsx";
+import { HeroPhone } from "../../../Common/CinematicHero/HeroPanels.jsx";
 import { heroPhotos } from "../../../Common/HeroPhotoStack/heroPhotos.js";
 import classroomPhoto from "../../../../assets/About/Achievements/Achievements_6.webp";
 
 /* =============================================================================
-   COURSES HERO — the shared cinematic hero with the typing terminal.
-   The steps follow how the courses run: concepts, then code, then a project.
+   COURSES HERO — the shared cinematic hero with a phone showing an example
+   learning path (concepts, then code, then a project). The course data in
+   the code is still placeholder text, so no course names are shown here.
    Photo: src/assets/Heroes/courses/backdrop.* (see its README).
    ============================================================================= */
 
 const HERO = heroPhotos("courses", { backdrop: classroomPhoto });
 
-const TERMINAL = [
-  { kind: "cmd", text: "projenius learn --track \"full stack\"" },
-  { kind: "info", text: "starting with the concepts..." },
-  { kind: "ok", text: "fundamentals understood" },
-  { kind: "ok", text: "code written, step by step" },
-  { kind: "ok", text: "real project built" },
-  { kind: "ok", text: "portfolio ready to show" },
-  { kind: "done", text: "career ready" },
+const PATH = [
+  { title: "Fundamentals", meta: "Module 1 · Concepts", progress: 100 },
+  { title: "Hands-on practice", meta: "Module 2 · Code", progress: 60 },
+  { title: "Real project", meta: "Module 3 · Build", progress: 20 },
+  { title: "Portfolio review", meta: "Final step", progress: 0 },
+  { title: "Career ready", meta: "Show what you built" },
 ];
 
 export default function CoursesHero() {
@@ -30,8 +30,8 @@ export default function CoursesHero() {
       description="Practical courses designed by ProJenius to help students and professionals learn modern technologies, build real projects and become career ready."
       primary={{ label: "Explore Courses", to: "#course-catalog" }}
       photo={HERO.backdrop}
-      aside={<HeroTerminal file="learn.sh" label="How a ProJenius course works" lines={TERMINAL} />}
-      band={["Artificial Intelligence", "Full Stack Development", "Data Science", "Real Projects", "Career Ready", "Modern Technologies"]}
+      aside={<HeroPhone kicker="Example" title="Your learning path" cards={PATH} note="Example learning path" />}
+      band={["Modern Technologies", "Practical Courses", "Real Projects", "Students", "Professionals", "Career Ready"]}
       className="pjc-hero"
     />
   );

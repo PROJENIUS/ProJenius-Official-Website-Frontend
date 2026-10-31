@@ -1,22 +1,23 @@
-import CinematicHero, { HeroLinks } from "../../../Common/CinematicHero/CinematicHero.jsx";
+import CinematicHero from "../../../Common/CinematicHero/CinematicHero.jsx";
+import { HeroTabs } from "../../../Common/CinematicHero/HeroPanels.jsx";
 import { heroPhotos } from "../../../Common/HeroPhotoStack/heroPhotos.js";
 import { whatsappHref } from "../../../../utils/whatsapp.js";
 import sessionPhoto from "../../../../assets/About/Achievements/Achievements_3.webp";
 
 /* =========================================================
-   WORKSHOP HERO — the shared cinematic hero with "On this
-   page" links. Photo: src/assets/Heroes/workshop/backdrop.*
-   (see its README); a real session photo is used until one
-   is added there.
+   WORKSHOP HERO — the shared cinematic hero with tabs for
+   the four workshop formats (the same formats and wording as
+   DesignedAroundYourInstitution). Photo: src/assets/Heroes/
+   workshop/backdrop.* (see its README).
 ========================================================= */
 
 const HERO = heroPhotos("workshop", { backdrop: sessionPhoto });
 
-const PAGE_LINKS = [
-  { label: "Workshop areas", to: "#workshop-areas" },
-  { label: "How we plan a workshop", to: "#workshop-process" },
-  { label: "Workshop gallery", to: "#wg-title" },
-  { label: "Questions institutions ask", to: "#qia-faq" },
+const FORMATS = [
+  { label: "One day", tag: "Single Day", title: "One-Day Workshop", text: "An intensive practical learning experience focused on a specific technology or topic." },
+  { label: "Bootcamp", tag: "Multi-Session", title: "Hands-On Bootcamp", text: "A multi-session experience combining learning, practical activities, and project building." },
+  { label: "Department", tag: "Per Department", title: "Department Workshop", text: "A customized workshop aligned with a specific academic department or student group." },
+  { label: "Institution", tag: "Institution-Wide", title: "Institution / Club Workshop", text: "Technology and innovation sessions designed for technical clubs, innovation clubs, student communities, or institution-wide programs." },
 ];
 
 export default function WorkshopHero() {
@@ -30,7 +31,7 @@ export default function WorkshopHero() {
       primary={{ label: "Host a Workshop", to: "/contact?type=workshop" }}
       secondary={{ label: "Ask on WhatsApp", to: whatsappHref("Hi ProJenius, I would like to know about hosting a workshop at our institution.") }}
       photo={HERO.backdrop}
-      aside={<HeroLinks items={PAGE_LINKS} />}
+      aside={<HeroTabs label="Workshop formats" tabs={FORMATS} idPrefix="wh-format" />}
       band={["AI & Machine Learning", "IoT & Smart Systems", "Robotics & Automation", "Software & Development", "Electronics & PCB", "Rapid Prototyping"]}
       className="wh-hero"
     />

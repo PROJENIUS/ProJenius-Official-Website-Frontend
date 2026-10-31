@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowDown, ArrowRight, ArrowUpRight } from "lucide-react";
 
 import useOnScreen from "../../../hooks/useOnScreen.js";
+import { prefersReducedMotion, scrollToHash } from "./heroUtils.js";
 import "./CinematicHero.css";
 
 /* =============================================================================
@@ -22,7 +23,8 @@ import "./CinematicHero.css";
      primary      { label, to }  main action ("/route", "#id", "https://…", "tel:")
      secondary    { label, to }  optional second action
      photo        background photo (a real ProJenius photo)
-     aside        right-hand panel: <HeroLinks /> or <HeroTerminal />
+     aside        right-hand panel: <HeroLinks />, <HeroTerminal /> or one of
+                  the panels in HeroPanels.jsx (one per page, none repeated)
      band         words for the scrolling service band
      className    page modifier class
 
@@ -34,24 +36,6 @@ import "./CinematicHero.css";
 
 const isExternal = (to) => /^(https?:|tel:|mailto:)/.test(to);
 
-const prefersReducedMotion = () =>
-  typeof window !== "undefined" &&
-  typeof window.matchMedia === "function" &&
-  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-/* Scroll to an in-page section, leaving room for the fixed navbar, and keep
-   React Router's history state when updating the hash. */
-function scrollToHash(event, hash) {
-  const target = document.getElementById(hash.slice(1));
-  if (!target) return;
-  event.preventDefault();
-  const offset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--pjds-nav-offset")) || 96;
-  window.scrollTo({
-    top: target.getBoundingClientRect().top + window.scrollY - offset - 16,
-    behavior: prefersReducedMotion() ? "auto" : "smooth",
-  });
-  window.history.replaceState(window.history.state, "", hash);
-}
 
 function SmartLink({ to, className, children }) {
   if (isExternal(to)) {

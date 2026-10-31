@@ -1,25 +1,16 @@
-import CinematicHero, { HeroTerminal } from "../../../Common/CinematicHero/CinematicHero.jsx";
+import CinematicHero from "../../../Common/CinematicHero/CinematicHero.jsx";
+import { HeroCircuit } from "../../../Common/CinematicHero/HeroPanels.jsx";
 import { contactLink } from "../../Shared/serviceLinks.js";
 import { heroPhotos } from "../../../Common/HeroPhotoStack/heroPhotos.js";
 import benchPhoto from "../../../../assets/Home/OurProjects/OurProjects_2.webp";
 
 /* =============================================================================
-   PCB DESIGN & FABRICATION HERO — the shared cinematic hero with the typing
-   terminal. The steps follow the page's PCB workflow.
+   PCB DESIGN & FABRICATION HERO — the shared cinematic hero with a circuit
+   board whose traces carry light pulses out to each workflow stage.
    Photo: src/assets/Heroes/pcb/backdrop.* (see its README).
    ============================================================================= */
 
 const HERO = heroPhotos("pcb", { backdrop: benchPhoto });
-
-const TERMINAL = [
-  { kind: "cmd", text: "projenius pcb --board \"controller v1\"" },
-  { kind: "info", text: "capturing the circuit..." },
-  { kind: "ok", text: "schematic reviewed" },
-  { kind: "ok", text: "board placed and routed" },
-  { kind: "ok", text: "design checks passed" },
-  { kind: "ok", text: "board fabricated and assembled" },
-  { kind: "done", text: "powered up and tested" },
-];
 
 export default function PCBDesignFabricationHero() {
   return (
@@ -32,7 +23,7 @@ export default function PCBDesignFabricationHero() {
       primary={{ label: "Discuss PCB Requirements", to: contactLink("development", "pcb-design-fabrication") }}
       secondary={{ label: "View the Workflow", to: "#pcb-workflow" }}
       photo={HERO.backdrop}
-      aside={<HeroTerminal file="board.sh" label="How a board goes from schematic to tested" lines={TERMINAL} />}
+      aside={<HeroCircuit chip={["YOUR", "BOARD"]} nodes={["Schematic", "Layout", "Checks", "Fabrication", "Assembly", "Testing"]} />}
       band={["Schematic & Circuit Design", "PCB Layout", "Prototype Electronics", "Fabrication", "Assembly", "Board Bring-Up"]}
       className="pjpcb-hero"
     />

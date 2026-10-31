@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
 
-import CinematicHero, { HeroTerminal } from "../../../Common/CinematicHero/CinematicHero.jsx";
+import CinematicHero from "../../../Common/CinematicHero/CinematicHero.jsx";
+import { HeroBlueprint } from "../../../Common/CinematicHero/HeroPanels.jsx";
 import { contactLink } from "../../Shared/serviceLinks.js";
 import { heroPhotos } from "../../../Common/HeroPhotoStack/heroPhotos.js";
 import machinePhoto from "../../../../assets/Home/OurProducts/OurProducts_1.webp";
@@ -9,17 +10,6 @@ import "./RapidPrototypingHero.css";
 /* Hero photo: src/assets/Heroes/prototyping/backdrop.* (see its README);
    the real photo below is used until one is added there. */
 const HERO = heroPhotos("prototyping", { backdrop: machinePhoto });
-
-/* Hero terminal: a part going from CAD model to a tested print. */
-const TERMINAL = [
-  { kind: "cmd", text: "projenius print --part \"enclosure v1\"" },
-  { kind: "info", text: "preparing the CAD model..." },
-  { kind: "ok", text: "design checked for printing" },
-  { kind: "ok", text: "printed layer by layer" },
-  { kind: "ok", text: "fit and function tested" },
-  { kind: "ok", text: "refined to v2" },
-  { kind: "done", text: "something you can hold" },
-];
 
 /* =============================================================================
    RAPID PROTOTYPING HERO — the shared cinematic hero.
@@ -100,7 +90,7 @@ export default function RapidPrototypingHero() {
       primary={{ label: "Discuss Your Prototype", to: contactLink("development", "rapid-prototyping") }}
       secondary={{ label: "How Prototyping Works", to: "#prototyping-process" }}
       photo={HERO.backdrop}
-      aside={<HeroTerminal file="print.sh" label="How a prototype gets made" lines={TERMINAL} />}
+      aside={<HeroBlueprint code="PJ-RP-01" />}
       band={["Concept Models", "Product Enclosures", "Custom Components", "Functional Parts", "3D Printing", "Development-Ready Prototypes"]}
       className="pjrp-hero"
     />
