@@ -152,7 +152,7 @@ function LinkList({ items }) {
 }
 
 export default function Footer() {
-  const [newsletterState, setNewsletterState] = useState({ busy: false, message: "", error: false });
+  const [newsletterState, setNewsletterState] = useState({ busy: false, message: "", error: false, warning: false });
   const newsletterSubmitting = useRef(false);
 
   const handleNewsletter = async (e) => {
@@ -175,7 +175,7 @@ export default function Footer() {
       const body = await response.json().catch(() => null);
       if (!response.ok) throw new Error(body?.error || "We could not process your request. Please try again.");
       if (!body || !["subscribed", "already_subscribed"].includes(body.status) || typeof body.message !== "string" || !body.message.trim()) throw new Error("We could not confirm your subscription. Please try again.");
-      setNewsletterState({ busy: false, message: body.message, error: false });
+      setNewsletterState({ busy: false, message: body.message, error: false, warning: ["queued", "failed"].includes(body.emailStatus) });
       form.reset();
     } catch (error) {
       setNewsletterState({ busy: false, message: error instanceof TypeError ? "We could not connect right now. Please try again." : error.message, error: true });
@@ -184,7 +184,7 @@ export default function Footer() {
     }
   };
 
-  const messageState = newsletterState.message ? (newsletterState.error ? " is-error" : " is-success") : "";
+  const messageState = newsletterState.message ? (newsletterState.error ? " is-error" : newsletterState.warning ? " is-warning" : " is-success") : "";
 
   return (
     <footer className="pjh-footer" aria-label="ProJenius site footer">

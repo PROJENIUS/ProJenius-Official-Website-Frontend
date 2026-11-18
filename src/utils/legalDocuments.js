@@ -14,7 +14,7 @@ function normalizeCourseTerms(data) {
   sections.push(
     {
       heading: "Before you register",
-      body: "Check the programme, delivery mode, schedule and fee before paying. A payment does not mean the registration is approved. ProJenius reviews paid registrations and sends approval or rejection by email.",
+      body: "Check the programme, delivery mode, schedule and fee before paying. Your registration is confirmed once the payment succeeds, and the receipt is sent by email.",
       order: sections.length,
     },
     {

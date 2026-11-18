@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 /* =============================================================================
    COURSES PAGE — FAQ (shown with the shared ServiceFaq layout).
    Answers follow how the course checkout actually works (Razorpay checkout,
-   admin approval, phone follow-up, secure receipt link, terms page).
+   instant confirmation, phone follow-up, secure receipt link, terms page).
    ============================================================================= */
 
 export const COURSE_FAQ = [
@@ -29,7 +29,7 @@ export const COURSE_FAQ = [
   },
   {
     q: "What happens after I pay?",
-    a: "You get a reference number and your registration goes to our team for approval. We then contact you by phone to confirm your batch and the next steps.",
+    a: "Your seat is confirmed straight away. You get a reference number and the payment receipt by email, and our team calls you with your batch details and the next steps.",
   },
   {
     q: "Can I choose my class days and timings?",

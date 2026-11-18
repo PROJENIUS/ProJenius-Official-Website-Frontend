@@ -31,7 +31,7 @@ import SectionTitleLine from "../../Common/SectionTitleLine/SectionTitleLine.jsx
    ============================================================================= */
 
 const configuredApiBaseUrl = import.meta.env.VITE_API_BASE_URL?.trim();
-const apiBaseUrl = (configuredApiBaseUrl || (import.meta.env.DEV ? "http://localhost:5000" : "")).replace(/\/+$/, "");
+const apiBaseUrl = (configuredApiBaseUrl || (import.meta.env.DEV ? "http://localhost:5000" : "https://projenius-official-website-backend.onrender.com")).replace(/\/+$/, "");
 const ENDPOINT = apiBaseUrl ? `${apiBaseUrl}/api/contact/enquiries` : "";
 
 const MAX_FILE_BYTES = 5 * 1024 * 1024;

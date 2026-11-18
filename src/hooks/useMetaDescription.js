@@ -4,12 +4,30 @@ import { useEffect } from "react";
    restores the site default from index.html when the page unmounts. */
 export default function useMetaDescription(content) {
   useEffect(() => {
-    const meta = document.querySelector('meta[name="description"]');
-    if (!meta || !content) return undefined;
-    const previous = meta.getAttribute("content");
-    meta.setAttribute("content", content);
+    if (!content) return undefined;
+
+    const updates = [
+      ['meta[name="description"]', { name: "description" }],
+      ['meta[property="og:description"]', { property: "og:description" }],
+      ['meta[name="twitter:description"]', { name: "twitter:description" }],
+    ];
+    const restore = updates.map(([selector, attributes]) => {
+      let meta = document.querySelector(selector);
+      const created = !meta;
+      if (!meta) {
+        meta = document.createElement("meta");
+        Object.assign(meta, attributes);
+        document.head.appendChild(meta);
+      }
+      const previous = meta.getAttribute("content");
+      meta.setAttribute("content", content);
+      return () => {
+        if (created) meta.remove();
+        else if (previous !== null) meta.setAttribute("content", previous);
+      };
+    });
     return () => {
-      if (previous !== null) meta.setAttribute("content", previous);
+      restore.forEach((reset) => reset());
     };
   }, [content]);
 }

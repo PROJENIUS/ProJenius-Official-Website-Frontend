@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { createElement, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowLeft, ArrowRight, Award, BookOpen, ChevronLeft, ChevronRight, FileCheck2, Share2, CalendarDays, Check, ChevronDown, Clock, CreditCard, Globe, Headphones,
@@ -36,10 +36,10 @@ import "./CourseDetail.css";
    ============================================================================= */
 
 const DELIVERY = {
-  online: { label: "Live online course", short: "Live online" },
-  "in-person": { label: "Live in-person course", short: "In-person" },
-  hybrid: { label: "Hybrid · Online & offline classes", short: "Hybrid" },
-  "self-paced": { label: "Self-paced course", short: "Self-paced" },
+  online: { label: "Online course", short: "Online" },
+  "in-person": { label: "Offline course · ProJenius centre", short: "Offline" },
+  hybrid: { label: "Online & offline classes", short: "Online & offline" },
+  "self-paced": { label: "Online course", short: "Online" },
 };
 
 const EXPERIENCE = {
@@ -49,6 +49,51 @@ const EXPERIENCE = {
 };
 
 const LEVEL = { beginner: "Beginner", intermediate: "Intermediate", advanced: "Advanced" };
+
+const RICH_TEXT_TAGS = new Set([
+  "P", "BR", "STRONG", "B", "EM", "I", "U", "UL", "OL", "LI",
+  "H3", "H4", "BLOCKQUOTE", "CODE", "PRE", "A",
+]);
+const RICH_TEXT_DROP_TAGS = new Set([
+  "SCRIPT", "STYLE", "IFRAME", "OBJECT", "EMBED", "SVG", "MATH",
+  "FORM", "INPUT", "BUTTON", "VIDEO", "AUDIO", "TEMPLATE",
+]);
+
+/* Course descriptions can come from the publishing API. Parse them into React
+   nodes from a small allow-list; never insert server-provided HTML directly. */
+function renderSafeCourseHtml(html) {
+  if (!html || typeof DOMParser === "undefined") return html || null;
+  const document = new DOMParser().parseFromString(String(html), "text/html");
+  let key = 0;
+
+  const renderNode = (node) => {
+    if (node.nodeType === Node.TEXT_NODE) return node.textContent;
+    if (node.nodeType !== Node.ELEMENT_NODE) return null;
+
+    const tag = node.tagName.toUpperCase();
+    if (RICH_TEXT_DROP_TAGS.has(tag)) return null;
+    const children = Array.from(node.childNodes, renderNode).filter((child) => child !== null);
+    if (!RICH_TEXT_TAGS.has(tag)) return children;
+
+    const props = { key: `course-rich-${key++}` };
+    if (tag === "A") {
+      const href = node.getAttribute("href");
+      try {
+        const url = new URL(href || "", window.location.origin);
+        if (["https:", "http:", "mailto:"].includes(url.protocol)) {
+          props.href = url.href;
+          props.rel = "noopener noreferrer";
+          props.target = "_blank";
+        }
+      } catch {
+        // Render link text without an unsafe or malformed destination.
+      }
+    }
+    return createElement(tag.toLowerCase(), props, ...children);
+  };
+
+  return Array.from(document.body.childNodes, renderNode).filter((child) => child !== null);
+}
 
 const formatDate = (value) => {
   if (!value) return "";
@@ -171,11 +216,17 @@ const PROJECT_STEPS = [
   { Icon: Presentation, title: "Present it", text: "Show it to the team and add it to your portfolio." },
 ];
 
+/* Plain-English reason from a Razorpay failure. */
+function failureReason(error) {
+  const text = [error?.description, error?.reason && error.reason.replace(/_/g, " ")].filter(Boolean)[0];
+  return text ? `${text.charAt(0).toUpperCase()}${text.slice(1)}${/[.!]$/.test(text) ? "" : "."}` : "The bank or payment app declined the payment.";
+}
+
 export default function CourseDetail({ course, related = [], onBack }) {
   /* ---- Checkout state (existing flow) ---- */
-  const [student, setStudent] = useState({ name: "", email: "", phone: "", preferredDays: [], preferredTimeSlots: [] });
+  const [student, setStudent] = useState({ name: "", email: "", phone: "", preferredDays: [], preferredTimeSlots: [], preferredMode: course.deliveryMode === "in-person" ? "offline" : "online" });
   const [terms, setTerms] = useState(null);
-  const [accepted, setAccepted] = useState(false), [busy, setBusy] = useState(false), [checkoutOpen, setCheckoutOpen] = useState(false), [message, setMessage] = useState(""), [receiptUrl, setReceiptUrl] = useState(""), [receiptRequestBusy, setReceiptRequestBusy] = useState(false), [reference, setReference] = useState("");
+  const [accepted, setAccepted] = useState(false), [busy, setBusy] = useState(false), [checkoutOpen, setCheckoutOpen] = useState(false), [message, setMessage] = useState(""), [receiptUrl, setReceiptUrl] = useState(""), [receiptRequestBusy, setReceiptRequestBusy] = useState(false), [reference, setReference] = useState(""), [result, setResult] = useState(null);
   const idempotencyRef = useRef(null);
 
   /* ---- Page state ---- */
@@ -196,29 +247,39 @@ export default function CourseDetail({ course, related = [], onBack }) {
     setStudent((current) => ({ ...current, [field]: checked ? [...new Set([...current[field], value])] : current[field].filter((item) => item !== value) }));
   };
   const buy = async (event) => {
-    event.preventDefault(); setMessage(""); setBusy(true);
+    event.preventDefault(); setMessage(""); setResult(null); setBusy(true);
     try {
       if (!terms) throw new Error("The required registration terms could not be loaded. Please try again.");
       if (!accepted) throw new Error("Please accept the Terms & Conditions to continue.");
       const RazorpayCheckout = await loadRazorpayCheckout();
-      const requestFingerprint = JSON.stringify([course._id, student.name, student.email, student.phone, student.preferredDays, student.preferredTimeSlots, terms.version]);
+      const requestFingerprint = JSON.stringify([course._id, student.name, student.email, student.phone, student.preferredDays, student.preferredTimeSlots, student.preferredMode, terms.version]);
       if (idempotencyRef.current?.fingerprint !== requestFingerprint) {
         idempotencyRef.current = { fingerprint: requestFingerprint, key: crypto.randomUUID() };
       }
       const rawOrderData = await api(`/${encodeURIComponent(course._id)}/orders`, { method: "POST", headers: { "Content-Type": "application/json", "Idempotency-Key": idempotencyRef.current.key }, body: JSON.stringify({ student, termsAccepted: true, termsVersion: terms.version }) });
       const orderData = validateCheckoutOrder(rawOrderData);
       const checkout = new RazorpayCheckout({ key: orderData.keyId, order_id: orderData.order.id, amount: orderData.order.amount, currency: orderData.order.currency, name: orderData.checkout.name, description: orderData.checkout.description, prefill: orderData.checkout.prefill, handler: async (result) => {
-        try { const verified = await api("/payments/verify", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(result) }); const savedReference = verified.reference || orderData.enrollment.reference; setReference(savedReference); if (verified.receiptUrl) setReceiptUrl(verified.receiptUrl); setMessage(verified.status === "captured" ? `Payment successful. Your registration has been received and is awaiting admin approval. Our team will contact you by phone to coordinate the next steps. Reference: ${savedReference}.` : `Payment status: ${verified.status}. Reference: ${savedReference}.`); }
-        catch (e) { setMessage(`${e.message} Keep your payment confirmation and contact support with reference ${orderData.enrollment.reference}.`); }
+        const base = { course: course.title, amount: orderData.order.amount, email: student.email, paymentId: result.razorpay_payment_id, reference: orderData.enrollment.reference };
+        try {
+          const verified = await api("/payments/verify", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(result) });
+          const savedReference = verified.reference || orderData.enrollment.reference;
+          setReference(savedReference);
+          if (verified.receiptUrl) setReceiptUrl(verified.receiptUrl);
+          setResult(verified.status === "captured"
+            ? { ...base, type: "success", reference: savedReference, receiptUrl: verified.receiptUrl, paidAt: new Date().toISOString() }
+            : { ...base, type: "pending", reference: savedReference, reason: `The payment status is "${verified.status}". It usually updates within a few minutes.` });
+        }
+        catch (e) { setResult({ ...base, type: "pending", reason: e.message || "We could not confirm the payment yet." }); }
         finally { setCheckoutOpen(false); }
-      }, modal: { ondismiss: () => { setCheckoutOpen(false); setMessage(`Checkout closed. No course access has been confirmed. Reference: ${orderData.enrollment.reference}.`); } } });
+      }, modal: { ondismiss: () => { setCheckoutOpen(false); setResult((current) => current || { type: "closed", course: course.title, amount: orderData.order.amount, reference: orderData.enrollment.reference, reason: "You closed the payment window before paying. No money has been taken." }); } } });
       checkout.on("payment.failed", async (failure) => {
         setCheckoutOpen(false);
         const metadata = failure?.error?.metadata || {};
+        const failed = { type: "failed", course: course.title, amount: orderData.order.amount, reference: orderData.enrollment.reference, paymentId: metadata.payment_id, reason: failureReason(failure?.error) };
         try {
           if (metadata.order_id && metadata.payment_id) await api("/payments/failure", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ orderId: metadata.order_id, paymentId: metadata.payment_id }) });
-          setMessage(`Payment was not completed. You can retry checkout. Reference: ${orderData.enrollment.reference}.`);
-        } catch { setMessage(`Payment status is still being confirmed. Keep the provider message and contact support with reference ${orderData.enrollment.reference}.`); }
+          setResult(failed);
+        } catch { setResult({ ...failed, type: "pending", reason: "We are still confirming this payment. If money was deducted, it will be confirmed or refunded automatically." }); }
       });
       setCheckoutOpen(true);
       checkout.open();
@@ -249,26 +310,21 @@ export default function CourseDetail({ course, related = [], onBack }) {
   /* Published reviews only (the API already filters; this guards the offline list) */
   const reviews = [...(course.reviews || [])].filter((r) => r.published === true && r.testimonial).sort((a, b) => (a.order || 0) - (b.order || 0));
   const delivery = DELIVERY[course.deliveryMode];
-  const isLive = course.deliveryMode && course.deliveryMode !== "self-paced";
   const activityCount = curriculum.reduce((n, m) => n + (m.practicalActivities?.length || 0), 0);
   const topicCount = curriculum.reduce((n, m) => n + (m.topics?.length || 0) + (m.lessons?.length || 0) + (m.practicalActivities?.length || 0), 0);
-  const lessons = curriculum.flatMap((m) => m.lessons || []);
-  const resourceCount = lessons.filter((l) => l.resourceUrl).length;
   const hasDiscount = course.listPriceMinor > course.priceMinor;
   const discount = hasDiscount ? Math.round((1 - course.priceMinor / course.listPriceMinor) * 100) : 0;
   const ratingAverage = reviews.length ? Math.round((reviews.reduce((n, r) => n + (r.rating || 0), 0) / reviews.length) * 10) / 10 : null;
   const ratingCount = reviews.length;
   const startDate = formatDate(course.startDate);
   const deadline = formatDate(course.registrationDeadline);
-  const prerequisiteItems = Object.entries(course.prerequisiteDetails || {}).filter(([, value]) => value);
-  const hasAudience = Boolean(course.audience || course.experienceLevel || course.noPrerequisites || prerequisiteItems.length || course.prerequisites || course.skills?.length || course.tools?.length);
   const open = course.enrollmentOpen !== false;
 
   /* Six highlight boxes: course data where saved, otherwise the parts every course includes. */
   const highlights = [
     { Icon: Layers, title: "Real projects", text: projects.length ? `Build ${projects.length} ${projects.length === 1 ? "project" : "projects"} during the course.` : "Build your own project during the course." },
     { Icon: BookOpen, title: "Step-by-step curriculum", text: curriculum.length ? `${curriculum.length} ${curriculum.length === 1 ? "module" : "modules"} and ${topicCount} topics, from the basics upward.` : "Structured modules, from the basics upward." },
-    { Icon: Video, title: `${(delivery || DELIVERY.hybrid).short} classes`, text: course.deliveryMode === "self-paced" ? "Learn at your own pace." : course.deliveryMode === "online" ? "Live online sessions with the ProJenius team." : course.deliveryMode === "in-person" ? "Classes at the ProJenius centre." : "Join online or at the ProJenius centre." },
+    { Icon: Video, title: delivery ? `${delivery.short} classes` : "Guided classes", text: course.deliveryMode === "in-person" ? "Classes at the ProJenius centre in Madurai." : course.deliveryMode === "online" || course.deliveryMode === "self-paced" ? "Online sessions with the ProJenius team." : "Sessions with the ProJenius team." },
     { Icon: Wrench, title: "Hands-on activities", text: activityCount ? `${activityCount} practical ${activityCount === 1 ? "activity" : "activities"}, plus practice in every module.` : "Practice tasks in every module." },
     hasCertificate
       ? { Icon: Award, title: "Certification", text: course.certificate.description || "A certificate is awarded on completion." }
@@ -277,19 +333,20 @@ export default function CourseDetail({ course, related = [], onBack }) {
   ];
 
   const inclusions = [
-    isLive && { Icon: Video, title: "Live classes", text: [course.sessionCount && `${course.sessionCount} live sessions`, course.sessionLength && `${course.sessionLength} each`].filter(Boolean).join(" · ") || "Live sessions with the ProJenius team" },
-    lessons.length > 0 && { Icon: BookOpen, title: "Course resources", text: `${lessons.length} ${lessons.length === 1 ? "lesson" : "lessons"}${resourceCount ? ` with ${resourceCount} reference ${resourceCount === 1 ? "link" : "links"}` : ""}` },
-    { Icon: Headphones, title: "Support", text: "After registration our team contacts you by phone to coordinate the next steps." },
-    course.certificate?.available && { Icon: Award, title: "Certificate", text: "Awarded on completion of the course." },
+    { Icon: Layers, title: "Portfolio projects", text: projects.length ? `${projects.length} ${projects.length === 1 ? "project" : "projects"} you build and keep for your portfolio.` : "A project you build and keep for your portfolio." },
+    { Icon: Wrench, title: "Hands-on practice", text: activityCount ? `${activityCount} practical ${activityCount === 1 ? "activity" : "activities"} across the modules.` : "Practice tasks in every module." },
+    hasCertificate && { Icon: Award, title: "Certificate", text: "Awarded on completion of the course." },
     { Icon: Briefcase, title: "Career guidance", text: "Placement tips, resume and LinkedIn profile help." },
+    { Icon: MessageCircle, title: "Mock interviews", text: "Practice interviews with feedback before you apply." },
+    { Icon: Headphones, title: "Team support", text: "Our team contacts you by phone after registration and stays in touch." },
     course.courseValidity && { Icon: CalendarDays, title: "Programme period", text: course.courseValidity },
-  ].filter(Boolean);
+  ].filter(Boolean).slice(0, 6);
 
   const facts = [
     course.duration && { Icon: Clock, label: "Duration", value: course.duration },
     curriculum.length > 0 && { Icon: Layers, label: "Modules", value: String(curriculum.length) },
     topicCount > 0 && { Icon: BookOpen, label: "Activities", value: String(topicCount) },
-    { Icon: Monitor, label: "Format", value: (delivery || DELIVERY.hybrid).short },
+    delivery && { Icon: Monitor, label: "Format", value: delivery.short },
     course.language && { Icon: Globe, label: "Language", value: course.language },
     (EXPERIENCE[course.experienceLevel] || LEVEL[course.level]) && { Icon: Users, label: "Level", value: EXPERIENCE[course.experienceLevel] || LEVEL[course.level] },
   ].filter(Boolean);
@@ -490,7 +547,7 @@ export default function CourseDetail({ course, related = [], onBack }) {
                 <h2 id="course-overview-title" className="pjcd-head__title">Course overview</h2>
               </header>
               {course.aboutContent
-                ? <div className="pjcd-rich" dangerouslySetInnerHTML={{ __html: course.aboutContent }} />
+                ? <div className="pjcd-rich">{renderSafeCourseHtml(course.aboutContent)}</div>
                 : <p className="pjcd-text">{course.description || course.shortDescription}</p>}
               {course.aboutContent && course.description && <p className="pjcd-text">{course.description}</p>}
 
@@ -743,50 +800,6 @@ export default function CourseDetail({ course, related = [], onBack }) {
               </ul>
             </section>
 
-            {/* ================= 8 AUDIENCE & OUTCOMES ================= */}
-            {hasAudience && (
-              <section className="pjcd-section" aria-labelledby="course-audience-title">
-                <header className="pjcd-head">
-                  <p className="pjcd-head__eyebrow">Who it is for</p>
-                  <h2 id="course-audience-title" className="pjcd-head__title">Audience and outcomes</h2>
-                </header>
-                <div className="pjcd-audience">
-                  <div className="pjcd-audience__col">
-                    <h3 className="pjcd-subtitle">Who should join</h3>
-                    {course.audience && <p className="pjcd-text">{course.audience}</p>}
-                    {(course.experienceLevel || course.level) && (
-                      <p className="pjcd-pair"><span>Level</span>{EXPERIENCE[course.experienceLevel] || LEVEL[course.level]}</p>
-                    )}
-                    {course.noPrerequisites && <p className="pjcd-pair"><span>Prerequisites</span>None required</p>}
-                    {prerequisiteItems.map(([key, value]) => (
-                      <p key={key} className="pjcd-pair">
-                        <span>{{ priorKnowledge: "Prior knowledge", eligibility: "Eligibility", equipment: "Equipment" }[key] || key}</span>
-                        {value}
-                      </p>
-                    ))}
-                    {course.prerequisites && <p className="pjcd-text">{course.prerequisites}</p>}
-                  </div>
-                  {(course.skills?.length > 0 || course.tools?.length > 0) && (
-                    <div className="pjcd-audience__col">
-                      <h3 className="pjcd-subtitle">You will leave with</h3>
-                      {course.skills?.length > 0 && (
-                        <>
-                          <p className="pjcd-module__label">Skills</p>
-                          <ul className="pjcd-chips">{course.skills.map((s) => <li key={s}>{s}</li>)}</ul>
-                        </>
-                      )}
-                      {course.tools?.length > 0 && (
-                        <>
-                          <p className="pjcd-module__label">Tools</p>
-                          <ul className="pjcd-chips">{course.tools.map((t) => <li key={t}>{t}</li>)}</ul>
-                        </>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </section>
-            )}
-
             {/* ================= 9 REVIEWS ================= */}
             {reviews.length > 0 && (
               <section id="course-reviews" className="pjcd-section" aria-labelledby="course-reviews-title">
@@ -870,7 +883,13 @@ export default function CourseDetail({ course, related = [], onBack }) {
               </div>
 
               <div className="pjcd-buy__body">
-                <h2 id="course-buy-title" className="pjcd-sr">Enrol in {course.title}</h2>
+                <div className="pjcd-buy__course">
+                  <span>You are enrolling in</span>
+                  <h2 id="course-buy-title">{course.title}</h2>
+                  {(course.category || delivery || course.duration) && (
+                    <small>{[course.category, delivery?.short, course.duration].filter(Boolean).join(" · ")}</small>
+                  )}
+                </div>
                 <div className="pjcd-buy__price">
                   <strong>{inr(course.priceMinor)}</strong>
                   {hasDiscount && (
@@ -883,9 +902,19 @@ export default function CourseDetail({ course, related = [], onBack }) {
                 {deadline && <p className="pjcd-buy__deadline"><Clock size={14} aria-hidden="true" /> Registration closes {deadline}</p>}
 
                 <form className="pjcd-form" onSubmit={buy}>
+                  <label className="pjcd-field"><span>Course</span><input name="course" value={course.title} disabled readOnly aria-readonly="true" /></label>
                   <label className="pjcd-field"><span>Full name</span><input required maxLength="120" name="name" value={student.name} onChange={update} autoComplete="name" /></label>
                   <label className="pjcd-field"><span>Email</span><input required type="email" maxLength="254" name="email" value={student.email} onChange={update} autoComplete="email" /></label>
                   <label className="pjcd-field"><span>Phone</span><input required type="tel" maxLength="30" name="phone" value={student.phone} onChange={update} autoComplete="tel" /></label>
+                  <fieldset className="pjcd-mode">
+                    <legend>How do you want to attend?</legend>
+                    {[["online", "Online", "Live classes from home"], ["offline", "Offline", "At our Madurai centre"]].map(([value, label, hint]) => (
+                      <label key={value} className={student.preferredMode === value ? "is-on" : undefined}>
+                        <input type="radio" name="preferredMode" value={value} checked={student.preferredMode === value} onChange={update} />
+                        <span><strong>{label}</strong><small>{hint}</small></span>
+                      </label>
+                    ))}
+                  </fieldset>
 
                   {(course.batches?.length > 0 || course.deliveryMode === "online") && (
                     <details className="pjcd-prefs-wrap">
@@ -920,7 +949,7 @@ export default function CourseDetail({ course, related = [], onBack }) {
 
                   <button type="submit" className="pjcd-pay" disabled={busy || checkoutOpen || !open || !terms}>
                     <Lock size={17} aria-hidden="true" />
-                    {busy ? "Preparing secure checkout…" : checkoutOpen ? "Checkout is open…" : !open ? "Registration is closed" : `Proceed to secure checkout`}
+                    {busy ? "Preparing secure checkout…" : checkoutOpen ? "Checkout is open…" : !open ? "Registration is closed" : `Pay ${inr(course.priceMinor)} securely`}
                   </button>
                 </form>
 
@@ -946,13 +975,14 @@ export default function CourseDetail({ course, related = [], onBack }) {
                     <li><Landmark size={15} aria-hidden="true" /> Net banking</li>
                     <li><Wallet size={15} aria-hidden="true" /> Wallets</li>
                   </ul>
-                  <p className="pjcd-secure__note">Payment is confirmed first, then reviewed by our team before your seat is confirmed.</p>
+                  <p className="pjcd-secure__note">Your seat is confirmed as soon as the payment succeeds. You get the receipt by email.</p>
                 </div>
               </div>
             </div>
           </aside>
         </div>
       </div>
+      {result && <PaymentResult result={result} onClose={() => { if (result.type === "success") { window.location.assign("/services/courses#course-catalog"); return; } setResult(null); }} onRetry={() => { setResult(null); document.getElementById("course-purchase")?.scrollIntoView({ behavior: "smooth", block: "start" }); }} />}
 
       {/* ================= YOU MAY ALSO LIKE ================= */}
       {related.length > 0 && <RelatedCourses items={related} />}
@@ -1023,5 +1053,67 @@ function RelatedCourses({ items }) {
         </div>
       </div>
     </section>
+  );
+}
+
+/* =============================================================================
+   PAYMENT RESULT POPUP — success, failure, closed or still confirming.
+   ============================================================================= */
+const RESULT_COPY = {
+  success: { title: "Payment successful", lead: "Thank you! Your seat is confirmed. Our team will call you with your batch details and the next steps." },
+  failed: { title: "Payment failed", lead: "No money has been taken for this attempt. You can try again." },
+  closed: { title: "Payment not completed", lead: "The payment window was closed." },
+  pending: { title: "Payment being confirmed", lead: "Please do not pay again. We are checking this payment with the bank." },
+};
+
+function PaymentResult({ result, onClose, onRetry }) {
+  const closeRef = useRef(null);
+  useEffect(() => {
+    closeRef.current?.focus();
+    const onKey = (e) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("keydown", onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.removeEventListener("keydown", onKey); document.body.style.overflow = prev; };
+  }, [onClose]);
+
+  const copy = RESULT_COPY[result.type] || RESULT_COPY.pending;
+  const ok = result.type === "success";
+  const rows = [
+    ["Course", result.course],
+    result.amount && [ok ? "Amount paid" : "Amount", inr(result.amount)],
+    ["Reference", result.reference],
+    result.paymentId && ["Payment ID", result.paymentId],
+    ok && result.email && ["Receipt sent to", result.email],
+    ok && result.paidAt && ["Date", new Date(result.paidAt).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" })],
+  ].filter(Boolean);
+
+  return (
+    <div className="pjcd-result" role="presentation" onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+      <div className={`pjcd-result__box pjcd-result__box--${result.type}`} role="dialog" aria-modal="true" aria-labelledby="pjcd-result-title" aria-describedby="pjcd-result-lead">
+        <span className="pjcd-result__icon" aria-hidden="true">{ok ? <Check size={30} /> : result.type === "pending" ? <Clock size={28} /> : <span className="pjcd-result__x">!</span>}</span>
+        <h2 id="pjcd-result-title">{copy.title}</h2>
+        <p id="pjcd-result-lead" className="pjcd-result__lead">{copy.lead}</p>
+        {result.reason && !ok && (
+          <p className="pjcd-result__reason"><strong>Reason:</strong> {result.reason}</p>
+        )}
+        <dl className="pjcd-result__rows">
+          {rows.map(([label, value]) => (
+            <div key={label}><dt>{label}</dt><dd>{value}</dd></div>
+          ))}
+        </dl>
+        <div className="pjcd-result__actions">
+          {ok && result.receiptUrl && <a className="pjcd-result__primary" href={mediaUrl(result.receiptUrl)}>Download receipt</a>}
+          {(result.type === "failed" || result.type === "closed") && <button type="button" className="pjcd-result__primary" onClick={onRetry}>Try again</button>}
+          <button type="button" ref={closeRef} className="pjcd-result__secondary" onClick={onClose}>{ok ? "Done · Back to courses" : "Close"}</button>
+        </div>
+        {ok && <p className="pjcd-result__help">The receipt is also in your email. Download it before you leave this page if you need it now.</p>}
+        {!ok && (
+          <p className="pjcd-result__help">
+            Need help? Call <a href="tel:+918925450473">+91 89254 50473</a> or <a href={whatsappHref(`Hello ProJenius, I need help with my course payment. Reference: ${result.reference}`)} target="_blank" rel="noopener noreferrer">WhatsApp us</a> with your reference.
+          </p>
+        )}
+      </div>
+    </div>
   );
 }

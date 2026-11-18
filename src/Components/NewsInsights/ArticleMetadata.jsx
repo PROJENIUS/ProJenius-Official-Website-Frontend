@@ -24,6 +24,8 @@ const property = (prop) => () => {
   return m;
 };
 
+const SITE_ORIGIN = (import.meta.env.VITE_SITE_URL || "https://pro-jenius-official-website-fronten.vercel.app").replace(/\/+$/, "");
+
 export default function ArticleMetadata({ item }) {
   useEffect(() => {
     const previousTitle = document.title;
@@ -35,11 +37,14 @@ export default function ArticleMetadata({ item }) {
     document.title = title;
     const restore = [
       setMeta('meta[name="description"]', named("description"), "content", description),
-      setMeta('link[rel="canonical"]', () => Object.assign(document.createElement("link"), { rel: "canonical" }), "href", `${window.location.origin}${path}`),
+      setMeta('link[rel="canonical"]', () => Object.assign(document.createElement("link"), { rel: "canonical" }), "href", new URL(path, SITE_ORIGIN).href),
       setMeta('meta[property="og:title"]', property("og:title"), "content", title),
       setMeta('meta[property="og:description"]', property("og:description"), "content", description),
       setMeta('meta[property="og:type"]', property("og:type"), "content", item ? "article" : "website"),
+      setMeta('meta[property="og:url"]', property("og:url"), "content", new URL(path, SITE_ORIGIN).href),
       setMeta('meta[property="og:image"]', property("og:image"), "content", image),
+      setMeta('meta[name="twitter:title"]', named("twitter:title"), "content", title),
+      setMeta('meta[name="twitter:description"]', named("twitter:description"), "content", description),
     ];
     return () => {
       document.title = previousTitle;

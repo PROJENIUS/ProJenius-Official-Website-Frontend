@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 
 const configuredApiBaseUrl = import.meta.env.VITE_API_BASE_URL?.trim();
-const API = (configuredApiBaseUrl || (import.meta.env.DEV ? "http://localhost:5000" : "")).replace(/\/+$/, "");
+const API = (configuredApiBaseUrl || (import.meta.env.DEV ? "http://localhost:5000" : "https://projenius-official-website-backend.onrender.com")).replace(/\/+$/, "");
 const confirmationRequests = new Map();
 
 function confirmOnce(token) {

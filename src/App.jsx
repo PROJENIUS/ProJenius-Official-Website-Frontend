@@ -5,6 +5,7 @@ import Navbar from "./Components/Common/Navbar/Navbar.jsx";
 import Footer from "./Components/Common/Footer/Footer.jsx";
 
 const HomePage = lazy(() => import("./Pages/Home/HomePage.jsx"));
+const NotFoundPage = lazy(() => import("./Pages/NotFound/NotFoundPage.jsx"));
 const AboutPage = lazy(() => import("./Pages/About/AboutPage.jsx"));
 const ContactPage = lazy(() => import("./Pages/Contact/ContactPage.jsx"));
 const SoftwareDevelopmentPage = lazy(() => import("./Pages/Solutions/SoftwareDevelopment/SoftwareDevelopmentPage.jsx"));
@@ -49,24 +50,76 @@ const ROUTE_TITLES = {
   "/services/career-guidance": `Career Guidance | ${COMPANY_DISPLAY_NAME}`,
   "/workshop": `Workshops & Training | ${COMPANY_DISPLAY_NAME}`,
   "/startup": `Startup & Innovation | ${COMPANY_DISPLAY_NAME}`,
+  "/incubate": `Startup Incubation | ${COMPANY_DISPLAY_NAME}`,
   "/incubate/apply": `Apply for Incubation | ${COMPANY_DISPLAY_NAME}`,
   "/join-our-team": `Join Our Team | ${COMPANY_DISPLAY_NAME}`,
   "/news-insights": `News & Insights | ${COMPANY_DISPLAY_NAME}`,
   "/newsletter/confirm": `Newsletter Subscription | ${COMPANY_DISPLAY_NAME}`,
+  "/404": `Page Not Found | ${COMPANY_DISPLAY_NAME}`,
 };
+
+const SITE_ORIGIN = (import.meta.env.VITE_SITE_URL || "https://pro-jenius-official-website-fronten.vercel.app").replace(/\/+$/, "");
+
+function updateMeta(selector, create, attribute, value) {
+  let node = document.querySelector(selector);
+  if (!node) {
+    node = create();
+    document.head.appendChild(node);
+  }
+  node.setAttribute(attribute, value);
+}
 
 function RouteTitle() {
   const { pathname } = useLocation();
   useEffect(() => {
-    if (pathname.startsWith("/news-insights/")) return;
-    if (pathname.startsWith("/services/courses/receipt/")) {
-      document.title = `Secure Course Receipt | ${COMPANY_DISPLAY_NAME}`;
-      return;
+    const dynamicContentRoute = pathname.startsWith("/news-insights/")
+      || (pathname.startsWith("/services/courses/") && pathname !== "/services/courses/terms")
+      || pathname.startsWith("/newsletter/unsubscribe/");
+    const knownRoute = Boolean(ROUTE_TITLES[pathname])
+      || pathname.startsWith("/news-insights")
+      || pathname.startsWith("/services/courses/")
+      || pathname.startsWith("/newsletter/unsubscribe/");
+    const isNotFound = !knownRoute;
+
+    if (!dynamicContentRoute) {
+      document.title = pathname.startsWith("/services/courses/receipt/")
+        ? `Secure Course Receipt | ${COMPANY_DISPLAY_NAME}`
+        : pathname.startsWith("/newsletter/unsubscribe/")
+          ? `Newsletter Preferences | ${COMPANY_DISPLAY_NAME}`
+          : ROUTE_TITLES[pathname] || (isNotFound ? ROUTE_TITLES["/404"] : COMPANY_DISPLAY_NAME);
     }
-    if (pathname.startsWith("/services/courses/") && pathname !== "/services/courses/terms") return;
-    document.title = pathname.startsWith("/newsletter/unsubscribe/")
-      ? `Newsletter Preferences | ${COMPANY_DISPLAY_NAME}`
-      : ROUTE_TITLES[pathname] || COMPANY_DISPLAY_NAME;
+
+    const canonical = new URL(pathname, SITE_ORIGIN).href;
+    const noIndex = isNotFound
+      || pathname.startsWith("/newsletter/")
+      || pathname === "/incubate/apply"
+      || pathname.startsWith("/services/courses/receipt/");
+    updateMeta(
+      'link[rel="canonical"]',
+      () => Object.assign(document.createElement("link"), { rel: "canonical" }),
+      "href",
+      canonical,
+    );
+    updateMeta(
+      'meta[name="robots"]',
+      () => Object.assign(document.createElement("meta"), { name: "robots" }),
+      "content",
+      noIndex ? "noindex,follow" : "index,follow",
+    );
+    if (!dynamicContentRoute) {
+      updateMeta(
+        'meta[property="og:title"]',
+        () => Object.assign(document.createElement("meta"), { property: "og:title" }),
+        "content",
+        document.title,
+      );
+    }
+    updateMeta(
+      'meta[property="og:url"]',
+      () => Object.assign(document.createElement("meta"), { property: "og:url" }),
+      "content",
+      canonical,
+    );
   }, [pathname]);
   return null;
 }
@@ -148,6 +201,7 @@ function App() {
           <Route path="/blog/:slug" element={<LegacyBlogArticle />} />
           <Route path="/newsletter/confirm" element={<NewsletterActionPage mode="confirm" />} />
           <Route path="/newsletter/unsubscribe/:subscriberId" element={<NewsletterActionPage mode="unsubscribe" />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
         <Footer />
       </Suspense>

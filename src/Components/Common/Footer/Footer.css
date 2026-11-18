@@ -240,6 +240,10 @@
   color: var(--pjf-ok);
 }
 
+.pjh-footer__news-msg.is-warning {
+  color: #f2b84b;
+}
+
 .pjh-footer__news-msg.is-error {
   color: var(--pjf-err);
 }

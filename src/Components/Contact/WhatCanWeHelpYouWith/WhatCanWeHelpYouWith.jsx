@@ -38,7 +38,7 @@ import SectionTitleLine from "../../Common/SectionTitleLine/SectionTitleLine.jsx
    =========================================================================== */
 
 const configuredApiBaseUrl = import.meta.env.VITE_API_BASE_URL?.trim();
-const apiBaseUrl = (configuredApiBaseUrl || (import.meta.env.DEV ? "http://localhost:5000" : ""))
+const apiBaseUrl = (configuredApiBaseUrl || (import.meta.env.DEV ? "http://localhost:5000" : "https://projenius-official-website-backend.onrender.com"))
   .replace(/\/+$/, "");
 const CONTACT_FORM_ENDPOINT = apiBaseUrl
   ? `${apiBaseUrl}/api/contact/enquiries`

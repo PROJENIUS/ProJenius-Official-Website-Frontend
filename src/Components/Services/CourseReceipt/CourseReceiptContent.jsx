@@ -4,7 +4,7 @@ import "./CourseReceipt.css";
 
 const configuredApiBaseUrl = import.meta.env.VITE_API_BASE_URL?.trim();
 const API = (configuredApiBaseUrl
-  || (import.meta.env.DEV ? "http://localhost:5000" : "")).replace(/\/+$/, "");
+  || (import.meta.env.DEV ? "http://localhost:5000" : "https://projenius-official-website-backend.onrender.com")).replace(/\/+$/, "");
 
 export default function CourseReceiptContent() {
   const { token } = useParams();

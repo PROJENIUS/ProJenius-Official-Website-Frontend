@@ -1,6 +1,7 @@
 import { useRef } from "react";
 
 import useScrollReveal from "../../hooks/useScrollReveal.js";
+import useMetaDescription from "../../hooks/useMetaDescription.js";
 import "../../styles/pages/HomePage.css";
 
 import HomeHero from "../../Components/Home/HomeHero/HomeHero.jsx";
@@ -19,6 +20,7 @@ import ContactSection from "../../Components/Home/ContactSection/ContactSection.
    [data-reveal] element on the page (see useScrollReveal). */
 export default function Home() {
     const pageRef = useRef(null);
+    useMetaDescription("Explore ProJenius Innovation Technology in Madurai: software and hardware solutions, product development, hands-on courses, internships and workshops.");
     useScrollReveal(pageRef);
 
     return (
