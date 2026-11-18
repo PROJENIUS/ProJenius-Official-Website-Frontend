@@ -21,6 +21,9 @@ import { Link } from "react-router-dom";
 import { normalizeApiBase, resolveApiUrl } from "../../../../utils/apiUrl.js";
 import { loadRazorpayCheckout } from "../../Courses/ExploreOurCourses/razorpayCheckout.js";
 import "./ASmallFee.css";
+import WheelTimePicker from "./WheelTimePicker.jsx";
+import { clockLabel, isTimeAllowed } from "./clockTime.js";
+import "./ClockTimePicker.css";
 import TypedPhrase from "../../../Common/TypedPhrase/TypedPhrase.jsx";
 
 import SectionTitleLine from "../../../Common/SectionTitleLine/SectionTitleLine.jsx";
@@ -56,9 +59,6 @@ const FIXED_TIME_SLOTS = [
   { label: "6:00 PM", hour: 18, minute: 0 },
 ];
 
-const AM_HOURS = [9, 10, 11];
-const PM_HOURS = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-const ALL_MINUTES = [0, 15, 30, 45];
 const WEEK_DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 const TARGET_ROLES = [
@@ -110,13 +110,6 @@ const getFirstAvailableSlot = (date) => {
   );
 };
 
-const getCustom24Hour = (h, period) => {
-  if (period === "AM") {
-    return h === 12 ? 0 : h;
-  }
-  return h === 12 ? 12 : h + 12;
-};
-
 /* =========================================================
    SESSION 3: COMPONENT LOGIC & STATE
 ========================================================= */
@@ -152,10 +145,6 @@ const ASmallFee = () => {
     return { hour: init.hour, minute: init.minute, isCustom: false };
   });
 
-  const [customHour, setCustomHour] = useState(5);
-  const [customMinute, setCustomMinute] = useState(30);
-  const [customAmPm, setCustomAmPm] = useState("PM");
-  const [customTimeNotice, setCustomTimeNotice] = useState("");
 
   const [formData, setFormData] = useState({
     name: "",
@@ -185,105 +174,6 @@ const ASmallFee = () => {
       .catch(() => {});
   };
   useEffect(loadConfig, []);
-
-  /* Dynamic Time Filtering for Convenient Slots */
-  const isAmAvailable = useMemo(() => {
-    const now = currentTime;
-    if (!isSameDay(selectedDate, now)) return true;
-    return AM_HOURS.some((h) =>
-      ALL_MINUTES.some(
-        (m) => !isSlotExpired(selectedDate, getCustom24Hour(h, "AM"), m)
-      )
-    );
-  }, [selectedDate, currentTime]);
-
-  const isPmAvailable = useMemo(() => {
-    const now = currentTime;
-    if (!isSameDay(selectedDate, now)) return true;
-    return PM_HOURS.some((h) =>
-      ALL_MINUTES.some(
-        (m) => !isSlotExpired(selectedDate, getCustom24Hour(h, "PM"), m)
-      )
-    );
-  }, [selectedDate, currentTime]);
-
-  useEffect(() => {
-    if (!isAmAvailable && customAmPm === "AM") {
-      setCustomAmPm("PM");
-    }
-  }, [isAmAvailable, customAmPm]);
-
-  const availableHours = useMemo(() => {
-    const candidateHours = customAmPm === "AM" ? AM_HOURS : PM_HOURS;
-    const now = currentTime;
-    if (!isSameDay(selectedDate, now)) return candidateHours;
-    return candidateHours.filter((h) => {
-      const h24 = getCustom24Hour(h, customAmPm);
-      return ALL_MINUTES.some((m) => !isSlotExpired(selectedDate, h24, m));
-    });
-  }, [selectedDate, customAmPm, currentTime]);
-
-  useEffect(() => {
-    if (availableHours.length > 0 && !availableHours.includes(customHour)) {
-      setCustomHour(availableHours[0]);
-    }
-  }, [availableHours, customHour]);
-
-  const availableMinutes = useMemo(() => {
-    const now = currentTime;
-    if (!isSameDay(selectedDate, now)) return ALL_MINUTES;
-    const h24 = getCustom24Hour(customHour, customAmPm);
-    const filtered = ALL_MINUTES.filter(
-      (m) => !isSlotExpired(selectedDate, h24, m)
-    );
-    return filtered.length > 0 ? filtered : [0];
-  }, [selectedDate, customHour, customAmPm, currentTime]);
-
-  useEffect(() => {
-    if (
-      availableMinutes.length > 0 &&
-      !availableMinutes.includes(customMinute)
-    ) {
-      setCustomMinute(availableMinutes[0]);
-    }
-  }, [availableMinutes, customMinute]);
-
-  const allUpcomingConvenientSlots = useMemo(() => {
-    const slots = [];
-    const periods = [];
-    if (isAmAvailable) periods.push("AM");
-    if (isPmAvailable) periods.push("PM");
-
-    for (const ap of periods) {
-      const hours = ap === "AM" ? AM_HOURS : PM_HOURS;
-      for (const h of hours) {
-        const h24 = getCustom24Hour(h, ap);
-        for (const m of ALL_MINUTES) {
-          if (!isSlotExpired(selectedDate, h24, m)) {
-            const hStr = h < 10 ? `0${h}` : `${h}`;
-            const mStr = m < 10 ? `0${m}` : `${m}`;
-            slots.push({
-              h,
-              m,
-              ap,
-              h24,
-              label: `${hStr}:${mStr} ${ap}`,
-            });
-          }
-        }
-      }
-    }
-    return slots;
-  }, [selectedDate, isAmAvailable, isPmAvailable]);
-
-  const upcomingQuickChips = useMemo(() => {
-    const onHalfHours = allUpcomingConvenientSlots.filter(
-      (s) => s.m === 0 || s.m === 30
-    );
-    return onHalfHours.length > 0
-      ? onHalfHours.slice(0, 6)
-      : allUpcomingConvenientSlots.slice(0, 6);
-  }, [allUpcomingConvenientSlots]);
 
   /* Real-Time Auto Advance Slot Check */
   useEffect(() => {
@@ -380,53 +270,20 @@ const ASmallFee = () => {
     setAutoMoveMessage("");
   };
 
-  const formattedCustomTime = useMemo(() => {
-    const hStr = customHour < 10 ? `0${customHour}` : `${customHour}`;
-    const mStr = customMinute < 10 ? `0${customMinute}` : `${customMinute}`;
-    return `${hStr}:${mStr} ${customAmPm}`;
-  }, [customHour, customMinute, customAmPm]);
-
-  const validateCustom = (h, m, ap) => {
-    const h24Val = getCustom24Hour(h, ap);
-    if (isSlotExpired(selectedDate, h24Val, m)) {
-      setCustomTimeNotice(
-        "This time has already passed for today. Please pick an upcoming time."
-      );
-      return false;
-    }
-    setCustomTimeNotice("");
-    return true;
-  };
-
-  const selectQuickConvenientSlot = (quick) => {
-    setCustomHour(quick.h);
-    setCustomMinute(quick.m);
-    setCustomAmPm(quick.ap);
-    const valid = validateCustom(quick.h, quick.m, quick.ap);
-    if (valid) {
-      setSelectedTime(quick.label);
-      setSelectedSlotDetails({
-        hour: getCustom24Hour(quick.h, quick.ap),
-        minute: quick.m,
-        isCustom: true,
-      });
-    }
-  };
-
-  const applyCustomConvenientTime = () => {
-    const valid = validateCustom(customHour, customMinute, customAmPm);
-    if (!valid) return;
-
-    setSelectedTime(formattedCustomTime);
-    setSelectedSlotDetails({
-      hour: getCustom24Hour(customHour, customAmPm),
-      minute: customMinute,
-      isCustom: true,
-    });
+  /* Clock picker: selecting a time applies it straight away. */
+  const pickCustomTime = (h24, m) => {
+    if (!isTimeAllowed(selectedDate, h24, m, currentTime)) return;
+    setSelectedTime(clockLabel(h24, m));
+    setSelectedSlotDetails({ hour: h24, minute: m, isCustom: true });
   };
 
   const handleProceedToDetails = () => {
     if (!selectedTime || !termsAccepted) return;
+    if (selectedSlotDetails?.isCustom && !isTimeAllowed(selectedDate, selectedSlotDetails.hour, selectedSlotDetails.minute, new Date())) {
+      setSelectedTime("");
+      setAutoMoveMessage("That time is now too close. Please pick a later time on the clock.");
+      return;
+    }
     setCurrentStep(2);
   };
 
@@ -799,10 +656,13 @@ const ASmallFee = () => {
                     className={`asf-mode-tab ${
                       slotMode === "custom" ? "asf-mode-active" : ""
                     }`}
-                    onClick={() => setSlotMode("custom")}
+                    onClick={() => {
+                      setSlotMode("custom");
+                      if (!selectedSlotDetails?.isCustom) setSelectedTime("");
+                    }}
                   >
                     <Clock size={14} />
-                    <span>Book Convenient Slot 🕒</span>
+                    <span>Pick Your Own Time</span>
                   </button>
                 </div>
 
@@ -853,64 +713,13 @@ const ASmallFee = () => {
                 {/* CONVENIENT SLOT */}
                 {slotMode === "custom" && (
                   <div className="asf-convenient-box">
-                    {allUpcomingConvenientSlots.length > 0 && (
-                      <div className="asf-quick-select-wrap">
-                        <label>Select From All Upcoming Times:</label>
-                        <select
-                          className="asf-full-select"
-                          value={formattedCustomTime}
-                          onChange={(e) => {
-                            const found = allUpcomingConvenientSlots.find(
-                              (s) => s.label === e.target.value
-                            );
-                            if (found) selectQuickConvenientSlot(found);
-                          }}
-                        >
-                          {allUpcomingConvenientSlots.map((s) => (
-                            <option key={s.label} value={s.label}>
-                              {s.label} (Convenient Slot)
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    )}
-
-                    {upcomingQuickChips.length > 0 && (
-                      <div className="asf-chips-wrap">
-                        <span className="asf-chips-title">Popular Slots:</span>
-                        <div className="asf-chips-grid">
-                          {upcomingQuickChips.map((quick) => (
-                            <button
-                              type="button"
-                              key={quick.label}
-                              className={`asf-chip-btn ${
-                                selectedTime === quick.label ? "active" : ""
-                              }`}
-                              onClick={() => selectQuickConvenientSlot(quick)}
-                            >
-                              {quick.label}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {customTimeNotice && (
-                      <div className="asf-warning-banner">
-                        <AlertCircle size={14} />
-                        <span>{customTimeNotice}</span>
-                      </div>
-                    )}
-
-                    <button
-                      type="button"
-                      className="asf-apply-time-btn"
-                      disabled={Boolean(customTimeNotice)}
-                      onClick={applyCustomConvenientTime}
-                    >
-                      <Check size={16} />
-                      <span>Set Convenient Slot ({formattedCustomTime})</span>
-                    </button>
+                    <WheelTimePicker
+                      key={formatDateKey(selectedDate)}
+                      date={selectedDate}
+                      now={currentTime}
+                      value={selectedSlotDetails?.isCustom && selectedTime ? { h24: selectedSlotDetails.hour, m: selectedSlotDetails.minute } : null}
+                      onChange={pickCustomTime}
+                    />
                   </div>
                 )}
 

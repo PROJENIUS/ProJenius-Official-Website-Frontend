@@ -1,0 +1,48 @@
+/* Clock time picker (convenient slot) */
+.ctp { display: grid; justify-items: center; gap: 10px; padding: 16px; border: 1px solid #dde6f0; border-radius: 16px; background: #f7fafd; }
+.ctp-readout { display: flex; align-items: center; gap: 6px; }
+.ctp-seg {
+  min-width: 70px; padding: 6px 10px; border: 2px solid transparent; border-radius: 12px;
+  background: #fff; color: #0b1a2e; font-family: var(--pjds-font-heading); font-size: 2.1rem; font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; cursor: pointer;
+  box-shadow: 0 2px 8px -4px rgba(7, 20, 38, 0.25); transition: border-color 160ms, color 160ms;
+}
+.ctp-seg.is-active { border-color: #1493d1; color: #0478a8; }
+.ctp-seg:disabled { cursor: default; color: #9aa9bb; }
+.ctp-colon { font-family: var(--pjds-font-heading); font-size: 2rem; font-weight: 800; line-height: 1; color: #0b1a2e; }
+.ctp-ampm { display: grid; gap: 4px; margin-left: 8px; }
+.ctp-ampm button { min-width: 48px; padding: 4px 8px; border: 1px solid #cfdae6; border-radius: 8px; background: #fff; color: #34506f; font-family: inherit; font-size: 0.8rem; font-weight: 700; cursor: pointer; }
+.ctp-ampm button[aria-pressed="true"] { background: #0b1a2e; border-color: #0b1a2e; color: #fff; }
+.ctp-ampm button:disabled { opacity: 0.4; cursor: not-allowed; }
+.ctp-step { margin: 0; font-size: 0.85rem; font-weight: 700; color: #0478a8; }
+
+.ctp-dial { position: relative; width: min(240px, 72vw); aspect-ratio: 1; max-width: 100%; border-radius: 50%; background: #fff; border: 1px solid #dde6f0; box-shadow: inset 0 0 0 10px #f1f6fb; }
+.ctp-center { position: absolute; left: 50%; top: 50%; width: 10px; height: 10px; margin: -5px 0 0 -5px; border-radius: 50%; background: #1493d1; z-index: 2; }
+.ctp-hand { position: absolute; left: 50%; bottom: 50%; width: 2px; height: 32%; margin-left: -1px; background: #1493d1; transform-origin: 50% 100%; transition: transform 220ms ease; z-index: 1; }
+.ctp-num {
+  position: absolute; z-index: 3; display: grid; place-items: center; width: 38px; height: 38px; margin: -19px 0 0 -19px;
+  border: 0; border-radius: 50%; background: transparent; color: #0b1a2e; font-family: inherit; font-size: 0.95rem; font-weight: 700; line-height: 1; cursor: pointer; transition: background-color 150ms, color 150ms, transform 150ms;
+}
+.ctp-num--min { width: 46px; height: 46px; margin: -23px 0 0 -23px; font-size: 0.9rem; }
+.ctp-num:hover:not(:disabled) { background: #e6f4fb; transform: scale(1.06); }
+.ctp-num.is-on { background: #1493d1; color: #fff; }
+.ctp-num:disabled { color: #c3ccd7; cursor: not-allowed; text-decoration: line-through; }
+.ctp-num:focus-visible, .ctp-seg:focus-visible, .ctp-ampm button:focus-visible { outline: 2px solid #0478a8; outline-offset: 2px; }
+.ctp-hint { margin: 0; font-size: 0.78rem; color: #5b6b80; text-align: center; }
+.ctp-closed { margin: 0; padding: 12px 14px; border-radius: 12px; background: #fff4e0; color: #7a4200; font-size: 0.9rem; }
+@media (prefers-reduced-motion: reduce) { .ctp-hand, .ctp-num, .ctp-seg { transition: none; } }
+
+/* Wheel time picker (alarm style) */
+.wtp { display: grid; justify-items: center; gap: 10px; padding: 16px 12px; border: 1px solid #dde6f0; border-radius: 16px; background: #f7fafd; }
+.wtp-until { margin: 0; font-size: 0.86rem; font-weight: 700; color: #0478a8; }
+.wtp-wheels { position: relative; display: flex; align-items: center; gap: 4px; padding: 0 10px; border-radius: 16px; background: #071426; box-shadow: inset 0 10px 18px -12px rgba(0,0,0,.6), inset 0 -10px 18px -12px rgba(0,0,0,.6); }
+.wtp-band { position: absolute; left: 8px; right: 8px; top: 50%; height: 44px; margin-top: -22px; border-radius: 10px; background: rgba(32, 200, 245, 0.16); border: 1px solid rgba(32, 200, 245, 0.45); pointer-events: none; }
+.wtp-wheel { position: relative; width: 76px; border-radius: 10px; outline: none; -webkit-mask-image: linear-gradient(transparent, #000 30%, #000 70%, transparent); mask-image: linear-gradient(transparent, #000 30%, #000 70%, transparent); }
+.wtp-wheel:last-child { width: 64px; }
+.wtp-wheel:focus-visible { box-shadow: 0 0 0 2px #20c8f5; }
+.wtp-scroll { overflow-y: auto; scroll-snap-type: y mandatory; scrollbar-width: none; perspective: 400px; overscroll-behavior: contain; }
+.wtp-scroll::-webkit-scrollbar { display: none; }
+.wtp-item { display: grid; place-items: center; width: 100%; border: 0; background: none; color: #fff; font-family: var(--pjds-font-heading); font-size: 1.55rem; font-weight: 700; font-variant-numeric: tabular-nums; scroll-snap-align: center; cursor: pointer; transform-origin: 50% 50%; }
+.wtp-item.is-on { color: #20c8f5; font-size: 1.75rem; }
+.wtp-item:disabled { color: #8a97a8; cursor: not-allowed; text-decoration: line-through; }
+.wtp-colon { position: relative; z-index: 1; color: #20c8f5; font-family: var(--pjds-font-heading); font-size: 1.7rem; font-weight: 800; }
+@media (prefers-reduced-motion: reduce) { .wtp-item { transform: none !important; } }
