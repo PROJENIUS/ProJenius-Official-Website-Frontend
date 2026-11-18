@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Users,
   CheckCircle2,
@@ -19,22 +19,31 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { normalizeApiBase, resolveApiUrl } from "../../../../utils/apiUrl.js";
+import { loadRazorpayCheckout } from "../../Courses/ExploreOurCourses/razorpayCheckout.js";
 import "./ASmallFee.css";
-import TypedPhrase from "../../../Common/TypedPhrase/TypedPhrase.jsx";
+import TypedPhrase from "../../../Common/TypedPhrase/TypedPhrase.jsx";
+
 import SectionTitleLine from "../../../Common/SectionTitleLine/SectionTitleLine.jsx";
 
-/* Booking requests are sent to the existing ProJenius enquiry API (the same
-   endpoint and payload format as the Contact page) as a "general" enquiry, so
-   the team receives them in the admin dashboard. The slot is a preference: the
-   team confirms it and shares the meeting link. */
+/* Booking = payment. The student picks a slot, pays the fee set by the admin
+   (Razorpay), and the slot is locked for them. The confirmation email carries
+   the Google Meet link and the receipt; the admin gets the booking + receipt. */
 const API_BASE = normalizeApiBase(import.meta.env.VITE_API_BASE_URL?.trim(), import.meta.env.DEV);
 
-/* Mirrors the Contact page: the reference may be top-level or under data. */
-const findReferenceId = (body) => {
-  const candidates = [body?.data?.referenceId, body?.data?.reference, body?.data?.id, body?.data?._id, body?.referenceId, body?.id];
-  const found = candidates.find((value) => typeof value === "string" && value.trim());
-  return found ? found.trim() : "";
-};
+const guidanceUrl = (path) => resolveApiUrl(`/api/guidance${path}`, API_BASE, window.location.origin);
+const rupees = (minor) => `₹${Math.round((minor || 0) / 100).toLocaleString("en-IN")}`;
+/* Same key the server uses to lock a slot (minute precision, UTC). */
+const slotKey = (date, hour, minute) => { const d = new Date(date); d.setHours(hour, minute, 0, 0); return d.toISOString().slice(0, 16); };
+async function postJson(path, body, headers = {}) {
+  const response = await fetch(guidanceUrl(path), { method: "POST", headers: { "Content-Type": "application/json", ...headers }, body: JSON.stringify(body) });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) throw Object.assign(new Error(data.error || "Something went wrong. Please try again."), { status: response.status });
+  return data;
+}
+function failureReason(error) {
+  const t = error?.description || (error?.reason ? String(error.reason).replace(/_/g, " ") : "");
+  return t ? `${t.charAt(0).toUpperCase()}${t.slice(1)}${/[.!]$/.test(t) ? "" : "."}` : "The bank or payment app declined the payment.";
+}
 
 /* =========================================================
    SESSION 1: TIME SLOTS & STATIC DATA
@@ -160,6 +169,22 @@ const ASmallFee = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [bookingId, setBookingId] = useState("");
   const [submitError, setSubmitError] = useState("");
+  const [config, setConfig] = useState({ feeMinor: 9900, takenSlots: [], bookingOpen: true, loaded: false });
+  const [paid, setPaid] = useState(null);
+  const [failure, setFailure] = useState(null);
+  const idemRef = useRef(null);
+  const fee = rupees(config.feeMinor);
+  const isTaken = (date, hour, minute) => config.takenSlots.includes(slotKey(date, hour, minute));
+
+  // Fee, open/closed and already-booked slots come from the server.
+  const loadConfig = () => {
+    if (!API_BASE) return;
+    fetch(guidanceUrl("/config"), { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => { if (data?.item) setConfig({ ...data.item, loaded: true }); })
+      .catch(() => {});
+  };
+  useEffect(loadConfig, []);
 
   /* Dynamic Time Filtering for Convenient Slots */
   const isAmAvailable = useMemo(() => {
@@ -436,57 +461,73 @@ const ASmallFee = () => {
   const handleSubmitBooking = async (e) => {
     e.preventDefault();
     if (isSubmitting || !validateForm()) return;
+    setFailure(null);
+    setSubmitError("");
 
     if (!API_BASE) {
       setSubmitError("Online booking is temporarily unavailable. Please contact us on WhatsApp or by phone to book your call.");
       return;
     }
+    if (!config.bookingOpen) {
+      setSubmitError("Booking is closed right now. Please contact us on WhatsApp or by phone.");
+      return;
+    }
 
-    const slotText = `${formattedSelectedDate} at ${selectedTime}`;
-    const notes = formData.notes.trim();
+    const slotStart = new Date(selectedDate);
+    slotStart.setHours(selectedSlotDetails.hour, selectedSlotDetails.minute, 0, 0);
     const payload = {
-      enquiryType: "general",
-      sourcePage: "career-guidance",
       name: formData.name.trim(),
       email: formData.email.trim(),
       phone: formData.phone.trim(),
-      message:
-        `1:1 career guidance call request. Preferred slot: ${slotText} (30 minutes). ` +
-        `Preparing for: ${formData.targetRole}.` +
-        (notes ? ` Notes for the mentor: ${notes}` : ""),
-      enquirySpecificFields: {
-        enquiry: "1:1 Career Guidance Call",
-        preferredSlot: slotText,
-        slotType: selectedSlotDetails?.isCustom ? "Convenient slot" : "Fixed slot",
-        targetRole: formData.targetRole,
-      },
-      timestamp: new Date().toISOString(),
+      targetRole: formData.targetRole,
+      notes: formData.notes.trim(),
+      slotStart: slotStart.toISOString(),
+      slotLabel: `${formattedSelectedDate} at ${selectedTime}`,
+      slotType: selectedSlotDetails?.isCustom ? "custom" : "fixed",
+      termsAccepted: true,
     };
+    const fingerprint = JSON.stringify(payload);
+    if (idemRef.current?.fingerprint !== fingerprint) idemRef.current = { fingerprint, key: crypto.randomUUID() };
 
     setIsSubmitting(true);
-    setSubmitError("");
     try {
-      const body = new FormData();
-      body.append("payload", JSON.stringify(payload));
-      const response = await fetch(resolveApiUrl("/api/contact/enquiries", API_BASE, window.location.origin), { method: "POST", body });
-      const responseData = await response.json().catch(() => null);
-      if (!response.ok) {
-        throw new Error(
-          typeof responseData?.error === "string"
-            ? responseData.error
-            : "We could not send your booking request. Please check your details and try again."
-        );
-      }
-      setBookingId(findReferenceId(responseData));
-      setCurrentStep(3);
+      const Razorpay = await loadRazorpayCheckout();
+      const order = await postJson("/orders", payload, { "Idempotency-Key": idemRef.current.key });
+      setBookingId(order.booking.reference);
+      const checkout = new Razorpay({
+        key: order.keyId, order_id: order.order.id, amount: order.order.amount, currency: order.order.currency,
+        name: "ProJenius", description: "1:1 Career Guidance Call", prefill: order.checkout?.prefill,
+        handler: async (result) => {
+          try {
+            const verified = await postJson("/payments/verify", result);
+            if (verified.status === "confirmed") {
+              setPaid({ ...verified.booking, paymentId: result.razorpay_payment_id, receiptUrl: verified.receiptUrl });
+              setCurrentStep(3);
+              loadConfig();
+            } else {
+              setFailure({ title: "Payment being confirmed", reason: "We are checking this payment with the bank. Please do not pay again.", reference: order.booking.reference });
+            }
+          } catch (verifyError) {
+            setFailure({ title: verifyError.status === 409 ? "Slot no longer available" : "Payment being confirmed", reason: verifyError.message, reference: order.booking.reference, paymentId: result.razorpay_payment_id });
+          } finally {
+            setIsSubmitting(false);
+          }
+        },
+        modal: { ondismiss: () => { setIsSubmitting(false); setFailure((current) => current || { title: "Payment not completed", reason: "You closed the payment window. No money has been taken.", reference: order.booking.reference, retry: true }); } },
+      });
+      checkout.on("payment.failed", (response) => {
+        const reason = failureReason(response?.error);
+        postJson("/payments/failure", { orderId: order.order.id, reason }).catch(() => {});
+        idemRef.current = null;
+        setFailure({ title: "Payment failed", reason, reference: order.booking.reference, paymentId: response?.error?.metadata?.payment_id, retry: true });
+        setIsSubmitting(false);
+        loadConfig();
+      });
+      checkout.open();
     } catch (error) {
-      setSubmitError(
-        error instanceof TypeError
-          ? "We could not connect right now. Please try again in a moment."
-          : error.message
-      );
-    } finally {
       setIsSubmitting(false);
+      if (error.status === 409) loadConfig();
+      setSubmitError(error instanceof TypeError ? "We could not connect right now. Please try again in a moment." : error.message);
     }
   };
 
@@ -504,6 +545,9 @@ const ASmallFee = () => {
     setFormErrors({});
     setSubmitError("");
     setBookingId("");
+    setPaid(null);
+    setFailure(null);
+    idemRef.current = null;
     const initialSlot =
       getFirstAvailableSlot(availableDates[0]) || FIXED_TIME_SLOTS[0];
     setSelectedDate(availableDates[0]);
@@ -531,12 +575,12 @@ const ASmallFee = () => {
       "1:1 Career Guidance Call with ProJenius Mentor"
     );
     const details = encodeURIComponent(
-      `Requested ProJenius 1:1 Career Guidance call (awaiting confirmation).\nCandidate: ${
+      `ProJenius 1:1 Career Guidance call (confirmed).\nCandidate: ${
         formData.name || "Student"
-      }\nRole: ${formData.targetRole}\nThe ProJenius team will confirm this slot and share the meeting link.`
+      }\nRole: ${formData.targetRole}${paid?.meetLink ? `\nGoogle Meet: ${paid.meetLink}` : ""}`
     );
     return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${dates}&details=${details}`;
-  }, [selectedDate, selectedSlotDetails, formData]);
+  }, [selectedDate, selectedSlotDetails, formData, paid]);
 
   return (
     <section id="book-call" className="asf-section">
@@ -558,7 +602,7 @@ const ASmallFee = () => {
           </div>
 
           <p className="asf-description">
-            Why ₹99, not free? A nominal fee filters for students who are
+            Why {fee}, not free? A nominal fee filters for students who are
             genuinely serious, allowing our mentors to give their full,
             undistracted attention rather than rushing through high-volume,
             low-commitment calls.
@@ -600,7 +644,7 @@ const ASmallFee = () => {
           <div className="asf-pills">
             <div className="asf-pill asf-pill-wide">
               <ArrowRight size={15} />
-              <strong>₹99 (fully refundable if you're not satisfied)</strong>
+              <strong>{fee} (fully refundable if you're not satisfied)</strong>
             </div>
 
             <div className="asf-pill">
@@ -628,7 +672,7 @@ const ASmallFee = () => {
             <h3>
               {currentStep === 1 && "Book a Call"}
               {currentStep === 2 && "Attendee Details"}
-              {currentStep === 3 && "Request Received"}
+              {currentStep === 3 && "Call Booked"}
             </h3>
           </div>
 
@@ -771,7 +815,8 @@ const ASmallFee = () => {
                         slot.hour,
                         slot.minute
                       );
-                      const isSelected = selectedTime === slot.label;
+                      const taken = isTaken(selectedDate, slot.hour, slot.minute);
+                      const isSelected = selectedTime === slot.label && !taken;
                       const nextSlot = getFirstAvailableSlot(selectedDate);
                       const isNext =
                         nextSlot && nextSlot.label === slot.label && !expired;
@@ -780,10 +825,10 @@ const ASmallFee = () => {
                         <button
                           type="button"
                           key={slot.label}
-                          disabled={expired}
+                          disabled={expired || taken}
                           className={`asf-slot-btn ${
                             isSelected ? "asf-slot-selected" : ""
-                          } ${expired ? "asf-slot-expired" : ""}`}
+                          } ${expired || taken ? "asf-slot-expired" : ""}`}
                           onClick={() => handleTimeChange(slot)}
                         >
                           <div className="asf-slot-label-row">
@@ -792,6 +837,8 @@ const ASmallFee = () => {
                           </div>
                           {expired ? (
                             <span className="asf-tag-passed">Passed</span>
+                          ) : taken ? (
+                            <span className="asf-tag-passed">Booked</span>
                           ) : isNext ? (
                             <span className="asf-tag-next">Next Slot</span>
                           ) : (
@@ -1031,6 +1078,15 @@ const ASmallFee = () => {
                   />
                 </div>
 
+                {failure && (
+                  <div className={`asf-pay-result ${failure.title === "Payment being confirmed" ? "is-pending" : ""}`} role="alert">
+                    <strong>{failure.title}</strong>
+                    <p><b>Reason:</b> {failure.reason}</p>
+                    <small>Reference {failure.reference}{failure.paymentId ? ` · Payment ID ${failure.paymentId}` : ""}</small>
+                    <small>Need help? Call +91 89254 50473 with your reference.</small>
+                  </div>
+                )}
+
                 {submitError && (
                   <p className="asf-submit-error" role="alert">
                     <AlertCircle size={16} aria-hidden="true" />
@@ -1055,11 +1111,11 @@ const ASmallFee = () => {
                     {isSubmitting ? (
                       <>
                         <RefreshCw size={17} className="asf-spin" />
-                        <span>Sending request…</span>
+                        <span>Opening secure payment…</span>
                       </>
                     ) : (
                       <>
-                        <span>Request this call</span>
+                        <span>Pay {fee} &amp; book this call</span>
                         <ArrowRight size={17} aria-hidden="true" />
                       </>
                     )}
@@ -1068,22 +1124,22 @@ const ASmallFee = () => {
               </form>
             )}
 
-            {/* STEP 3: REQUEST RECEIVED */}
+            {/* STEP 3: CALL BOOKED (paid) */}
             {currentStep === 3 && (
               <div className="asf-confirmed-view" role="status">
                 <div className="asf-success-icon-wrap">
                   <CheckCircle2 size={50} aria-hidden="true" />
                 </div>
 
-                <h4 className="asf-confirmed-title">Request received</h4>
+                <h4 className="asf-confirmed-title">Payment successful · call booked</h4>
                 <p className="asf-confirmed-sub">
-                  Thank you, {formData.name || "there"}. The ProJenius team will confirm your slot and
-                  share the meeting link at <strong>{formData.email}</strong> or on WhatsApp.
+                  Thank you, {formData.name || "there"}. Your slot is confirmed. The Google Meet link and your
+                  receipt have been sent to <strong>{formData.email}</strong>.
                 </p>
 
                 {bookingId && (
                   <div className="asf-ref-badge">
-                    <span>Request reference:</span>
+                    <span>Booking reference:</span>
                     <strong>{bookingId}</strong>
                   </div>
                 )}
@@ -1092,57 +1148,54 @@ const ASmallFee = () => {
                   <div className="asf-detail-item">
                     <CalendarDays size={15} aria-hidden="true" />
                     <div>
-                      <small>Requested slot</small>
-                      <strong>
-                        {formattedSelectedDate} at {selectedTime}
-                      </strong>
+                      <small>Date &amp; time</small>
+                      <strong>{formattedSelectedDate} at {selectedTime}</strong>
                     </div>
                   </div>
-
                   <div className="asf-detail-item">
                     <Clock3 size={15} aria-hidden="true" />
                     <div>
                       <small>Duration</small>
-                      <strong>30 Minutes (1:1 Mentoring)</strong>
+                      <strong>{config.callMinutes || 30} minutes (1:1)</strong>
                     </div>
                   </div>
-
                   <div className="asf-detail-item">
                     <User size={15} aria-hidden="true" />
                     <div>
-                      <small>Candidate</small>
-                      <strong>{formData.name || "Student"}</strong>
+                      <small>Amount paid</small>
+                      <strong>{rupees(paid?.amountMinor || config.feeMinor)}</strong>
                     </div>
                   </div>
-
                   <div className="asf-detail-item">
                     <Smartphone size={15} aria-hidden="true" />
                     <div>
                       <small>Status</small>
-                      <strong>Awaiting confirmation</strong>
+                      <strong>Confirmed</strong>
                     </div>
                   </div>
                 </div>
 
                 <div className="asf-confirmed-btns">
-                  <a
-                    href={googleCalendarUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="asf-calendar-link"
-                  >
+                  {paid?.meetLink && (
+                    <a href={paid.meetLink} target="_blank" rel="noopener noreferrer" className="asf-main-btn asf-meet-btn">
+                      <span>Open Google Meet link</span>
+                      <span className="pjds-sr-only"> (opens in a new tab)</span>
+                    </a>
+                  )}
+                  {paid?.receiptUrl && (
+                    <a href={resolveApiUrl(paid.receiptUrl, API_BASE, window.location.origin)} className="asf-calendar-link">
+                      <span>Download receipt</span>
+                    </a>
+                  )}
+                  <a href={googleCalendarUrl} target="_blank" rel="noopener noreferrer" className="asf-calendar-link">
                     <Calendar size={15} aria-hidden="true" />
-                    <span>Add tentative slot to Google Calendar</span>
+                    <span>Add to Google Calendar</span>
                     <span className="pjds-sr-only"> (opens in a new tab)</span>
                   </a>
                 </div>
 
-                <button
-                  type="button"
-                  className="asf-reset-btn"
-                  onClick={handleResetBooking}
-                >
-                  Request Another Call
+                <button type="button" className="asf-reset-btn" onClick={handleResetBooking}>
+                  Book Another Call
                 </button>
               </div>
             )}

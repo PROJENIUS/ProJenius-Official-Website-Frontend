@@ -15,7 +15,10 @@ test("footer newsletter consent is associated with its submit form and reports v
   assert.match(source, /type="submit" disabled=\{newsletterState\.busy\}/);
   assert.match(source, /\["subscribed", "already_subscribed"\]/);
   assert.doesNotMatch(source, /confirmation_required|pending_confirmation|check your email to confirm/i);
-  assert.match(source, /setNewsletterState\(\{ busy: false, message: body\.message, error: false \}\)/);
+  assert.match(source, /warning: \["queued", "failed"\]\.includes\(body\.emailStatus\)/);
+  assert.match(source, /newsletterState\.warning \? " is-warning"/);
+  const styles = await readFile(new URL("../src/Components/Common/Footer/Footer.css", import.meta.url), "utf8");
+  assert.match(styles, /\.pjh-footer__news-msg\.is-warning/);
   assert.match(source, /form\.reset\(\)/);
   assert.match(source, /catch \(error\)/);
 });

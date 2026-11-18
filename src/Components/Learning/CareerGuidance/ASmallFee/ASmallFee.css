@@ -919,3 +919,13 @@
 
 /* Card title was hidden by the shared dark h3 colour */
 main.pjl-page .asf-card-header h3 { color: #ffffff !important; }
+
+/* Payment result (failed / closed / being confirmed) */
+.asf-pay-result { display: grid; gap: 4px; margin: 0 0 14px; padding: 12px 14px; border-radius: 12px; border: 1px solid #f1c4bf; background: #fdecea; color: #8a1c12; text-align: left; }
+.asf-pay-result strong { font-size: 0.98rem; }
+.asf-pay-result p { margin: 0; font-size: 0.9rem; }
+.asf-pay-result small { font-size: 0.8rem; color: #7a3a33; }
+.asf-pay-result.is-pending { border-color: #f3d39b; background: #fff4e0; color: #7a4200; }
+.asf-pay-result.is-pending small { color: #7a4200; }
+.asf-meet-btn { text-decoration: none; justify-content: center; }
+.asf-confirmed-btns { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
