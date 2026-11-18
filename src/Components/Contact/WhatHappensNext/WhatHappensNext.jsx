@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-import TypedPhrase from "../../Common/TypedPhrase/TypedPhrase.jsx";
+import TypedPhrase from "../../Common/TypedPhrase/TypedPhrase.jsx";
+
 import SectionTitleLine from "../../Common/SectionTitleLine/SectionTitleLine.jsx";
 
 /* =============================================================================
@@ -75,11 +76,57 @@ const readCurrentKey = () => {
 };
 
 
+/* ===========================================================================
+   SCROLL - the steps light up one after another as the list scrolls into view
+   and switch off again when scrolling back up (data-on on each step, data-
+   linked when the line to the next step is filled). Reduced motion: all on.
+   =========================================================================== */
+function useStepLighting() {
+  const ref = useRef(null);
+  useEffect(() => {
+    const list = ref.current;
+    if (!list) return undefined;
+    const steps = Array.from(list.children);
+    const apply = (p) => {
+      steps.forEach((step, i) => {
+        const at = steps.length > 1 ? i / (steps.length - 1) : 0;
+        const nextAt = steps.length > 1 ? (i + 1) / (steps.length - 1) : 1;
+        if (p >= at - 0.02) step.dataset.on = "true"; else delete step.dataset.on;
+        if (p >= nextAt - 0.02) step.dataset.linked = "true"; else delete step.dataset.linked;
+      });
+    };
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
+      apply(1);
+      return undefined;
+    }
+    list.dataset.animated = "true";
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const top = list.getBoundingClientRect().top;
+      const vh = window.innerHeight || 1;
+      apply(Math.min(1, Math.max(0, (vh * 0.85 - top) / (vh * 0.45))));
+    };
+    const onScroll = () => { if (!frame) frame = window.requestAnimationFrame(update); };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
+  }, []);
+  return ref;
+}
+
+
 /* =============================================================================
    MAIN COMPONENT
    ============================================================================= */
 const WhatHappensNext = () => {
   const [activeKey, setActiveKey] = useState(readCurrentKey);
+  const stepsRef = useStepLighting();
 
   /* Listen for selection changes from the enquiry section. */
   useEffect(() => {
@@ -112,9 +159,9 @@ const WhatHappensNext = () => {
         {/* ===================================================================
             4-STEP PROCESS
             =================================================================== */}
-        <ol className="pj-contact-next__steps">
+        <ol ref={stepsRef} className="pj-contact-next__steps">
           {PROCESS_STEPS.map((step) => (
-            <li className="pj-contact-next__step" key={step.number} data-reveal="up" data-reveal-delay={String(Number(step.number))}>
+            <li className="pj-contact-next__step" key={step.number}>
               <span className="pj-contact-next__number" aria-hidden="true">
                 {step.number}
               </span>

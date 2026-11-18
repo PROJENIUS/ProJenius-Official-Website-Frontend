@@ -301,3 +301,41 @@
     transition: none;
   }
 }
+
+/* =============================================================================
+   SCROLL LIGHTING - a cyan line fills from step to step; each number fills
+   cyan and its text rises in as the line reaches it (both scroll directions).
+   ============================================================================= */
+.pj-contact-next__step::before {
+  content: ""; position: absolute; z-index: 0;
+  top: 24px; left: 62px; right: -12px; height: 2px;
+  background: linear-gradient(90deg, #0478a8, #20c8f5);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 500ms var(--pjds-ease);
+}
+.pj-contact-next__step:last-child::before { display: none; }
+.pj-contact-next__step[data-linked]::before { transform: scaleX(1); }
+.pj-contact-next__number { transition: background-color 360ms, color 360ms, box-shadow 360ms, transform 360ms var(--pjds-ease); }
+.pj-contact-next__step[data-on] .pj-contact-next__number {
+  background-color: #20c8f5; color: #071426; box-shadow: 0 0 0 6px rgba(32, 200, 245, 0.18); transform: scale(1.06);
+}
+.pj-contact-next__steps[data-animated] .pj-contact-next__step-title,
+.pj-contact-next__steps[data-animated] .pj-contact-next__step-text {
+  opacity: 0.35; transform: translateY(10px);
+  transition: opacity 420ms ease, transform 520ms var(--pjds-ease);
+}
+.pj-contact-next__steps[data-animated] .pj-contact-next__step[data-on] .pj-contact-next__step-title,
+.pj-contact-next__steps[data-animated] .pj-contact-next__step[data-on] .pj-contact-next__step-text { opacity: 1; transform: none; }
+
+@media (max-width: 768px) {
+  .pj-contact-next__step::before {
+    top: 54px; bottom: 4px; left: 24px; right: auto; width: 2px; height: auto;
+    background: linear-gradient(180deg, #0478a8, #20c8f5);
+    transform: scaleY(0); transform-origin: top;
+  }
+  .pj-contact-next__step[data-linked]::before { transform: scaleY(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pj-contact-next__step::before, .pj-contact-next__number,
+  .pj-contact-next__step-title, .pj-contact-next__step-text { transition: none !important; }
+}

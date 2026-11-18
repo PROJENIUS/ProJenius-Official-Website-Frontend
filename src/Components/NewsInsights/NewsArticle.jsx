@@ -261,7 +261,10 @@ export default function NewsArticle({ contentType, slug }) {
         <section className="pjni-related" aria-labelledby="pjni-related-title">
           <div className="pjds-container">
             <header className="pjni-related__head">
-              <h2 id="pjni-related-title" className="pjni-related__title">Keep Reading</h2>
+              <div>
+                <p className="pjds-eyebrow pjds-eyebrow--on-dark">More to Read</p>
+                <h2 id="pjni-related-title" className="pjni-related__title">Keep Reading</h2>
+              </div>
               <Link to="/news-insights" className="pjni-related__all">View all</Link>
             </header>
             <div className="pjni-grid">{related.map((a, i) => <ArticleCard key={a._id || a.slug} item={a} index={i} />)}</div>

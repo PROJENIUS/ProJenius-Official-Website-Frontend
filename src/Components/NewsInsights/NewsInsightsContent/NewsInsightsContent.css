@@ -348,3 +348,6 @@ main.pjl-page .pjni-related__title { margin: 0; color: #fff !important; }
   .pjni-card, .pjni-cover, .pjni-feature, .pjni-btn, .pjni-gallery__grid img { transition: none !important; }
   .pjni-card--skeleton, .pjni-feature--skeleton, .pjni-ahead__skeleton i { animation: none; }
 }
+
+/* Cover links never underline their fallback label */
+.pjni-card__media, .pjni-card__media * { text-decoration: none !important; }
