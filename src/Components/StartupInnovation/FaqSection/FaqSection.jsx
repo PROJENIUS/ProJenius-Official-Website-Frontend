@@ -1,5 +1,7 @@
 import { Component, memo, useCallback, useState } from "react";
-import "./FaqSection.css";
+import "./FaqSection.css";
+import TypedPhrase from "../../Common/TypedPhrase/TypedPhrase.jsx";
+import SectionTitleLine from "../../Common/SectionTitleLine/SectionTitleLine.jsx";
 
 /* ==========================================================================
    FaqSection.jsx
@@ -105,9 +107,10 @@ export default function FaqSection({ askHref = DEFAULT_ASK_HREF }) {
     <section className="faq-section" aria-labelledby="faq-heading">
       <div className="faq-layout">
         <header className="faq-intro">
-          <p className="faq-eyebrow">Questions</p>
-          <h2 id="faq-heading" className="faq-heading">Frequently Asked Questions</h2>
-          <p className="faq-lead">
+          <p className="pjds-eyebrow pjds-eyebrow--on-dark faq-eyebrow" data-reveal="up">Questions</p>
+          <h2 id="faq-heading" className="faq-heading" data-reveal="up" data-reveal-delay="1">Questions <TypedPhrase phrases={["Founders Ask", "Startups Ask", "Innovators Ask"]} /></h2>
+          <SectionTitleLine />
+          <p className="faq-lead" data-reveal="up" data-reveal-delay="2">
             Can&apos;t find what you&apos;re looking for? Ask us directly. A rough idea is enough to start.
           </p>
           <a className="faq-ask" href={safeHref(askHref)}>

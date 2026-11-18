@@ -1,37 +1,60 @@
 /* =========================================================
    STARTUP & INNOVATION PAGE
-   An entry point for founders, students and innovators.
-   Journey: who it is for → the capabilities an idea can draw
-   on → support across the startup journey → what happens after
-   you submit → questions → submit the idea.
+   For people with just an idea: ProJenius takes it all the way
+   to one complete product. Incubation is part of this page
+   (the /incubate page and its apply form hold the details).
+   Navy / light sections alternate; the last one is light.
 
-   Retired from this page (files kept, unmounted) because they
-   repeated other sections: WhyProJenius, TechPathways,
-   Everyideadiff, FindStartingPoint (stage pickers like
-   Whowesupport), WorkingProcess, GettingStarted,
-   StartupReadyJourney (process, replaced by the idea journey),
-   ProofOfWork (placeholder projects), PjxIncubateHero and
-   PjxApplication (its "submitted" message never sent anything;
-   replaced by StartupIdeaForm, which uses the enquiry API).
+   1 Hero                       short: idea → complete product
+   2 Who we support             (light)
+   3 Your idea decides the path pick an idea type; the path and
+                                the solution pages that build it
+   4 Incubate at ProJenius      facilities + apply (light)
+   5 What happens after you submit
+   6 Questions                  shared sticky FAQ layout (light)
+   7 Submit your idea           the Contact page's startup form,
+                                locked to startup (last section: light)
+
+   Not used on purpose (they repeat the sections above):
+   "Find your starting point" (= Who we support) and "Startup
+   support areas" (IP / registration / ongoing support are in
+   the FAQ). Retired files are kept, unmounted:
+   StartupSupporterHero, FaqSection, StartupIdeaForm, CapabilityMap,
+   StartupSupport and the older startup sections.
 ========================================================= */
 
 import { useRef } from "react";
 
-import StartupSupporterHero from "../../Components/StartupInnovation/StartupSupporterHero/StartupSupporterHero.jsx";
+import StartupJourneyHero from "../../Components/StartupInnovation/StartupJourneyHero/StartupJourneyHero.jsx";
 import Whowesupport from "../../Components/StartupInnovation/Whowesupport/Whowesupport.jsx";
-import CapabilityMap from "../../Components/StartupInnovation/CapabilityMap/CapabilityMap.jsx";
-import StartupSupportSection from "../../Components/StartupInnovation/StartupSupport/StartupSupport.jsx";
-import FaqSection from "../../Components/StartupInnovation/FaqSection/FaqSection.jsx";
-import StartupIdeaForm from "../../Components/StartupInnovation/StartupIdeaForm/StartupIdeaForm.jsx";
+import StartupPathways from "../../Components/StartupInnovation/StartupPathways/StartupPathways.jsx";
+import StartupIncubate from "../../Components/StartupInnovation/StartupIncubate/StartupIncubate.jsx";
+import WhatCanWeHelpYouWith from "../../Components/Contact/WhatCanWeHelpYouWith/WhatCanWeHelpYouWith.jsx";
 import ServiceProcess from "../../Components/Solutions/Shared/ServiceProcess/ServiceProcess.jsx";
-import ServiceCTA from "../../Components/Solutions/Shared/ServiceCTA/ServiceCTA.jsx";
-import { RELATED } from "../../Components/Solutions/Shared/serviceLinks.js";
+import ServiceFaq from "../../Components/Common/ServiceFaq/ServiceFaq.jsx";
 import useMetaDescription from "../../hooks/useMetaDescription.js";
 import useScrollReveal from "../../hooks/useScrollReveal.js";
 import "../../styles/pages/SolutionsPages.css";
 
 const DESCRIPTION =
-  "Startup and innovation support from ProJenius for founders, students and innovators: idea discussion, feasibility, technical mentorship, prototypes and MVPs across software and hardware.";
+  "Startup and innovation support from ProJenius: from just an idea to one complete product, with problem understanding, networking, field visits, prototyping, PCB design, software building and incubation at ProJenius.";
+
+/* The idea form is the last section of this page. */
+const SUBMIT_IDEA = "#submit-idea";
+
+const FAQ_ITEMS = [
+  { q: "Can I approach ProJenius with only an idea?", a: "Yes. A rough idea is enough to start. We help you shape it into a clear problem and a plan." },
+  { q: "Do I need a complete technical specification?", a: "No. You do not need a full specification. We work through the requirements with you in the first conversations." },
+  { q: "Can ProJenius help with prototype development?", a: "Yes. We support the path from research and design to a working prototype or first version of the product." },
+  { q: "Can you help with both software and hardware?", a: "Yes. We work across software and hardware, so one idea can combine both in a single build." },
+  { q: "Do you support AI/ML and SaaS ideas?", a: "Yes. AI/ML and SaaS ideas are part of what we support, from the data and models to the product around them." },
+  { q: "Can you help with PCB and 3D prototype development?", a: "Yes. We support PCB design and 3D design and printing to turn a concept into something you can hold and test." },
+  { q: "Do you provide patent support?", a: "We guide you on how to start the process of protecting your idea and what to prepare." },
+  { q: "Do you provide startup registration support?", a: "Yes. We guide you on setting up the business and the registrations and paperwork it needs." },
+  { q: "Can students approach ProJenius?", a: "Yes. Students are welcome to approach us with project ideas and academic innovation work." },
+  { q: "Is there a fee to incubate at ProJenius?", a: "Applying is free. If your application is accepted, there is a one-time registration fee of ₹1,000 when you join. Your seat and the services you need, such as lab use, prototyping, PCB, software and mentoring, are charged separately, based on what you need." },
+  { q: "How do we start?", a: "Send us a short message about your idea. We reply to arrange an initial conversation about what you want to build." },
+];
 
 export default function StartupInnovationPage() {
   const pageRef = useRef(null);
@@ -40,15 +63,19 @@ export default function StartupInnovationPage() {
 
   return (
     <main ref={pageRef} className="pjsv-page pjsv-startup">
-      <StartupSupporterHero />
-      <Whowesupport ctaHref="#submit-idea" />
-      <CapabilityMap logoSrc="/ProJenius_Logo.svg" />
-      <StartupSupportSection />
+      <StartupJourneyHero />
+
+      <Whowesupport ctaHref={SUBMIT_IDEA} />
+
+      <StartupPathways />
+
+      <StartupIncubate />
 
       <ServiceProcess
         id="idea-journey"
         eyebrow="After You Submit"
-        title="What Happens to Your Idea"
+        title="What Happens to"
+        typed={["Your Idea", "Your Submission"]}
         intro="Every submission is read by the team. This is the path from your first message to a decision about support."
         steps={[
           { title: "Submit Your Idea", text: "Share the problem, your idea and where you are today using the form below." },
@@ -60,22 +87,20 @@ export default function StartupInnovationPage() {
         note="Submitting an idea does not guarantee incubation, funding or resources. Support such as mentorship, technical development or resources is considered case by case, subject to review, eligibility, availability and approval."
       />
 
-      <ServiceCTA
-        id="startup-services"
-        eyebrow="Already Know What You Need?"
-        title="Go Straight to the Right Team"
-        text="If your idea needs a specific piece of work, each service page explains how that part is done."
-        primary={{ label: "Or Submit Your Whole Idea", to: "#submit-idea" }}
-        related={[
-          { ...RELATED.software, question: "Need a software platform or app?" },
-          { ...RELATED.hardware, question: "Need electronics or a connected device?" },
-          { ...RELATED.pcb, question: "Need a PCB designed?" },
-          { ...RELATED.prototyping, question: "Need a physical prototype?" },
-        ]}
-      />
+      <ServiceFaq id="startup-faq" items={FAQ_ITEMS} askTo="/contact?type=startup&from=startup-faq" />
 
-      <FaqSection askHref="/contact?type=startup&from=startup-innovation" />
-      <StartupIdeaForm />
+      {/* The same form as the Contact page's "Startup & Innovation" enquiry
+          (same fields, required rules, attachment and backend), locked to
+          startup. Edit it once in WhatCanWeHelpYouWith.jsx. */}
+      <WhatCanWeHelpYouWith
+        lockedType="startup"
+        sectionId="submit-idea"
+        source="startup-innovation"
+        eyebrow="Submit Your Idea"
+        title="Tell Us What You Want"
+        typed={["to Build.", "to Solve.", "to Create."]}
+        description="A rough idea is enough to start. Share the problem and where you are today, and we will get back to you to arrange an initial conversation."
+      />
     </main>
   );
 }

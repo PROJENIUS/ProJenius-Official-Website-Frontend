@@ -1,32 +1,41 @@
-import { CalendarCheck, Compass, FileText } from "lucide-react";
+import { ArrowRight, MessageCircle } from "lucide-react";
 
-import ContactSection from "../../../About/ContactSection/ContactSection.jsx";
 import { whatsappHref } from "../../../../utils/whatsapp.js";
+import "./CareerClosing.css";
 
 /* =========================================================
-   CAREER GUIDANCE CLOSING CARD — the same card as the Home,
-   About and Workshop pages (About/ContactSection), with this
-   page's words and buttons.
+   CAREER GUIDANCE CLOSING — a short one-row navy card (like
+   the course page's "Ready to begin?"): text left, price and
+   two buttons right. Light section, last before the footer.
+   The ₹99 call details match the booking section and FAQ.
 ========================================================= */
 
-const FEATURES = [
-  { title: "1:1 Mentor Call", text: "30 minutes, just you", Icon: CalendarCheck },
-  { title: "Clear Roadmap", text: "Yours to keep", Icon: Compass },
-  { title: "Honest Feedback", text: "On your biggest gap", Icon: FileText },
-];
+const BOOK = whatsappHref("Hi ProJenius, I would like to book a 1:1 career guidance call.");
+const ASK = whatsappHref("Hi ProJenius, I have a question about career guidance.");
 
 export default function CareerClosing() {
   return (
-    <ContactSection
-      id="cg-closing-title"
-      title="Ready to Plan Your Tech Career?"
-      description="Talk to a mentor about where you are now and where you want to be. We will help you map the next steps, from skills to your first offer."
-      features={FEATURES}
-      primary={{
-        label: "Talk to a Mentor",
-        href: whatsappHref("Hi ProJenius, I would like career guidance. Could you please help me book a mentoring call?"),
-      }}
-      secondary={{ label: "Call Our Team", href: "tel:+918925450473" }}
-    />
+    <section className="pjcgc" aria-labelledby="cg-closing-title">
+      <div className="pjds-container">
+        <div className="pjcgc__card" data-reveal="up">
+          <div className="pjcgc__copy">
+            <p className="pjcgc__eyebrow">Ready to begin?</p>
+            <h2 id="cg-closing-title" className="pjcgc__title">Plan Your Tech Career With a Mentor</h2>
+            <p className="pjcgc__meta">1:1 call · 30 minutes · Fully refundable</p>
+          </div>
+          <div className="pjcgc__actions">
+            <p className="pjcgc__price"><strong>₹99</strong><span>per call</span></p>
+            <a className="pjcgc__btn pjcgc__btn--primary" href={BOOK} target="_blank" rel="noopener noreferrer">
+              Book a Call <ArrowRight size={18} aria-hidden="true" />
+              <span className="pjds-sr-only"> (opens WhatsApp in a new tab)</span>
+            </a>
+            <a className="pjcgc__btn pjcgc__btn--ghost" href={ASK} target="_blank" rel="noopener noreferrer">
+              <MessageCircle size={17} aria-hidden="true" /> Ask a question
+              <span className="pjds-sr-only"> (opens WhatsApp in a new tab)</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }

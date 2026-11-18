@@ -1,0 +1,204 @@
+/* =============================================================================
+   INCUBATE AT PROJENIUS (on the Startup page) — scoped beneath .pjsuI
+   Text follows the section colours; the photo tiles carry their own label.
+   ============================================================================= */
+
+.pjsuI {
+  --pjsuI-accent: #0478a8;
+  padding-block: clamp(56px, 7vw, 96px);
+  font-family: var(--pjds-font-body);
+}
+
+main > section:nth-of-type(odd).pjsuI {
+  --pjsuI-accent: #20c8f5;
+}
+
+.pjsuI__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
+  align-items: center;
+  gap: clamp(28px, 4vw, 60px);
+}
+
+.pjsuI__title,
+.pjsuI .pjsuI__lead {
+  margin: 0;
+}
+
+.pjsuI .pjsuI__note {
+  margin: 14px 0 0;
+  padding-left: 14px;
+  border-left: 3px solid var(--pjsuI-accent);
+  color: var(--pjds-text-muted);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.pjsuI__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.pjsuI__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 50px;
+  padding: 0 22px;
+  border-radius: 12px;
+  font-size: 0.98rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.pjsuI .pjsuI__btn--primary {
+  background: #20c8f5;
+  box-shadow: 0 12px 30px -12px rgba(32, 200, 245, 0.75);
+  color: #071426;
+}
+
+.pjsuI .pjsuI__btn--primary:hover {
+  background: #5ad6f8;
+  transform: translateY(-2px);
+}
+
+.pjsuI .pjsuI__btn--ghost {
+  border: 1.5px solid var(--pjds-border-strong);
+  color: var(--pjds-text);
+}
+
+.pjsuI .pjsuI__btn--ghost:hover {
+  border-color: #20c8f5;
+  color: var(--pjsuI-accent);
+}
+
+.pjsuI__btn:focus-visible {
+  outline: 3px solid #20c8f5;
+  outline-offset: 3px;
+}
+
+/* Facility tiles ----------------------------------------------------------- */
+.pjsuI__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  /* Two rows sized to the screen height, so the section fits one screen */
+  grid-auto-rows: clamp(170px, calc((100svh - var(--pjds-nav-offset, 112px) - 72px) / 2), 290px);
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pjsuI__tile {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #0c2340, #071426);
+  box-shadow: 0 16px 34px -20px rgba(7, 20, 38, 0.6);
+}
+
+.pjsuI__tile img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 600ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.pjsuI__tile::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(7, 20, 38, 0.88), rgba(7, 20, 38, 0.1) 60%);
+  pointer-events: none;
+}
+
+.pjsuI__tile:hover img {
+  transform: scale(1.07);
+}
+
+.pjsuI__tile-label {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  left: 14px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ffffff;
+  font-size: clamp(0.95rem, 0.85rem + 0.35vw, 1.1rem);
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.pjsuI__tile-icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: #20c8f5;
+  color: #071426;
+}
+
+@media (max-width: 1023px) {
+  .pjsuI__layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .pjsuI__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: 150px;
+  }
+
+  .pjsuI__btn {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pjsuI__tile img,
+  .pjsuI__btn {
+    transition: none;
+  }
+
+  .pjsuI__tile:hover img {
+    transform: none;
+  }
+}
+
+/* Bigger lead text to balance the larger photos */
+.pjsuI .pjsuI__lead {
+  font-size: clamp(1.05rem, 0.95rem + 0.4vw, 1.22rem);
+}
+
+/* Exactly one screen: the section is as tall as the screen, leaves room
+   for the fixed navbar at the top, and centres its content. */
+main > section.pjsuI {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  min-height: 100svh;
+  padding-block: calc(var(--pjds-nav-offset, 112px) + 8px) 32px;
+}
+
+main > section.pjsuI > .pjsuI__layout {
+  width: 100%;
+}
+
+@media (max-width: 1023px) {
+  main > section.pjsuI {
+    display: block;
+    min-height: 0;
+    padding-block: 56px;
+  }
+}
+

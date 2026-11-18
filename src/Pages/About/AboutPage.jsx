@@ -9,7 +9,8 @@ import OurStory from "../../Components/About/OurStory/OurStory.jsx";
 import Achievements from "../../Components/About/Achievements/Achievements.jsx";
 import Magazine from "../../Components/About/Magazine/Magazine.jsx";
 import Testimonials from "../../Components/About/Testimonials/Testimonials.jsx";
-import ContactSection from "../../Components/About/ContactSection/ContactSection.jsx";
+/* Same closing card as the homepage. */
+import ContactSection from "../../Components/Home/ContactSection/ContactSection.jsx";
 
 import "../../styles/pages/AboutPage.css";
 

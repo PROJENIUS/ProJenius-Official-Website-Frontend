@@ -4,6 +4,8 @@ import { ArrowRight, Cloud, Code2, Cpu, Radar } from "lucide-react";
 
 import { SERVICE_ROUTES } from "../../Shared/serviceLinks.js";
 import "./SystemLayers.css";
+import TypedPhrase from "../../../Common/TypedPhrase/TypedPhrase.jsx";
+import SectionTitleLine from "../../../Common/SectionTitleLine/SectionTitleLine.jsx";
 
 /* =============================================================================
    HOW HARDWARE AND SOFTWARE WORK TOGETHER
@@ -58,8 +60,9 @@ export default function SystemLayers() {
         <header className="pjhw-layers__head">
           <p className="pjds-eyebrow" data-reveal="up">How It Fits Together</p>
           <h2 id="hardware-system-title" className="pjds-title" data-reveal="up" data-reveal-delay="1">
-            From a Signal to a Result
+            From a Signal <TypedPhrase phrases={["to a Result", "to a Decision", "to an Action"]} />
           </h2>
+          <SectionTitleLine />
           <p className="pjds-lead" data-reveal="up" data-reveal-delay="2">
             A connected product brings electronics, firmware and software together in one build. Choose a layer
             to see what it does.

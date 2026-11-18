@@ -13,9 +13,12 @@ const ReadyToStart = () => {
                 {/* READY TO START */}
 
                 <div className="pj-internship-ready-content" data-reveal="scale">
-                    <h2 id="pj-internship-ready-title">
-                        Ready to Start Your Tech Journey?
-                    </h2>
+                    <div className="pj-internship-ready-heading">
+                        <p className="pjds-eyebrow pjds-eyebrow--on-dark">Get Started</p>
+                        <h2 id="pj-internship-ready-title">
+                            Ready to Start Your Tech Journey?
+                        </h2>
+                    </div>
 
                     <div className="pj-internship-ready-actions">
 
@@ -23,7 +26,7 @@ const ReadyToStart = () => {
                             to="/contact?type=internship"
                             className="pj-internship-ready-apply"
                         >
-                            <span>Apply Now</span>
+                            <span>Apply for Internship</span>
                             <ArrowUpRight
                                 size={20}
                                 strokeWidth={2.5}

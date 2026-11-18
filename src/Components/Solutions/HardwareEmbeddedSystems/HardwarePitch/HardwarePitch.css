@@ -1,0 +1,463 @@
+/* =============================================================================
+   HARDWARE PITCH — scoped beneath .pjhw-pitch
+   Editorial layout: a large statement and plain-language pitch beside a
+   handover "receipt"; then three first-person situations. Text follows the
+   section colours (page tokens); the receipt and situation cards are always
+   light, so their text colours are fixed.
+   ============================================================================= */
+
+.pjhw-pitch {
+  --pjhwp-accent: #0478a8;
+  padding-block: clamp(64px, 8vw, 112px);
+  font-family: var(--pjds-font-body);
+}
+
+main > section:nth-of-type(odd).pjhw-pitch {
+  --pjhwp-accent: #20c8f5;
+}
+
+/* 1 + 2 --------------------------------------------------------------------- */
+.pjhw-pitch__top {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  align-items: start;
+  gap: clamp(36px, 6vw, 96px);
+}
+
+.pjhw-pitch .pjhw-pitch__title {
+  margin: 0;
+  font-size: clamp(2.3rem, 1rem + 3.2vw, 4rem);
+  line-height: 1.04;
+  letter-spacing: -0.04em;
+}
+
+.pjhw-pitch__title-lead {
+  display: block;
+}
+
+.pjhw-pitch .pjhw-pitch__lede {
+  max-width: 34ch;
+  margin: 0;
+  /* !important: the light-section rule greys every paragraph */
+  color: var(--pjds-text) !important;
+  font-family: var(--pjds-font-heading);
+  font-size: clamp(1.25rem, 1rem + 0.8vw, 1.65rem);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.35;
+}
+
+.pjhw-pitch .pjhw-pitch__body {
+  max-width: 58ch;
+  margin: 16px 0 0;
+  color: var(--pjds-text-muted);
+  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.12rem);
+  line-height: 1.75;
+}
+
+.pjhw-pitch__builds {
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--pjds-border-strong);
+}
+
+.pjhw-pitch__builds-label {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--pjhwp-accent);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.pjhw-pitch__builds ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pjhw-pitch__builds li {
+  position: relative;
+  padding-left: 14px;
+  color: var(--pjds-text);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.pjhw-pitch__builds li::before {
+  content: "";
+  position: absolute;
+  top: 0.55em;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--pjhwp-accent);
+}
+
+/* Handover receipt */
+.pjhw-pitch__receipt {
+  position: relative;
+  padding: 28px 28px 22px;
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0 30px 60px -28px rgba(7, 20, 38, 0.35), 0 0 0 1px rgba(7, 20, 38, 0.06);
+}
+
+/* Punched notches along the top, like a tag */
+.pjhw-pitch__receipt::before {
+  content: "";
+  position: absolute;
+  top: -7px;
+  left: 50%;
+  width: 70px;
+  height: 14px;
+  border-radius: 7px;
+  background: var(--pjds-bg-b, #f4f7fb);
+  box-shadow: inset 0 1px 2px rgba(7, 20, 38, 0.15);
+  transform: translateX(-50%);
+}
+
+main > section:nth-of-type(odd) .pjhw-pitch__receipt::before {
+  background: #071426;
+}
+
+.pjhw-pitch__receipt-head {
+  padding-bottom: 16px;
+  border-bottom: 2px dashed rgba(7, 20, 38, 0.14);
+}
+
+.pjhw-pitch__receipt-code {
+  color: #0478a8;
+  font-family: ui-monospace, "JetBrains Mono", "Cascadia Code", Consolas, monospace;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.pjhw-pitch .pjhw-pitch__receipt-title {
+  margin: 6px 0 0;
+  color: #071426 !important;
+  font-family: var(--pjds-font-heading);
+  font-size: clamp(1.3rem, 1.05rem + 0.6vw, 1.6rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.pjhw-pitch__receipt-list {
+  display: grid;
+  gap: 14px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pjhw-pitch .pjhw-pitch__receipt-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  color: #071426 !important;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.pjhw-pitch__tick {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  margin-top: -1px;
+  border: 1.5px solid #20c8f5;
+  border-radius: 7px;
+  color: #071426;
+  transition: background-color 300ms ease 300ms;
+}
+
+.pjhw-pitch__tick svg {
+  opacity: 0;
+  transform: scale(0.4);
+  transition: opacity 250ms ease 350ms, transform 350ms cubic-bezier(0.34, 1.56, 0.64, 1) 350ms;
+}
+
+/* The tick fills once the item has been revealed */
+.pjhw-pitch__receipt-item[data-revealed] .pjhw-pitch__tick {
+  background: #20c8f5;
+}
+
+.pjhw-pitch__receipt-item[data-revealed] .pjhw-pitch__tick svg {
+  opacity: 1;
+  transform: none;
+}
+
+.pjhw-pitch .pjhw-pitch__receipt-foot {
+  margin: 20px 0 0;
+  padding-top: 14px;
+  border-top: 2px dashed rgba(7, 20, 38, 0.14);
+  color: #526b7d !important;
+  font-size: 0.86rem;
+  font-style: italic;
+}
+
+/* Two-card deck -------------------------------------------------------------
+   Both cards share one grid cell (the deck is as tall as the taller card).
+   Front card: slight left tilt. Back card: offset up-right and tilted the
+   other way, so it peeks out; hovering the deck fans it out further.
+   data-front on the deck decides which card is in front. */
+.pjhw-pitch__deck {
+  position: relative;
+  padding-top: 4px;
+}
+
+.pjhw-pitch__switch {
+  display: inline-flex;
+  gap: 4px;
+  margin-bottom: 44px;
+  padding: 4px;
+  border: 1px solid var(--pjds-border-strong);
+  border-radius: 999px;
+  background: var(--pjds-surface);
+}
+
+.pjhw-pitch__switch button {
+  padding: 8px 16px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--pjds-text-muted);
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 250ms ease, color 250ms ease;
+}
+
+.pjhw-pitch__switch button[aria-pressed="true"] {
+  background: #20c8f5;
+  color: #071426;
+}
+
+.pjhw-pitch__switch button:focus-visible {
+  outline: 3px solid #20c8f5;
+  outline-offset: 2px;
+}
+
+.pjhw-pitch__stack {
+  display: grid;
+}
+
+.pjhw-pitch__stack > .pjhw-pitch__receipt {
+  grid-area: 1 / 1;
+  transition: transform 550ms cubic-bezier(0.34, 1.3, 0.64, 1), box-shadow 400ms ease, filter 400ms ease;
+}
+
+/* Front position */
+.pjhw-pitch__deck[data-front="get"] .pjhw-pitch__receipt--get,
+.pjhw-pitch__deck[data-front="need"] .pjhw-pitch__receipt--need {
+  z-index: 2;
+  transform: rotate(-1.2deg);
+}
+
+/* Back position: peeking out behind, up and to the right */
+.pjhw-pitch__deck[data-front="get"] .pjhw-pitch__receipt--need,
+.pjhw-pitch__deck[data-front="need"] .pjhw-pitch__receipt--get {
+  z-index: 1;
+  background: linear-gradient(180deg, #e3f6fd, #ffffff 45%);
+  transform: translate(26px, -22px) rotate(3.2deg) scale(0.97);
+}
+
+/* Hover: the back card fans out to show it is there */
+.pjhw-pitch__stack:hover .pjhw-pitch__receipt[aria-hidden="true"] {
+  transform: translate(40px, -28px) rotate(5.5deg) scale(0.97);
+}
+
+.pjhw-pitch__stack:hover .pjhw-pitch__receipt[aria-hidden="false"] {
+  transform: translate(-6px, 4px) rotate(-2.4deg);
+}
+
+/* Invisible button over the back card: click it to bring it forward */
+.pjhw-pitch__peek {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* Back card content is not interactive and fades a little */
+.pjhw-pitch__receipt[aria-hidden="true"] .pjhw-pitch__receipt-list,
+.pjhw-pitch__receipt[aria-hidden="true"] .pjhw-pitch__receipt-foot {
+  opacity: 0.55;
+}
+
+/* Numbers on the "what we need" card */
+.pjhw-pitch__count {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  margin-top: -1px;
+  border-radius: 50%;
+  background: #071426;
+  color: #5ad6f8;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+/* 3 ------------------------------------------------------------------------- */
+.pjhw-pitch__where {
+  margin-top: clamp(56px, 7vw, 96px);
+}
+
+.pjhw-pitch__where-label {
+  margin: 0 0 18px;
+  color: var(--pjhwp-accent);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.pjhw-pitch__situations {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(16px, 2vw, 24px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pjhw-pitch__situation {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 30px 26px 24px;
+  border: 1px solid rgba(7, 20, 38, 0.08);
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0 14px 34px -20px rgba(7, 20, 38, 0.3);
+}
+
+.pjhw-pitch__situation::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: #20c8f5;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 400ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.pjhw-pitch__situation:hover::after {
+  transform: scaleX(1);
+}
+
+.pjhw-pitch__mark {
+  height: 0.62em;
+  color: #20c8f5;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 4.5rem;
+  line-height: 1;
+}
+
+.pjhw-pitch .pjhw-pitch__quote {
+  margin: 4px 0 0;
+  color: #071426 !important;
+  font-family: var(--pjds-font-heading);
+  font-size: clamp(1.15rem, 0.98rem + 0.5vw, 1.4rem);
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
+}
+
+.pjhw-pitch .pjhw-pitch__answer {
+  flex: 1;
+  margin: 18px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid rgba(7, 20, 38, 0.1);
+  color: #526b7d !important;
+  font-size: 0.97rem;
+  line-height: 1.65;
+}
+
+.pjhw-pitch__answer span {
+  display: block;
+  margin-bottom: 4px;
+  color: #0478a8;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.pjhw-pitch .pjhw-pitch__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 18px;
+  color: #0478a8 !important;
+  font-size: 0.93rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.pjhw-pitch__link svg {
+  transition: transform 200ms ease;
+}
+
+.pjhw-pitch__situation:hover .pjhw-pitch__link svg {
+  transform: translateX(4px);
+}
+
+.pjhw-pitch__link:focus-visible {
+  border-radius: 4px;
+  outline: 3px solid #20c8f5;
+  outline-offset: 3px;
+}
+
+/* Responsive --------------------------------------------------------------- */
+@media (max-width: 1023px) {
+  .pjhw-pitch__top {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pjhw-pitch__deck {
+    max-width: 520px;
+  }
+
+  .pjhw-pitch__situations {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pjhw-pitch__stack > .pjhw-pitch__receipt,
+  .pjhw-pitch__switch button,
+  .pjhw-pitch__tick,
+  .pjhw-pitch__tick svg,
+  .pjhw-pitch__situation::after,
+  .pjhw-pitch__link svg {
+    transition: none;
+  }
+
+  .pjhw-pitch__tick {
+    background: #20c8f5;
+  }
+
+  .pjhw-pitch__tick svg {
+    opacity: 1;
+    transform: none;
+  }
+}

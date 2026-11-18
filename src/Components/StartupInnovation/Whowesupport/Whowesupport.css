@@ -12,10 +12,10 @@
   --pjs-surface-hover: #eef5fb;
   --pjs-chip: #f4f7fb;
   --pjs-line: #d6e2ee;
-  --pjs-text: var(--pjds-text);
-  --pjs-muted: var(--pjds-text-muted);
+  --pjs-text: #071426;
+  --pjs-muted: #526b7d;
   --pjs-dim: #5b6b82;
-  --pjs-accent: #1599d6;
+  --pjs-accent: #0478a8;
   --pjs-accent-alt: #20c8f5;
   --pjs-radius: 18px;
   --pjs-gap: clamp(16px, 4vw, 48px);
@@ -38,30 +38,15 @@
 }
 
 /* ============ 2. HEADER  (.pjs-stage__eyebrow / __title / __lead) ============ */
-.pjs-stage__eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: 0 0 12px;
-  color: var(--pjs-accent);
-  font-family: var(--pjs-font-mono);
-  font-size: 0.8rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-}
+/* Look comes from the shared .pjds-eyebrow pill (foundation.css). */
+.pjs-stage__eyebrow { margin: 0 0 12px; }
 
-.pjs-stage__eyebrow::before {
-  content: "";
-  width: 28px;
-  height: 1px;
-  background: var(--pjs-accent);
-}
 
 .pjs-stage__title {
   max-width: 16ch;
   margin: 0 0 12px;
-  font-size: clamp(2rem, 5.2vw, 3.6rem);
-  font-weight: 800;
+   font-size: var(--pjds-text-h2);
+   font-weight: 800;
   line-height: 1.1;
   letter-spacing: -0.01em;
   overflow-wrap: anywhere;
@@ -355,4 +340,195 @@
     animation: none !important;
     transition: none !important;
   }
+}
+
+/* On a navy section the lead needs a light grey to stay readable. */
+main > section:nth-of-type(odd) .pjs-stage__lead {
+  color: #a0b3c6;
+}
+
+/* ============ Fit one laptop screen on the Startup page ============ */
+main.pjsv-startup section.pjs-stage.pjs-stage {
+  padding-block: clamp(48px, 6vw, 80px);
+}
+
+main.pjsv-startup .pjs-stage__lead {
+  margin-bottom: clamp(18px, 2.6vw, 30px);
+}
+
+main.pjsv-startup .pjs-stage__tab {
+  padding-block: clamp(14px, 1.7vw, 20px);
+}
+
+main.pjsv-startup .pjs-stage__panel {
+  padding: clamp(18px, 2.6vw, 34px);
+}
+
+main.pjsv-startup .pjs-stage__watermark {
+  font-size: clamp(2.6rem, 5vw, 4.6rem);
+}
+
+main.pjsv-startup .pjs-stage__panel-text {
+  margin-bottom: 14px;
+  line-height: 1.6;
+}
+
+main.pjsv-startup .pjs-stage__title {
+  max-width: none;
+}
+
+main.pjsv-startup .pjs-stage__lead {
+  max-width: 62ch;
+}
+
+/* ============ Auto-advance timer + blue CTA ============ */
+/* A thin bar fills along the bottom of the active stage over 3 s. */
+.pjs-stage__tab::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #0478a8, #20c8f5);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+.pjs-stage__board.is-auto .pjs-stage__tab--on::after {
+  animation: pjs-stage-timer 3s linear forwards;
+}
+
+@keyframes pjs-stage-timer {
+  to { transform: scaleX(1); }
+}
+
+/* The panel content fades in each time the stage changes. */
+.pjs-stage__panel-body {
+  animation: pjs-stage-swap 450ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@keyframes pjs-stage-swap {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* "Talk about this stage" as the site's blue button */
+.pjs-stage .pjs-stage__cta {
+  align-self: flex-start;
+  gap: 8px;
+  min-height: 46px;
+  padding: 0 22px;
+  border-radius: 12px;
+  background: #20c8f5;
+  box-shadow: 0 12px 26px -12px rgba(32, 200, 245, 0.8);
+  color: #071426;
+  font-size: 0.98rem;
+  font-weight: 700;
+  transition: background-color 180ms ease, transform 180ms ease;
+}
+
+.pjs-stage .pjs-stage__cta:hover {
+  background: #5ad6f8;
+  transform: translateY(-2px);
+}
+
+.pjs-stage .pjs-stage__cta:focus-visible {
+  outline: 3px solid #0478a8;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pjs-stage__board.is-auto .pjs-stage__tab--on::after,
+  .pjs-stage__panel-body {
+    animation: none;
+  }
+}
+
+/* ============ Active stage: a coloured box ============ */
+/* The list gets a little breathing room so the box can sit inside it. */
+main.pjsv-startup .pjs-stage__list {
+  gap: 6px;
+  padding: 10px;
+}
+
+main.pjsv-startup .pjs-stage__tab {
+  border-radius: 14px;
+  transition: background-color 400ms ease, box-shadow 400ms ease, transform 400ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* the left accent bar is replaced by the box */
+main.pjsv-startup .pjs-stage__tab::before {
+  display: none;
+}
+
+main.pjsv-startup .pjs-stage__tab--on,
+main.pjsv-startup .pjs-stage__tab--on:hover {
+  background: linear-gradient(120deg, #071426 0%, #0c2f55 100%);
+  box-shadow: 0 0 0 1.5px #20c8f5, 0 18px 36px -18px rgba(32, 200, 245, 0.75);
+  transform: translateX(4px);
+}
+
+main.pjsv-startup .pjs-stage__tab--on .pjs-stage__tab-name {
+  color: #ffffff;
+}
+
+main.pjsv-startup .pjs-stage__tab--on .pjs-stage__tab-quote {
+  color: #a9e9fb;
+}
+
+main.pjsv-startup .pjs-stage__tab--on .pjs-stage__tab-arrow {
+  color: #20c8f5;
+}
+
+/* Number becomes a glowing badge */
+main.pjsv-startup .pjs-stage__tab-no {
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  transition: background-color 400ms ease, color 400ms ease, box-shadow 400ms ease;
+}
+
+main.pjsv-startup .pjs-stage__tab--on .pjs-stage__tab-no {
+  background: #20c8f5;
+  box-shadow: 0 0 0 5px rgba(32, 200, 245, 0.2);
+  color: #071426;
+  font-weight: 800;
+}
+
+/* Timer bar sits inside the box, rounded with it */
+main.pjsv-startup .pjs-stage__tab::after {
+  right: 14px;
+  bottom: 7px;
+  left: 14px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #20c8f5, #5ad6f8);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  main.pjsv-startup .pjs-stage__tab,
+  main.pjsv-startup .pjs-stage__tab-no {
+    transition: none;
+  }
+
+  main.pjsv-startup .pjs-stage__tab--on {
+    transform: none;
+  }
+}
+
+/* ============ Same size for every stage ============ */
+.pjs-stage__panel {
+  display: grid;
+}
+
+.pjs-stage__panel > .pjs-stage__panel-body {
+  grid-area: 1 / 1;
+}
+
+.pjs-stage__panel-sizer {
+  visibility: hidden;
+  pointer-events: none;
+  animation: none !important;
 }

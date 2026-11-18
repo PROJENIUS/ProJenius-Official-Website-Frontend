@@ -3,6 +3,7 @@ import { ArrowRight, BriefcaseBusiness, CheckCircle2, Clock, MapPin, UserRound }
 import TypedPhrase from "../../Common/TypedPhrase/TypedPhrase.jsx";
 import { OPENINGS } from "../openings.js";
 import "./OpenRoles.css";
+import SectionTitleLine from "../../Common/SectionTitleLine/SectionTitleLine.jsx";
 
 /* =============================================================================
    JOIN OUR TEAM — OPEN ROLES (hiring posts)
@@ -20,6 +21,7 @@ export default function OpenRoles({ onApply }) {
             <span className="pjj-roles__title-static">Find Your Place</span>
             <TypedPhrase phrases={["in Our Team", "in Software", "in Hardware", "in Learning"]} />
           </h2>
+          <SectionTitleLine />
           <p className="pjj-roles__intro" data-reveal="up" data-reveal-delay="2">
             Read what each role involves, then apply directly from the card.
           </p>

@@ -9,18 +9,18 @@
 /* ---------------------------------------------------------------- Section shell, design tokens, layout, scroll-in */
 .hpmag {
   /* design tokens (inherited by all hpmag-* child components) */
-  --hpmag-paper: #000000;                  /* main background */
-  --hpmag-glow: rgba(21, 150, 216, 0.16);  /* soft blue glow behind the magazine */
-  --hpmag-surface: #11161f;                /* pager buttons etc. */
+  --hpmag-paper: #071426;                  /* Colour A main background */
+  --hpmag-glow: rgba(32, 200, 245, 0.16);  /* soft cyan glow behind the magazine */
+  --hpmag-surface: #0c2340;                /* pager buttons etc. */
   --hpmag-page: #ffffff;                   /* magazine page paper (stays white) */
   --hpmag-ink: #ffffff;                    /* main text */
-  --hpmag-muted: #9aa7bb;                  /* secondary text */
+  --hpmag-muted: #a0b3c6;                  /* secondary text */
   --hpmag-line: rgba(255, 255, 255, 0.1);
-  --hpmag-line-strong: rgba(255, 255, 255, 0.28);
-  --hpmag-brand: #1596d8;
-  --hpmag-brand-strong: #0a78b4;
-  --hpmag-link: #5cc3f5;                   /* lighter blue, readable on black */
-  --hpmag-shadow-rgb: 0, 0, 0;
+  --hpmag-line-strong: rgba(32, 200, 245, 0.3);
+  --hpmag-brand: #20c8f5;
+  --hpmag-brand-strong: #0ea5d4;
+  --hpmag-link: #5ad6f8;                   /* vibrant cyan, readable on dark blue */
+  --hpmag-shadow-rgb: 7, 20, 38;
   --hpmag-ratio: 0.704; /* page width / height. Change if your pages differ */
   --hpmag-font-display: var(--pjds-font-heading);
   --hpmag-font-body: var(--pjds-font-body);
@@ -31,8 +31,8 @@
   padding-block: clamp(40px, 7vw, 104px);
   background:
     radial-gradient(52% 60% at 76% 46%, var(--hpmag-glow), transparent 72%),
-    var(--hpmag-paper);
-  color: var(--hpmag-ink);
+    #071426 !important;
+  color: var(--hpmag-ink) !important;
   font-family: var(--hpmag-font-body);
   -webkit-font-smoothing: antialiased;
 }
@@ -213,23 +213,8 @@
 }
 
 /* pill tag; kept consistent with the preceding About section */
-.hpmag-head__label {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0;
-  margin: 0 0 8px;
-  padding: 6px 14px;
-  border: 1px solid var(--hpmag-brand);
-  border-radius: 999px;
-  background: rgba(21, 150, 216, 0.08);
-  color: var(--hpmag-brand);
-  font-family: var(--hpmag-font-body);
-  font-size: var(--pjds-text-eyebrow, 0.8125rem);
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: 0.12em;
-}
+/* Look comes from the shared .pjds-eyebrow pill (foundation.css). */
+.hpmag-head__label { margin: 0 0 8px; }
 
 .hpmag-head__title {
   margin: 0;
@@ -261,7 +246,7 @@
 
 /* typed blue letters: standard solid blue */
 .hpmag-head__accent {
-  color: #1599d6;
+  color: #20c8f5;
 }
 
 /* glowing cyan cursor */
@@ -301,11 +286,7 @@
 }
 
 @media (max-width: 560px) {
-  .hpmag-head__label {
-    padding: 5px 12px;
-    margin-bottom: 6px;
-    font-size: 0.75rem;
-  }
+  .hpmag-head__label { margin-bottom: 6px; }
   .hpmag-head__title {
     font-size: clamp(1.75rem, 1rem + 4vw, 2.25rem);
     letter-spacing: -0.03em;

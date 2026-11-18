@@ -84,7 +84,7 @@
 .pj-internship-ready-content h2 {
     margin: 0;
 
-    color: #ffffff;
+    color: #ffffff !important;
 
     font-family: var(--pjds-font-body);
 
@@ -349,3 +349,42 @@
         transition: none;
     }
 }
+
+/* Primary CTA in the site cyan (navy text), like every other CTA. */
+.pj-internship-ready-apply {
+    background: #20c8f5 !important;
+    color: #071426 !important;
+    box-shadow: 0 12px 28px rgba(32, 200, 245, 0.28) !important;
+}
+.pj-internship-ready-apply:hover {
+    background: #5ad6f8 !important;
+    color: #071426 !important;
+}
+
+/* Both buttons: same height and width, straight (12px) corners like the
+   site's other CTAs, aligned on one line; stacked full width on phones. */
+.pj-internship-ready-apply,
+.pj-internship-ready-contact {
+    min-width: 210px;
+    min-height: 54px;
+    padding: 0 24px;
+    border-radius: 12px;
+    font-family: var(--pjds-font-heading);
+    font-weight: 800;
+}
+.pj-internship-ready-apply { border: 1.5px solid #20c8f5 !important; }
+.pj-internship-ready-contact { border: 1.5px solid rgba(255, 255, 255, 0.35); }
+.pj-internship-ready-contact:hover { border-color: #20c8f5; color: #20c8f5; background: transparent; }
+@media (max-width: 700px) {
+    .pj-internship-ready-content { flex-direction: column; align-items: flex-start; }
+    .pj-internship-ready-actions { flex-direction: column; align-items: stretch; width: 100%; }
+    .pj-internship-ready-apply, .pj-internship-ready-contact { width: 100%; }
+}
+
+/* Desktop: fixed equal button width; heading stays on one line. */
+@media (min-width: 701px) {
+    .pj-internship-ready-actions .pj-internship-ready-apply,
+    .pj-internship-ready-actions .pj-internship-ready-contact { flex: 0 0 auto !important; width: 220px !important; min-width: 0 !important; }
+    main.pjl-page .pj-internship-ready-content h2 { font-size: clamp(28px, 2.5vw, 36px) !important; }
+}
+

@@ -142,8 +142,30 @@
 }
 
 .pjh-hero__title-highlight {
-  display: block;
+  display: grid;
   color: var(--pjds-cyan-500);
+}
+
+/* The invisible full text holds the space; the typed text sits on top. */
+.pjh-hero__title-ghost,
+.pjh-hero__title-typed {
+  grid-area: 1 / 1;
+}
+
+.pjh-hero__title-ghost {
+  visibility: hidden;
+}
+
+.pjh-hero__title-cursor {
+  display: inline-block;
+  margin-left: 3px;
+  font-weight: 500;
+  animation: pjh-hero-cursor-blink 0.8s steps(1) infinite;
+}
+
+@keyframes pjh-hero-cursor-blink {
+  0%, 45% { opacity: 1; }
+  46%, 100% { opacity: 0; }
 }
 
 .pjh-hero__description {

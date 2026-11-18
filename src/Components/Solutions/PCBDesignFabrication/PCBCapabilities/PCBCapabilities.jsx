@@ -1,4 +1,6 @@
 import "./PCBCapabilities.css";
+import TypedPhrase from "../../../Common/TypedPhrase/TypedPhrase.jsx";
+import SectionTitleLine from "../../../Common/SectionTitleLine/SectionTitleLine.jsx";
 
 /* =============================================================================
    PCB CAPABILITIES — laid out like a datasheet: what each service covers and
@@ -28,7 +30,7 @@ const ROWS = [
   {
     code: "FAB",
     title: "Fabrication & Assembly",
-    text: "Getting the design made as a physical board and assembled for testing. How fabrication and assembly are arranged is confirmed for each project.",
+    text: "Boards are made by our manufacturing partner, one custom board or many, then tested and shown to you working before handover.",
     bring: "Quantity and timeline",
   },
 ];
@@ -40,8 +42,9 @@ export default function PCBCapabilities() {
         <header className="pjpcb-caps__head">
           <p className="pjds-eyebrow pjds-eyebrow--on-dark" data-reveal="up">PCB Capabilities</p>
           <h2 id="pcb-capabilities-title" className="pjds-title pjds-title--on-dark" data-reveal="up" data-reveal-delay="1">
-            Circuit Boards for Electronic Products
+            Circuit Boards for <TypedPhrase phrases={["Electronic Products", "Connected Devices", "Prototypes"]} />
           </h2>
+          <SectionTitleLine />
           <p className="pjds-lead pjds-lead--on-dark" data-reveal="up" data-reveal-delay="2">
             PCB design and fabrication for electronic systems and product development, from the first
             schematic to a board you can test.

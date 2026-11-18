@@ -1,0 +1,361 @@
+/* =============================================================================
+   HOW WE WORK · Variant 1 "The board builds itself" — scoped beneath .pjpcbA
+   Colours follow the section (the site alternates navy / light sections):
+   text uses the page tokens, and on a navy section the accents are the
+   brighter cyan and the board gets a visible cyan edge.
+   ============================================================================= */
+
+.pjpcbA {
+  --pjpcbA-navy: var(--pjds-navy-950, #071426);
+  --pjpcbA-ink: var(--pjds-text, #071426);
+  --pjpcbA-muted: var(--pjds-text-muted, #526b7d);
+  --pjpcbA-cyan: var(--pjds-cyan-500, #20c8f5);
+  --pjpcbA-cyan-deep: var(--pjds-cyan-700, #0478a8);
+  /* accent = labels, numbers, the design traces; sketch = the pencil idea */
+  --pjpcbA-accent: var(--pjpcbA-cyan-deep);
+  --pjpcbA-sketch: #8a9bb0;
+  --pjpcbA-sketch-text: #6b7f96;
+  --pjpcbA-board: var(--pjpcbA-navy);
+  --pjpcbA-edge: transparent;
+  --pjpcbA-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  padding-block: var(--pjds-section-space, 96px);
+  background: var(--pjds-bg-a, #ffffff);
+  font-family: var(--pjds-font-body);
+}
+
+/* On a navy section: brighter accents, a lighter board with a cyan edge. */
+main > section:nth-of-type(odd).pjpcbA {
+  --pjpcbA-accent: #5ad6f8;
+  --pjpcbA-sketch: #7f95ae;
+  --pjpcbA-sketch-text: #a9bad0;
+  --pjpcbA-board: #0c2340;
+  --pjpcbA-edge: rgba(90, 214, 248, 0.45);
+}
+
+.pjpcbA__scroller {
+  /* Each stage gets a quarter of the scroll and finishes drawing at ~70%
+     of its quarter, so the drawing settles before the next step. */
+  --pjpcb-p: 0;
+  --a0: clamp(0, calc(var(--pjpcb-p) * 5.6 + 0.35), 1);
+  --a1: clamp(0, calc((var(--pjpcb-p) * 4 - 1) * 1.4), 1);
+  --a2: clamp(0, calc((var(--pjpcb-p) * 4 - 2) * 1.4), 1);
+  --a3: clamp(0, calc((var(--pjpcb-p) * 4 - 3) * 1.6), 1);
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(32px, 6vw, 96px);
+  margin-top: clamp(32px, 5vw, 56px);
+}
+
+/* Sticky drawing ----------------------------------------------------------- */
+.pjpcbA__visual {
+  grid-column: 2;
+  grid-row: 1;
+  position: sticky;
+  top: calc(50vh - 230px);
+  align-self: start;
+}
+
+.pjpcbA__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.pjpcbA__svg text {
+  font-family: var(--pjds-font-body);
+  text-anchor: middle;
+}
+
+/* 01 sketch */
+.pjpcbA__sketch {
+  /* fades out twice as fast as the board appears, so its labels never
+     sit on top of the real parts */
+  opacity: calc(var(--a0) * (1 - min(1, var(--a2) * 2)));
+}
+.pjpcbA__sketch rect,
+.pjpcbA__sketch circle {
+  fill: none;
+  stroke: var(--pjpcbA-sketch);
+  stroke-width: 1.6;
+  stroke-dasharray: 6 7;
+  stroke-linecap: round;
+}
+.pjpcbA__sketch text {
+  fill: var(--pjpcbA-sketch-text);
+  font-size: 13px;
+  font-style: italic;
+  font-weight: 600;
+}
+.pjpcbA__sketch .pjpcbA__note {
+  fill: var(--pjpcbA-accent);
+  font-size: 15px;
+  text-anchor: start;
+}
+
+/* 02 traces route themselves */
+.pjpcbA__traces path {
+  fill: none;
+  stroke: var(--pjpcbA-accent);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - var(--a1));
+  opacity: calc(1 - var(--a2));
+}
+
+.pjpcbA__pads circle {
+  fill: #f3c766;
+  stroke: #a77a1d;
+  stroke-width: 1.5;
+  opacity: var(--a1);
+}
+
+/* 03 fabricate: the ProJenius dev board ----------------------------------
+   Blue solder mask with a fine ground-plane hatch, gold (ENIG) pads, vias,
+   mounting holes and header, a shielded Wi-Fi module, white silkscreen. */
+.pjpcbA__board {
+  opacity: var(--a2);
+}
+
+.pjpcbA__mask {
+  fill: url(#pjpcbA-mask-fill);
+  stroke: rgba(90, 214, 248, 0.55);
+  stroke-width: 2;
+  filter: drop-shadow(0 26px 44px rgba(0, 0, 0, 0.45));
+}
+
+.pjpcbA__hatch {
+  fill: url(#pjpcbA-hatch);
+  opacity: 0.5;
+}
+
+.pjpcbA__svg pattern line {
+  stroke: rgba(90, 214, 248, 0.1);
+  stroke-width: 3;
+}
+
+.pjpcbA__hole {
+  fill: #071426;
+  stroke: #e2b04a;
+  stroke-width: 3;
+}
+
+.pjpcbA__copper path {
+  fill: none;
+  stroke: #2c7bb0;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: var(--a2);
+}
+
+.pjpcbA__vias circle {
+  fill: #071426;
+  stroke: #e2b04a;
+  stroke-width: 2.5;
+  opacity: var(--a2);
+}
+
+.pjpcbA__part {
+  --c: clamp(0, calc((var(--a2) - var(--k, 0)) * 2.6), 1);
+  opacity: var(--c);
+  transform: translateY(calc((1 - var(--c)) * -22px));
+}
+
+.pjpcbA__module { fill: #0e1b2b; stroke: rgba(90, 214, 248, 0.4); stroke-width: 1.5; }
+.pjpcbA__antenna { fill: none; stroke: #e2b04a; stroke-width: 2.5; stroke-linejoin: round; }
+.pjpcbA__shield-text { fill: #0b2a47; font-size: 12px; font-weight: 800; letter-spacing: 0.16em; }
+.pjpcbA__shield-sub { fill: #3b5470; font-size: 8.5px; font-weight: 700; letter-spacing: 0.2em; }
+.pjpcbA__usb { fill: #d5dde6; stroke: #8a9bb0; stroke-width: 1.5; }
+.pjpcbA__usb-port { fill: #23303f; }
+.pjpcbA__ic { fill: #0e1a2b; stroke: rgba(90, 214, 248, 0.35); stroke-width: 1.5; }
+.pjpcbA__pin { fill: #e2b04a; }
+.pjpcbA__cap { fill: #c8a165; }
+.pjpcbA__res { fill: #1f2733; stroke: #c9d3df; stroke-width: 1.5; }
+.pjpcbA__header { fill: #e2b04a; }
+.pjpcbA__header-hole { fill: #071426; }
+.pjpcbA__led { fill: #12324f; stroke: #5ad6f8; stroke-width: 2; }
+
+.pjpcbA__silk {
+  fill: rgba(255, 255, 255, 0.86);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.pjpcbA__brand {
+  fill: rgba(255, 255, 255, 0.55);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  opacity: var(--a2);
+}
+
+/* 04 validate */
+.pjpcbA__glow { fill: var(--pjpcbA-cyan); opacity: calc(var(--a3) * 0.9); }
+.pjpcbA__led-on { fill: #d9f7ff; opacity: var(--a3); }
+
+.pjpcbA__pulse path {
+  fill: none;
+  stroke: #5ad6f8;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 0.06 0.14;
+  opacity: var(--a3);
+  filter: drop-shadow(0 0 4px rgba(90, 214, 248, 0.9));
+}
+
+.pjpcbA__scroller[data-stage="3"] .pjpcbA__pulse path {
+  animation: pjpcbA-flow 1.6s linear infinite;
+}
+
+.pjpcbA__pass {
+  opacity: var(--a3);
+  transform: translateY(calc((1 - var(--a3)) * 10px));
+}
+.pjpcbA__pass rect { fill: #20c8f5; filter: drop-shadow(0 8px 18px rgba(32, 200, 245, 0.45)); }
+.pjpcbA__pass path { fill: none; stroke: #071426; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.pjpcbA__pass text { fill: #071426; font-size: 13px; font-weight: 800; }
+
+@keyframes pjpcbA-flow {
+  to { stroke-dashoffset: -0.2; }
+}
+
+/* Stage label under the drawing */
+.pjpcbA__stage-label {
+  position: relative;
+  height: 22px;
+  margin: 18px 0 0;
+  text-align: center;
+}
+.pjpcbA__stage-label span {
+  position: absolute;
+  inset: 0;
+  color: var(--pjpcbA-accent);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 300ms ease, transform 300ms var(--pjpcbA-ease);
+}
+.pjpcbA__scroller[data-stage="0"] [data-for="0"],
+.pjpcbA__scroller[data-stage="1"] [data-for="1"],
+.pjpcbA__scroller[data-stage="2"] [data-for="2"],
+.pjpcbA__scroller[data-stage="3"] [data-for="3"] {
+  opacity: 1;
+  transform: none;
+}
+
+/* Steps (plain typography) ------------------------------------------------- */
+.pjpcbA__steps {
+  grid-column: 1;
+  grid-row: 1;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pjpcbA__step {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 72vh;
+  opacity: 0.22;
+  transform: translateX(-8px);
+  transition: opacity 450ms ease, transform 450ms var(--pjpcbA-ease);
+}
+.pjpcbA__step[data-active] { opacity: 1; transform: none; }
+
+.pjpcbA__num {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--pjpcbA-accent);
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.pjpcbA .pjpcbA__title {
+  margin: 16px 0 0;
+  color: var(--pjpcbA-ink);
+  font-family: var(--pjds-font-heading);
+  font-size: clamp(2.4rem, 4.6vw, 3.75rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+}
+
+.pjpcbA .pjpcbA__text {
+  max-width: 40ch;
+  margin: 20px 0 0;
+  color: var(--pjpcbA-muted);
+  font-size: clamp(1.1rem, 1.55vw, 1.4rem);
+  line-height: 1.65;
+}
+
+.pjpcbA .pjpcbA__out {
+  margin: 24px 0 0;
+  color: var(--pjpcbA-ink);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+.pjpcbA__out span {
+  margin-right: 10px;
+  color: var(--pjpcbA-muted);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.pjpcbA__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Mobile: drawing sticks to the top, steps scroll under it ----------------- */
+@media (max-width: 899px) {
+  .pjpcbA__scroller {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .pjpcbA__visual {
+    grid-column: 1;
+    top: 64px;
+    z-index: 1;
+    padding: 12px 0 10px;
+    background: linear-gradient(var(--pjds-bg-a, #ffffff) 85%, transparent);
+  }
+
+  /* On a light section the fade uses the light background colour. */
+  main > section:nth-of-type(even) .pjpcbA__visual {
+    background: linear-gradient(var(--pjds-bg-b, #f4f7fb) 85%, transparent);
+  }
+
+  .pjpcbA__svg { max-height: 34vh; }
+  .pjpcbA__stage-label { margin-top: 8px; }
+
+  .pjpcbA__steps { grid-column: 1; grid-row: 2; }
+
+  .pjpcbA__step { min-height: 52vh; }
+}
+
+/* Reduced motion: finished board, all text visible ------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .pjpcbA__step { opacity: 1; transform: none; transition: none; min-height: 0; padding-block: 28px; }
+  .pjpcbA__visual { position: static; }
+  .pjpcbA__stage-label { display: none; }
+  .pjpcbA__scroller .pjpcbA__pulse path { animation: none; }
+}

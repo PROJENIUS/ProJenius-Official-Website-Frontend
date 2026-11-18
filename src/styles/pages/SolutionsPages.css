@@ -75,3 +75,15 @@ main.pjsv-startup :is(.pjs-stage, .cmap-section, .ssj-section, .faq-section) {
 main.pjsv-startup .cmap-section {
   min-height: 0;
 }
+
+/* Software page: no section band behind the estimate card (it sits on the
+   light page background). Overrides the alternating section colour. */
+.pjsv-software > section#software-estimate {
+  --pjds-bg-a: transparent;
+  background: transparent !important;
+}
+
+/* Startup page: "After you submit" fits one laptop screen. */
+main.pjsv-startup > section#idea-journey {
+  padding-block: clamp(48px, 6vw, 80px);
+}

@@ -28,6 +28,22 @@
 /* Accent underlines draw outwards from the centre. */
 .pjh-page [data-reveal="line"]:not([data-revealed]) { transform: scaleX(0.3); }
 
+/* Blue line under each section heading, matching Who We Are
+   (.pjh-about__title-line). --start aligns it with a left-aligned heading. */
+.pjh-page .pjh-title-line {
+  display: block;
+  width: 78px;
+  height: 5px;
+  margin: 12px auto 4px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #20c8f5, var(--pjds-cyan-500));
+}
+
+.pjh-page .pjh-title-line--start {
+  margin-inline: 0;
+  transform-origin: left center;
+}
+
 /* Images wipe in from the bottom edge instead of fading. Use only on plain
    image wrappers: clip-path also clips shadows and overflowing decoration. */
 .pjh-page [data-reveal="image"] { clip-path: inset(0 0 0 0); }

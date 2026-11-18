@@ -5,7 +5,6 @@ import useScrollReveal from "../../../hooks/useScrollReveal.js";
 import CareerGuidanceHero from "../../../Components/Learning/CareerGuidance/CareerGuidanceHero/CareerGuidanceHero.jsx";
 import ASmallFee from "../../../Components/Learning/CareerGuidance/ASmallFee/ASmallFee.jsx";
 import TargetAudience from "../../../Components/Learning/CareerGuidance/TargetAudience/TargetAudience.jsx";
-import NotJustAdvice from "../../../Components/Learning/CareerGuidance/NotJustAdvice/NotJustAdvice.jsx";
 import GuidanceProcess from "../../../Components/Learning/CareerGuidance/GuidanceProcess/GuidanceProcess.jsx";
 import NotJustAnother from "../../../Components/Learning/CareerGuidance/NotJustAnother/NotJustAnother.jsx";
 import CareerFaq from "../../../Components/Learning/CareerGuidance/CareerFaq/CareerFaq.jsx";
@@ -18,10 +17,9 @@ const DESCRIPTION =
 /* =========================================================
    CAREER GUIDANCE PAGE
    Backgrounds alternate like the homepage:
-   hero (navy) → booking (white) → who it is for (light) →
-   deliverables (navy) → process (white) → why ProJenius
-   (navy) → FAQ (white) → closing card (the same
-   card as the Home, About and Workshop pages).
+   hero (navy) → booking (light) → who it is for (navy) →
+   guidance process (light) → why ProJenius (navy) →
+   FAQ (light) → short closing card (last, white).
 ========================================================= */
 
 const CareerGuidancePage = () => {
@@ -34,7 +32,6 @@ const CareerGuidancePage = () => {
       <CareerGuidanceHero />
       <ASmallFee />
       <TargetAudience />
-      <NotJustAdvice />
       <GuidanceProcess />
       <NotJustAnother />
       <CareerFaq />

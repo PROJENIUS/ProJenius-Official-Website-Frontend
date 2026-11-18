@@ -1,5 +1,7 @@
 import { Component, memo, useCallback, useLayoutEffect, useRef, useState } from "react";
-import "./CapabilityMap.css";
+import "./CapabilityMap.css";
+import TypedPhrase from "../../Common/TypedPhrase/TypedPhrase.jsx";
+import SectionTitleLine from "../../Common/SectionTitleLine/SectionTitleLine.jsx";
 
 /* ==========================================================================
    CapabilityMap.jsx
@@ -196,9 +198,10 @@ export default function CapabilityMap({ logoSrc }) {
   return (
     <section className="cmap-section" aria-labelledby="cmap-heading">
       <header className="cmap-header">
-        <p className="cmap-eyebrow">Capability Map</p>
-        <h2 id="cmap-heading" className="cmap-heading">One Idea. Multiple Capabilities.</h2>
-        <p className="cmap-lead">The technology you need depends on the problem you&apos;re solving.</p>
+        <p className="pjds-eyebrow pjds-eyebrow--on-dark cmap-eyebrow" data-reveal="up">Capability Map</p>
+        <h2 id="cmap-heading" className="cmap-heading" data-reveal="up" data-reveal-delay="1">One Idea. <TypedPhrase phrases={["Multiple Capabilities.", "Many Possibilities."]} /></h2>
+        <SectionTitleLine />
+        <p className="cmap-lead" data-reveal="up" data-reveal-delay="2">The technology you need depends on the problem you&apos;re solving.</p>
       </header>
 
       <div ref={stageRef} className="cmap-stage">

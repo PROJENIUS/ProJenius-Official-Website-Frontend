@@ -16,9 +16,11 @@
 
 .pjpcb-caps__sheet {
   overflow: hidden;
-  border: 1px solid rgba(90, 214, 248, 0.18);
+  border: 1px solid rgba(32, 200, 245, 0.25);
   border-radius: var(--pjds-radius-card);
-  background: var(--pjds-navy-900);
+  background: #0c2340 !important;
+  color: #ffffff !important;
+  box-shadow: 0 16px 40px rgba(7, 20, 38, 0.15);
 }
 
 .pjpcb-caps__row {
@@ -28,17 +30,26 @@
   gap: 24px;
   padding: 24px 28px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
+  transition: background-color 200ms ease;
+}
+
+.pjpcb-caps__row:hover:not(.pjpcb-caps__row--head) {
+  background: rgba(32, 200, 245, 0.05);
 }
 
 .pjpcb-caps__row--head {
   padding-block: 14px;
   border-top: 0;
-  background: rgba(32, 200, 245, 0.06);
-  color: var(--pjds-cyan-400);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
+  background: rgba(32, 200, 245, 0.1);
+  color: #20c8f5 !important;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
+}
+
+.pjpcb-caps__row--head span {
+  color: #20c8f5 !important;
 }
 
 .pjpcb-caps__code {
@@ -46,32 +57,35 @@
   place-items: center;
   width: 52px;
   height: 32px;
-  border: 1px solid rgba(90, 214, 248, 0.35);
+  border: 1px solid rgba(32, 200, 245, 0.4);
   border-radius: 8px;
-  color: var(--pjds-cyan-400);
+  background: rgba(32, 200, 245, 0.1);
+  color: #20c8f5 !important;
   font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
   font-size: 0.8125rem;
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .pjpcb-caps__title {
   margin: 4px 0 0;
-  color: var(--pjds-white);
+  color: #ffffff !important;
   font-size: 1.125rem;
   font-weight: 700;
   line-height: 1.3;
 }
 
-.pjpcb-caps__text,
-.pjpcb-caps__bring {
+.pjpcb-caps__text {
   margin: 4px 0 0;
-  color: rgba(203, 213, 225, 0.85);
+  color: rgba(255, 255, 255, 0.88) !important;
   font-size: 0.9875rem;
   line-height: 1.6;
 }
 
 .pjpcb-caps__bring {
-  color: rgba(203, 213, 225, 0.7);
+  margin: 4px 0 0;
+  color: #a0b3c6 !important;
+  font-size: 0.95rem;
+  line-height: 1.6;
 }
 
 @media (max-width: 900px) {

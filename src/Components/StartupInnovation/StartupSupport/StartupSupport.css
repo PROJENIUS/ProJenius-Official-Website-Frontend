@@ -13,10 +13,10 @@
 .ssj-section {
   --ssj-bg: #f4f7fb;
   --ssj-line: #d6e2ee;
-  --ssj-text: var(--pjds-text);
-  --ssj-muted: var(--pjds-text-muted);
-  --ssj-soft: #5b6b82;
-  --ssj-blue: #1599d6;
+  --ssj-text: #071426;
+  --ssj-muted: #526b7d;
+  --ssj-soft: #334257;
+  --ssj-blue: #0478a8;
   --ssj-cyan: #0e7490;
   --ssj-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
   --ssj-ease: 0.3s ease;
@@ -35,12 +35,9 @@
 
 /* ---- 3. HEADER ------------------------------------------------------------
    Classes : ssj-header, ssj-eyebrow, ssj-heading, ssj-lead */
-.ssj-eyebrow {
-  display: flex; align-items: center; gap: 0.75rem; margin: 0 0 0.5rem;
-  font: 0.72rem var(--ssj-mono); letter-spacing: 0.15em; text-transform: uppercase; color: var(--ssj-blue);
-}
-.ssj-eyebrow::before { content: ""; width: 1.75rem; height: 1px; background: var(--ssj-blue); }
-.ssj-heading { max-width: 44rem; margin: 0; font-size: clamp(1.9rem, 5vw, 3.4rem); line-height: 1.1; font-weight: 800; }
+/* Look comes from the shared .pjds-eyebrow pill (foundation.css). */
+.ssj-eyebrow { margin: 0 0 0.75rem; }
+.ssj-heading { max-width: 44rem; margin: 0;  font-size: var(--pjds-text-h2); line-height: 1.1;  font-weight: 800; }
 .ssj-lead { margin: 0.75rem 0 0; font-size: clamp(0.9rem, 1.5vw, 1.05rem); color: var(--ssj-muted); }
 
 /* ---- 4. LAYOUT (list | accordion) -----------------------------------------

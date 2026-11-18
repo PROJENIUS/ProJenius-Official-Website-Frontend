@@ -2,6 +2,7 @@ import { FileText, Handshake, MessagesSquare, SearchCheck } from "lucide-react";
 
 import TypedPhrase from "../../Common/TypedPhrase/TypedPhrase.jsx";
 import "./HiringProcess.css";
+import SectionTitleLine from "../../Common/SectionTitleLine/SectionTitleLine.jsx";
 
 /* =============================================================================
    JOIN OUR TEAM — HIRING PROCESS
@@ -25,6 +26,7 @@ export default function HiringProcess() {
             <span className="pjj-process__title-static">From Application</span>
             <TypedPhrase tone="dark" phrases={["to Your First Day", "to Offer", "in Four Steps"]} />
           </h2>
+          <SectionTitleLine />
         </header>
 
         <ol className="pjj-process__steps">

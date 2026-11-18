@@ -36,12 +36,9 @@
 
 /* ---- 3. HEADER ------------------------------------------------------------
    Classes : cmap-header, cmap-eyebrow, cmap-heading, cmap-lead */
-.cmap-eyebrow {
-  display: flex; align-items: center; gap: 0.75rem; margin: 0 0 0.5rem;
-  font: 0.72rem var(--cmap-mono); letter-spacing: 0.15em; text-transform: uppercase; color: var(--cmap-blue);
-}
-.cmap-eyebrow::before { content: ""; width: 1.75rem; height: 1px; background: var(--cmap-blue); }
-.cmap-heading { margin: 0; font-size: clamp(1.7rem, min(5vw, 7vh), 3.4rem); line-height: 1.1; font-weight: 800; }
+/* Look comes from the shared .pjds-eyebrow pill (foundation.css). */
+.cmap-eyebrow { margin: 0 0 0.75rem; }
+.cmap-heading { margin: 0;  font-size: var(--pjds-text-h2); line-height: 1.1;  font-weight: 800; }
 .cmap-lead { margin: 0.6rem 0 0; font-size: clamp(0.9rem, 1.5vw, 1.05rem); color: var(--cmap-muted); }
 
 /* ---- 4. STAGE (the radial map area) ---------------------------------------

@@ -1870,3 +1870,16 @@
   }
 }
 
+
+/* The left info panel stays in place (sticky) while the form scrolls,
+   on the Contact page and on the Startup page. Stacked layouts unstick. */
+.pj-contact-help__panel {
+  position: sticky;
+  top: calc(var(--pjds-nav-offset, 112px) + 20px);
+}
+
+@media (max-width: 1024px) {
+  .pj-contact-help__panel {
+    position: static;
+  }
+}

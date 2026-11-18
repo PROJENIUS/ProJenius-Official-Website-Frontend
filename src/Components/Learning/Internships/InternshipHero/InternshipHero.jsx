@@ -1,44 +1,67 @@
-import CinematicHero from "../../../Common/CinematicHero/CinematicHero.jsx";
-import { HeroRadar } from "../../../Common/CinematicHero/HeroPanels.jsx";
-import { heroPhotos } from "../../../Common/HeroPhotoStack/heroPhotos.js";
-import internsPhoto from "../../../../assets/About/Achievements/Achievements_2.webp";
+import { Link } from "react-router-dom";
+import { ArrowDown, ArrowRight, CalendarDays, GraduationCap, MonitorSmartphone, Users } from "lucide-react";
 
-/* =========================================================
-   INTERNSHIP HERO — the shared cinematic hero with a skill
-   chart growing from day 1 to after the internship. The
-   values are an example, and the chart says so.
-   Photo: src/assets/Heroes/internship/backdrop.* (see its README).
-========================================================= */
+import TypedPhrase from "../../../Common/TypedPhrase/TypedPhrase.jsx";
+import SectionTitleLine from "../../../Common/SectionTitleLine/SectionTitleLine.jsx";
+import "./InternshipHero.css";
 
-const HERO = heroPhotos("internship", { backdrop: internsPhoto });
+/* =============================================================================
+   INTERNSHIP HERO — navy, our hero pattern (pill, heading + cyan typing,
+   blue line, cyan CTA). Right: four fact boxes about the programme.
+   Facts follow the page: 1, 3 or 6 month programmes, online and offline,
+   a guided programme, for students and freshers.
+   ============================================================================= */
 
-const SKILLS = ["Coding", "Electronics", "AI", "Projects", "Problem solving", "Teamwork"];
-const DAY_ONE = [0.35, 0.25, 0.2, 0.3, 0.4, 0.35];
-const AFTER = [0.85, 0.75, 0.7, 0.9, 0.85, 0.85];
+const FACTS = [
+  { Icon: CalendarDays, title: "Duration", text: "1 month, 3 months or 6 months" },
+  { Icon: MonitorSmartphone, title: "Mode", text: "Online, offline or hybrid" },
+  { Icon: GraduationCap, title: "Type", text: "Guided internship programme" },
+  { Icon: Users, title: "Eligibility", text: "Students and freshers" },
+];
+
+const scrollToDomains = (event) => {
+  const target = document.getElementById("internship-domains");
+  if (!target) return;
+  event.preventDefault();
+  const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+  target.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+};
 
 const InternshipHero = () => (
-    <CinematicHero
-        id="pj-internship-hero-title"
-        eyebrow="About the Internship"
-        title="Practical Training"
-        accent="Built on Real Work"
-        description="Gain hands-on experience through structured training, mentor support, live projects, and career preparation designed for students and freshers entering the tech industry."
-        primary={{ label: "Start Your Journey", to: "/contact?type=internship" }}
-        secondary={{ label: "Explore Domains", to: "#internship-domains" }}
-        photo={HERO.backdrop}
-        aside={
-            <HeroRadar
-                label="Example: how an intern's skills grow"
-                axes={SKILLS}
-                before={DAY_ONE}
-                after={AFTER}
-                beforeLabel="Day 1"
-                afterLabel="After the internship"
-            />
-        }
-        band={["Live Projects", "Mentor Support", "Structured Training", "Career Preparation", "Online & Offline", "Certification"]}
-        className="pj-internship-hero"
-    />
+  <section className="pjih" aria-labelledby="pj-internship-hero-title">
+    <div className="pjds-container pjih__grid">
+      <div className="pjih__copy">
+        <p className="pjds-eyebrow pjds-eyebrow--on-dark" data-reveal="up">About the Internship</p>
+        <h1 id="pj-internship-hero-title" className="pjih__title" data-reveal="up" data-reveal-delay="1">
+          Practical Training{" "}
+          <TypedPhrase tone="dark" phrases={["Built on Real Work.", "With Live Projects.", "With Mentor Support."]} />
+        </h1>
+        <SectionTitleLine />
+        <p className="pjih__lead" data-reveal="up" data-reveal-delay="2">
+          Gain hands-on experience through structured training, mentor support, live projects and career
+          preparation, designed for students and freshers entering the tech industry.
+        </p>
+        <div className="pjih__actions" data-reveal="up" data-reveal-delay="3">
+          <Link className="pjih__btn pjih__btn--primary" to="/contact?type=internship">
+            Apply for Internship <ArrowRight size={18} aria-hidden="true" />
+          </Link>
+          <a className="pjih__btn pjih__btn--ghost" href="#internship-domains" onClick={scrollToDomains}>
+            Explore Domains <ArrowDown size={18} aria-hidden="true" />
+          </a>
+        </div>
+      </div>
+
+      <ul className="pjih__facts" aria-label="Internship at a glance">
+        {FACTS.map(({ Icon, title, text }, index) => (
+          <li key={title} className="pjih__fact" data-reveal="up" data-reveal-delay={String(index + 1)}>
+            <span className="pjih__fact-icon" aria-hidden="true"><Icon size={22} /></span>
+            <strong>{title}</strong>
+            <small>{text}</small>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
 );
 
 export default InternshipHero;

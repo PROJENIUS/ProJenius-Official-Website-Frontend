@@ -4,7 +4,6 @@ import InternshipDomains from "../../../Components/Learning/Internships/Internsh
 import TechnologiesCovered from "../../../Components/Learning/Internships/TechnologiesCovered/TechnologiesCovered.jsx";
 import WhatInternsWillLearnAndBenefits from "../../../Components/Learning/Internships/WhatInternsWillLearnAndBenefits/WhatInternsWillLearnAndBenefits.jsx";
 import SuccessStories from "../../../Components/Learning/Internships/SuccessStories/SuccessStories.jsx";
-import StudentVideos from "../../../Components/Learning/Internships/StudentVideos/StudentVideos.jsx";
 import ReadyToStart from "../../../Components/Learning/Internships/ReadyToStart/ReadyToStart.jsx";
 import { useRef } from "react";
 import useMetaDescription from "../../../hooks/useMetaDescription.js";
@@ -21,28 +20,21 @@ const Internship = () => {
 
   return (
     <main ref={pageRef} className="pjl-page pjl-internships">
-      {/* INTERNSHIP HERO */}
+      {/* Order (backgrounds alternate by position):
+          hero (dark) → video overview (white) → what you gain (dark) →
+          domains (white) → technologies (dark, moving strip) →
+          success stories (white) → ready to start (last, light). */}
       <InternshipHero />
-
-      {/* REAL-WORLD EXPERIENCE */}
       <RealWorldExperience />
-
-      {/* INTERNSHIP DOMAINS */}
-      <InternshipDomains />
-
-      {/* TECHNOLOGIES COVERED */}
-      <TechnologiesCovered />
-
-      {/* WHAT INTERNS WILL LEARN + BENEFITS */}
       <WhatInternsWillLearnAndBenefits />
-
-      {/* SUCCESS STORIES */}
+      <InternshipDomains />
+      <TechnologiesCovered />
       <SuccessStories />
 
-      {/* STUDENT STORIES (video testimonials) */}
-      <StudentVideos />
+      {/* STUDENT VIDEOS — hidden until real videos are added (every card
+          currently says "Video coming soon"). Put <StudentVideos /> back
+          here, before <ReadyToStart />, when they are ready. */}
 
-      {/* READY TO START */}
       <ReadyToStart />
     </main>
   );

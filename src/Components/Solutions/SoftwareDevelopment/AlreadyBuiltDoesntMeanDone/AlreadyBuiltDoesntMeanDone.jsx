@@ -1,17 +1,17 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import "./AlreadyBuiltDoesntMeanDone.css";
+import TypedPhrase from "../../../Common/TypedPhrase/TypedPhrase.jsx";
+import SectionTitleLine from "../../../Common/SectionTitleLine/SectionTitleLine.jsx";
 
 /* =========================================================
    ALREADY BUILT DOESN'T MEAN DONE — DATA
 ========================================================= */
-const STEPS = [
-  { title: "Audit", text: "Review the current experience, structure and performance." },
-  { title: "Insights", text: "Find what is holding users and the business back." },
-  { title: "Improvement", text: "Redesign and rebuild what matters most." },
-  { title: "Optimization", text: "Tune, measure and keep refining." },
-];
-
 const AREAS = ["UI/UX", "Performance", "Features", "Workflow", "Automation", "Mobile experience", "Content", "Digital visibility"];
+
+/* What a visitor sees on each side of the slider: plain descriptions of
+   common problems and their improved state (no invented metrics). */
+const BEFORE_NOTES = ["Hard to navigate", "Slow to load", "Not mobile-friendly"];
+const AFTER_NOTES = ["Clear navigation", "Faster pages", "Works on every screen"];
 
 const START_POSITION = 97;
 const END_POSITION = 50;
@@ -62,8 +62,11 @@ function MockBefore() {
         <div className="pj-development-already-built-mock-bimg" />
       </div>
       <div className="pj-development-already-built-mock-btiles"><i /><i /><i /><i /></div>
-      <span className="pj-development-already-built-mock-badge">!</span>
-      <span className="pj-development-already-built-mock-badge pj-development-already-built-mock-badge--b">?</span>
+      {BEFORE_NOTES.map((note, index) => (
+        <span key={note} className={`pj-development-already-built-note pj-development-already-built-note--bad pj-development-already-built-note--${index + 1}`}>
+          <i aria-hidden="true">!</i>{note}
+        </span>
+      ))}
     </div>
   );
 }
@@ -86,10 +89,15 @@ function MockAfter() {
         <div className="pj-development-already-built-mock-card" />
       </div>
       <div className="pj-development-already-built-mock-tiles">
-        <div className="pj-development-already-built-mock-tile" />
-        <div className="pj-development-already-built-mock-tile" />
-        <div className="pj-development-already-built-mock-tile" />
+        <div className="pj-development-already-built-mock-tile pj-development-already-built-mock-tile--green" />
+        <div className="pj-development-already-built-mock-tile pj-development-already-built-mock-tile--cyan" />
+        <div className="pj-development-already-built-mock-tile pj-development-already-built-mock-tile--violet" />
       </div>
+      {AFTER_NOTES.map((note, index) => (
+        <span key={note} className={`pj-development-already-built-note pj-development-already-built-note--good pj-development-already-built-note--${index + 1}`}>
+          <i aria-hidden="true">✓</i>{note}
+        </span>
+      ))}
     </div>
   );
 }
@@ -107,7 +115,6 @@ function MockScreen({ children }) {
 ========================================================= */
 export default function AlreadyBuiltDoesntMeanDone() {
   const [headRef, headIn] = useInView(0.2);
-  const [stepIndex, setStepIndex] = useState(0);
 
   const compareRef = useRef(null);
   const rangeRef = useRef(null);
@@ -119,9 +126,6 @@ export default function AlreadyBuiltDoesntMeanDone() {
     if (compare) compare.style.setProperty("--pj-already-built-position", `${value}%`);
     if (rangeRef.current) rangeRef.current.value = String(value);
 
-    const revealed = 100 - value;
-    const next = revealed < 25 ? 0 : revealed < 50 ? 1 : revealed < 75 ? 2 : 3;
-    setStepIndex((current) => (current === next ? current : next));
   }, []);
 
   /* Intro swipe when the card scrolls into view */
@@ -179,72 +183,59 @@ export default function AlreadyBuiltDoesntMeanDone() {
       aria-labelledby="pj-development-already-built-title"
     >
       <div className="pj-development-already-built-wrap">
-        {/* ---------- HEADING ---------- */}
+        {/* ---------- HEADING (centred) ---------- */}
         <div ref={headRef} className={`pj-development-already-built-head${headIn ? " pj-development-already-built-head--in" : ""}`}>
+          <p className="pjds-eyebrow">Existing Products</p>
           <h2 id="pj-development-already-built-title" className="pj-development-already-built-head-title">
-            Already Built Doesn't Mean Finished.
+            Already Built Doesn&apos;t <TypedPhrase phrases={["Mean Finished.", "Mean Done."]} />
           </h2>
+          <SectionTitleLine />
           <p className="pj-development-already-built-head-text">
             Digital products evolve. New users, new requirements and new business goals create new opportunities to improve.
           </p>
         </div>
 
-        <div className="pj-development-already-built-block">
-          {/* ---------- BEFORE / AFTER COMPARISON ---------- */}
-          <div ref={compareRef} className="pj-development-already-built-compare">
-            <div className="pj-development-already-built-layer pj-development-already-built-layer--before" aria-hidden="true">
-              <MockScreen><MockBefore /></MockScreen>
-            </div>
-            <div className="pj-development-already-built-layer pj-development-already-built-layer--after" aria-hidden="true">
-              <MockScreen><MockAfter /></MockScreen>
-            </div>
-
-            <span className="pj-development-already-built-tag pj-development-already-built-tag--left">Existing experience</span>
-            <span className="pj-development-already-built-tag pj-development-already-built-tag--right">Improved experience</span>
-
-            {/* Invisible range input covers the card, so the whole card is draggable */}
-            <input
-              ref={rangeRef}
-              className="pj-development-already-built-range"
-              type="range"
-              min="0"
-              max="100"
-              step="1"
-              defaultValue={START_POSITION}
-              aria-label="Drag to compare the existing and improved experience"
-              onChange={handleChange}
-              onPointerDown={() => {
-                touchedRef.current = true;
-              }}
-            />
-
-            <div className="pj-development-already-built-handle" aria-hidden="true">
-              <span className="pj-development-already-built-handle-line" />
-              <span className="pj-development-already-built-handle-knob">
-                <svg viewBox="0 0 24 24" focusable="false"><path d="M9 7L4 12L9 17" /><path d="M15 7L20 12L15 17" /></svg>
-              </span>
-            </div>
+        {/* ---------- BEFORE / AFTER COMPARISON (full width) ---------- */}
+        <div ref={compareRef} className="pj-development-already-built-compare">
+          <div className="pj-development-already-built-layer pj-development-already-built-layer--before" aria-hidden="true">
+            <MockScreen><MockBefore /></MockScreen>
+          </div>
+          <div className="pj-development-already-built-layer pj-development-already-built-layer--after" aria-hidden="true">
+            <MockScreen><MockAfter /></MockScreen>
           </div>
 
-          {/* ---------- STEPS ---------- */}
-          <ol className="pj-development-already-built-steps">
-            {STEPS.map((step, index) => (
-              <li
-                key={step.title}
-                className={`pj-development-already-built-step${index === stepIndex ? " pj-development-already-built-step--on" : ""}${index < stepIndex ? " pj-development-already-built-step--past" : ""}`}
-              >
-                <b>{step.title}</b>
-                <span>{step.text}</span>
-              </li>
-            ))}
-          </ol>
+          <span className="pj-development-already-built-tag pj-development-already-built-tag--left">Existing experience</span>
+          <span className="pj-development-already-built-tag pj-development-already-built-tag--right">Improved experience</span>
 
-          {/* ---------- AREAS ---------- */}
-          <p className="pj-development-already-built-areas-title">Where improvements usually happen</p>
-          <ul className="pj-development-already-built-areas">
-            {AREAS.map((area) => <li key={area}>{area}</li>)}
-          </ul>
+          {/* Invisible range input covers the card, so the whole card is draggable */}
+          <input
+            ref={rangeRef}
+            className="pj-development-already-built-range"
+            type="range"
+            min="0"
+            max="100"
+            step="1"
+            defaultValue={START_POSITION}
+            aria-label="Drag to compare the existing and improved experience"
+            onChange={handleChange}
+            onPointerDown={() => {
+              touchedRef.current = true;
+            }}
+          />
+
+          <div className="pj-development-already-built-handle" aria-hidden="true">
+            <span className="pj-development-already-built-handle-line" />
+            <span className="pj-development-already-built-handle-knob">
+              <svg viewBox="0 0 24 24" focusable="false"><path d="M9 7L4 12L9 17" /><path d="M15 7L20 12L15 17" /></svg>
+            </span>
+          </div>
         </div>
+
+        {/* ---------- AREAS ---------- */}
+        <p className="pj-development-already-built-areas-title">Where improvements usually happen</p>
+        <ul className="pj-development-already-built-areas">
+          {AREAS.map((area) => <li key={area}>{area}</li>)}
+        </ul>
       </div>
     </section>
   );

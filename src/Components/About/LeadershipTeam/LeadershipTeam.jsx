@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import './LeadershipTeam.css';
 
 /* IMAGES */
-import karthickImg from '../../../assets/About/LeadershipTeam/LeadershipTeam_1.png';
-import harshiniImg from '../../../assets/About/LeadershipTeam/LeadershipTeam_2.png';
-import karthikaImg from '../../../assets/About/LeadershipTeam/LeadershipTeam_3.png';
+import karthickImg from '../../../assets/About/LeadershipTeam/LeadershipTeam_1.webp';
+import harshiniImg from '../../../assets/About/LeadershipTeam/LeadershipTeam_2.webp';
+import karthikaImg from '../../../assets/About/LeadershipTeam/LeadershipTeam_3.webp';
 
 const founders = [
   {
@@ -272,18 +272,21 @@ function PersonCard({
 
 /* =========================================================
    LEADERSHIP TEAM
+   One <section> holds both blocks: the site colours sections
+   light/dark by their position on the page, so a second
+   <section> here would flip every section below it.
 ========================================================= */
 
 function LeadershipTeam() {
   return (
-    <>
-      {/* FOUNDERS (target of the About hero's "Meet Our Team" link) */}
-      <section id="about-leadership" className="founders-section">
+    <section id="about-leadership" className="leadership-team">
+      {/* FOUNDERS */}
+      <div className="founders-section">
         <div className="section-inner">
 
-          <div className="section-tag" data-reveal="up">
+          <p className="pjds-eyebrow section-tag" data-reveal="up">
             Leadership Team
-          </div>
+          </p>
 
           <h2 className="section-title" data-reveal="up" data-reveal-delay="1">
             <span className="section-title-static">Meet Our</span>
@@ -312,16 +315,12 @@ function LeadershipTeam() {
           </div>
 
         </div>
-      </section>
+      </div>
 
       {/* STRATEGIC ADVISOR */}
-      <section className="founders-section leadership-section">
+      <div className="founders-section leadership-section">
         <div className="section-inner">
-
-          <div className="section-tag" data-reveal="up">
-            Leadership Team
-          </div>
-
+          {/* No "Leadership Team" pill here: the Founders heading above already has it. */}
           <h2 className="section-title" data-reveal="up" data-reveal-delay="1">
             <span className="section-title-static">Meet Our</span>
             <TypedText words={['Strategic Advisor']} />
@@ -334,6 +333,10 @@ function LeadershipTeam() {
             data-reveal-delay="2"
           />
 
+          <p className="section-description" data-reveal="up" data-reveal-delay="2">
+            Guiding our student startups with strategic advice and mentorship.
+          </p>
+
           <div className="leader-cards-container">
             {leaders.map((person) => (
               <PersonCard
@@ -344,8 +347,8 @@ function LeadershipTeam() {
           </div>
 
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }
 

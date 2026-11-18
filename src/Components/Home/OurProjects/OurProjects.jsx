@@ -1,261 +1,298 @@
-import { useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, Star } from "lucide-react";
-
+import { useState, useRef, useCallback, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { ArrowRight, ChevronLeft, ChevronRight, Star, ExternalLink } from "lucide-react";
 import "./OurProjects.css";
 import { PROJECTS } from "./projectsData.js";
 
-/* =============================================================================
-   OUR PROJECTS — the previous homepage layout, restored:
-     centred header (pill tag, title with typed line, underline, description)
-     card slider: active card centred, previous/next cards beside it,
-     arrow buttons and dot navigation
-   Updated to the design system (Manrope/Inter, tokens) with responsive sizing.
-   Entrance motion uses the shared homepage [data-reveal] system; the section's
-   own observer only drives typing and autoplay.
-   Autoplay advances every three seconds while visible, continues during mouse
-   hover, pauses for keyboard interaction and reduced motion, and restarts its
-   interval after every manual navigation.
-   ============================================================================= */
-
-// Each phrase names the kind of work shown by the project cards below.
-const TYPING_TEXTS = [
-  "Smart IoT Systems",
-  "AI-Powered Solutions",
-  "Embedded Hardware",
-  "Autonomous Robotics",
-  "Road Safety Technology",
-];
-const LONGEST_TYPING_TEXT = TYPING_TEXTS.reduce((a, b) => (b.length > a.length ? b : a));
-const TYPE_SPEED = 120;
-const DELETE_SPEED = 70;
-const HOLD_AFTER_TYPING = 1800;
-const PAUSE_AFTER_DELETING = 450;
-const ROTATION_INTERVAL = 3000;
 const TOTAL = PROJECTS.length;
+
+/* The carousel moves to the next project after this long. */
+const SLIDE_INTERVAL = 3000;
 
 const prefersReducedMotion = () =>
   typeof window !== "undefined" &&
   typeof window.matchMedia === "function" &&
   window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-/* Typed second title line. An invisible copy of the longest phrase reserves
-   the space, so typing never moves the content below it at any width. */
-function TypingLine({ active }) {
-  const [textIndex, setTextIndex] = useState(0);
+/* The blue heading words type in, hold, delete and move to the next phrase,
+   like the other homepage section headings. The phrases come from the
+   section's own description. */
+const TITLE_PHRASES = ["Smart Hardware & AI", "AI Vision & Robotics", "IoT & Embedded Systems"];
+const LONGEST_PHRASE = TITLE_PHRASES.reduce((a, b) => (b.length > a.length ? b : a));
+
+function ProjectsTypingLine({ active }) {
+  const [phraseIndex, setPhraseIndex] = useState(0);
   const [length, setLength] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
-  const reduce = prefersReducedMotion();
-  const current = TYPING_TEXTS[textIndex];
+  const reduceMotion = prefersReducedMotion();
+  const phrase = TITLE_PHRASES[phraseIndex];
 
   useEffect(() => {
-    if (!active || reduce) return undefined;
-
+    if (!active || reduceMotion) return undefined;
     let delay;
     let next;
-    if (!isDeleting && length < current.length) {
-      delay = TYPE_SPEED;
+    if (!isDeleting && length < phrase.length) {
+      delay = 90;
       next = () => setLength((value) => value + 1);
     } else if (!isDeleting) {
-      delay = HOLD_AFTER_TYPING;
+      delay = 1500;
       next = () => setIsDeleting(true);
     } else if (length > 0) {
-      delay = DELETE_SPEED;
+      delay = 55;
       next = () => setLength((value) => value - 1);
     } else {
-      delay = PAUSE_AFTER_DELETING;
+      delay = 350;
       next = () => {
         setIsDeleting(false);
-        setTextIndex((value) => (value + 1) % TYPING_TEXTS.length);
+        setPhraseIndex((value) => (value + 1) % TITLE_PHRASES.length);
       };
     }
-
     const timer = window.setTimeout(next, delay);
     return () => window.clearTimeout(timer);
-  }, [active, reduce, isDeleting, length, current]);
+  }, [active, reduceMotion, isDeleting, length, phrase]);
 
-  const shown = reduce ? TYPING_TEXTS[0] : current.slice(0, length);
-
+  const shown = reduceMotion ? TITLE_PHRASES[0] : phrase.slice(0, length);
   return (
-    <span className="pjh-projects__typed">
-      <span className="pjds-sr-only">{TYPING_TEXTS.join(", ")}</span>
-      <span className="pjh-projects__typed-ghost" aria-hidden="true">
-        {LONGEST_TYPING_TEXT}
-      </span>
-      <span className="pjh-projects__typed-text" aria-hidden="true">
+    <span className="pjh-proj3d__title-cyan">
+      <span className="pjds-sr-only">{TITLE_PHRASES.join(", ")}</span>
+      <span className="pjh-proj3d__title-ghost" aria-hidden="true">{LONGEST_PHRASE}</span>
+      <span className="pjh-proj3d__title-typed" aria-hidden="true">
         {shown}
-        {!reduce && <span className="pjh-projects__cursor">|</span>}
+        {!reduceMotion && <span className="pjh-proj3d__cursor">|</span>}
       </span>
     </span>
   );
 }
 
-function ProjectVisual({ project }) {
-  const { Icon } = project;
-  if (project.image) {
-    return <img src={project.image} alt={project.alt} loading="lazy" decoding="async" draggable="false" />;
-  }
-  return (
-    <span className="pjh-projects__placeholder" aria-hidden="true">
-      <Icon size={72} strokeWidth={1.3} />
-    </span>
-  );
-}
-
-/* Five stars, the first `rating` of them filled (rating is out of 5). */
 function ProjectRating({ rating }) {
   const filled = Math.max(0, Math.min(5, Math.round(rating)));
   return (
-    <div className="pjh-projects__rating" role="img" aria-label={`Rated ${filled} out of 5`}>
-      <span className="pjh-projects__stars" aria-hidden="true">
+    <div className="pjh-proj3d__rating" role="img" aria-label={`Rated ${filled} out of 5`}>
+      <span className="pjh-proj3d__stars" aria-hidden="true">
         {Array.from({ length: 5 }, (_, index) => (
           <Star
             key={index}
-            size={17}
-            strokeWidth={1.6}
-            className={`pjh-projects__star${index < filled ? " is-filled" : ""}`}
+            size={14}
+            className={`pjh-proj3d__star${index < filled ? " is-filled" : ""}`}
           />
         ))}
       </span>
-      <span className="pjh-projects__rating-value" aria-hidden="true">{filled.toFixed(1)}</span>
+      <span className="pjh-proj3d__rating-num">{filled.toFixed(1)}</span>
     </div>
   );
 }
 
-function cardPosition(index, activeIndex) {
-  if (index === activeIndex) return "active";
-  if (index === (activeIndex - 1 + TOTAL) % TOTAL) return "prev";
-  if (index === (activeIndex + 1) % TOTAL) return "next";
-  return "hidden";
-}
-
 export default function OurProjects() {
+  const [activeIndex, setActiveIndex] = useState(2); // Center card active initially
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
   const sectionRef = useRef(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isVisible, setIsVisible] = useState(() => typeof IntersectionObserver === "undefined");
-  const [hasKeyboardFocus, setHasKeyboardFocus] = useState(false);
+  const [isOnScreen, setIsOnScreen] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
 
-  const isRunning = isVisible && !hasKeyboardFocus && !prefersReducedMotion();
-
+  /* Only run while the section is on screen. */
   useEffect(() => {
     const section = sectionRef.current;
-    if (!section || typeof IntersectionObserver === "undefined") return undefined;
-    const observer = new IntersectionObserver(
-      ([entry]) => setIsVisible(entry.isIntersecting),
-      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
-    );
+    if (!section || typeof IntersectionObserver === "undefined") {
+      setIsOnScreen(true);
+      return undefined;
+    }
+    const observer = new IntersectionObserver(([entry]) => setIsOnScreen(entry.isIntersecting), { threshold: 0.2 });
     observer.observe(section);
     return () => observer.disconnect();
   }, []);
 
-  // Keyed on activeIndex, so every change (auto or manual) restarts the wait.
+  /* Autoplay: next project every 3 seconds, looping. The timer restarts
+     whenever the project changes (arrows, dots, swipe or click too), and
+     waits while the mouse is on the carousel or it has keyboard focus. */
   useEffect(() => {
-    if (!isRunning) return undefined;
-    const timer = window.setTimeout(() => {
-      setActiveIndex((current) => (current + 1) % TOTAL);
-    }, ROTATION_INTERVAL);
+    if (!isOnScreen || isPaused || TOTAL < 2 || prefersReducedMotion()) return undefined;
+    const timer = window.setTimeout(() => setActiveIndex((prev) => (prev + 1) % TOTAL), SLIDE_INTERVAL);
     return () => window.clearTimeout(timer);
-  }, [isRunning, activeIndex]);
+  }, [activeIndex, isOnScreen, isPaused]);
 
-  const goTo = (index) => setActiveIndex((index + TOTAL) % TOTAL);
+  const nextSlide = useCallback(() => {
+    setActiveIndex((prev) => (prev + 1) % TOTAL);
+  }, []);
 
-  const handleFocus = (event) => {
-    if (event.target.matches?.(":focus-visible")) setHasKeyboardFocus(true);
+  const prevSlide = useCallback(() => {
+    setActiveIndex((prev) => (prev - 1 + TOTAL) % TOTAL);
+  }, []);
+
+  const handleKeyDown = (e) => {
+    if (e.key === "ArrowLeft") prevSlide();
+    else if (e.key === "ArrowRight") nextSlide();
   };
 
-  const handleBlur = (event) => {
-    if (!event.currentTarget.contains(event.relatedTarget)) setHasKeyboardFocus(false);
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchMove = (e) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    const diff = touchStartX.current - touchEndX.current;
+    if (Math.abs(diff) > 40) {
+      if (diff > 0) nextSlide();
+      else prevSlide();
+    }
+  };
+
+  // Helper to calculate circular slot offset (-2, -1, 0, 1, 2)
+  const getSlot = (index) => {
+    let diff = index - activeIndex;
+    if (diff > TOTAL / 2) diff -= TOTAL;
+    if (diff < -TOTAL / 2) diff += TOTAL;
+
+    if (diff === 0) return 0;
+    if (diff === -1) return -1;
+    if (diff === 1) return 1;
+    if (diff <= -2) return -2;
+    return 2;
   };
 
   return (
     <section
       ref={sectionRef}
       id="home-projects"
-      className="pjh-projects"
+      className="pjh-proj3d"
       aria-labelledby="pjh-projects-title"
+      onKeyDown={handleKeyDown}
+      tabIndex={0}
+      role="region"
+      aria-roledescription="carousel"
+      aria-label="ProJenius Innovation Projects"
     >
       <div className="pjds-container">
-        {/* Header ---------------------------------------------------------- */}
-        <header className="pjh-projects__header">
-          <p className="pjds-eyebrow pjh-projects__tag" data-reveal="up">Our Projects</p>
-          <h2 id="pjh-projects-title" className="pjh-projects__title" data-reveal="up" data-reveal-delay="1">
-            <span className="pjh-projects__title-static">Turning Real-World Problems Into</span>
-            <TypingLine active={isVisible} />
+        {/* Header */}
+        <header className="pjh-proj3d__header">
+          <div className="pjh-proj3d__eyebrow-wrap">
+            <span className="pjds-eyebrow pjds-eyebrow--on-dark pjh-proj3d__eyebrow">
+              Our Projects
+            </span>
+          </div>
+
+          <h2 id="pjh-projects-title" className="pjh-proj3d__title">
+            <span className="pjh-proj3d__title-static">Turning Real-World Challenges into</span>
+            <ProjectsTypingLine active={isOnScreen} />
           </h2>
-          <span className="pjh-projects__title-line" aria-hidden="true" data-reveal="line" data-reveal-delay="2" />
-          <p className="pjh-projects__description" data-reveal="up" data-reveal-delay="2">
-            Explore our technology projects across software, IoT, AI, hardware, and embedded
-            systems, developed to address real-world business and industry needs.
+          <span className="pjh-title-line" aria-hidden="true" data-reveal="line" data-reveal-delay="2" />
+
+          <p className="pjh-proj3d__lead">
+            Explore our multidisciplinary technology projects across AI vision, robotics, IoT telemetry, and embedded hardware, engineered for industrial scalability.
           </p>
         </header>
 
-        {/* Slider ---------------------------------------------------------- */}
+        {/* Wide 3D Panoramic Curved Carousel Stage (Image 3 Reference) */}
         <div
-          className="pjh-projects__slider"
-          data-reveal="up"
-          data-reveal-delay="3"
-          onFocus={handleFocus}
-          onBlur={handleBlur}
+          className="pjh-proj3d__carousel-wrap"
+          onPointerEnter={(event) => { if (event.pointerType === "mouse") setIsPaused(true); }}
+          onPointerLeave={() => setIsPaused(false)}
+          onFocus={(event) => { if (event.target.matches?.(":focus-visible")) setIsPaused(true); }}
+          onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setIsPaused(false); }}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
         >
+          {/* Circular Navigation Arrows */}
           <button
             type="button"
-            className="pjh-projects__arrow pjh-projects__arrow--prev"
-            onClick={() => goTo(activeIndex - 1)}
+            className="pjh-proj3d__arrow pjh-proj3d__arrow--prev"
+            onClick={prevSlide}
             aria-label="Previous project"
           >
-            <ChevronLeft size={22} aria-hidden="true" />
+            <ChevronLeft size={22} />
           </button>
 
-          <div className="pjh-projects__stage">
+          <button
+            type="button"
+            className="pjh-proj3d__arrow pjh-proj3d__arrow--next"
+            onClick={nextSlide}
+            aria-label="Next project"
+          >
+            <ChevronRight size={22} />
+          </button>
+
+          <div className="pjh-proj3d__stage">
             {PROJECTS.map((project, index) => {
-              const position = cardPosition(index, activeIndex);
+              const slot = getSlot(index);
+              const isActive = slot === 0;
+
+              let slotClass = "is-hidden";
+              if (slot === 0) slotClass = "is-center";
+              else if (slot === -1) slotClass = "is-left";
+              else if (slot === 1) slotClass = "is-right";
+              else if (slot === -2) slotClass = "is-far-left";
+              else if (slot === 2) slotClass = "is-far-right";
+
               return (
                 <article
                   key={project.id}
-                  className={`pjh-projects__card pjh-projects__card--${position}`}
-                  aria-hidden={position !== "active"}
+                  className={`pjh-proj3d__card ${slotClass}`}
+                  onClick={() => setActiveIndex(index)}
+                  role="group"
+                  aria-roledescription="slide"
+                  aria-label={`${index + 1} of ${TOTAL}: ${project.title}`}
+                  aria-hidden={!isActive}
                 >
-                  <div className="pjh-projects__card-media">
-                    <ProjectVisual project={project} />
-                    <span className="pjh-projects__card-shade" aria-hidden="true" />
-                    <span className="pjh-projects__category">{project.category}</span>
-                  </div>
-                  <div className="pjh-projects__card-body">
-                    <h3 className="pjh-projects__card-title">{project.title}</h3>
-                    <p className="pjh-projects__card-text">{project.description}</p>
-                    {typeof project.rating === "number" && <ProjectRating rating={project.rating} />}
+                  <div className="pjh-proj3d__card-inner">
+                    <div className="pjh-proj3d__media-box">
+                      <img
+                        src={project.image}
+                        alt={project.alt || project.title}
+                        className="pjh-proj3d__img"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                      <div className="pjh-proj3d__category-badge">
+                        <span>{project.category}</span>
+                      </div>
+                    </div>
+
+                    <div className="pjh-proj3d__card-body">
+                      <h3 className="pjh-proj3d__card-title">{project.title}</h3>
+                      <p className="pjh-proj3d__card-desc">{project.description}</p>
+                      <div className="pjh-proj3d__card-footer">
+                        <ProjectRating rating={project.rating} />
+                        <span className="pjh-proj3d__link-hint">
+                          <span>View Details</span>
+                          <ExternalLink size={13} aria-hidden="true" />
+                        </span>
+                      </div>
+                    </div>
+
+                    {isActive && <div className="pjh-proj3d__card-glow" />}
                   </div>
                 </article>
               );
             })}
           </div>
-
-          <button
-            type="button"
-            className="pjh-projects__arrow pjh-projects__arrow--next"
-            onClick={() => goTo(activeIndex + 1)}
-            aria-label="Next project"
-          >
-            <ChevronRight size={22} aria-hidden="true" />
-          </button>
         </div>
 
-        {/* Dots ------------------------------------------------------------ */}
-        <div className="pjh-projects__dots" role="group" aria-label="Choose a project" data-reveal="up" data-reveal-delay="4">
+        {/* Dots Pagination */}
+        <div className="pjh-proj3d__dots" role="tablist" aria-label="Project selector">
           {PROJECTS.map((project, index) => (
             <button
               key={project.id}
               type="button"
-              className={`pjh-projects__dot${index === activeIndex ? " is-active" : ""}`}
-              aria-label={`Show ${project.title}`}
-              aria-current={index === activeIndex ? "true" : undefined}
-              onClick={() => goTo(index)}
+              role="tab"
+              aria-selected={index === activeIndex}
+              aria-label={`Select ${project.title}`}
+              className={`pjh-proj3d__dot ${index === activeIndex ? "is-active" : ""}`}
+              onClick={() => setActiveIndex(index)}
             />
           ))}
         </div>
 
-        <p className="pjds-sr-only" aria-live={isRunning ? "off" : "polite"} aria-atomic="true">
-          {`Project ${activeIndex + 1} of ${TOTAL}: ${PROJECTS[activeIndex].title}`}
-        </p>
+        {/* Action Button Below */}
+        <div className="pjh-proj3d__action-row">
+          <Link to="/products" className="pjh-proj3d__btn">
+            <span>Explore All Systems &amp; Case Studies</span>
+            <ArrowRight size={18} aria-hidden="true" />
+          </Link>
+        </div>
       </div>
     </section>
   );

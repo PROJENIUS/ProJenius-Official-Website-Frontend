@@ -2,6 +2,7 @@ import { GraduationCap, Layers, Rocket, Users } from "lucide-react";
 
 import TypedPhrase from "../../Common/TypedPhrase/TypedPhrase.jsx";
 import "./WhyJoinUs.css";
+import SectionTitleLine from "../../Common/SectionTitleLine/SectionTitleLine.jsx";
 
 /* =============================================================================
    JOIN OUR TEAM — WHY JOIN US
@@ -42,6 +43,7 @@ export default function WhyJoinUs() {
             <span className="pjj-why__title-static">A Place to Learn,</span>
             <TypedPhrase phrases={["Build and Grow", "Ship Real Work", "Lead New Ideas"]} />
           </h2>
+          <SectionTitleLine />
           <p className="pjj-why__intro" data-reveal="up" data-reveal-delay="2">
             Every role at ProJenius touches real work: products, client projects and the students we train.
           </p>

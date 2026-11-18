@@ -15,7 +15,8 @@
    ============================================================================= */
 
 
-import TypedPhrase from "../../Common/TypedPhrase/TypedPhrase.jsx";
+import TypedPhrase from "../../Common/TypedPhrase/TypedPhrase.jsx";
+import SectionTitleLine from "../../Common/SectionTitleLine/SectionTitleLine.jsx";
 
 /* ===========================================================================
    CONFIG — official contact details (single place to edit)
@@ -188,6 +189,7 @@ const PreferToReachUsDirectly = () => (
           <span className="pj-contact-direct__title-static">Prefer to Reach Us</span>
           <TypedPhrase phrases={["Directly?", "by Phone?", "on WhatsApp?", "by Email?"]} />
         </h2>
+        <SectionTitleLine />
         <p className="pj-contact-direct__description" data-reveal="up" data-reveal-delay="2">
           Use the official ProJenius channels below.
         </p>

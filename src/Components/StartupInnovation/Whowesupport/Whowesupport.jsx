@@ -3,8 +3,10 @@
  * CSS lives in StageSupport.css (class prefix "pjs-stage"), linked globally.
  * No inline styles, no CSS modules, no CSS imports in this file.
  */
-import { memo, useCallback, useId, useState } from "react";
+import { memo, useCallback, useEffect, useId, useRef, useState } from "react";
 import "./Whowesupport.css";
+import TypedPhrase from "../../Common/TypedPhrase/TypedPhrase.jsx";
+import SectionTitleLine from "../../Common/SectionTitleLine/SectionTitleLine.jsx";
 
 /* ============ 1. STATIC DATA (outside component = created once) ============ */
 const STAGES = Object.freeze([
@@ -95,6 +97,20 @@ const StagePanel = memo(function StagePanel({ stage, activeIndex, baseId, ctaHre
       id={`${baseId}-panel`}
       aria-labelledby={`${baseId}-tab-${stage.id}`}
     >
+      {/* Invisible copies of every stage share this cell, so the panel is
+          always as tall as the longest stage and never jumps in size. */}
+      {STAGES.map((s) => (
+        <div key={`size-${s.id}`} className="pjs-stage__panel-body pjs-stage__panel-sizer" aria-hidden="true" inert>
+          <div className="pjs-stage__panel-top"><span className="pjs-stage__watermark">{s.no}</span></div>
+          <h3 className="pjs-stage__panel-title">{s.title}</h3>
+          <p className="pjs-stage__panel-text">{s.text}</p>
+          <p className="pjs-stage__label">Where we can help</p>
+          <ul className="pjs-stage__tags">
+            {s.tags.map((tag) => <li key={tag} className="pjs-stage__tag">{tag}</li>)}
+          </ul>
+          <span className="pjs-stage__cta">Talk about this stage</span>
+        </div>
+      ))}
       <div className="pjs-stage__panel-body" key={stage.id}>
         <div className="pjs-stage__panel-top">
           <span className="pjs-stage__watermark" aria-hidden="true">{stage.no}</span>
@@ -123,7 +139,39 @@ function StageSupport({ ctaHref = "#contact" }) {
   const activeIndex = STAGES.findIndex((s) => s.id === activeId);
   const safeHref = toSafeHref(ctaHref);
 
-  const handleSelect = useCallback((id) => setActiveId(id), []);
+  /* Auto-advance every 3 s while the board is on screen. It pauses while
+     the pointer or keyboard focus is on the board, and stops for good once
+     the visitor picks a stage. Off for reduced motion. */
+  const boardRef = useRef(null);
+  const [onScreen, setOnScreen] = useState(false);
+  const [paused, setPaused] = useState(false);
+  const [manual, setManual] = useState(false);
+  const reduceMotion =
+    typeof window !== "undefined" &&
+    typeof window.matchMedia === "function" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const autoplay = onScreen && !paused && !manual && !reduceMotion;
+
+  useEffect(() => {
+    const el = boardRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return undefined;
+    const observer = new IntersectionObserver(([entry]) => setOnScreen(entry.isIntersecting), { threshold: 0.35 });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!autoplay) return undefined;
+    const timer = window.setTimeout(() => {
+      setActiveId(STAGES[(activeIndex + 1) % STAGES.length].id);
+    }, 3000);
+    return () => window.clearTimeout(timer);
+  }, [autoplay, activeIndex]);
+
+  const handleSelect = useCallback((id) => {
+    setManual(true);
+    setActiveId(id);
+  }, []);
 
   // Arrow-key navigation (roving tabindex) for keyboard + screen-reader users
   const handleKeyDown = useCallback(
@@ -135,6 +183,7 @@ function StageSupport({ ctaHref = "#contact" }) {
         const next =
           event.key === "Home" ? 0 : event.key === "End" ? last
           : (activeIndex + keys[event.key] + STAGES.length) % STAGES.length;
+        setManual(true);
         setActiveId(STAGES[next].id);
         document.getElementById(`${baseId}-tab-${STAGES[next].id}`)?.focus();
       }
@@ -144,13 +193,21 @@ function StageSupport({ ctaHref = "#contact" }) {
 
   return (
     <section className="pjs-stage" aria-labelledby={`${baseId}-title`}>
-      <p className="pjs-stage__eyebrow">Who we support</p>
-      <h2 className="pjs-stage__title" id={`${baseId}-title`}>Built for Ideas at Different Stages.</h2>
-      <p className="pjs-stage__lead">
+      <p className="pjds-eyebrow pjs-stage__eyebrow" data-reveal="up">Who we support</p>
+      <h2 className="pjs-stage__title" data-reveal="up" data-reveal-delay="1" id={`${baseId}-title`}>Built for Ideas at <TypedPhrase phrases={["Different Stages.", "Every Stage."]} /></h2>
+      <SectionTitleLine />
+      <p className="pjs-stage__lead" data-reveal="up" data-reveal-delay="2">
         Not every innovator starts from the same place. Our support adapts to where you are today.
       </p>
 
-      <div className="pjs-stage__board">
+      <div
+        ref={boardRef}
+        className={`pjs-stage__board${autoplay ? " is-auto" : ""}`}
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+        onFocus={() => setPaused(true)}
+        onBlur={() => setPaused(false)}
+      >
         <div
           className="pjs-stage__list"
           role="tablist"

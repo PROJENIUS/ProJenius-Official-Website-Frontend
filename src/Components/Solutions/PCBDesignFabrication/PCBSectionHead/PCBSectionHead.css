@@ -1,0 +1,26 @@
+/* PCB SECTION HEAD — scoped beneath .pjpcb-head */
+
+.pjpcb-head {
+  max-width: 780px;
+  margin: 0 auto clamp(22px, 2.8vw, 32px);
+  text-align: center;
+}
+
+.pjpcb-head__title {
+  margin: 0;
+}
+
+.pjpcb-head .pjpcb-head__lead {
+  max-width: 660px;
+  margin: 0 auto;
+}
+
+@media (max-width: 600px) {
+  .pjpcb-head {
+    text-align: left;
+  }
+
+  .pjpcb-head .pjpcb-head__lead {
+    margin: 0;
+  }
+}

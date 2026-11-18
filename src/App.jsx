@@ -18,14 +18,12 @@ const InternshipsPage = lazy(() => import("./Pages/Learning/Internships/Internsh
 const CareerGuidancePage = lazy(() => import("./Pages/Learning/CareerGuidance/CareerGuidancePage.jsx"));
 const WorkshopsPage = lazy(() => import("./Pages/Learning/Workshops/WorkshopsPage.jsx"));
 const StartupInnovationPage = lazy(() => import("./Pages/StartupInnovation/StartupInnovationPage.jsx"));
+const IncubateApplyPage = lazy(() => import("./Pages/Incubate/IncubateApplyPage.jsx"));
 const NewsInsightsPage = lazy(() => import("./Pages/NewsInsights/NewsInsightsPage.jsx"));
 const NewsletterActionPage = lazy(() => import("./Pages/Newsletter/NewsletterActionPage.jsx"));
 const TermsAndConditionsPage = lazy(() => import("./Pages/Legal/TermsAndConditionsPage.jsx"));
 const PrivacyPolicyPage = lazy(() => import("./Pages/Legal/PrivacyPolicyPage.jsx"));
 const ProductsPage = lazy(() => import("./Pages/Products/ProductsPage.jsx"));
-// Design preview of the proposed new homepage; not linked anywhere, noindex.
-const HomeV2Page = lazy(() => import("./Pages/Preview/HomeV2Page.jsx"));
-const HomeV3Page = lazy(() => import("./Pages/Preview/HomeV3Page.jsx"));
 const JoinOurTeamPage = lazy(() => import("./Pages/JoinOurTeamPage.jsx"));
 
 function LegacyBlogArticle() {
@@ -51,6 +49,7 @@ const ROUTE_TITLES = {
   "/services/career-guidance": `Career Guidance | ${COMPANY_DISPLAY_NAME}`,
   "/workshop": `Workshops & Training | ${COMPANY_DISPLAY_NAME}`,
   "/startup": `Startup & Innovation | ${COMPANY_DISPLAY_NAME}`,
+  "/incubate/apply": `Apply for Incubation | ${COMPANY_DISPLAY_NAME}`,
   "/join-our-team": `Join Our Team | ${COMPANY_DISPLAY_NAME}`,
   "/news-insights": `News & Insights | ${COMPANY_DISPLAY_NAME}`,
   "/newsletter/confirm": `Newsletter Subscription | ${COMPANY_DISPLAY_NAME}`,
@@ -77,6 +76,7 @@ function RouteLoadingFallback() {
   const usesDarkHero = pathname === "/"
     || pathname === "/about"
     || pathname === "/startup"
+    || pathname.startsWith("/incubate")
     || pathname === "/products"
     || pathname === "/join-our-team"
     || pathname === "/contact"
@@ -136,10 +136,11 @@ function App() {
           {/* OTHER PAGES */}
           <Route path="/workshop" element={<WorkshopsPage />} />
           <Route path="/startup" element={<StartupInnovationPage />} />
+          {/* Incubation is a section of the Startup page */}
+          <Route path="/incubate" element={<Navigate replace to="/startup#startup-incubate" />} />
+          <Route path="/incubate/apply" element={<IncubateApplyPage />} />
           <Route path="/join-our-team" element={<JoinOurTeamPage />} />
           <Route path="/products" element={<ProductsPage />} />
-          <Route path="/preview/home-v2" element={<HomeV2Page />} />
-          <Route path="/preview/home-v3" element={<HomeV3Page />} />
           <Route path="/news-insights" element={<NewsInsightsPage />} />
           <Route path="/news-insights/:slug" element={<NewsInsightsPage />} />
           <Route path="/news-insights/:contentType/:slug" element={<NewsInsightsPage />} />

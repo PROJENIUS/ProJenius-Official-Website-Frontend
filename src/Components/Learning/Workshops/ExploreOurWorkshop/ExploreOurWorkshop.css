@@ -1,0 +1,337 @@
+/* =============================================================================
+   EXPLORE OUR WORKSHOP — BASE
+   ProJenius colours and fonts (cyan #20c8f5, blue #0478a8, navy #071426).
+   ============================================================================= */
+.pj-workshop-explore {
+  --pj-workshop-explore-bg: #f4f7fb;
+  --pj-workshop-explore-surface: #ffffff;
+  --pj-workshop-explore-text: #0b1a2e;
+  --pj-workshop-explore-muted: #4a5a70;
+  --pj-workshop-explore-line: #dde4ee;
+  --pj-workshop-explore-line-soft: #ebf0f6;
+  --pj-workshop-explore-blue: #20c8f5;
+  --pj-workshop-explore-blue-text: #0478a8;
+  --pj-workshop-explore-blue-soft: #e8f8fe;
+  --pj-workshop-explore-deep: #071426;
+  --pj-workshop-explore-on-deep-muted: rgba(255, 255, 255, 0.74);
+
+  box-sizing: border-box;
+  padding-block: clamp(72px, 9vw, 112px);
+  background: var(--pj-workshop-explore-bg);
+  color: var(--pj-workshop-explore-text);
+  font-family: var(--pjds-font-body);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  overflow-x: clip;
+  scroll-margin-top: 80px;
+}
+.pj-workshop-explore *,
+.pj-workshop-explore *::before,
+.pj-workshop-explore *::after {
+  box-sizing: border-box;
+}
+.pj-workshop-explore__wrap {
+  width: min(var(--pjds-container, 1280px), calc(100% - 2 * var(--pjds-gutter, 32px)));
+  margin-inline: auto;
+}
+
+/* =============================================================================
+   EXPLORE OUR WORKSHOP — HEADING
+   ============================================================================= */
+.pj-workshop-explore__head {
+  max-width: 760px;
+}
+.pj-workshop-explore__title {
+  margin: 0;
+  color: var(--pj-workshop-explore-text) !important;
+}
+.pj-workshop-explore__head [class*="title-line"] { margin-top: 16px; }
+.pj-workshop-explore__head .pjtp { justify-items: start; }
+.pj-workshop-explore__lead {
+  max-width: 60ch;
+  margin: 16px 0 0;
+  color: var(--pj-workshop-explore-muted);
+  font-size: clamp(1.05rem, 1.4vw, 1.2rem);
+}
+
+/* =============================================================================
+   EXPLORE OUR WORKSHOP — CARD GRID
+   ============================================================================= */
+.pj-workshop-explore__grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 48px;
+}
+.pj-workshop-explore__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  grid-column: span 4;
+  min-height: 320px;
+  padding: 28px;
+  overflow: hidden;
+  border: 1px solid var(--pj-workshop-explore-line);
+  border-radius: 16px;
+  background: var(--pj-workshop-explore-surface);
+  transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+}
+.pj-workshop-explore__card--span-3 { grid-column: span 3; }
+.pj-workshop-explore__card--span-4 { grid-column: span 4; }
+.pj-workshop-explore__card--span-5 { grid-column: span 5; }
+.pj-workshop-explore__card--span-6 { grid-column: span 6; }
+
+.pj-workshop-explore__card::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 3px;
+  background: var(--pj-workshop-explore-blue);
+  transition: width 0.45s cubic-bezier(0.6, 0.05, 0.2, 1);
+}
+.pj-workshop-explore__card:hover {
+  border-color: var(--pj-workshop-explore-blue);
+  transform: translateY(-3px);
+  box-shadow: 0 1px 0 rgba(7, 20, 38, 0.04), 0 18px 40px -22px rgba(7, 20, 38, 0.35);
+}
+.pj-workshop-explore__card:hover::after,
+.pj-workshop-explore__card:focus-within::after {
+  width: 100%;
+}
+
+/* =============================================================================
+   EXPLORE OUR WORKSHOP — CARD CONTENT
+   ============================================================================= */
+.pj-workshop-explore__icon {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: var(--pj-workshop-explore-blue-soft);
+  color: var(--pj-workshop-explore-blue-text);
+  transition: background 0.3s, color 0.3s;
+}
+.pj-workshop-explore__icon svg {
+  transition: transform 0.35s;
+}
+.pj-workshop-explore__card:hover .pj-workshop-explore__icon {
+  background: var(--pj-workshop-explore-deep);
+  color: var(--pj-workshop-explore-blue);
+}
+.pj-workshop-explore__card:hover .pj-workshop-explore__icon svg {
+  transform: rotate(-8deg) scale(1.1);
+}
+.pj-workshop-explore__card-title {
+  margin: 26px 0 4px;
+  color: var(--pj-workshop-explore-text);
+  font: 800 1.35rem/1.15 var(--pjds-font-heading);
+  letter-spacing: -0.015em;
+}
+.pj-workshop-explore__sub {
+  margin: 0 0 12px;
+  color: var(--pj-workshop-explore-muted);
+  font-size: 0.92rem;
+}
+.pj-workshop-explore__topics {
+  margin: 0 0 22px;
+  padding: 0;
+  list-style: none;
+}
+.pj-workshop-explore__card--wide .pj-workshop-explore__topics {
+  columns: 2;
+  column-gap: 28px;
+}
+.pj-workshop-explore__topic {
+  padding: 7px 0;
+  border-top: 1px solid var(--pj-workshop-explore-line-soft);
+  font-size: 0.96rem;
+  break-inside: avoid;
+}
+.pj-workshop-explore__desc {
+  max-width: 44ch;
+  margin: 0 0 22px;
+  color: var(--pj-workshop-explore-muted);
+}
+/* "Emerging Technologies": navy card (the open-ended option), cyan accents. */
+.pj-workshop-explore__card--custom {
+  border-color: transparent;
+  background:
+    radial-gradient(360px 200px at 100% 0%, rgba(32, 200, 245, 0.22), transparent 70%),
+    var(--pj-workshop-explore-deep);
+  color: #fff;
+}
+.pj-workshop-explore__card--custom .pj-workshop-explore__icon {
+  background: rgba(32, 200, 245, 0.14);
+  border: 1px solid rgba(32, 200, 245, 0.35);
+  color: var(--pj-workshop-explore-blue);
+}
+.pj-workshop-explore__card--custom:hover .pj-workshop-explore__icon {
+  background: var(--pj-workshop-explore-blue);
+  color: var(--pj-workshop-explore-deep);
+}
+.pj-workshop-explore .pj-workshop-explore__card--custom .pj-workshop-explore__card-title { color: #fff !important; }
+.pj-workshop-explore .pj-workshop-explore__card--custom .pj-workshop-explore__desc { color: rgba(255, 255, 255, 0.78) !important; }
+.pj-workshop-explore__card--custom .pj-workshop-explore__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 46px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--pj-workshop-explore-blue);
+  color: var(--pj-workshop-explore-deep);
+  font-family: var(--pjds-font-heading);
+  font-weight: 800;
+  transition: background 0.2s, transform 0.2s;
+}
+.pj-workshop-explore__card--custom .pj-workshop-explore__link:hover {
+  background: #5ad6f8;
+  transform: translateY(-2px);
+}
+.pj-workshop-explore__card--custom .pj-workshop-explore__link:focus-visible { outline-color: #fff; }
+.pj-workshop-explore__link {
+  align-self: flex-start;
+  margin-top: auto;
+  padding: 6px 0;
+  border-bottom: 2px solid transparent;
+  color: var(--pj-workshop-explore-blue-text);
+  font-weight: 700;
+  text-decoration: none;
+}
+.pj-workshop-explore__link:hover {
+  border-bottom-color: currentColor;
+}
+
+/* =============================================================================
+   EXPLORE OUR WORKSHOP — CUSTOM WORKSHOP CALL TO ACTION
+   ============================================================================= */
+.pj-workshop-explore__cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 32px;
+  margin-top: 32px;
+  padding: 28px 32px;
+  border-radius: 16px;
+  background:
+    radial-gradient(420px 220px at 100% 0%, rgba(32, 200, 245, 0.2), transparent 70%),
+    var(--pj-workshop-explore-deep);
+}
+.pj-workshop-explore__cta-text {
+  max-width: 52ch;
+  margin: 0;
+  color: var(--pj-workshop-explore-on-deep-muted) !important;
+}
+.pj-workshop-explore__cta-text b {
+  display: block;
+  margin-bottom: 2px;
+  color: #fff;
+  font: 800 1.25rem var(--pjds-font-heading);
+}
+.pj-workshop-explore__cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  padding: 0 24px;
+  border-radius: 12px;
+  background: var(--pj-workshop-explore-blue);
+  color: var(--pj-workshop-explore-deep);
+  font: 800 1rem/1 var(--pjds-font-heading);
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.2s;
+}
+.pj-workshop-explore__cta-btn:hover {
+  background: #5ad6f8;
+  transform: translateY(-2px);
+}
+
+/* =============================================================================
+   EXPLORE OUR WORKSHOP — ACCESSIBILITY
+   ============================================================================= */
+.pj-workshop-explore__link:focus-visible {
+  outline: 3px solid var(--pj-workshop-explore-blue-text);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+.pj-workshop-explore__cta-btn:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+}
+.pj-workshop-explore__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* =============================================================================
+   EXPLORE OUR WORKSHOP — TABLET
+   ============================================================================= */
+@media (max-width: 1100px) {
+  .pj-workshop-explore__card,
+  .pj-workshop-explore__card--span-3,
+  .pj-workshop-explore__card--span-4,
+  .pj-workshop-explore__card--span-5,
+  .pj-workshop-explore__card--span-6 {
+    grid-column: span 6;
+  }
+}
+
+/* =============================================================================
+   EXPLORE OUR WORKSHOP — MOBILE
+   ============================================================================= */
+@media (max-width: 760px) {
+  .pj-workshop-explore__card,
+  .pj-workshop-explore__card--span-3,
+  .pj-workshop-explore__card--span-4,
+  .pj-workshop-explore__card--span-5,
+  .pj-workshop-explore__card--span-6 {
+    grid-column: span 12;
+    min-height: 0;
+  }
+  .pj-workshop-explore__card--wide .pj-workshop-explore__topics {
+    columns: 1;
+  }
+  .pj-workshop-explore__cta {
+    padding: 24px;
+  }
+  .pj-workshop-explore__cta-btn {
+    flex: 1 1 100%;
+  }
+}
+
+/* =============================================================================
+   EXPLORE OUR WORKSHOP — SMALL MOBILE
+   ============================================================================= */
+@media (max-width: 380px) {
+  .pj-workshop-explore__card {
+    padding: 22px;
+  }
+  .pj-workshop-explore__card-title {
+    font-size: 1.2rem;
+  }
+}
+
+/* =============================================================================
+   EXPLORE OUR WORKSHOP — REDUCED MOTION
+   ============================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  .pj-workshop-explore__card,
+  .pj-workshop-explore__card::after,
+  .pj-workshop-explore__icon,
+  .pj-workshop-explore__icon svg,
+  .pj-workshop-explore__cta-btn {
+    transition: none;
+  }
+  .pj-workshop-explore__card:hover {
+    transform: none;
+  }
+}

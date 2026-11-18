@@ -2,6 +2,8 @@ import { useRef, useState } from "react";
 
 import PCBBoard from "../PCBBoard/PCBBoard.jsx";
 import "./PCBWorkflow.css";
+import TypedPhrase from "../../../Common/TypedPhrase/TypedPhrase.jsx";
+import SectionTitleLine from "../../../Common/SectionTitleLine/SectionTitleLine.jsx";
 
 /* =============================================================================
    DESIGN-TO-BOARD WORKFLOW — tabs (WAI-ARIA tab pattern, arrow keys move
@@ -34,15 +36,15 @@ const STAGES = [
     id: "fabrication",
     label: "Fabrication",
     title: "Turn the design into a physical board",
-    text: "Manufacturing files are prepared and the bare board is fabricated. How fabrication is arranged is confirmed for each project.",
+    text: "Manufacturing files are prepared and the board is made by our manufacturing partner: one custom board, or as many as you need.",
     output: "Fabricated bare board",
   },
   {
     id: "assembly",
-    label: "Assembly & Test",
-    title: "Populate and bring it up",
-    text: "Components are mounted and the board is powered up and tested with its firmware.",
-    output: "Assembled, tested board",
+    label: "Test & Handover",
+    title: "Test, demo and hand over",
+    text: "The board is powered up and tested with its firmware, we show you a working demo, and then it is handed over to you.",
+    output: "Tested board, demo and handover",
   },
 ];
 
@@ -69,8 +71,9 @@ export default function PCBWorkflow() {
         <header className="pjpcb-flow__head">
           <p className="pjds-eyebrow" data-reveal="up">Design-to-Board Workflow</p>
           <h2 id="pcb-workflow-title" className="pjds-title" data-reveal="up" data-reveal-delay="1">
-            From Schematic to a Working Board
+            From Schematic to <TypedPhrase phrases={["a Working Board", "a Finished PCB"]} />
           </h2>
+          <SectionTitleLine />
           <p className="pjds-lead" data-reveal="up" data-reveal-delay="2">
             Five stages, each with a clear output. Select a stage to see what happens.
           </p>

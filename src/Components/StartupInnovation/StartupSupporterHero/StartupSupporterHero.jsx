@@ -25,13 +25,13 @@ export default function StartupSupporterHero() {
       id="startup-hero-title"
       eyebrow="Startup & Innovation"
       title="From an Idea"
-      accent="to a Working Product"
-      description="For founders, students and innovators with a product idea: we help clarify the problem, check what is feasible and build the prototype or MVP across software, electronics and product design."
+      accent={["to One Complete Product", "to a Working Product"]}
+      description="Have only an idea? We take it all the way: understanding the problem, connections, field visits, prototyping, PCB and software, until it is one complete product."
       primary={{ label: "Submit Your Idea", to: "#submit-idea" }}
-      secondary={{ label: "See What Happens Next", to: "#idea-journey" }}
+      secondary={{ label: "See the Path", to: "#startup-path" }}
       photo={HERO.backdrop}
       aside={<HeroBuilder title="What does your idea need?" hint="Switch on everything that applies." options={NEEDS} />}
-      band={["Idea Validation", "Technical Feasibility", "Prototype & MVP", "IP & Patents", "Registration", "Ongoing Support"]}
+      band={["Problem Understanding", "Networking & Connections", "Field Visits", "Prototyping", "PCB Design", "Software Building", "One Complete Product"]}
       className="pjsi-hero"
     />
   );

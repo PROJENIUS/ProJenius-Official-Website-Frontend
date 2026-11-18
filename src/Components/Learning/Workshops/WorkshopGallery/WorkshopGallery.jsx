@@ -3,7 +3,8 @@ import { ChevronLeft, ChevronRight, Maximize2, Play, X } from "lucide-react";
 
 import TypedPhrase from "../../../Common/TypedPhrase/TypedPhrase.jsx";
 import { GALLERY_ITEMS } from "./galleryData.js";
-import "./WorkshopGallery.css";
+import "./WorkshopGallery.css";
+import SectionTitleLine from "../../../Common/SectionTitleLine/SectionTitleLine.jsx";
 
 /* =========================================================
    WORKSHOP GALLERY
@@ -79,6 +80,7 @@ export default function WorkshopGallery() {
             <span className="wg-title-static">Moments From</span>
             <TypedPhrase tone="dark" phrases={["Our Workshops", "Hands-On Sessions", "Real Classrooms"]} />
           </h2>
+          <SectionTitleLine />
           <p className="wg-desc" data-reveal="up" data-reveal-delay="2">
             Real sessions, real students and real projects. A look inside the workshops we run with institutions.
           </p>

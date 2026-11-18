@@ -1,15 +1,22 @@
 import { PROJECTS } from "../../../Home/OurProjects/projectsData.js";
 import "./HardwareProjects.css";
+import TypedPhrase from "../../../Common/TypedPhrase/TypedPhrase.jsx";
+import SectionTitleLine from "../../../Common/SectionTitleLine/SectionTitleLine.jsx";
 
 /* =============================================================================
    HARDWARE PROJECTS — ProJenius projects in IoT and embedded systems.
-   Read from the homepage project data, so the list stays in one place.
+   4 featured hardware projects arranged in an even 2x2 3D glass card layout.
    ============================================================================= */
 
-const HARDWARE_CATEGORIES = /IoT|Hardware|Embedded/i;
+// Exact 4 projects matching the hardware domain
+const HARDWARE_PROJECT_IDS = ["water-quality", "road-hazard", "smart-waste", "follower-robot"];
 
 export default function HardwareProjects() {
-  const projects = PROJECTS.filter((project) => HARDWARE_CATEGORIES.test(project.category));
+  // Get the 4 projects, preserving the exact order
+  const projects = HARDWARE_PROJECT_IDS
+    .map((pid) => PROJECTS.find((p) => p.id === pid))
+    .filter(Boolean);
+
   if (!projects.length) return null;
 
   return (
@@ -18,33 +25,48 @@ export default function HardwareProjects() {
         <header className="pjhw-projects__head">
           <p className="pjds-eyebrow" data-reveal="up">Project Work</p>
           <h2 id="hardware-projects-title" className="pjds-title" data-reveal="up" data-reveal-delay="1">
-            Hardware We Have Worked On
+            Hardware We Have <TypedPhrase phrases={["Worked On", "Built", "Delivered"]} />
           </h2>
+          <SectionTitleLine />
           <p className="pjds-lead" data-reveal="up" data-reveal-delay="2">
             Projects from the ProJenius portfolio where sensors, controllers and software come together.
           </p>
         </header>
 
-        <ul className="pjhw-projects__grid">
+        <div className="pjhw-projects__grid">
           {projects.map(({ id, title, category, description, image, alt, Icon }, index) => (
-            <li key={id} className="pjhw-projects__item" data-reveal="up" data-reveal-delay={String((index % 2) + 1)}>
-              <div className="pjhw-projects__media">
+            <article
+              key={id}
+              className="pjhw-card"
+              data-reveal="up"
+              data-reveal-delay={String((index % 2) + 1)}
+            >
+              {/* Top Media: 3D framed image box with proper object-fit */}
+              <div className="pjhw-card__media">
                 {image ? (
-                  <img src={image} alt={alt} width="560" height="575" loading="lazy" decoding="async" />
+                  <img
+                    src={image}
+                    alt={alt || title}
+                    className="pjhw-card__img"
+                    loading="lazy"
+                    decoding="async"
+                  />
                 ) : (
-                  <span className="pjhw-projects__placeholder" aria-hidden="true">
-                    <Icon size={40} strokeWidth={1.6} />
-                  </span>
+                  <div className="pjhw-card__placeholder" aria-hidden="true">
+                    <Icon size={48} strokeWidth={1.6} />
+                  </div>
                 )}
+                <span className="pjhw-card__badge">{category}</span>
               </div>
-              <div className="pjhw-projects__body">
-                <p className="pjhw-projects__category">{category}</p>
-                <h3 className="pjhw-projects__title">{title}</h3>
-                <p className="pjhw-projects__text">{description}</p>
+
+              {/* Bottom Body: Crisp high-contrast content */}
+              <div className="pjhw-card__body">
+                <h3 className="pjhw-card__title">{title}</h3>
+                <p className="pjhw-card__text">{description}</p>
               </div>
-            </li>
+            </article>
           ))}
-        </ul>
+        </div>
       </div>
     </section>
   );

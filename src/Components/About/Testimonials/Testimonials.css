@@ -1,14 +1,16 @@
 /* =============================================================================
-   TESTIMONIALS — every rule is scoped beneath .pja-testi
-   Rating summary card + review carousel (Swiper core styles come from
-   "swiper/css"; everything visual here is ProJenius-specific).
+   TESTIMONIALS — 3D CANOPY AUTO-SCROLLING UI (IMAGE 2 REFERENCE)
+   WITH REVIEWS & GOOGLE DETAILS (IMAGE 1 REFERENCE)
+   Strictly Colour B (Soft Off-White #f4f7fb)
    ============================================================================= */
 
 .pja-testi {
-  padding-block: var(--pjds-section-space);
-  background: var(--pjds-white);
-  color: var(--pjds-text);
-  font-family: var(--pjds-font-body);
+  position: relative;
+  overflow: hidden;
+  padding-block: clamp(40px, 3.6vw, 52px);
+  background: var(--pjds-bg-b, #f4f7fb) !important;
+  color: #071426 !important;
+  font-family: var(--pjds-font-body, "Inter", sans-serif);
 }
 
 .pja-testi *,
@@ -17,120 +19,96 @@
   box-sizing: border-box;
 }
 
-/* Header --------------------------------------------------------------------- */
-.pja-testi__header {
+/* =============================================================================
+   1. 3D CURVED PANORAMIC AUTO-SCROLLING CANOPY
+   ============================================================================= */
+
+/* Individual Canopy Cards */
+
+/* Staggered vertical arch wave matching Image 2 */
+
+/* =============================================================================
+   2. CENTER HERO COPY (IMAGE 2 REFERENCE)
+   ============================================================================= */
+
+.pja-testi__hero-header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 720px;
-  margin: 0 auto clamp(32px, 4vw, 48px);
   text-align: center;
+  max-width: 860px;
+  margin: 0 auto clamp(22px, 2.2vw, 28px);
+  padding-inline: 16px;
 }
 
-.pja-testi__title {
+/* Look comes from the shared .pjds-eyebrow pill (foundation.css). */
+.pja-testi__pill-tag { margin: 0 0 14px; }
+
+.pja-testi__hero-title {
   margin: 0;
-  color: var(--pjds-navy-950);
-  font-family: var(--pjds-font-heading);
-  font-size: var(--pjds-text-h2);
-  font-weight: 800;
-  letter-spacing: -0.025em;
-  line-height: 1.12;
+  color: #071426;
+  font-family: var(--pjds-font-heading, "Poppins", sans-serif);
+   font-size: var(--pjds-text-h2);
+   font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.15;
   text-wrap: balance;
 }
 
-.pja-testi__typed {
-  display: inline-grid;
-  vertical-align: baseline;
-}
-
-.pja-testi__typed-sizer,
-.pja-testi__typed-live {
-  grid-area: 1 / 1;
-  white-space: nowrap;
-}
-
-.pja-testi__typed-sizer {
-  visibility: hidden;
-}
-
-.pja-testi__typed-live {
-  direction: ltr;
-  color: #1599d6;
-  text-align: left;
-}
-
-.pja-testi__cursor {
-  display: inline-block;
-  width: 3px;
-  height: 0.9em;
-  margin-left: 3px;
-  vertical-align: -0.08em;
-  border-radius: 2px;
-  background: #1599d6;
-  animation: pja-testi-cursor-blink 800ms steps(1) infinite;
-}
-
-@keyframes pja-testi-cursor-blink {
-  50% { opacity: 0; }
-}
-
-.pja-testi__line {
-  display: block;
-  width: 64px;
-  height: 4px;
-  margin: 18px auto 16px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, var(--pjds-cyan-700), var(--pjds-cyan-500));
-}
-
-.pja-testi__intro {
-  margin: 0;
-  color: var(--pjds-text-muted);
-  font-size: var(--pjds-text-lead);
+.pja-testi__hero-desc {
+  max-width: 680px;
+  margin: 0 auto;
+  color: #526b7d;
+  font-size: clamp(1rem, 0.95rem + 0.3vw, 1.125rem);
   line-height: 1.65;
+  font-weight: 450;
 }
 
-/* Layout: summary | carousel ------------------------------------------------- */
+/* =============================================================================
+   3. DETAILS SECTION (IMAGE 1 REFERENCE DETAILS)
+   ============================================================================= */
+
+.pja-testi__reviews-section {
+  padding-top: 0;
+}
+
 .pja-testi__layout {
   display: grid;
-  grid-template-columns: minmax(260px, 320px) minmax(0, 1fr);
+  grid-template-columns: minmax(280px, 340px) minmax(0, 1fr);
+  gap: clamp(24px, 3.2vw, 44px);
   align-items: stretch;
-  gap: clamp(20px, 2.4vw, 32px);
 }
 
-/* Summary card */
+/* Left Rating summary card */
 .pja-testi__summary {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  padding: 28px;
-  border: 1px solid rgba(32, 200, 245, 0.2);
-  border-radius: var(--pjds-radius-lg);
-  background:
-    radial-gradient(70% 60% at 100% 0%, rgba(32, 200, 245, 0.18), transparent 70%),
-    linear-gradient(160deg, var(--pjds-navy-900), var(--pjds-navy-950));
-  box-shadow: var(--pjds-shadow-md);
-  color: var(--pjds-white);
+  padding: 24px 26px 22px;
+  border: 1px solid rgba(7, 20, 38, 0.08);
+  border-radius: 22px;
+  background: #ffffff;
+  box-shadow: 0 10px 30px rgba(7, 20, 38, 0.06);
 }
 
 .pja-testi__summary-brand {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 12px 6px 8px;
+  padding: 6px 14px;
   border-radius: 999px;
-  background: var(--pjds-white);
-  color: var(--pjds-navy-950);
+  background: #e8f6fd;
+  color: #0478a8;
   font-size: 0.8125rem;
   font-weight: 700;
+  width: fit-content;
 }
 
 .pja-testi__score {
   display: flex;
   align-items: baseline;
   gap: 8px;
-  margin: 22px 0 6px;
-  font-family: var(--pjds-font-heading);
+  margin: 16px 0 4px;
+  font-family: var(--pjds-font-heading, "Poppins", sans-serif);
   line-height: 1;
 }
 
@@ -138,39 +116,33 @@
   font-size: 3.5rem;
   font-weight: 800;
   letter-spacing: -0.04em;
+  color: #071426;
 }
 
 .pja-testi__score span {
-  color: rgba(255, 255, 255, 0.6);
+  color: #526b7d;
   font-size: 1.125rem;
   font-weight: 600;
 }
 
 .pja-testi__count {
   margin: 10px 0 0;
-  color: rgba(255, 255, 255, 0.82);
+  color: #526b7d;
   font-size: 0.9375rem;
   font-weight: 500;
-}
-
-.pja-testi__note {
-  margin: 10px 0 0;
-  color: rgba(255, 255, 255, 0.55);
-  font-size: 0.75rem;
-  line-height: 1.5;
 }
 
 .pja-testi__summary-actions {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 14px;
+  gap: 12px;
   margin-top: auto;
-  padding-top: 26px;
+  padding-top: 18px;
 }
 
 .pja-testi__text-link {
-  color: var(--pjds-cyan-400);
+  color: #0478a8;
   font-size: 0.875rem;
   font-weight: 600;
   text-decoration: none;
@@ -181,28 +153,27 @@
   text-underline-offset: 4px;
 }
 
-.pja-testi__text-link:focus-visible {
-  outline: none;
-  border-radius: 4px;
-  box-shadow: var(--pjds-focus-ring-inverse);
-}
-
 /* Stars */
 .pja-testi__stars {
   display: inline-flex;
-  gap: 2px;
+  gap: 3px;
   color: #d4dae2;
   line-height: 1;
 }
 
-.pja-testi__stars--md { font-size: 1rem; }
-.pja-testi__stars--lg { font-size: 1.375rem; color: rgba(255, 255, 255, 0.25); }
+.pja-testi__stars--md {
+  font-size: 1rem;
+}
+
+.pja-testi__stars--lg {
+  font-size: 1.35rem;
+}
 
 .pja-testi__stars .is-filled {
   color: #f6b21b;
 }
 
-/* Carousel */
+/* Right: Reviews Swiper */
 .pja-testi__reviews {
   display: flex;
   flex-direction: column;
@@ -211,7 +182,7 @@
 
 .pja-testi__swiper {
   width: 100%;
-  padding: 4px 2px 6px;
+  padding: 4px 2px 10px;
 }
 
 .pja-testi__slide {
@@ -219,18 +190,22 @@
   display: flex;
 }
 
+/* Individual Review Card */
 .pja-testi__card {
   position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 26px 26px 24px;
+  padding: 22px 24px 20px;
   overflow: hidden;
-  border: 1px solid #d9e5f0;
-  border-radius: var(--pjds-radius-card);
-  background: linear-gradient(155deg, #ffffff 0%, #f8fbff 100%);
-  box-shadow: 0 12px 30px rgba(7, 20, 38, 0.07);
-  transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+  border: 1px solid rgba(7, 20, 38, 0.08);
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0 10px 30px rgba(7, 20, 38, 0.06);
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
 }
 
 .pja-testi__card::before {
@@ -240,13 +215,13 @@
   left: 24px;
   height: 3px;
   border-radius: 0 0 999px 999px;
-  background: linear-gradient(90deg, #1599d6, var(--pjds-cyan-400));
+  background: linear-gradient(90deg, #20c8f5, #0ea5d4);
   content: "";
 }
 
 .pja-testi__card:hover {
-  border-color: rgba(21, 153, 214, 0.42);
-  box-shadow: 0 18px 36px rgba(7, 20, 38, 0.11);
+  border-color: rgba(4, 120, 168, 0.35);
+  box-shadow: 0 18px 36px rgba(7, 20, 38, 0.1);
   transform: translateY(-2px);
 }
 
@@ -262,33 +237,22 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: var(--pjds-text-subtle);
-  font-size: 0.75rem;
-  font-weight: 600;
+  color: #526b7d;
+  font-size: 0.8125rem;
+  font-weight: 500;
   text-decoration: none;
 }
 
-a.pja-testi__source:hover {
-  color: var(--pjds-cyan-700);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-.pja-testi__source svg {
-  width: 15px;
-  height: 15px;
+.pja-testi__source:hover {
+  color: #071426;
 }
 
 .pja-testi__text {
-  flex: 1;
-  margin: 18px 0 22px;
-  color: var(--pjds-gray-700);
-  font-size: 0.975rem;
-  line-height: 1.7;
-}
-
-.pja-testi__text--empty {
-  color: var(--pjds-text-subtle);
+  margin: 14px 0 14px;
+  color: #071426;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  font-weight: 450;
   font-style: italic;
 }
 
@@ -296,267 +260,132 @@ a.pja-testi__source:hover {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding-top: 18px;
-  border-top: 1px solid var(--pjds-gray-100);
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid rgba(7, 20, 38, 0.06);
 }
 
 .pja-testi__avatar {
-  display: grid;
-  flex: none;
-  place-items: center;
-  width: 42px;
-  height: 42px;
-  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  background: linear-gradient(140deg, var(--pjds-cyan-600), var(--pjds-navy-800));
-  color: var(--pjds-white);
-  font-family: var(--pjds-font-heading);
-  font-size: 1rem;
-  font-weight: 800;
-}
-
-.pja-testi__avatar img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  background: #e8f6fd;
+  border: 1.5px solid rgba(4, 120, 168, 0.25);
+  color: #0478a8;
+  font-family: var(--pjds-font-heading, "Poppins", sans-serif);
+  font-size: 1.125rem;
+  font-weight: 700;
+  flex-shrink: 0;
 }
 
 .pja-testi__name {
   display: block;
-  color: var(--pjds-navy-950);
-  font-family: var(--pjds-font-heading);
-  font-size: 0.975rem;
+  color: #071426;
+  font-family: var(--pjds-font-heading, "Poppins", sans-serif);
+  font-size: 0.9375rem;
   font-weight: 700;
-  line-height: 1.3;
+  line-height: 1.25;
+}
+
+.pja-testi__role {
+  display: block;
+  color: #0478a8;
+  font-size: 0.78125rem;
+  font-weight: 600;
+  line-height: 1.35;
+  margin-top: 2px;
 }
 
 .pja-testi__date {
   display: block;
-  color: var(--pjds-text-subtle);
-  font-size: 0.8125rem;
+  color: #7b93ab;
+  font-size: 0.72rem;
+  margin-top: 1px;
 }
 
+/* Controls */
 .pja-testi__controls {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 16px;
-  margin-top: 18px;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 12px;
 }
 
 .pja-testi__nav {
-  display: grid;
-  place-items: center;
-  width: 42px;
-  height: 42px;
-  padding: 0;
-  border: 1px solid var(--pjds-border-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(7, 20, 38, 0.12);
   border-radius: 50%;
-  background: var(--pjds-white);
-  color: var(--pjds-navy-950);
+  background: #ffffff;
+  color: #071426;
   cursor: pointer;
-  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+  transition: all 0.2s ease;
 }
 
 .pja-testi__nav:hover {
-  border-color: var(--pjds-cyan-700);
-  background: var(--pjds-cyan-700);
-  color: var(--pjds-white);
-}
-
-.pja-testi__nav:focus-visible,
-.pja-testi__dot:focus-visible {
-  outline: none;
-  box-shadow: var(--pjds-focus-ring);
+  background: #0478a8;
+  border-color: #0478a8;
+  color: #ffffff;
 }
 
 .pja-testi__dots {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .pja-testi__dot {
-  display: block;
   width: 8px;
   height: 8px;
-  border-radius: 999px;
-  background: var(--pjds-gray-300);
+  border-radius: 50%;
+  background: rgba(7, 20, 38, 0.2);
   cursor: pointer;
-  transition: width 200ms ease, background-color 200ms ease;
+  transition: all 0.25s ease;
 }
 
 .pja-testi__dot.is-active {
-  width: 24px;
-  background: var(--pjds-cyan-700);
-}
-
-/* Loading / empty */
-.pja-testi__skeletons {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 20px;
-  height: 100%;
-}
-
-.pja-testi__skeleton {
-  min-height: 280px;
-  border-radius: var(--pjds-radius-card);
-  background: linear-gradient(90deg, var(--pjds-gray-50) 0%, var(--pjds-gray-100) 50%, var(--pjds-gray-50) 100%);
-  background-size: 200% 100%;
-  animation: pja-testi-shimmer 1.4s linear infinite;
-}
-
-@keyframes pja-testi-shimmer {
-  to { background-position: -200% 0; }
-}
-
-.pja-testi__empty {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  min-height: 240px;
-  padding: 32px;
-  border: 1px dashed var(--pjds-border-strong);
-  border-radius: var(--pjds-radius-card);
-  color: var(--pjds-text-muted);
-  text-align: center;
-}
-
-.pja-testi__empty svg {
-  color: var(--pjds-cyan-700);
-}
-
-.pja-testi__empty p {
-  max-width: 360px;
-  margin: 0;
-}
-
-.pja-testi__retry {
-  min-height: 42px;
-  padding: 0 18px;
-  border: 1px solid var(--pjds-border-strong);
+  width: 22px;
   border-radius: 999px;
-  background: var(--pjds-white);
-  color: var(--pjds-navy-950);
-  font: inherit;
-  font-weight: 650;
-  cursor: pointer;
-  transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease;
+  background: #0478a8;
 }
 
-.pja-testi__retry:hover {
-  border-color: var(--pjds-cyan-700);
-  background: var(--pjds-cyan-700);
-  color: var(--pjds-white);
-}
+/* =============================================================================
+   RESPONSIVE BREAKPOINTS
+   ============================================================================= */
 
-.pja-testi__retry:focus-visible {
-  outline: none;
-  box-shadow: var(--pjds-focus-ring);
-}
-
-/* Tablet: summary becomes a horizontal band above the reviews. */
-@media (max-width: 1023px) {
+@media (max-width: 900px) {
   .pja-testi__layout {
     grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
   }
 
   .pja-testi__summary {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto;
-    align-items: center;
-    column-gap: 24px;
-  }
-
-  .pja-testi__summary-brand {
-    grid-column: 1 / -1;
-    justify-self: start;
-    margin-bottom: 14px;
-  }
-
-  .pja-testi__score {
-    margin: 0;
-  }
-
-  .pja-testi__summary .pja-testi__stars,
-  .pja-testi__count,
-  .pja-testi__note {
-    grid-column: 2;
-  }
-
-  .pja-testi__count,
-  .pja-testi__note {
-    margin-top: 4px;
-  }
-
-  .pja-testi__summary-actions {
-    grid-column: 3;
-    grid-row: 2 / 5;
-    margin: 0;
-    padding: 0;
-  }
-}
-
-/* Phones: everything stacks; one review per view. */
-@media (max-width: 600px) {
-  .pja-testi__title {
-    font-size: clamp(1.75rem, 1rem + 4vw, 2.25rem);
-    letter-spacing: -0.03em;
-  }
-
-  .pja-testi__summary {
-    display: flex;
-    padding: 22px;
-  }
-
-  .pja-testi__summary-actions {
-    align-self: stretch;
-    padding-top: 22px;
-  }
-
-  .pja-testi__summary-actions .pjds-btn {
+    max-width: 520px;
+    margin-inline: auto;
     width: 100%;
   }
+}
 
-  .pja-testi__score b {
-    font-size: 3rem;
+@media (max-width: 600px) {
+  .pja-testi {
+    padding-block: 40px 60px;
   }
 
-  .pja-testi__card {
-    padding: 22px 20px 20px;
-  }
+  
 
-  .pja-testi__skeletons {
-    grid-template-columns: minmax(0, 1fr);
-  }
+  
 
-  .pja-testi__skeleton + .pja-testi__skeleton {
-    display: none;
+  
+
+  .pja-testi__hero-header {
+    margin: 0 auto 24px;
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .pja-testi__cursor {
-    animation: none;
-  }
-
-  .pja-testi__skeleton {
-    animation: none;
-  }
-
-  .pja-testi__nav,
-  .pja-testi__dot,
-  .pja-testi__card,
-  .pja-testi__retry {
-    transition: none;
-  }
-
-  .pja-testi__card:hover {
-    transform: none;
-  }
-}

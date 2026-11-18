@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { ArrowDown, ArrowRight, Check } from "lucide-react";
 
 import "./ServiceCTA.css";
+import TypedPhrase from "../../../Common/TypedPhrase/TypedPhrase.jsx";
+import SectionTitleLine from "../../../Common/SectionTitleLine/SectionTitleLine.jsx";
 
 /* =============================================================================
    SERVICE CTA — closing call to action + contextual related services
@@ -15,14 +17,18 @@ import "./ServiceCTA.css";
                                     to this page, phrased as the visitor's need
    ============================================================================= */
 
-export default function ServiceCTA({ id, eyebrow, title, text, primary, checklistTitle, checklist = [], related = [] }) {
+export default function ServiceCTA({ id, eyebrow, title, typed, text, primary, checklistTitle, checklist = [], related = [] }) {
   return (
     <section id={id} className="pjsv-cta" aria-labelledby={`${id}-title`}>
       <div className="pjds-container">
         <div className={`pjsv-cta__card${checklist.length ? "" : " pjsv-cta__card--solo"}`} data-reveal="up">
           <div className="pjsv-cta__copy">
             <p className="pjds-eyebrow pjds-eyebrow--on-dark">{eyebrow}</p>
-            <h2 id={`${id}-title`} className="pjsv-cta__title">{title}</h2>
+            <h2 id={`${id}-title`} className="pjsv-cta__title">
+              {title}
+              {typed && <> <TypedPhrase phrases={typed} tone="dark" /></>}
+            </h2>
+            <SectionTitleLine />
             <p className="pjsv-cta__text">{text}</p>
             {primary.to.startsWith("#") ? (
               <a className="pjds-btn pjds-btn--primary pjsv-cta__btn" href={primary.to}>

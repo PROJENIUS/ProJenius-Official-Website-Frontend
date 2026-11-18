@@ -391,8 +391,8 @@ const MagazineHeading = () => {
             className={`hpmag-head${visible ? " hpmag-head--in" : ""}`}
         >
             {/* pill tag above the heading */}
-            <span className="hpmag-head__label hpmag-head__pop hpmag-head__pop--1">
-                OUR MAGAZINE
+            <span className="pjds-eyebrow pjds-eyebrow--on-dark hpmag-head__label hpmag-head__pop hpmag-head__pop--1">
+                Our Magazine
             </span>
 
             <h2

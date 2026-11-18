@@ -2,9 +2,9 @@ import {
     BadgeCheck,
     Building2,
     BriefcaseBusiness,
-    Cloud,
-    Code2,
-    Database,
+    Lightbulb,
+    Presentation,
+    Wrench,
     FileCheck2,
     FileUser,
     KanbanSquare,
@@ -16,20 +16,22 @@ import {
 import TypedPhrase from "../../../Common/TypedPhrase/TypedPhrase.jsx";
 import "./WhatInternsWillLearnAndBenefits.css";
 
+import SectionTitleLine from "../../../Common/SectionTitleLine/SectionTitleLine.jsx";
+
 /* =========================================================
    WHAT INTERNS WILL LEARN + BENEFITS
-   One section heading (static line + typed blue line, like
-   the homepage), then two boxes, each with its own title.
-   Both boxes hold six items (three rows) so they match.
+   Navy section: heading (static line + cyan typed line), then
+   two white panels with light-blue item boxes, each panel with
+   its own title. Both hold six items (three rows) so they match.
 ========================================================= */
 
 const learningItems = [
     { Icon: Building2, text: "Industry-Level Projects" },
-    { Icon: Code2, text: "Git & GitHub" },
-    { Icon: Cloud, text: "API Integration" },
-    { Icon: Database, text: "Database Management" },
+    { Icon: Wrench, text: "Real Tools & Workflows" },
+    { Icon: Lightbulb, text: "Problem Solving" },
     { Icon: Users, text: "Team Collaboration" },
-    { Icon: KanbanSquare, text: "Agile Methodology" },
+    { Icon: KanbanSquare, text: "Planning & Deadlines" },
+    { Icon: Presentation, text: "Presenting Your Work" },
 ];
 
 const benefitItems = [
@@ -64,11 +66,12 @@ const WhatInternsWillLearnAndBenefits = () => (
     <section className="pj-internship-learning" aria-labelledby="pj-internship-learning-title">
         <div className="pj-internship-learning-container">
             <header className="pj-internship-learning-header">
-                <p className="pjds-eyebrow" data-reveal="up">Learning &amp; Benefits</p>
+                <p className="pjds-eyebrow pjds-eyebrow--on-dark" data-reveal="up">Learning &amp; Benefits</p>
                 <h2 id="pj-internship-learning-title" data-reveal="up" data-reveal-delay="1">
                     <span className="pj-internship-learning-title-static">What You Gain From</span>
-                    <TypedPhrase phrases={["Real Projects", "Expert Mentors", "Career Support"]} />
+                    <TypedPhrase tone="dark" phrases={["Real Projects.", "Expert Mentors.", "Career Support."]} />
                 </h2>
+                <SectionTitleLine />
                 <p className="pj-internship-learning-intro" data-reveal="up" data-reveal-delay="2">
                     Skills you build while working on live projects, and support that continues after the internship.
                 </p>

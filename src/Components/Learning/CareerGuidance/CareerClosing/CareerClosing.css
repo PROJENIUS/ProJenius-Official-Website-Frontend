@@ -1,0 +1,65 @@
+/* CAREER GUIDANCE CLOSING — short one-row navy card on a light section */
+
+.pjcgc { padding: clamp(36px, 6vh, 56px) 0; }
+.pjcgc *, .pjcgc *::before, .pjcgc *::after { box-sizing: border-box; }
+
+.pjcgc__card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 24px 40px;
+  padding: 28px 36px;
+  border-radius: 20px;
+  color: #fff;
+  background:
+    radial-gradient(520px 260px at 100% 0%, rgba(32, 200, 245, 0.2), transparent 70%),
+    #071426;
+  box-shadow: 0 24px 50px -30px rgba(7, 20, 38, 0.6);
+}
+
+.pjcgc__eyebrow {
+  margin: 0 0 8px;
+  font: 800 0.78rem/1 var(--pjds-font-body);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #20c8f5;
+}
+main .pjcgc__title {
+  margin: 0 0 6px;
+  font: 800 clamp(1.4rem, 2.2vw, 1.9rem)/1.2 var(--pjds-font-heading);
+  letter-spacing: -0.02em;
+  color: #fff !important;
+}
+.pjcgc__meta { margin: 0; color: rgba(255, 255, 255, 0.72); }
+
+.pjcgc__actions { display: flex; align-items: center; gap: 14px; }
+.pjcgc__price { display: grid; margin: 0 8px 0 0; }
+.pjcgc__price strong { font: 800 1.8rem/1.1 var(--pjds-font-heading); color: #fff; }
+.pjcgc__price span { font-size: 0.85rem; color: rgba(255, 255, 255, 0.6); }
+
+.pjcgc__btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  min-height: 52px; padding: 0 24px; border-radius: 12px; white-space: nowrap;
+  font: 800 1rem/1 var(--pjds-font-heading); text-decoration: none;
+  transition: background-color 200ms, color 200ms, border-color 200ms, transform 200ms var(--pjds-ease);
+}
+.pjcgc__btn--primary { background: #20c8f5; color: #071426; }
+.pjcgc__btn--primary:hover { background: #5ad6f8; transform: translateY(-2px); }
+.pjcgc__btn--ghost { border: 1.5px solid rgba(255, 255, 255, 0.3); color: #fff; }
+.pjcgc__btn--ghost:hover { border-color: #20c8f5; color: #20c8f5; }
+.pjcgc__btn:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+
+@media (max-width: 960px) {
+  .pjcgc__card { grid-template-columns: minmax(0, 1fr); padding: 24px; }
+  .pjcgc__actions { flex-wrap: wrap; }
+}
+@media (max-width: 560px) {
+  .pjcgc__btn { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) { .pjcgc__btn { transition: none; } }
+
+/* Beat the shared Learning-page heading/paragraph styles */
+main.pjl-page .pjcgc__title { font-size: clamp(1.4rem, 2.2vw, 1.9rem) !important; letter-spacing: -0.02em; }
+main.pjl-page .pjcgc__eyebrow { color: #20c8f5 !important; }
+main.pjl-page .pjcgc__meta { color: rgba(255, 255, 255, 0.78) !important; }
+main.pjl-page .pjcgc__price span { color: rgba(255, 255, 255, 0.65) !important; }

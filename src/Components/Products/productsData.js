@@ -2,23 +2,26 @@
    PRODUCTS — SHARED DATA
    -----------------------------------------------------------------------------
    One list for the homepage showcase (OurProducts) and the Products page.
+   Five product slots: two real products and three slots to fill in later.
 
    Fields
      id           anchor id on the Products page (/products#id)
      category     short label above the name
      title        product name
-     description  one or two sentences
+     problem      one line: the real-world problem the product solves
+     description  one or two sentences on what it does
+     features     3–4 short feature points (shown as ticks)
+     tags         short chips (industry, technology)
      image / alt  a real photo of the product; null shows the animated
                   "product preview" placeholder until a photo is added.
                   ADDING A PHOTO: put the file in src/assets/Products/ named
-                  after the product id (for example product-04.webp or
-                  3d-printing-prototyping.jpg). It is picked up automatically
-                  and replaces the image set here; no code change needed.
+                  after the product id (for example product-03.webp). It is
+                  picked up automatically; no code change needed.
      link         main button: { label, href, external }
      showOnHome   true = also shown in the homepage showcase
-     placeholder  true = temporary entry; replace its name, category,
-                  description and image with the real product, then
-                  remove this flag
+     placeholder  true = slot not filled yet; replace its name, category,
+                  text, features and image with the real product, then
+                  remove this flag (and set showOnHome if wanted)
 
    WhatsApp: every product gets a "Chat on WhatsApp" button that opens a chat
    (number in src/utils/whatsapp.js) with a message naming that product.
@@ -27,6 +30,10 @@
 import groundnutMachineImage from "../../assets/Home/OurProducts/OurProducts_1.webp";
 import iotKitImage from "../../assets/Home/OurProducts/OurProducts_2.webp";
 import { whatsappHref } from "../../utils/whatsapp.js";
+
+/* IoT Learning Kit has its own page. Put its address here when it is ready
+   (for example "/products/iot-learning-kit" or "https://iotkit.projenius.in"). */
+const IOT_KIT_PAGE = "";
 
 // Photos dropped into src/assets/Products/, keyed by file name without extension.
 const PRODUCT_PHOTOS = Object.fromEntries(
@@ -39,13 +46,37 @@ export function productWhatsAppHref(product) {
   return whatsappHref(`Hi ProJenius, I'm interested in the ${product.title}. Could you please share more details?`);
 }
 
+const placeholder = (n) => ({
+  // PLACEHOLDER — replace with the real product.
+  id: `product-0${n}`,
+  category: "Coming Soon",
+  title: `ProJenius Product 0${n}`,
+  problem: "A new ProJenius product is on its way.",
+  description: "Details of this product will be published here soon. Message us on WhatsApp to know more about it.",
+  features: [],
+  tags: [],
+  image: null,
+  alt: "",
+  link: { label: "Ask About This Product", href: "/contact" },
+  showOnHome: false,
+  placeholder: true,
+});
+
 const PRODUCT_LIST = [
   {
     id: "groundnut-processing-machine",
     category: "Smarter Agriculture",
     title: "Groundnut-to-Peanut Processing, Sorting & Grading Machine",
+    problem: "Processing groundnuts by hand is slow, uneven and hard to grade for export.",
     description:
       "A complete groundnut-to-peanut processing solution that breaks groundnut shells, separates dust, sorts peanuts by quality, grades them by size, measures weight, predicts oil potential, and supports export-quality testing.",
+    features: [
+      "Breaks shells and separates dust",
+      "Sorts peanuts by quality",
+      "Grades by size and measures weight",
+      "Predicts oil potential for export testing",
+    ],
+    tags: ["Agriculture", "Machine", "Automation"],
     image: groundnutMachineImage,
     alt: "Groundnut-to-peanut processing, sorting and grading machine",
     link: { label: "Visit Product Website", href: "https://gnut2pnut.projenius.in", external: true },
@@ -55,50 +86,26 @@ const PRODUCT_LIST = [
     id: "iot-learning-kit",
     category: "Connected Solutions",
     title: "ProJenius IoT Learning Kit",
+    problem: "Students learn IoT from slides, without real hardware in their hands.",
     description:
       "Hands-on IoT learning kits that help students understand sensors, microcontrollers, connectivity, and automation through practical hardware and software projects.",
+    features: [
+      "Real sensors and microcontrollers",
+      "Connectivity and automation projects",
+      "Hardware and software together",
+      "Built for hands-on learning",
+    ],
+    tags: ["Education", "IoT", "Hardware"],
     image: iotKitImage,
     alt: "ProJenius IoT Learning Kit box",
-    link: { label: "Ask About This Product", href: "/contact" },
+    link: IOT_KIT_PAGE
+      ? { label: "View IoT Kit Page", href: IOT_KIT_PAGE, external: /^https?:/.test(IOT_KIT_PAGE) }
+      : { label: "Ask About This Kit", href: "/contact" },
     showOnHome: true,
   },
-  {
-    id: "3d-printing-prototyping",
-    category: "3D Printing & Services",
-    title: "ProJenius 3D Printing & Prototyping Services",
-    description:
-      "3D printing and rapid prototyping services for product concepts, custom components, functional parts, models, and development-ready prototypes.",
-    image: null,
-    alt: "",
-    link: { label: "Ask About This Service", href: "/contact" },
-    showOnHome: true,
-  },
-  {
-    // PLACEHOLDER — replace with the real product.
-    id: "product-04",
-    category: "Product Category",
-    title: "ProJenius Product 04",
-    description:
-      "Details of this product will be published here soon. Message us on WhatsApp to know more about it.",
-    image: null,
-    alt: "",
-    link: { label: "Ask About This Product", href: "/contact" },
-    showOnHome: false,
-    placeholder: true,
-  },
-  {
-    // PLACEHOLDER — replace with the real product.
-    id: "product-05",
-    category: "Product Category",
-    title: "ProJenius Product 05",
-    description:
-      "Details of this product will be published here soon. Message us on WhatsApp to know more about it.",
-    image: null,
-    alt: "",
-    link: { label: "Ask About This Product", href: "/contact" },
-    showOnHome: false,
-    placeholder: true,
-  },
+  placeholder(3),
+  placeholder(4),
+  placeholder(5),
 ];
 
 /* A photo in src/assets/Products/<id>.* takes priority over the image above. */

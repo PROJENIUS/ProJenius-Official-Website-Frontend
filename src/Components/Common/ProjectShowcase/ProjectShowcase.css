@@ -1,0 +1,250 @@
+/* =============================================================================
+   PROJECT SHOWCASE — every rule is scoped beneath .pj-projects
+   Card colours use !important because the page's alternating section rules
+   recolour every p and h3 (navy/grey on light sections, white on navy ones);
+   the cards are always white, so their text must stay dark.
+   ============================================================================= */
+
+.pj-projects {
+  padding-block: clamp(48px, 6vw, 72px);
+  font-family: var(--pjds-font-body);
+}
+
+.pj-projects__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: clamp(20px, 3vw, 28px);
+}
+
+.pj-projects__head-copy {
+  max-width: 720px;
+}
+
+.pj-projects__title {
+  margin: 0;
+}
+
+.pj-projects__lead {
+  margin: 0;
+}
+
+.pj-projects__arrows {
+  display: flex;
+  flex: none;
+  gap: 10px;
+}
+
+.pj-projects__arrow {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border: 1px solid rgba(32, 200, 245, 0.55);
+  border-radius: 999px;
+  background: #ffffff;
+  color: #071426;
+  cursor: pointer;
+  transition: background-color 180ms ease, color 180ms ease, opacity 180ms ease;
+}
+
+.pj-projects__arrow:hover:not(:disabled) {
+  background: #20c8f5;
+}
+
+.pj-projects__arrow:focus-visible {
+  outline: 3px solid #20c8f5;
+  outline-offset: 2px;
+}
+
+.pj-projects__arrow:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* Rail -------------------------------------------------------------------- */
+.pj-projects__rail {
+  display: flex;
+  gap: 20px;
+  /* Extra padding (pulled back with negative margin) leaves room for the
+     card shadows, which the scrolling box would otherwise cut off. */
+  margin: -10px -16px -26px;
+  padding: 10px 16px 30px;
+  overflow-x: auto;
+  list-style: none;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 16px;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+
+.pj-projects__rail::-webkit-scrollbar {
+  display: none;
+}
+
+.pj-projects__card {
+  /* Positioned so the visually-hidden link text inside stays within the
+     scrolling row (otherwise it escapes it and widens the page). */
+  position: relative;
+  display: flex;
+  flex: 0 0 calc((100% - 40px) / 3);
+  flex-direction: column;
+  min-width: 280px;
+  overflow: hidden;
+  border: 1px solid rgba(7, 20, 38, 0.08);
+  border-radius: var(--pjds-radius-card, 20px);
+  background: #ffffff;
+  box-shadow: 0 14px 34px rgba(7, 20, 38, 0.08);
+  scroll-snap-align: start;
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+.pj-projects__card:hover {
+  box-shadow: 0 20px 44px rgba(7, 20, 38, 0.14);
+  transform: translateY(-4px);
+}
+
+.pj-projects__media {
+  position: relative;
+  height: clamp(140px, 23svh, 200px);
+  overflow: hidden;
+  background: #071426;
+}
+
+.pj-projects__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 500ms ease;
+}
+
+.pj-projects__card:hover .pj-projects__media img {
+  transform: scale(1.05);
+}
+
+.pj-projects__placeholder {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  color: #5ad6f8;
+}
+
+.pj-projects__badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: rgba(7, 20, 38, 0.82);
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.pj-projects__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px 20px 20px;
+}
+
+.pj-projects .pj-projects__name {
+  margin: 0;
+  color: #071426 !important;
+  font-family: var(--pjds-font-heading);
+  font-size: 1.08rem;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.pj-projects .pj-projects__text {
+  display: -webkit-box;
+  margin: 0;
+  overflow: hidden;
+  color: #526b7d !important;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.pj-projects__tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pj-projects__tech li {
+  padding: 4px 10px;
+  border: 1px solid rgba(4, 120, 168, 0.22);
+  border-radius: 999px;
+  background: #eef9fe;
+  color: #0478a8;
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
+.pj-projects__wa {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: auto;
+  padding: 10px 16px;
+  border-radius: 12px;
+  background: #20c8f5;
+  color: #071426;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background-color 180ms ease;
+}
+
+.pj-projects__wa:hover {
+  background: #5ad6f8;
+}
+
+.pj-projects__wa:focus-visible {
+  outline: 3px solid #071426;
+  outline-offset: 2px;
+}
+
+/* Responsive --------------------------------------------------------------- */
+@media (max-width: 1023px) {
+  .pj-projects__card {
+    flex-basis: calc((100% - 20px) / 2);
+  }
+}
+
+@media (max-width: 640px) {
+  .pj-projects__head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .pj-projects__card {
+    flex-basis: 84%;
+    min-width: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pj-projects__card,
+  .pj-projects__media img,
+  .pj-projects__arrow {
+    transition: none;
+  }
+
+  .pj-projects__card:hover,
+  .pj-projects__card:hover .pj-projects__media img {
+    transform: none;
+  }
+}

@@ -916,3 +916,6 @@
 
 /* Static line above the typed line. */
 .asf-title-static { display: block; }
+
+/* Card title was hidden by the shared dark h3 colour */
+main.pjl-page .asf-card-header h3 { color: #ffffff !important; }

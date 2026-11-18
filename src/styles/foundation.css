@@ -22,9 +22,12 @@
    ----------------------------------------------------------------------------- */
 
 :root {
+  /* Brand Alternating Background Cadence: Colour A & Colour B */
+  --pjds-bg-a: #071426;
+  --pjds-bg-b: #f4f7fb;
   /* Brand */
   --pjds-navy-950: #071426;
-  --pjds-navy-900: #0b2340;
+  --pjds-navy-900: #0c2340;
   --pjds-navy-800: #12325a;
   --pjds-navy-700: #1b4475;
   --pjds-cyan-500: #20c8f5;
@@ -45,16 +48,16 @@
   --pjds-gray-700: #334257;
 
   /* Semantic colours */
-  --pjds-text: #0d1b2e;
-  --pjds-text-muted: var(--pjds-gray-600);
-  --pjds-text-subtle: var(--pjds-gray-500);
+  --pjds-text: #ffffff;
+  --pjds-text-muted: #a0b3c6;
+  --pjds-text-subtle: #7b93ab;
   --pjds-text-inverse: var(--pjds-white);
   --pjds-text-inverse-muted: rgba(255, 255, 255, 0.74);
-  --pjds-surface: var(--pjds-white);
-  --pjds-surface-muted: var(--pjds-gray-50);
+  --pjds-surface: #0c2340;
+  --pjds-surface-muted: #071426;
   --pjds-surface-dark: var(--pjds-navy-950);
-  --pjds-border: var(--pjds-gray-200);
-  --pjds-border-strong: var(--pjds-gray-300);
+  --pjds-border: rgba(32, 200, 245, 0.18);
+  --pjds-border-strong: rgba(32, 200, 245, 0.35);
   --pjds-border-inverse: rgba(255, 255, 255, 0.14);
   --pjds-accent: var(--pjds-cyan-500);
   --pjds-accent-text: var(--pjds-cyan-700);
@@ -266,7 +269,7 @@ body {
   padding: 6px 14px;
   border: 1px solid var(--pjds-accent-text);
   border-radius: 999px;
-  background: rgba(32, 200, 245, 0.07);
+  background: rgba(4, 120, 168, 0.08);
   color: var(--pjds-accent-text);
   font-family: var(--pjds-font-body);
   font-size: var(--pjds-text-eyebrow);
@@ -303,8 +306,10 @@ body {
   text-wrap: pretty;
 }
 
-.pjds-eyebrow--on-dark {
+/* Same pill on dark sections: a lighter cyan so the text stays readable. */
+.pjds-eyebrow.pjds-eyebrow--on-dark {
   border-color: var(--pjds-cyan-400);
+  background: rgba(32, 200, 245, 0.1);
   color: var(--pjds-cyan-400);
 }
 .pjds-title--on-dark { color: var(--pjds-text-inverse); }
@@ -431,4 +436,182 @@ body {
   .pjds-link:hover svg {
     transform: none;
   }
+}
+
+
+/* =============================================================================
+   SITE-WIDE ALTERNATING BACKGROUND CADENCE:
+   Colour A (#071426) -> Colour B (#f4f7fb) -> Colour A -> Colour B...
+   ============================================================================= */
+main > section:nth-of-type(odd),
+article > section:nth-of-type(odd),
+.pj-section--a {
+  background-color: var(--pjds-bg-a, #071426) !important;
+  color: #ffffff;
+  --pjds-text: #ffffff;
+  --pjds-text-muted: #a0b3c6;
+  --pjds-text-subtle: #7b93ab;
+  --pjds-surface: #0c2340;
+  --pjds-surface-muted: #071426;
+  --pjds-border: rgba(32, 200, 245, 0.18);
+  --pjds-border-strong: rgba(32, 200, 245, 0.35);
+}
+
+main > section:nth-of-type(even),
+article > section:nth-of-type(even),
+.pj-section--b {
+  background-color: var(--pjds-bg-b, #f4f7fb) !important;
+  color: #071426 !important;
+  --pjds-text: #071426;
+  --pjds-text-muted: #526b7d;
+  --pjds-text-subtle: #6c8299;
+  --pjds-surface: #ffffff;
+  --pjds-surface-muted: #eef3f9;
+  --pjds-border: rgba(7, 20, 38, 0.12);
+  --pjds-border-strong: rgba(7, 20, 38, 0.22);
+}
+
+/* Ensure all typography in even sections has clear, crisp dark contrast, except inside dark cards/banners */
+main > section:nth-of-type(even) :not([class*="dark"]):not([class*="panel"]):not([class*="cta__card"]):not([class*="ready-container"]):not([class*="contact-cta-card"]):not([class*="hero"]) > .pjds-title,
+article > section:nth-of-type(even) :not([class*="dark"]):not([class*="panel"]):not([class*="cta__card"]):not([class*="ready-container"]):not([class*="contact-cta-card"]):not([class*="hero"]) > .pjds-title,
+.pj-section--b :not([class*="dark"]):not([class*="panel"]):not([class*="cta__card"]):not([class*="ready-container"]):not([class*="contact-cta-card"]):not([class*="hero"]) > .pjds-title,
+main > section:nth-of-type(even) > header h1,
+main > section:nth-of-type(even) > header h2,
+main > section:nth-of-type(even) > header h3,
+main > section:nth-of-type(even) > header h4,
+main > section:nth-of-type(even) > div > header h1,
+main > section:nth-of-type(even) > div > header h2,
+main > section:nth-of-type(even) > div > header h3,
+main > section:nth-of-type(even) > div > header h4,
+main > section:nth-of-type(even) .pj-heading--light,
+.pj-section--b .pj-heading--light {
+  color: #071426;
+}
+
+/* Fallback for general headings in even sections while protecting dark cards */
+main > section:nth-of-type(even) h1:not([class*="hero"] *):not(.contact-cta-title):not(.pjsv-cta__title):not([class*="ready"] *):not([class*="panel"] *),
+main > section:nth-of-type(even) h2:not([class*="hero"] *):not(.contact-cta-title):not(.pjsv-cta__title):not([class*="ready"] *):not([class*="panel"] *),
+main > section:nth-of-type(even) h3:not([class*="hero"] *):not(.contact-cta-title):not(.pjsv-cta__title):not([class*="ready"] *):not([class*="panel"] *),
+main > section:nth-of-type(even) h4:not([class*="hero"] *):not(.contact-cta-title):not(.pjsv-cta__title):not([class*="ready"] *):not([class*="panel"] *),
+article > section:nth-of-type(even) h1:not([class*="hero"] *):not(.contact-cta-title):not(.pjsv-cta__title):not([class*="ready"] *):not([class*="panel"] *),
+article > section:nth-of-type(even) h2:not([class*="hero"] *):not(.contact-cta-title):not(.pjsv-cta__title):not([class*="ready"] *):not([class*="panel"] *),
+article > section:nth-of-type(even) h3:not([class*="hero"] *):not(.contact-cta-title):not(.pjsv-cta__title):not([class*="ready"] *):not([class*="panel"] *),
+article > section:nth-of-type(even) h4:not([class*="hero"] *):not(.contact-cta-title):not(.pjsv-cta__title):not([class*="ready"] *):not([class*="panel"] *),
+.pj-section--b h1:not([class*="hero"] *):not(.contact-cta-title):not(.pjsv-cta__title):not([class*="ready"] *):not([class*="panel"] *),
+.pj-section--b h2:not([class*="hero"] *):not(.contact-cta-title):not(.pjsv-cta__title):not([class*="ready"] *):not([class*="panel"] *),
+.pj-section--b h3:not([class*="hero"] *):not(.contact-cta-title):not(.pjsv-cta__title):not([class*="ready"] *):not([class*="panel"] *),
+.pj-section--b h4:not([class*="hero"] *):not(.contact-cta-title):not(.pjsv-cta__title):not([class*="ready"] *):not([class*="panel"] *) {
+  color: #071426;
+}
+
+main > section:nth-of-type(even) p:not(.pjds-eyebrow):not(.person-role):not([class*="hero"] *):not([class*="dark"] *):not(.contact-cta-card *):not(.pjsv-cta__card *):not(.pj-internship-ready-container *):not([class*="panel"] *),
+article > section:nth-of-type(even) p:not(.pjds-eyebrow):not(.person-role):not([class*="hero"] *):not([class*="dark"] *):not(.contact-cta-card *):not(.pjsv-cta__card *):not(.pj-internship-ready-container *):not([class*="panel"] *),
+.pj-section--b p:not(.pjds-eyebrow):not(.person-role):not([class*="hero"] *):not([class*="dark"] *):not(.contact-cta-card *):not(.pjsv-cta__card *):not(.pj-internship-ready-container *):not([class*="panel"] *) {
+  color: #526b7d;
+}
+
+/* Section label pill: one look everywhere, coloured to match the
+   alternating cadence above (light sections: blue pill; navy sections and
+   the dark cards: cyan pill), so every label stays readable. */
+main > section:nth-of-type(even) .pjds-eyebrow,
+article > section:nth-of-type(even) .pjds-eyebrow,
+.pj-section--b .pjds-eyebrow {
+  border-color: #0478a8;
+  color: #0478a8;
+  background: rgba(4, 120, 168, 0.08);
+}
+
+main > section:nth-of-type(odd) .pjds-eyebrow,
+article > section:nth-of-type(odd) .pjds-eyebrow,
+.pj-section--a .pjds-eyebrow,
+:is(main, article) section :is(.contact-cta-card, .pjsv-cta__card, .pj-internship-ready-container) .pjds-eyebrow {
+  border-color: var(--pjds-cyan-400);
+  color: var(--pjds-cyan-400);
+  background: rgba(32, 200, 245, 0.1);
+}
+
+/* Explicit high-contrast rules for dark CTA banners and cards across all pages */
+.contact-cta-card,
+.pjsv-cta__card,
+.pj-internship-ready-container,
+.pj-internship-domains-panel,
+.contact-cta-card *,
+.pjsv-cta__card * {
+  box-sizing: border-box;
+}
+
+.contact-cta-title,
+.pjsv-cta__title,
+.pj-internship-ready-content h2,
+.pj-internship-domains-panel h3 {
+  color: #ffffff !important;
+}
+
+.contact-cta-desc,
+.pjsv-cta__text,
+.pj-internship-domains-panel p {
+  color: rgba(255, 255, 255, 0.88) !important;
+}
+
+/* White cards in ANY section must always have dark navy text and slate description */
+.pj-internship-domains-card,
+.cgaud-card,
+.pjsv-cta__related-link,
+.card[style*="--i"],
+.explore-page .card,
+.pj-publishing__card {
+  background: #ffffff !important;
+}
+
+.pj-internship-domains-card .pj-internship-domains-card-title,
+.cgaud-card .cgaud-card-title,
+.pjsv-cta__related-link .pjsv-cta__related-label,
+.explore-page .card .title,
+.pj-publishing__card h2 {
+  color: #071426 !important;
+}
+
+.pj-internship-domains-card .pj-internship-domains-view,
+.cgaud-card .cgaud-card-text,
+.pjsv-cta__related-link .pjsv-cta__related-question,
+.explore-page .card .desc,
+.pj-publishing__card-summary {
+  color: #526b7d !important;
+}
+
+/* =============================================================================
+   LAST SECTION BEFORE THE FOOTER: never navy.
+   The footer is navy, so when a page's last section would also be navy it
+   becomes white instead (like the homepage contact section), and the dark
+   cards inside it stay dark. The light colour tokens are restored for the
+   section, and the dark ones again inside its dark cards.
+   ============================================================================= */
+main > section:nth-of-type(odd):last-of-type {
+  background-color: #ffffff !important;
+  color: #071426;
+  --pjds-bg-a: #ffffff;
+  --pjds-text: #071426;
+  --pjds-text-muted: #526b7d;
+  --pjds-text-subtle: #6c8299;
+  --pjds-surface: #ffffff;
+  --pjds-surface-muted: #eef3f9;
+  --pjds-border: rgba(7, 20, 38, 0.12);
+  --pjds-border-strong: rgba(7, 20, 38, 0.22);
+}
+
+main > section:nth-of-type(odd):last-of-type .pjds-eyebrow:not(:is(.pjsv-cta__card, .contact-cta-card, .pj-internship-ready-container) *) {
+  border-color: #0478a8;
+  color: #0478a8;
+  background: rgba(4, 120, 168, 0.08);
+}
+
+main > section:nth-of-type(odd):last-of-type :is(.pjsv-cta__card, .contact-cta-card, .pj-internship-ready-container) {
+  color: #ffffff;
+  --pjds-text: #ffffff;
+  --pjds-text-muted: #a0b3c6;
+  --pjds-text-subtle: #7b93ab;
+  --pjds-surface: #0c2340;
+  --pjds-surface-muted: #071426;
+  --pjds-border: rgba(32, 200, 245, 0.18);
+  --pjds-border-strong: rgba(32, 200, 245, 0.35);
 }

@@ -1,13 +1,13 @@
 /* =============================================================================
    TYPED PHRASE — every rule is scoped beneath .pjtp.
-   Colours follow the homepage typed heading (#1599d6 on light backgrounds,
+   Colours follow the homepage typed heading (#20c8f5 on light backgrounds,
    brand cyan on navy).
    ============================================================================= */
 
 .pjtp {
   display: grid;
   width: 100%;
-  color: #1599d6;
+  color: #20c8f5;
 }
 
 .pjtp--dark {

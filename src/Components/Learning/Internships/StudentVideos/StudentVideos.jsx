@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight, Play, Video } from "lucide-react";
 
 import TypedPhrase from "../../../Common/TypedPhrase/TypedPhrase.jsx";
 import "./StudentVideos.css";
+import SectionTitleLine from "../../../Common/SectionTitleLine/SectionTitleLine.jsx";
 
 /* =========================================================
    STUDENT STORIES — student video testimonials.
@@ -102,6 +103,7 @@ const StudentVideos = () => {
                             <span className="pj-student-videos__title-static">Hear It From</span>
                             <TypedPhrase tone="dark" phrases={["Our Interns", "Our Students", "Real Learners"]} />
                         </h2>
+                        <SectionTitleLine />
                         <p className="pj-student-videos__intro" data-reveal="up" data-reveal-delay="2">
                             Students share what they built, what they learned and where it took them.
                         </p>

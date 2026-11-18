@@ -1,8 +1,8 @@
-import QuestionsInstitutionsAsk from "../../Workshops/QuestionsInstitutionsAsk/QuestionsInstitutionsAsk.jsx";
+import ServiceFaq from "../../../Common/ServiceFaq/ServiceFaq.jsx";
 
 /* =========================================================
-   CAREER GUIDANCE FAQ — same layout and behaviour as the
-   Workshop FAQ (one answer open at a time). Every answer
+   CAREER GUIDANCE FAQ — the shared FAQ layout (sticky left
+   side, one answer open at a time). Every answer
    repeats what the booking section on this page states.
 ========================================================= */
 
@@ -49,12 +49,12 @@ const CAREER_FAQS = [
 
 export default function CareerFaq() {
   return (
-    <QuestionsInstitutionsAsk
-      faqs={CAREER_FAQS}
-      title="Questions"
-      phrases={["Students Ask", "Freshers Ask", "Career Switchers Ask"]}
-      contactTo="/contact?type=general"
-      idPrefix="cgfaq"
+    <ServiceFaq
+      id="cgfaq-faq"
+      items={CAREER_FAQS.map(({ question, answer }) => ({ q: question, a: answer }))}
+      askTo="/contact?type=general"
+      secondary={{ label: "Book a Call", to: "#book-call" }}
+      lead="Can’t find your answer? Ask us directly and a mentor will help you."
     />
   );
 }

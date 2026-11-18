@@ -5,6 +5,7 @@ import { ArrowUp, ArrowUpRight, Check, Mail, MapPin, MessageCircle, Navigation, 
 import { normalizeApiBase, resolveApiUrl } from "../../../utils/apiUrl.js";
 
 import "./Footer.css";
+import { GOOGLE_RATING, GOOGLE_REVIEW_COUNT } from "../../../utils/googleRating.js";
 
 /* =============================================================================
    FOOTER
@@ -22,11 +23,7 @@ const PHONE_HREF = "tel:+918925450473";
 const EMAIL = "teamprojenius@gmail.com";
 const WHATSAPP_HREF = "https://wa.me/918925450473";
 const GOOGLE_REVIEWS_HREF = "https://g.page/r/CZjzujTb9EXCEBM/review";
-/* Google Business rating shown in the reviews card, as shown on the Google
-   profile on 24 Oct 2026 (4.8 from 57 reviews). Update these when the rating
-   or review count changes. */
-const GOOGLE_RATING = "4.8";
-const GOOGLE_REVIEW_COUNT = "57";
+/* Google rating and review count: src/utils/googleRating.js (shared). */
 /* Both map links target the ProJenius Google Business listing itself (place
    0x3b00cfb5c8f13bb3:0xc245f4db34baf398, the same place the review link opens;
    pin 9.9136785, 78.0901833), so they always show the real office. */
@@ -35,11 +32,12 @@ const MAPS_VIEW_HREF =
 const MAPS_DIRECTIONS_HREF =
   "https://www.google.com/maps/dir//ProJenius+Innovation+Technology+Private+Limited,+PLOT+NO+3,+Erikarai+St,+Velmurugan+Nagar,+Namachivaya+Nagar,+Madurai,+Tamil+Nadu+625003/@9.9136785,78.0901833,17z/data=!4m8!4m7!1m0!1m5!1m1!1s0x3b00cfb5c8f13bb3:0xc245f4db34baf398!2m2!1d78.0901833!2d9.9136785";
 
+/* Same order as the navbar Solutions menu. */
 const SOLUTIONS = [
   { label: "Software Development", to: "/services/development" },
+  { label: "PCB Design & Fabrication", to: "/services/pcb-design-fabrication" },
   { label: "Hardware & Embedded Systems", to: "/services/hardware-embedded-systems" },
   { label: "Rapid Prototyping", to: "/services/rapid-prototyping" },
-  { label: "PCB Design & Fabrication", to: "/services/pcb-design-fabrication" },
 ];
 
 const LEARNING = [
@@ -281,6 +279,7 @@ export default function Footer() {
               <li><Link to="/">Home</Link></li>
               <li><Link to="/about">About Us</Link></li>
               <li><Link to="/startup">Startup &amp; Innovation</Link></li>
+              <li><Link to="/startup#startup-incubate">Incubate at ProJenius</Link></li>
               <li><Link to="/products">Products</Link></li>
               <li><Link to="/join-our-team">Join Our Team</Link></li>
               <li><Link to="/contact">Contact Us</Link></li>

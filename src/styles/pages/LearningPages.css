@@ -107,7 +107,7 @@ main.pjl-page .pjds-eyebrow {
   padding: 6px 14px;
   border: 1px solid var(--pjds-accent-text);
   border-radius: 999px;
-  background: rgba(32, 200, 245, 0.07);
+  background: rgba(4, 120, 168, 0.08);
   color: var(--pjds-accent-text);
   font-family: var(--pjds-font-body);
   font-size: var(--pjds-text-eyebrow);
@@ -119,6 +119,7 @@ main.pjl-page .pjds-eyebrow {
 
 main.pjl-page .pjds-eyebrow--on-dark {
   border-color: var(--pjds-cyan-400);
+  background: rgba(32, 200, 245, 0.1);
   color: var(--pjds-cyan-400);
 }
 
@@ -138,7 +139,6 @@ main.pjl-page .di-desc {
 /* Icon chips: one brand treatment instead of purple / orange / pink / green
    variants. */
 main.pjl-page :is(
-  .pj-internship-learning-icon,
   .pj-internship-success-highlight-icon,
   .pj-internship-success-stat-icon
 ) {

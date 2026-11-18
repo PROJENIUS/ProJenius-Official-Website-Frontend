@@ -13,13 +13,14 @@ import java from "../../../../assets/Internship/TechLogos/java.svg";
 import git from "../../../../assets/Internship/TechLogos/git.svg";
 import github from "../../../../assets/Internship/TechLogos/github.svg";
 import postman from "../../../../assets/Internship/TechLogos/postman.svg";
+import SectionTitleLine from "../../../Common/SectionTitleLine/SectionTitleLine.jsx";
 
 /* =========================================================
    TECHNOLOGIES COVERED
    Official coloured logos (Devicon, MIT licence; the Express
    and GitHub marks recoloured white for the dark background)
-   in two rows that drift in opposite directions. Rows pause
-   on hover and stand still with reduced motion.
+   in one compact row that drifts slowly. It pauses on hover
+   and stands still with reduced motion.
 ========================================================= */
 
 const ROW_ONE = [
@@ -69,15 +70,12 @@ const TechnologiesCovered = () => (
                     <span className="pj-internship-tech__title-static">Tools Used in</span>
                     <TypedPhrase tone="dark" phrases={["Real Development", "Live Projects", "Industry Teams"]} />
                 </h2>
-                <p className="pj-internship-tech__intro" data-reveal="up" data-reveal-delay="2">
-                    Practical languages, frameworks and tools you work with during the internship.
-                </p>
+                <SectionTitleLine />
             </header>
         </div>
 
         <div className="pj-internship-tech__rows" data-reveal="up" data-reveal-delay="2" aria-label="Technologies covered during the internship" role="region">
-            <TechRow items={ROW_ONE} />
-            <TechRow items={ROW_TWO} reverse />
+            <TechRow items={[...ROW_ONE, ...ROW_TWO]} />
         </div>
     </section>
 );

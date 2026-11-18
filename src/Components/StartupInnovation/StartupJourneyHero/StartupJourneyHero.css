@@ -1,0 +1,248 @@
+/* =============================================================================
+   STARTUP JOURNEY HERO — scoped beneath .pjsu-hero
+   From the supplied hero design, recoloured for the site: navy, ProJenius
+   cyan, no background grid.
+   ============================================================================= */
+
+.pjsu-hero {
+  --pjsu-ink: #ffffff;
+  --pjsu-muted: #a9bad0;
+  --pjsu-line: rgba(90, 214, 248, 0.18);
+  --pjsu-line-strong: rgba(90, 214, 248, 0.38);
+  --pjsu-card: #0c2340;
+  --pjsu-bg: #071426;
+  --pjsu-cyan: #20c8f5;
+  --pjsu-grad: linear-gradient(100deg, #2f6bff 0%, #20c8f5 100%);
+  --pjsu-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  position: relative;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  min-height: 100svh;
+  overflow-x: clip;
+  padding: var(--pjds-nav-offset, 112px) 0 clamp(16px, 3svh, 40px);
+  background:
+    radial-gradient(45% 55% at 78% 38%, rgba(32, 200, 245, 0.14), transparent 70%),
+    radial-gradient(40% 50% at 0% 100%, rgba(47, 107, 255, 0.16), transparent 70%),
+    #071426 !important;
+  color: var(--pjsu-ink);
+  font-family: var(--pjds-font-body);
+}
+
+.pjsu-hero__grid {
+  display: grid;
+  grid-template-columns: 1.02fr 0.98fr;
+  align-items: center;
+  gap: clamp(24px, 4vw, 64px);
+}
+
+/* Eyebrow */
+.pjsu-hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--pjsu-cyan);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.pjsu-hero__eyebrow::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--pjsu-grad);
+  box-shadow: 0 0 0 4px rgba(32, 200, 245, 0.16);
+}
+
+/* Copy */
+.pjsu-hero .pjsu-hero__title {
+  margin: 22px 0 0;
+  color: #ffffff !important;
+  font-family: var(--pjds-font-heading);
+  font-size: clamp(2.3rem, 0.9rem + 3vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.04;
+  text-wrap: balance;
+}
+
+.pjsu-hero__title-accent {
+  display: block;
+  margin-top: 0.12em;
+  color: var(--pjsu-cyan);
+}
+
+.pjsu-hero .pjsu-hero__lead {
+  max-width: 54ch;
+  margin: 22px 0 0;
+  color: var(--pjsu-muted) !important;
+  font-size: clamp(1rem, 0.92rem + 0.3vw, 1.15rem);
+  line-height: 1.65;
+}
+
+.pjsu-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 30px;
+}
+
+/* Buttons */
+.pjsu-hero__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  height: 52px;
+  padding: 0 24px;
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: transform 0.25s var(--pjsu-ease), box-shadow 0.25s, background 0.25s, border-color 0.25s, color 0.25s;
+}
+
+.pjsu-hero__btn-arrow {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.25s var(--pjsu-ease);
+}
+
+.pjsu-hero__btn:hover .pjsu-hero__btn-arrow { transform: translateX(4px); }
+
+.pjsu-hero .pjsu-hero__btn--primary {
+  background: var(--pjsu-cyan);
+  box-shadow: 0 12px 30px -12px rgba(32, 200, 245, 0.8);
+  color: #071426;
+}
+
+.pjsu-hero .pjsu-hero__btn--primary:hover { background: #5ad6f8; transform: translateY(-1px); }
+
+.pjsu-hero .pjsu-hero__btn--ghost {
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  color: #ffffff;
+}
+
+.pjsu-hero .pjsu-hero__btn--ghost:hover { border-color: var(--pjsu-cyan); color: var(--pjsu-cyan); }
+.pjsu-hero__btn--down .pjsu-hero__btn-arrow { transform: rotate(90deg); }
+.pjsu-hero__btn--down:hover .pjsu-hero__btn-arrow { transform: rotate(90deg) translateX(4px); }
+
+.pjsu-hero__btn:focus-visible {
+  outline: 3px solid #5ad6f8;
+  outline-offset: 3px;
+}
+
+/* Journey visual ------------------------------------------------------------ */
+.pjsu-hero__visual { position: relative; min-width: 0; }
+
+.pjsu-hero__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: calc(100svh - var(--pjds-nav-offset, 112px) - 40px);
+  overflow: visible;
+}
+
+.pjsu-hero__label {
+  fill: var(--pjsu-ink);
+  font-family: var(--pjds-font-heading);
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.pjsu-hero__label--first,
+.pjsu-hero__label--last {
+  fill: var(--pjsu-cyan);
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.pjsu-hero__ring { fill: var(--pjsu-bg); stroke-width: 2.2; }
+
+.pjsu-hero__pulse {
+  fill: none;
+  stroke: var(--pjsu-cyan);
+  stroke-width: 1.5;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pjsuPulse 3.4s ease-out infinite;
+}
+
+.pjsu-hero__pulse--b { animation-delay: 1.7s; }
+
+.pjsu-hero__path {
+  fill: none;
+  stroke-width: 2.8;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  animation: pjsuDraw 3.4s cubic-bezier(0.55, 0.05, 0.25, 1) 0.3s backwards;
+}
+
+.pjsu-hero__loop {
+  fill: none;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  opacity: 0.55;
+  animation: pjsuDraw 1.8s ease-in-out 3.5s backwards;
+}
+
+.pjsu-hero__loop-arrow { fill: var(--pjsu-cyan); animation: pjsuFade 0.6s 5s backwards; }
+
+.pjsu-hero__node { animation: pjsuFade 0.7s ease-out backwards; }
+.pjsu-hero__node--1 { animation-delay: 0.3s; }
+.pjsu-hero__node--2 { animation-delay: 0.8s; }
+.pjsu-hero__node--3 { animation-delay: 1.3s; }
+.pjsu-hero__node--4 { animation-delay: 1.8s; }
+.pjsu-hero__node--5 { animation-delay: 2.3s; }
+.pjsu-hero__node--6 { animation-delay: 2.8s; }
+.pjsu-hero__node--7 { animation-delay: 3.3s; }
+
+.pjsu-hero__packet { fill: var(--pjsu-cyan); filter: drop-shadow(0 0 6px rgba(32, 200, 245, 0.95)); }
+
+@keyframes pjsuDraw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes pjsuFade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pjsuPulse { 0% { transform: scale(1); opacity: 0.55; } 100% { transform: scale(3.4); opacity: 0; } }
+
+/* Responsive --------------------------------------------------------------- */
+@media (max-width: 980px) {
+  .pjsu-hero__grid { grid-template-columns: 1fr; }
+  .pjsu-hero__visual { width: 100%; max-width: 540px; margin-inline: auto; }
+}
+
+@media (max-width: 720px) {
+  .pjsu-hero__btn { height: 50px; padding: 0 22px; }
+  .pjsu-hero__actions .pjsu-hero__btn { flex: 1 1 auto; justify-content: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pjsu-hero__pulse,
+  .pjsu-hero__packet { display: none; }
+
+  .pjsu-hero__path,
+  .pjsu-hero__loop,
+  .pjsu-hero__loop-arrow,
+  .pjsu-hero__node { animation: none; }
+
+  .pjsu-hero__btn,
+  .pjsu-hero__btn-arrow { transition: none; }
+}
+
+/* The hero is a flex row (to centre vertically); the container keeps full width. */
+.pjsu-hero > .pjsu-hero__grid {
+  width: 100%;
+}

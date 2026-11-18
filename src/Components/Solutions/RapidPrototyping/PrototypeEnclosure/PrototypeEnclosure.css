@@ -1,0 +1,265 @@
+/* =============================================================================
+   IT STARTS WITH THE OUTER BOX — scoped beneath .pjrpE
+   Text follows the section colours (page tokens); the drawing uses the
+   accent, which is the darker blue on light and the cyan on navy.
+   ============================================================================= */
+
+.pjrpE {
+  --pjrpE-accent: #0478a8;
+  --pjrpE-line: #20c8f5;
+  --pjrpE-face-t: #f4f8fc;
+  --pjrpE-face-l: #c9d6e3;
+  --pjrpE-face-r: #dde6ef;
+  padding-block: clamp(56px, 7vw, 96px);
+  font-family: var(--pjds-font-body);
+}
+
+main > section:nth-of-type(odd).pjrpE {
+  --pjrpE-accent: #20c8f5;
+}
+
+.pjrpE__top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(32px, 5vw, 80px);
+}
+
+.pjrpE__title,
+.pjrpE__lead {
+  margin: 0;
+}
+
+.pjrpE .pjrpE__title {
+  font-size: clamp(2.1rem, 1rem + 2.6vw, 3.4rem);
+  line-height: 1.08;
+}
+
+/* Drawing ------------------------------------------------------------------ */
+.pjrpE__fig {
+  min-width: 0;
+  margin: 0;
+}
+
+.pjrpE__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.pjrpE__svg text {
+  font-family: var(--pjds-font-body);
+}
+
+.pjrpE__shadow { fill: rgba(7, 20, 38, 0.12); }
+.pjrpE__face-t { fill: var(--pjrpE-face-t); stroke: #8aa3bc; stroke-width: 1.5; }
+.pjrpE__face-l { fill: var(--pjrpE-face-l); stroke: #8aa3bc; stroke-width: 1.5; }
+.pjrpE__face-r { fill: var(--pjrpE-face-r); stroke: #8aa3bc; stroke-width: 1.5; }
+.pjrpE__parting { fill: none; stroke: var(--pjrpE-line); stroke-width: 2; stroke-dasharray: 7 6; }
+.pjrpE__usb { fill: #10233a; }
+.pjrpE__led { fill: #0f7a54; }
+
+.pjrpE__button {
+  fill: #20c8f5;
+  animation: pjrpE-press 2.6s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.pjrpE__dim line {
+  stroke: #7d93ab;
+  stroke-width: 1.2;
+}
+
+.pjrpE__dim text {
+  fill: var(--pjds-text-muted);
+  font-size: 13px;
+}
+
+.pjrpE__callout path {
+  fill: none;
+  stroke: var(--pjrpE-line);
+  stroke-width: 1.5;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 700ms cubic-bezier(0.2, 0.7, 0.2, 1) calc(300ms + var(--k) * 220ms);
+}
+
+.pjrpE__callout circle {
+  fill: var(--pjrpE-line);
+}
+
+.pjrpE__callout text {
+  fill: var(--pjds-text);
+  font-size: 14px;
+  font-weight: 700;
+  text-anchor: middle;
+  opacity: 0;
+  transition: opacity 400ms ease calc(700ms + var(--k) * 220ms);
+}
+
+.pjrpE__fig[data-revealed] .pjrpE__callout path {
+  stroke-dashoffset: 0;
+}
+
+.pjrpE__fig[data-revealed] .pjrpE__callout text {
+  opacity: 1;
+}
+
+/* Six points --------------------------------------------------------------- */
+.pjrpE__points {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px clamp(20px, 3vw, 44px);
+  margin: clamp(36px, 5vw, 56px) 0 0;
+  padding: clamp(28px, 4vw, 40px) 0 0;
+  border-top: 1px solid var(--pjds-border-strong);
+  list-style: none;
+}
+
+.pjrpE__point {
+  display: flex;
+  gap: 16px;
+}
+
+.pjrpE__num {
+  flex: none;
+  color: var(--pjrpE-accent);
+  font-size: 0.9rem;
+  font-weight: 800;
+  line-height: 1.7;
+}
+
+.pjrpE .pjrpE__point-title {
+  margin: 0;
+  color: var(--pjds-text);
+  font-family: var(--pjds-font-heading);
+  font-size: 1.12rem;
+  font-weight: 800;
+}
+
+.pjrpE .pjrpE__point-text {
+  margin: 6px 0 0;
+  color: var(--pjds-text-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* How we make it + materials ----------------------------------------------- */
+.pjrpE__strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 32px;
+  margin-top: clamp(32px, 4vw, 48px);
+  padding: 18px 24px;
+  border: 1px solid var(--pjds-border-strong);
+  border-radius: 16px;
+  background: var(--pjds-surface);
+}
+
+.pjrpE__make {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 20px;
+}
+
+.pjrpE__strip-label {
+  margin-right: 14px;
+  color: var(--pjds-text-muted);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.pjrpE__make-steps {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pjrpE__make-steps li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  color: var(--pjds-text);
+  font-size: 0.92rem;
+  font-weight: 700;
+  animation: pjrpE-step 6s calc(var(--k) * 1.5s) ease-in-out infinite;
+}
+
+.pjrpE__make-steps li + li::before {
+  content: "→";
+  margin-right: 4px;
+  color: var(--pjrpE-accent);
+}
+
+.pjrpE .pjrpE__materials {
+  margin: 0;
+  color: var(--pjds-text);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+/* Keyframes ---------------------------------------------------------------- */
+@keyframes pjrpE-press {
+  0%, 70%, 100% { transform: scale(1); }
+  80% { transform: scale(0.82); }
+}
+
+/* Each making step lights up in turn */
+@keyframes pjrpE-step {
+  0%, 30%, 100% { background: transparent; }
+  6%, 22% { background: rgba(32, 200, 245, 0.18); }
+}
+
+/* Responsive --------------------------------------------------------------- */
+@media (max-width: 1023px) {
+  .pjrpE__top {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pjrpE__fig {
+    max-width: 560px;
+  }
+
+  .pjrpE__points {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .pjrpE__points {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pjrpE__button,
+  .pjrpE__make-steps li {
+    animation: none;
+  }
+
+  .pjrpE__callout path,
+  .pjrpE__callout text {
+    transition: none;
+  }
+
+  .pjrpE__callout path {
+    stroke-dashoffset: 0;
+  }
+
+  .pjrpE__callout text {
+    opacity: 1;
+  }
+}

@@ -13,6 +13,7 @@ import {
 
 import TypedPhrase from "../../../Common/TypedPhrase/TypedPhrase.jsx";
 import "./SuccessStories.css";
+import SectionTitleLine from "../../../Common/SectionTitleLine/SectionTitleLine.jsx";
 
 /* =========================================================
    SUCCESS STORIES
@@ -123,6 +124,7 @@ const SuccessStories = () => {
                         <span className="pj-internship-success-title-static">Growth You</span>
                         <TypedPhrase phrases={["Can Measure", "Can See", "Can Trust"]} />
                     </h2>
+                    <SectionTitleLine />
                     <p className="pj-internship-success-intro" data-reveal="up" data-reveal-delay="2">
                         Hear from interns, read what students say and watch their stories.
                     </p>

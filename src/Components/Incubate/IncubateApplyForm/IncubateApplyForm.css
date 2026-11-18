@@ -1,0 +1,382 @@
+/* =============================================================================
+   INCUBATION APPLICATION — every rule is scoped beneath .pjinc-apply
+   The form sits on a white card, so its text colours use !important against
+   the alternating section rules.
+   ============================================================================= */
+
+.pjinc-apply {
+  padding-block: clamp(48px, 6vw, 80px);
+  font-family: var(--pjds-font-body);
+}
+
+.pjinc-apply__wrap {
+  max-width: 980px;
+}
+
+.pjinc-apply__head {
+  margin-bottom: clamp(22px, 3vw, 32px);
+}
+
+.pjinc-apply__title,
+.pjinc-apply__lead {
+  margin: 0;
+}
+
+.pjinc-apply__form,
+.pjinc-apply__done {
+  padding: clamp(20px, 3.4vw, 40px);
+  border: 1px solid rgba(7, 20, 38, 0.08);
+  border-radius: var(--pjds-radius-lg, 24px);
+  background: #ffffff;
+  box-shadow: 0 18px 44px rgba(7, 20, 38, 0.08);
+}
+
+.pjinc-apply__group {
+  margin: 0 0 28px;
+  padding: 0;
+  border: 0;
+}
+
+.pjinc-apply .pjinc-apply__group-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  margin-bottom: 18px;
+  padding: 0 0 12px;
+  border-bottom: 1px solid rgba(7, 20, 38, 0.08);
+  color: #071426 !important;
+  font-family: var(--pjds-font-heading);
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.pjinc-apply__group-title span {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: #20c8f5;
+  color: #071426;
+  font-size: 0.85rem;
+}
+
+.pjinc-apply__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 20px;
+}
+
+.pjinc-apply__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.pjinc-apply__field--full {
+  grid-column: 1 / -1;
+}
+
+.pjinc-apply .pjinc-apply__label {
+  padding: 0;
+  color: #071426 !important;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.pjinc-apply__req {
+  color: #d1435b;
+}
+
+.pjinc-apply__opt,
+.pjinc-apply__hint {
+  color: #6c8299;
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+
+.pjinc-apply__field input,
+.pjinc-apply__field select,
+.pjinc-apply__field textarea {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 11px 14px;
+  border: 1px solid rgba(7, 20, 38, 0.18);
+  border-radius: 12px;
+  background: #f8fbfd;
+  color: #071426;
+  font: inherit;
+  font-size: 0.95rem;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.pjinc-apply__field textarea {
+  resize: vertical;
+}
+
+.pjinc-apply__field input:focus,
+.pjinc-apply__field select:focus,
+.pjinc-apply__field textarea:focus {
+  border-color: #20c8f5;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(32, 200, 245, 0.25);
+}
+
+.pjinc-apply__field [aria-invalid="true"] {
+  border-color: #d1435b;
+}
+
+.pjinc-apply__choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.pjinc-apply__choice {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
+  border: 1px solid rgba(7, 20, 38, 0.16);
+  border-radius: 999px;
+  background: #f8fbfd;
+  color: #334257;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+
+.pjinc-apply__choice input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.pjinc-apply__choice.is-checked {
+  border-color: #20c8f5;
+  background: #20c8f5;
+  color: #071426;
+}
+
+.pjinc-apply__choice:has(input:focus-visible) {
+  outline: 3px solid #0478a8;
+  outline-offset: 2px;
+}
+
+.pjinc-apply__error,
+.pjinc-apply__submit-error {
+  color: #c23a51;
+  font-size: 0.84rem;
+  font-weight: 600;
+}
+
+.pjinc-apply__agree {
+  margin-bottom: 18px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: #eef9fe;
+}
+
+.pjinc-apply__agree-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: #334257;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.pjinc-apply__agree-label input {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  accent-color: #0478a8;
+}
+
+.pjinc-apply .pjinc-apply__submit-error {
+  margin: 0 0 14px;
+  color: #c23a51 !important;
+}
+
+.pjinc-apply__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.pjinc-apply__submit,
+.pjinc-apply__wa {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 12px 22px;
+  border-radius: 12px;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+.pjinc-apply__submit {
+  border: 0;
+  background: #20c8f5;
+  color: #071426;
+}
+
+.pjinc-apply__submit:hover:not(:disabled) {
+  background: #5ad6f8;
+}
+
+.pjinc-apply__submit:disabled {
+  opacity: 0.7;
+  cursor: progress;
+}
+
+.pjinc-apply__wa {
+  border: 1px solid rgba(7, 20, 38, 0.18);
+  background: #ffffff;
+  color: #071426;
+}
+
+.pjinc-apply__wa:hover {
+  border-color: #20c8f5;
+}
+
+.pjinc-apply__submit:focus-visible,
+.pjinc-apply__wa:focus-visible {
+  outline: 3px solid #0478a8;
+  outline-offset: 2px;
+}
+
+.pjinc-apply__spin {
+  animation: pjinc-spin 900ms linear infinite;
+}
+
+@keyframes pjinc-spin {
+  to { transform: rotate(360deg); }
+}
+
+.pjinc-apply__done {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  color: #0478a8;
+  text-align: center;
+}
+
+.pjinc-apply .pjinc-apply__done h3 {
+  margin: 0;
+  color: #071426 !important;
+  font-family: var(--pjds-font-heading);
+  font-size: 1.4rem;
+}
+
+.pjinc-apply .pjinc-apply__done p {
+  max-width: 520px;
+  margin: 0 0 8px;
+  color: #526b7d !important;
+}
+
+@media (max-width: 640px) {
+  .pjinc-apply__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pjinc-apply__submit,
+  .pjinc-apply__wa {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pjinc-apply__spin {
+    animation: none;
+  }
+}
+
+/* On its own page the form is the first section, under the fixed navbar. */
+.pjsv-incubate-apply .pjinc-apply {
+  padding-top: calc(var(--pjds-nav-offset, 112px) + 32px);
+}
+
+/* How incubation is charged (above the form) */
+.pjinc-apply__fees {
+  margin-bottom: 22px;
+  padding: 18px 20px;
+  border: 1px solid rgba(32, 200, 245, 0.45);
+  border-radius: 18px;
+  background: #ffffff;
+}
+
+.pjinc-apply .pjinc-apply__fees-title {
+  margin: 0 0 12px;
+  color: #071426 !important;
+  font-family: var(--pjds-font-heading);
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.pjinc-apply__fees-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pjinc-apply__fee {
+  display: grid;
+  gap: 6px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #f4f8fc;
+}
+
+.pjinc-apply__fee-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.pjinc-apply__fee-label {
+  color: #526b7d;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.pjinc-apply__fee-value {
+  color: #0478a8;
+  font-family: var(--pjds-font-heading);
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.pjinc-apply__fee-text {
+  color: #526b7d;
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 640px) {
+  .pjinc-apply__fees-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

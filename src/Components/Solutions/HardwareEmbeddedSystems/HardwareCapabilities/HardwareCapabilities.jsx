@@ -3,6 +3,8 @@ import { ArrowRight, Blocks, CircuitBoard, Code2, Cpu, Radar, Wifi } from "lucid
 
 import { SERVICE_ROUTES } from "../../Shared/serviceLinks.js";
 import "./HardwareCapabilities.css";
+import TypedPhrase from "../../../Common/TypedPhrase/TypedPhrase.jsx";
+import SectionTitleLine from "../../../Common/SectionTitleLine/SectionTitleLine.jsx";
 
 /* =============================================================================
    HARDWARE & EMBEDDED CAPABILITIES — an editorial list, not a card grid.
@@ -51,8 +53,9 @@ export default function HardwareCapabilities() {
         <header className="pjhw-caps__head">
           <p className="pjds-eyebrow pjds-eyebrow--on-dark" data-reveal="up">Capabilities</p>
           <h2 id="hardware-capabilities-title" className="pjds-title pjds-title--on-dark" data-reveal="up" data-reveal-delay="1">
-            What We Help You Build
+            What We Help <TypedPhrase phrases={["You Build", "You Design", "You Connect"]} />
           </h2>
+          <SectionTitleLine />
           <p className="pjds-lead pjds-lead--on-dark" data-reveal="up" data-reveal-delay="2">
             From a single sensor prototype to a connected device, the work covers the electronics, the
             firmware that runs them and the way they connect to everything else.

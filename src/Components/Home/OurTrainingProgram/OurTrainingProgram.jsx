@@ -168,6 +168,7 @@ export default function OurTrainingProgram() {
               </span>
             </span>
           </h2>
+          <span className="pjh-title-line" aria-hidden="true" data-reveal="line" data-reveal-delay="2" />
           <p className="pjh-training__intro" data-reveal="up" data-reveal-delay="2">
             Industry-focused programs that turn classroom knowledge into
             practical, job-ready skills.

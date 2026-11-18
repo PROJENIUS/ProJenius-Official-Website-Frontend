@@ -1,0 +1,292 @@
+/* =============================================================================
+   TECHNOLOGY PATHWAYS — scoped beneath .pjsuP
+   Text follows the section colours (page tokens); the card and rows use the
+   surface tokens, so the section works on navy or light.
+   ============================================================================= */
+
+.pjsuP {
+  --pjsuP-accent: #0478a8;
+  padding-block: clamp(48px, 6vw, 80px);
+  font-family: var(--pjds-font-body);
+}
+
+main > section:nth-of-type(odd).pjsuP {
+  --pjsuP-accent: #20c8f5;
+}
+
+/* Heading left, short lead on the right (saves height) */
+.pjsuP__head {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  align-items: end;
+  gap: 16px clamp(24px, 4vw, 64px);
+  margin-bottom: clamp(20px, 2.6vw, 30px);
+}
+
+.pjsuP__head .pjds-title-line,
+.pjsuP__head .pj-title-line {
+  margin-bottom: 0;
+}
+
+.pjsuP__title,
+.pjsuP .pjsuP__lead {
+  margin: 0;
+}
+
+/* Map: card · curves · rows -------------------------------------------------- */
+.pjsuP__map {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(180px, 230px) minmax(80px, 170px) minmax(0, 1fr);
+  align-items: center;
+}
+
+.pjsuP__curves {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.pjsuP__curve {
+  fill: none;
+  stroke: var(--pjds-border-strong);
+  stroke-width: 1.6;
+}
+
+.pjsuP__curve--on {
+  stroke: #20c8f5;
+  stroke-width: 3;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  filter: drop-shadow(0 0 6px rgba(32, 200, 245, 0.7));
+  animation: pjsuP-draw 700ms cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+}
+
+@keyframes pjsuP-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+.pjsuP__origin {
+  position: relative;
+  z-index: 1;
+  grid-column: 1;
+  display: grid;
+  gap: 4px;
+  padding: 18px 20px;
+  border: 1px solid var(--pjds-border-strong);
+  border-radius: 16px;
+  background: var(--pjds-surface);
+  box-shadow: 0 16px 34px -20px rgba(0, 0, 0, 0.55);
+}
+
+.pjsuP__origin-title {
+  color: var(--pjds-text);
+  font-family: var(--pjds-font-heading);
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.pjsuP__origin-sub {
+  color: var(--pjds-text-muted);
+  font-size: 0.85rem;
+}
+
+.pjsuP__origin-dot {
+  position: absolute;
+  top: 50%;
+  right: -6px;
+  width: 12px;
+  height: 12px;
+  margin-top: -6px;
+  border-radius: 50%;
+  background: #20c8f5;
+  box-shadow: 0 0 0 4px rgba(32, 200, 245, 0.2);
+}
+
+/* Rows ---------------------------------------------------------------------- */
+.pjsuP__rows {
+  position: relative;
+  z-index: 1;
+  grid-column: 3;
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pjsuP__row {
+  overflow: hidden;
+  border: 1.5px solid var(--pjds-border-strong);
+  border-radius: 14px;
+  background: var(--pjds-surface);
+  transition: border-color 250ms ease, box-shadow 250ms ease;
+}
+
+.pjsuP__row:hover {
+  border-color: rgba(32, 200, 245, 0.6);
+}
+
+.pjsuP__row.is-on {
+  border-color: #20c8f5;
+  box-shadow: 0 0 0 3px rgba(32, 200, 245, 0.15), 0 16px 34px -20px rgba(32, 200, 245, 0.6);
+}
+
+.pjsuP__row-head {
+  box-sizing: border-box; /* a link, not a button: padding stays inside the row */
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 16px 20px;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.pjsuP__row-head:focus-visible {
+  outline: 3px solid #20c8f5;
+  outline-offset: -3px;
+  border-radius: 12px;
+}
+
+.pjsuP__num {
+  color: var(--pjds-text-muted);
+  font-family: ui-monospace, "JetBrains Mono", Consolas, monospace;
+  font-size: 0.8rem;
+}
+
+.pjsuP__row.is-on .pjsuP__num {
+  color: var(--pjsuP-accent);
+  font-weight: 800;
+}
+
+.pjsuP__row-text {
+  display: grid;
+  gap: 2px;
+}
+
+.pjsuP__row-title {
+  color: var(--pjds-text);
+  font-family: var(--pjds-font-heading);
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.pjsuP__row-sub {
+  color: var(--pjds-text-muted);
+  font-size: 0.86rem;
+}
+
+.pjsuP__arrow {
+  color: var(--pjds-text-muted);
+  transition: transform 300ms ease, color 300ms ease;
+}
+
+.pjsuP__row:hover .pjsuP__arrow {
+  transform: translateX(3px);
+}
+
+.pjsuP__row-head {
+  text-decoration: none;
+}
+
+/* Destination page, shown on the right of each row */
+.pjsuP__dest {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--pjds-text-muted);
+  font-size: 0.86rem;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: color 250ms ease;
+}
+
+.pjsuP__row.is-on .pjsuP__dest {
+  color: var(--pjsuP-accent);
+}
+
+.pjsuP__row.is-on .pjsuP__arrow {
+  color: var(--pjsuP-accent);
+  transform: translateX(4px);
+}
+
+/* Responsive --------------------------------------------------------------- */
+@media (max-width: 1100px) {
+  .pjsuP__dest {
+    font-size: 0;
+  }
+}
+
+@media (max-width: 860px) {
+  .pjsuP__head {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pjsuP__map {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .pjsuP__curves,
+  .pjsuP__origin-dot {
+    display: none;
+  }
+
+  .pjsuP__origin,
+  .pjsuP__rows {
+    grid-column: 1;
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pjsuP__curve--on {
+    stroke-dashoffset: 0;
+    animation: none;
+  }
+
+  .pjsuP__arrow,
+  .pjsuP__row {
+    transition: none;
+  }
+}
+
+/* Timer bar along the bottom of the lit row while it auto-advances */
+.pjsuP__row {
+  position: relative;
+}
+
+.pjsuP__row::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #2f6bff, #20c8f5);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+.pjsuP__rows.is-auto .pjsuP__row.is-on::after {
+  animation: pjsuP-timer 3s linear forwards;
+}
+
+@keyframes pjsuP-timer {
+  to { transform: scaleX(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pjsuP__rows.is-auto .pjsuP__row.is-on::after {
+    animation: none;
+  }
+}

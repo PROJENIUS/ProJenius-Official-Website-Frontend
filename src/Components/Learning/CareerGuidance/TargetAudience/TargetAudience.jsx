@@ -2,6 +2,7 @@ import { Backpack, BriefcaseBusiness, GraduationCap, RefreshCw } from "lucide-re
 
 import TypedPhrase from "../../../Common/TypedPhrase/TypedPhrase.jsx";
 import "./TargetAudience.css";
+import SectionTitleLine from "../../../Common/SectionTitleLine/SectionTitleLine.jsx";
 
 /* =========================================================
    WHO IS THIS MENTORSHIP FOR?
@@ -48,6 +49,7 @@ export default function TargetAudience() {
             <span className="cgaud-title-static">Who is This</span>
             <TypedPhrase phrases={["Mentorship For?", "Guidance For?", "Program Built For?"]} />
           </h2>
+          <SectionTitleLine />
           <p className="cgaud-subtitle" data-reveal="up" data-reveal-delay="2">
             Whether you are starting from campus or looking to grow your tech career, our 1:1 guidance
             is shaped around where you are now.

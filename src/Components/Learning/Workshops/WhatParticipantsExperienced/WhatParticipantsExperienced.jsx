@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import "./WhatParticipantsExperienced.css";
+import SectionTitleLine from "../../../Common/SectionTitleLine/SectionTitleLine.jsx";
 
 /* Add real testimonials here. While this is empty, the sample cards and notice are shown.
    Each item: { id, role: "Students" | "Faculty", topics: ["AI / ML", "IoT", "Robotics", "Other"],
@@ -66,6 +67,7 @@ function WhatParticipantsExperiencedSection() {
     <section className="wp-section">
       <div className="wp-container">
         <h2 className="wp-title">What Participants Experienced</h2>
+        <SectionTitleLine />
         <p className="wp-desc">
           Feedback from students and faculty who took part in ProJenius
           workshops, in their own words.

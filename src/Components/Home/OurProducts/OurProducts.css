@@ -5,12 +5,12 @@
 .pjh-products {
   position: relative;
   overflow: hidden;
+  /* White section: also overrides the site-wide alternating section colour. */
+  --pjds-bg-a: #ffffff;
+  --pjds-bg-b: #ffffff;
   padding-block: var(--pjds-section-space);
-  background:
-    radial-gradient(42rem 28rem at 92% 8%, rgba(32, 200, 245, 0.13), transparent 70%),
-    radial-gradient(36rem 26rem at 4% 70%, rgba(32, 200, 245, 0.07), transparent 70%),
-    linear-gradient(145deg, #071426 0%, #0b1e36 64%, #08192c 100%);
-  color: var(--pjds-text-inverse);
+  background: #ffffff;
+  color: #071426;
   font-family: var(--pjds-font-body);
 }
 
@@ -51,14 +51,18 @@
   min-height: 1.2em;
 }
 
+.pjh-products__title-static {
+  color: #071426;
+}
+
 .pjh-products__typed-text {
-  color: var(--pjds-cyan-400);
+  color: #20c8f5;
 }
 
 .pjh-products__cursor {
   display: inline-block;
   margin-left: 3px;
-  color: var(--pjds-cyan-400);
+  color: #20c8f5;
   font-weight: 500;
   animation: pjh-products-cursor-blink 0.8s steps(1) infinite;
 }
@@ -71,6 +75,7 @@
 .pjh-products__intro {
   max-width: 760px;
   margin: 0 auto;
+  color: #526b7d;
 }
 
 /* ---------------------------------------------------------------------------
@@ -288,9 +293,10 @@
   align-items: center;
   gap: 8px;
   padding: 7px 14px;
-  border: 1px solid rgba(174, 205, 230, 0.22);
+  border: 1px solid rgba(4, 120, 168, 0.28);
   border-radius: 999px;
-  color: rgba(255, 255, 255, 0.78);
+  background: rgba(4, 120, 168, 0.06);
+  color: #0478a8;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.13em;
@@ -309,7 +315,7 @@
 
 .pjh-products__name {
   margin: 20px 0 0;
-  color: var(--pjds-cyan-400);
+  color: #071426;
   font-family: var(--pjds-font-heading);
   font-size: clamp(1.6rem, 1.1rem + 1.6vw, 2.5rem);
   font-weight: 800;
@@ -321,7 +327,7 @@
 .pjh-products__description {
   max-width: 540px;
   margin: 16px 0 0;
-  color: var(--pjds-text-inverse-muted);
+  color: #526b7d;
   font-size: 1rem;
   line-height: 1.7;
 }
@@ -370,26 +376,15 @@
   background: var(--pjds-cyan-400);
 }
 
-.pjh-products__link--ghost {
-  border-color: rgba(255, 255, 255, 0.3);
-  background: rgba(255, 255, 255, 0.04);
-  color: var(--pjds-white);
-}
-
-.pjh-products__link--ghost:hover {
-  border-color: var(--pjds-cyan-400);
-  color: var(--pjds-cyan-400);
-}
-
 /* WhatsApp: outlined, with the WhatsApp green on the icon. */
 .pjh-products__link--whatsapp {
   border-color: rgba(37, 211, 102, 0.55);
   background: rgba(37, 211, 102, 0.08);
-  color: var(--pjds-white);
+  color: #071426;
 }
 
 .pjh-products__link--whatsapp svg {
-  color: #25d366;
+  color: #1da851;
 }
 
 .pjh-products__link--whatsapp:hover {
@@ -409,7 +404,7 @@
   justify-content: center;
   margin-top: clamp(40px, 5vw, 64px);
   padding-top: clamp(28px, 4vw, 40px);
-  border-top: 1px solid rgba(174, 205, 230, 0.14);
+  border-top: 1px solid rgba(7, 20, 38, 0.1);
 }
 
 .pjh-products__more-link {
@@ -418,9 +413,9 @@
   gap: 12px;
   min-height: 56px;
   padding: 14px 30px;
-  border: 1px solid var(--pjds-cyan-400);
+  border: 1px solid #0478a8;
   border-radius: 999px;
-  color: var(--pjds-white);
+  color: #0478a8;
   font-size: 1rem;
   font-weight: 700;
   text-decoration: none;
@@ -467,9 +462,9 @@
   .pjh-products__item {
     min-height: 0;
     padding: 14px 14px 26px;
-    border: 1px solid rgba(174, 205, 230, 0.16);
+    border: 1px solid rgba(7, 20, 38, 0.1);
     border-radius: 24px;
-    background: rgba(12, 32, 55, 0.6);
+    background: #f4f7fb;
     opacity: 1;
   }
 

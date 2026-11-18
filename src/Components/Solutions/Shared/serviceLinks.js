@@ -12,6 +12,8 @@ export const SERVICE_ROUTES = {
   pcb: "/services/pcb-design-fabrication",
   prototyping: "/services/rapid-prototyping",
   startup: "/startup",
+  /* Incubation is a section of the Startup page (no separate page). */
+  incubate: "/startup#startup-incubate",
 };
 
 export const contactLink = (type, from) => `/contact?type=${type}&from=${from}`;
@@ -23,4 +25,5 @@ export const RELATED = {
   pcb: { to: SERVICE_ROUTES.pcb, label: "PCB Design & Fabrication" },
   prototyping: { to: SERVICE_ROUTES.prototyping, label: "Rapid Prototyping" },
   startup: { to: SERVICE_ROUTES.startup, label: "Startup & Innovation" },
+  incubate: { to: SERVICE_ROUTES.incubate, label: "Incubate at ProJenius" },
 };

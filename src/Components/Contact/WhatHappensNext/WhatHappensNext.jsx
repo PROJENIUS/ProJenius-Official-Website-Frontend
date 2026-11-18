@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
-import TypedPhrase from "../../Common/TypedPhrase/TypedPhrase.jsx";
+import TypedPhrase from "../../Common/TypedPhrase/TypedPhrase.jsx";
+import SectionTitleLine from "../../Common/SectionTitleLine/SectionTitleLine.jsx";
 
 /* =============================================================================
    WHAT HAPPENS NEXT?
@@ -102,6 +103,7 @@ const WhatHappensNext = () => {
             <span className="pj-contact-next__title-static">What Happens</span>
             <TypedPhrase tone="dark" phrases={["Next?", "After You Send It?", "Step by Step?"]} />
           </h2>
+          <SectionTitleLine />
           <p className="pj-contact-next__description" data-reveal="up" data-reveal-delay="2">
             From your first message to the next step &mdash; here&rsquo;s how it works.
           </p>

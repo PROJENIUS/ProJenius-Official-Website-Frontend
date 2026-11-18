@@ -4,6 +4,8 @@ import { ArrowRight, CheckCircle2, Loader2, ShieldCheck } from "lucide-react";
 
 import { countWords, isValidEmail, isValidPhone, submitEnquiry } from "../../../utils/enquiry.js";
 import "./StartupIdeaForm.css";
+import TypedPhrase from "../../Common/TypedPhrase/TypedPhrase.jsx";
+import SectionTitleLine from "../../Common/SectionTitleLine/SectionTitleLine.jsx";
 
 /* =============================================================================
    SUBMIT YOUR IDEA — sends a "startup" enquiry to the ProJenius enquiry API
@@ -122,8 +124,9 @@ export default function StartupIdeaForm() {
         <header className="pjsi-form__intro">
           <p className="pjds-eyebrow" data-reveal="up">Submit Your Idea</p>
           <h2 id="submit-idea-title" className="pjds-title" data-reveal="up" data-reveal-delay="1">
-            Tell Us What You Want to Build
+            Tell Us What You Want <TypedPhrase phrases={["to Build", "to Create", "to Solve"]} />
           </h2>
+          <SectionTitleLine />
           <p className="pjds-lead" data-reveal="up" data-reveal-delay="2">
             A rough idea is enough to start. Share the problem and where you are today, and we will get back
             to you to arrange an initial conversation.

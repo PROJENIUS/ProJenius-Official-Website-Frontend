@@ -11,7 +11,7 @@ import HighlightsUpdates from "../../Components/Home/HighlightsUpdates/Highlight
 import OurProducts from "../../Components/Home/OurProducts/OurProducts.jsx";
 import OurProjects from "../../Components/Home/OurProjects/OurProjects.jsx";
 import HomeAchievements from "../../Components/Home/HomeAchievements/HomeAchievements.jsx";
-import ContactSection from "../../Components/About/ContactSection/ContactSection.jsx";
+import ContactSection from "../../Components/Home/ContactSection/ContactSection.jsx";
 
 /* Homepage flow: Hero → Who We Are → Services → Training → Highlights & Updates
    → Products & Innovations → Projects → Achievements → Let's Work Together

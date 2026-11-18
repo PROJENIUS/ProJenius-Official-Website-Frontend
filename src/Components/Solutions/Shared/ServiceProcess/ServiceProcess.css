@@ -40,8 +40,15 @@
   line-height: 1.65;
 }
 
-.pjsv-process--dark .pjsv-process__title { color: var(--pjds-white); }
-.pjsv-process--dark .pjsv-process__intro { color: rgba(226, 232, 240, 0.78); }
+.pjsv-process--dark .pjsv-process__title,
+main > section:nth-of-type(odd) .pjsv-process .pjsv-process__title {
+  color: #ffffff !important;
+}
+
+.pjsv-process--dark .pjsv-process__intro,
+main > section:nth-of-type(odd) .pjsv-process .pjsv-process__intro {
+  color: #a0b3c6 !important;
+}
 
 /* Steps: one row joined by a line through the numbers ------------------------ */
 .pjsv-process__steps {
@@ -57,6 +64,7 @@
 .pjsv-process__steps[data-count="4"] { --pjsv-steps: 4; }
 .pjsv-process__steps[data-count="5"] { --pjsv-steps: 5; }
 .pjsv-process__steps[data-count="6"] { --pjsv-steps: 6; }
+.pjsv-process__steps[data-count="7"] { --pjsv-steps: 7; gap: 18px; }
 
 .pjsv-process__steps::before {
   content: "";
@@ -89,9 +97,12 @@
   font-weight: 800;
 }
 
-.pjsv-process--dark .pjsv-process__num {
-  background: var(--pjds-navy-900);
-  color: var(--pjds-cyan-400);
+.pjsv-process--dark .pjsv-process__num,
+main > section:nth-of-type(odd) .pjsv-process .pjsv-process__num {
+  background: #0c2340;
+  color: #20c8f5;
+  border-color: #20c8f5;
+  box-shadow: 0 0 15px rgba(32, 200, 245, 0.25);
 }
 
 .pjsv-process__step-title {
@@ -110,8 +121,15 @@
   line-height: 1.6;
 }
 
-.pjsv-process--dark .pjsv-process__step-title { color: var(--pjds-white); }
-.pjsv-process--dark .pjsv-process__step-text { color: rgba(203, 213, 225, 0.82); }
+.pjsv-process--dark .pjsv-process__step-title,
+main > section:nth-of-type(odd) .pjsv-process .pjsv-process__step-title {
+  color: #ffffff !important;
+}
+
+.pjsv-process--dark .pjsv-process__step-text,
+main > section:nth-of-type(odd) .pjsv-process .pjsv-process__step-text {
+  color: #a0b3c6 !important;
+}
 
 .pjsv-process__loop {
   display: inline-flex;
@@ -126,7 +144,8 @@
   font-weight: 600;
 }
 
-.pjsv-process--dark .pjsv-process__loop {
+.pjsv-process--dark .pjsv-process__loop,
+main > section:nth-of-type(odd) .pjsv-process .pjsv-process__loop {
   border-color: rgba(90, 214, 248, 0.4);
   color: var(--pjds-cyan-400);
 }
@@ -134,18 +153,22 @@
 .pjsv-process__note {
   max-width: 760px;
   margin: 32px 0 0;
-  padding: 16px 20px;
+  padding: 18px 22px;
   border-left: 3px solid var(--pjds-cyan-500);
-  border-radius: 0 12px 12px 0;
+  border-radius: 0 14px 14px 0;
   background: var(--pjds-gray-50);
-  color: var(--pjds-text-muted);
-  font-size: 0.9375rem;
+  color: var(--pjds-gray-600);
+  font-size: 0.875rem;
   line-height: 1.6;
 }
 
-.pjsv-process--dark .pjsv-process__note {
-  background: rgba(255, 255, 255, 0.05);
-  color: rgba(226, 232, 240, 0.82);
+.pjsv-process--dark .pjsv-process__note,
+main > section:nth-of-type(odd) .pjsv-process .pjsv-process__note {
+  background: rgba(12, 35, 64, 0.8);
+  border: 1px solid rgba(32, 200, 245, 0.25);
+  border-left: 4px solid var(--pjds-cyan-500);
+  color: #c6d0dd !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
 }
 
 /* Tablet: two columns, no connecting line ----------------------------------- */
@@ -201,4 +224,172 @@
     align-self: center;
     padding-top: 12px;
   }
+}
+
+/* Optional link under a step (to the page that covers it) ------------------- */
+.pjsv-process .pjsv-process__step-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 10px;
+  color: #0478a8 !important;
+  font-size: 0.86rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.pjsv-process--dark .pjsv-process__step-link,
+main > section:nth-of-type(odd) .pjsv-process .pjsv-process__step-link {
+  color: #5ad6f8 !important;
+}
+
+.pjsv-process__step-link svg {
+  transition: transform 180ms ease;
+}
+
+.pjsv-process__step-link:hover svg {
+  transform: translateX(4px);
+}
+
+.pjsv-process__step-link:focus-visible {
+  border-radius: 4px;
+  outline: 3px solid #20c8f5;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pjsv-process__step-link svg { transition: none; }
+  .pjsv-process__step-link:hover svg { transform: none; }
+}
+
+/* ============================================================================
+   Follow the section colour automatically: on a navy section the heading and
+   step titles are white, whatever `tone` the page passed.
+   ============================================================================ */
+main > section:nth-of-type(odd).pjsv-process .pjsv-process__title,
+main > section:nth-of-type(odd).pjsv-process .pjsv-process__step-title {
+  color: #ffffff !important;
+}
+
+main > section:nth-of-type(odd).pjsv-process .pjsv-process__intro,
+main > section:nth-of-type(odd).pjsv-process .pjsv-process__step-text {
+  color: #a9bad0 !important;
+}
+
+/* Larger, easier-to-read type */
+.pjsv-process .pjsv-process__intro {
+  font-size: clamp(1.05rem, 0.95rem + 0.4vw, 1.25rem);
+}
+
+.pjsv-process .pjsv-process__num {
+  width: 56px;
+  height: 56px;
+  font-size: 1.05rem;
+}
+
+.pjsv-process .pjsv-process__step-title {
+  font-size: clamp(1.2rem, 1.05rem + 0.5vw, 1.45rem);
+}
+
+.pjsv-process .pjsv-process__step-text {
+  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.12rem);
+  line-height: 1.6;
+}
+
+.pjsv-process .pjsv-process__note {
+  font-size: 0.98rem;
+}
+
+/* Line runs through the centre of the larger number circles */
+.pjsv-process .pjsv-process__steps::before {
+  top: 27px;
+}
+
+/* Navy numbers when the process section itself is a navy section */
+main > section:nth-of-type(odd).pjsv-process .pjsv-process__num {
+  border-color: #20c8f5;
+  background: #0c2340;
+  box-shadow: 0 0 15px rgba(32, 200, 245, 0.25);
+  color: #20c8f5;
+}
+
+@media (max-width: 600px) {
+  .pjsv-process .pjsv-process__num {
+    width: 44px;
+    height: 44px;
+    font-size: 0.95rem;
+  }
+}
+
+/* ============================================================================
+   Scroll animation: the line fills with the scroll; steps light up in turn.
+   Only when JS has switched it on ([data-animated]); otherwise all visible.
+   ============================================================================ */
+.pjsv-process__steps {
+  --pjsv-p: 1;
+}
+
+/* Fill on top of the existing faint line */
+.pjsv-process .pjsv-process__steps::after {
+  content: "";
+  position: absolute;
+  top: 26px;
+  right: 0;
+  left: 0;
+  height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #2f6bff, #20c8f5);
+  box-shadow: 0 0 12px rgba(32, 200, 245, 0.7);
+  transform: scaleX(var(--pjsv-p));
+  transform-origin: left center;
+}
+
+/* Circles stay on the line; only the text fades and rises in */
+.pjsv-process__steps[data-animated] .pjsv-process__step > :not(.pjsv-process__num) {
+  opacity: 0.3;
+  transform: translateY(14px);
+  transition: opacity 500ms ease, transform 600ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.pjsv-process__steps[data-animated] .pjsv-process__step[data-on] > :not(.pjsv-process__num) {
+  opacity: 1;
+  transform: none;
+}
+
+.pjsv-process__steps[data-animated] .pjsv-process__step:not([data-on]) .pjsv-process__num {
+  opacity: 0.55;
+}
+
+.pjsv-process .pjsv-process__num {
+  z-index: 1;
+  transition: background-color 400ms ease, color 400ms ease, box-shadow 400ms ease, transform 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.pjsv-process__steps[data-animated] .pjsv-process__step[data-on] .pjsv-process__num {
+  background: #20c8f5;
+  border-color: #20c8f5;
+  box-shadow: 0 0 0 7px rgba(32, 200, 245, 0.18), 0 10px 24px -8px rgba(32, 200, 245, 0.8);
+  color: #071426;
+  transform: scale(1.06);
+}
+
+/* Phones: the steps stack and the line runs down the left */
+@media (max-width: 600px) {
+  .pjsv-process .pjsv-process__steps::after {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pjsv-process__steps[data-animated] .pjsv-process__step > *,
+  .pjsv-process .pjsv-process__num {
+    transition: none;
+  }
+}
+
+/* Faint track under the fill */
+.pjsv-process .pjsv-process__steps::before {
+  top: 27px;
+  height: 2px;
+  background: rgba(90, 214, 248, 0.18);
 }

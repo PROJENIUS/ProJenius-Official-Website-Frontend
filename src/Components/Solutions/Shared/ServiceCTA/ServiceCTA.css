@@ -44,7 +44,7 @@
 
 .pjsv-cta__title {
   margin: 0;
-  color: var(--pjds-white);
+  color: #ffffff !important;
   font-family: var(--pjds-font-heading);
   font-size: var(--pjds-text-h2);
   font-weight: 800;
@@ -56,7 +56,7 @@
 .pjsv-cta__text {
   max-width: 560px;
   margin: 16px 0 0;
-  color: rgba(226, 232, 240, 0.8);
+  color: rgba(226, 232, 240, 0.9) !important;
   font-size: var(--pjds-text-lead);
   line-height: 1.65;
 }
@@ -68,9 +68,10 @@
 .pjsv-cta__checklist {
   min-width: 0;
   padding: 26px 28px;
-  border: 1px solid rgba(90, 214, 248, 0.18);
+  border: 1px solid rgba(90, 214, 248, 0.25);
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
 }
 
 .pjsv-cta__checklist-title {
@@ -94,7 +95,7 @@
   display: grid;
   grid-template-columns: 22px minmax(0, 1fr);
   gap: 10px;
-  color: rgba(226, 232, 240, 0.9);
+  color: #ffffff !important;
   font-size: 0.9375rem;
   line-height: 1.5;
 }
@@ -118,16 +119,17 @@
   justify-content: space-between;
   gap: 14px;
   padding: 22px 24px;
-  border: 1px solid var(--pjds-border);
+  border: 1px solid #dde4ee;
   border-radius: 16px;
-  background: var(--pjds-white);
-  color: var(--pjds-text);
+  background: #ffffff !important;
+  color: #071426 !important;
+  box-shadow: 0 4px 18px rgba(7, 20, 38, 0.04);
   text-decoration: none;
   transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms var(--pjds-ease);
 }
 
 .pjsv-cta__related-question {
-  color: var(--pjds-text-muted);
+  color: #526b7d !important;
   font-size: 0.9375rem;
   line-height: 1.5;
 }
@@ -136,21 +138,21 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: var(--pjds-navy-950);
+  color: #071426 !important;
   font-family: var(--pjds-font-heading);
   font-size: 1.0625rem;
   font-weight: 700;
 }
 
 .pjsv-cta__related-label svg {
-  color: var(--pjds-cyan-700);
+  color: #0ea5d4;
   transition: transform 200ms ease;
 }
 
 .pjsv-cta__related-link:hover {
-  border-color: rgba(4, 120, 168, 0.4);
-  box-shadow: var(--pjds-shadow-md);
-  transform: translateY(-2px);
+  border-color: rgba(32, 200, 245, 0.6);
+  box-shadow: 0 12px 28px rgba(32, 200, 245, 0.12);
+  transform: translateY(-3px);
 }
 
 .pjsv-cta__related-link:hover .pjsv-cta__related-label svg {
@@ -160,6 +162,61 @@
 .pjsv-cta__related-link:focus-visible {
   outline: none;
   box-shadow: var(--pjds-focus-ring);
+}
+
+/* Related service cards use the same pale, layered showcase treatment. */
+.pjsv-cta__related-link {
+  position: relative;
+  min-height: 168px;
+  overflow: hidden;
+  border-color: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(230, 244, 250, 0.72)) !important;
+  box-shadow: 0 14px 30px rgba(25, 89, 123, 0.1), inset 0 1px 0 #fff;
+}
+
+.pjsv-cta__related-link::before {
+  content: "";
+  position: absolute;
+  width: 130px;
+  height: 130px;
+  right: -46px;
+  top: -56px;
+  border-radius: 42px;
+  background: rgba(32, 200, 245, 0.15);
+  transform: rotate(24deg);
+  transition: transform 260ms ease, background-color 260ms ease;
+}
+
+.pjsv-cta__related-link > * { position: relative; z-index: 1; }
+.pjsv-cta__related-link:hover::before { transform: rotate(36deg) scale(1.13); background: rgba(32, 200, 245, 0.23); }
+.pjsv-cta__related-link:hover { transform: translateY(-6px) rotate(-0.5deg); }
+
+/* A small 3D card stage: cards lean into the row and settle forward on hover. */
+.pjsv-cta__related {
+  perspective: 1200px;
+  transform-style: preserve-3d;
+}
+
+.pjsv-cta__related-link {
+  transform-style: preserve-3d;
+  transform: rotateX(2deg) rotateY(-3deg) translateZ(0);
+  animation: pjsv-card-float 6s ease-in-out infinite;
+}
+
+.pjsv-cta__related-link:nth-child(even) {
+  transform: rotateX(2deg) rotateY(3deg) translateZ(0);
+  animation-delay: -2s;
+}
+
+.pjsv-cta__related-link > * { transform: translateZ(20px); }
+.pjsv-cta__related-link::before { transform: translateZ(8px) rotate(24deg); }
+.pjsv-cta__related-link:hover { transform: translateY(-10px) rotateX(0) rotateY(0) translateZ(26px); }
+.pjsv-cta__related-link:hover::before { transform: translateZ(8px) rotate(36deg) scale(1.13); }
+
+@keyframes pjsv-card-float {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -6px; }
 }
 
 @media (max-width: 900px) {
@@ -183,4 +240,82 @@
   .pjsv-cta__related-label svg {
     transition: none;
   }
+
+  .pjsv-cta__related-link { animation: none; }
 }
+
+/* Expanding service rail: the active card opens, while its neighbours close. */
+@media (min-width: 760px) {
+  .pjsv-cta__related {
+    display: flex;
+    gap: 12px;
+    perspective: none;
+  }
+
+  .pjsv-cta__related-link,
+  .pjsv-cta__related-link:nth-child(even) {
+    flex: 1 1 0;
+    min-width: 0;
+    min-height: 224px;
+    transform: none;
+    animation: none;
+    transition: flex 520ms cubic-bezier(.22, 1, .36, 1), transform 320ms ease, box-shadow 320ms ease;
+  }
+
+  .pjsv-cta__related-link:first-child {
+    flex-grow: 2.15;
+  }
+
+  .pjsv-cta__related:hover .pjsv-cta__related-link,
+  .pjsv-cta__related:focus-within .pjsv-cta__related-link {
+    flex-grow: .72;
+  }
+
+  .pjsv-cta__related-link:hover,
+  .pjsv-cta__related-link:focus-visible {
+    flex-grow: 2.7 !important;
+    transform: translateY(-5px);
+  }
+
+  .pjsv-cta__related-question {
+    max-width: 38ch;
+    max-height: 0;
+    overflow: hidden;
+    margin: 0;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: max-height 340ms ease, margin 340ms ease, opacity 220ms ease, transform 340ms ease;
+  }
+
+  .pjsv-cta__related-link:first-child .pjsv-cta__related-question,
+  .pjsv-cta__related-link:hover .pjsv-cta__related-question,
+  .pjsv-cta__related-link:focus-visible .pjsv-cta__related-question {
+    max-height: 4.8em;
+    margin-bottom: auto;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .pjsv-cta__related-label {
+    min-width: max-content;
+  }
+}
+
+/* ---------- RELATED SERVICES: equal, compact cards ----------
+   Overrides the expanding rail above: it hid two of the three questions
+   until hover and forced a 224px height, leaving empty boxes. Now all three
+   cards are equal, always show their question, and size to their content. */
+.pjsv-cta .pjsv-cta__related{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;perspective:none}
+.pjsv-cta .pjsv-cta__related-link,
+.pjsv-cta .pjsv-cta__related-link:nth-child(even),
+.pjsv-cta .pjsv-cta__related-link:first-child{flex:none;min-height:0;gap:18px;padding:22px 24px;transform:none;animation:none;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
+.pjsv-cta .pjsv-cta__related-link > *{transform:none}
+.pjsv-cta .pjsv-cta__related-question,
+.pjsv-cta .pjsv-cta__related-link:first-child .pjsv-cta__related-question{max-width:none;max-height:none;margin:0;opacity:1;transform:none;overflow:visible}
+.pjsv-cta .pjsv-cta__related-link::before{width:96px;height:96px;right:-38px;top:-44px}
+.pjsv-cta .pjsv-cta__related-link:hover,
+.pjsv-cta .pjsv-cta__related-link:focus-visible{flex-grow:0 !important;transform:translateY(-4px);border-color:rgba(32,200,245,.6)}
+.pjsv-cta .pjsv-cta__related-label{min-width:0}
+@media (max-width:900px){.pjsv-cta .pjsv-cta__related{grid-template-columns:minmax(0,1fr)}}
+/* One row whatever the count (3 cards on most pages, 4 on Startup). */
+.pjsv-cta .pjsv-cta__related{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}

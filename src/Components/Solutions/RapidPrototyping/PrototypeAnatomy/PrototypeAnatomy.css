@@ -1,0 +1,423 @@
+/* =============================================================================
+   END-TO-END PROTOTYPE — scoped beneath .pjrpA
+   --p (0 → 1) drives everything; --a1…--a4 are the progress of each stage
+   after the first (the enclosure is shown from the start).
+   The drawing sits on a navy panel, so its colours are fixed; the steps
+   follow the section colours through the page tokens.
+   ============================================================================= */
+
+.pjrpA {
+  --pjrpA-accent: #0478a8;
+  padding-block: clamp(56px, 7vw, 96px);
+  font-family: var(--pjds-font-body);
+}
+
+main > section:nth-of-type(odd).pjrpA {
+  --pjrpA-accent: #20c8f5;
+}
+
+.pjrpA__head {
+  max-width: 760px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.pjrpA__title,
+.pjrpA .pjrpA__lead {
+  margin: 0 auto;
+}
+
+.pjrpA .pjrpA__lead {
+  max-width: 640px;
+}
+
+.pjrpA__scroller {
+  --p: 0;
+  --a1: clamp(0, calc((var(--p) * 5 - 1) * 1.6), 1);
+  --a2: clamp(0, calc((var(--p) * 5 - 2) * 1.6), 1);
+  --a3: clamp(0, calc((var(--p) * 5 - 3) * 1.6), 1);
+  --a4: clamp(0, calc((var(--p) * 5 - 4) * 1.8), 1);
+
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: clamp(32px, 5vw, 80px);
+  margin-top: clamp(32px, 4vw, 56px);
+}
+
+/* Steps, joined by a line that fills downwards ------------------------------ */
+.pjrpA__steps {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pjrpA__rail {
+  position: absolute;
+  top: 30vh;
+  bottom: 30vh;
+  left: 21px;
+  width: 3px;
+  border-radius: 3px;
+  background: var(--pjds-border-strong);
+}
+
+.pjrpA__rail-fill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(#0478a8, #20c8f5);
+  box-shadow: 0 0 12px rgba(32, 200, 245, 0.6);
+  transform: scaleY(var(--p));
+  transform-origin: center top;
+}
+
+.pjrpA__step {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 60vh;
+  padding-left: 72px;
+  opacity: 0.3;
+  transition: opacity 450ms ease;
+}
+
+.pjrpA__step[data-active],
+.pjrpA__step[data-done] {
+  opacity: 1;
+}
+
+.pjrpA__step[data-done] .pjrpA__text,
+.pjrpA__step[data-done] .pjrpA__link {
+  opacity: 0.55;
+}
+
+.pjrpA__dot {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-top: -22px;
+  border: 2px solid var(--pjds-border-strong);
+  border-radius: 50%;
+  background: var(--pjds-surface);
+  color: var(--pjds-text-muted);
+  font-size: 0.85rem;
+  font-weight: 800;
+  transition: background-color 300ms ease, border-color 300ms ease, color 300ms ease, transform 400ms cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 300ms ease;
+}
+
+.pjrpA__step[data-done] .pjrpA__dot {
+  border-color: #20c8f5;
+  background: #071426;
+  color: #5ad6f8;
+}
+
+.pjrpA__step[data-active] .pjrpA__dot {
+  border-color: #20c8f5;
+  background: #20c8f5;
+  color: #071426;
+  box-shadow: 0 0 0 7px rgba(32, 200, 245, 0.18);
+  transform: scale(1.08);
+}
+
+.pjrpA__tag {
+  color: var(--pjrpA-accent);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.pjrpA .pjrpA__name {
+  margin: 10px 0 0;
+  color: var(--pjds-text);
+  font-family: var(--pjds-font-heading);
+  font-size: clamp(1.9rem, 1.2rem + 2.2vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+}
+
+.pjrpA .pjrpA__text {
+  max-width: 44ch;
+  margin: 16px 0 0;
+  color: var(--pjds-text-muted);
+  font-size: clamp(1.02rem, 0.95rem + 0.35vw, 1.2rem);
+  line-height: 1.7;
+}
+
+.pjrpA .pjrpA__link {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 6px;
+  margin-top: 18px;
+  color: var(--pjrpA-accent);
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.pjrpA__link svg {
+  transition: transform 200ms ease;
+}
+
+.pjrpA__link:hover svg {
+  transform: translateX(4px);
+}
+
+.pjrpA__link:focus-visible {
+  border-radius: 4px;
+  outline: 3px solid #20c8f5;
+  outline-offset: 3px;
+}
+
+/* The drawing (sticky navy panel) ------------------------------------------- */
+.pjrpA__visual {
+  position: sticky;
+  top: calc(var(--pjds-nav-offset, 112px) + 16px);
+  align-self: start;
+  padding: clamp(16px, 2vw, 28px);
+  border: 1px solid rgba(90, 214, 248, 0.22);
+  border-radius: 24px;
+  background:
+    radial-gradient(70% 60% at 50% 40%, rgba(32, 200, 245, 0.14), transparent 70%),
+    #071426;
+  box-shadow: 0 30px 70px -30px rgba(7, 20, 38, 0.6);
+}
+
+.pjrpA__svg {
+  display: block;
+  width: 100%;
+  max-height: calc(100svh - var(--pjds-nav-offset, 112px) - 130px);
+  height: auto;
+  overflow: visible;
+}
+
+.pjrpA__svg text {
+  font-family: var(--pjds-font-body);
+  text-anchor: middle;
+}
+
+/* Dashed guides between the exploded layers */
+.pjrpA__guides line {
+  stroke: rgba(90, 214, 248, 0.3);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 6;
+  opacity: calc(1 - var(--a4));
+}
+
+.pjrpA__layer {
+  transition: filter 300ms ease;
+}
+
+/* Enclosure (lid + base) */
+.pjrpA__shell-t { fill: #e9eff6; }
+.pjrpA__shell-l { fill: #b8c6d6; }
+.pjrpA__shell-r { fill: #cfdae6; }
+.pjrpA__shell-t,
+.pjrpA__pcb-top {
+  stroke: rgba(255, 255, 255, 0.15);
+  stroke-width: 1.5;
+  transition: stroke 300ms ease;
+}
+
+.pjrpA__cavity { fill: #c4d0dd; }
+.pjrpA__port { fill: #3b4b5e; }
+.pjrpA__screen { fill: #1b2b3e; }
+.pjrpA__screen-on { fill: #20c8f5; opacity: calc(var(--a2) * 0.85); }
+.pjrpA__button { fill: #20c8f5; opacity: 0.9; }
+
+/* Lid closes onto the base at the last stage */
+.pjrpA__lid {
+  transform: translateY(calc(var(--a4) * 226px));
+}
+
+/* PCB: faint until its stage, then slides into the base at the end */
+.pjrpA__pcb {
+  opacity: calc((0.18 + var(--a1) * 0.82) * (1 - var(--a4)));
+  transform: translate(calc((1 - var(--a1)) * -24px), calc(var(--a4) * 106px));
+}
+
+.pjrpA__pcb-top { fill: #11466f; }
+.pjrpA__pcb-side { fill: #0a2a47; }
+.pjrpA__hole { fill: #071426; stroke: #e2b04a; stroke-width: 2; }
+
+.pjrpA__traces path {
+  fill: none;
+  stroke: #e2b04a;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - var(--a1));
+}
+
+/* Chips drop on and light up */
+.pjrpA__chips {
+  opacity: var(--a2);
+  transform: translateY(calc((1 - var(--a2)) * -18px));
+}
+
+.pjrpA__chip { fill: #0e1a2b; stroke: rgba(90, 214, 248, 0.5); stroke-width: 1.2; }
+.pjrpA__chip--mcu { fill: #0b1a2b; stroke: #20c8f5; stroke-width: 1.6; }
+.pjrpA__led { fill: #d9f7ff; }
+.pjrpA__led-glow { fill: #20c8f5; opacity: 0.8; }
+
+.pjrpA__scroller[data-stage="2"] .pjrpA__led-glow,
+.pjrpA__scroller[data-stage="3"] .pjrpA__led-glow {
+  animation: pjrpA-blink 1.4s ease-in-out infinite;
+}
+
+/* App */
+.pjrpA__app {
+  opacity: var(--a3);
+  transform: translateX(calc((1 - var(--a3)) * 24px));
+}
+
+.pjrpA__phone { fill: #0e2440; stroke: rgba(90, 214, 248, 0.6); stroke-width: 2; }
+.pjrpA__phone-screen { fill: #071426; }
+.pjrpA__phone-bar { fill: rgba(169, 186, 208, 0.45); }
+.pjrpA__chart { fill: none; stroke: #20c8f5; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.pjrpA__wave { fill: none; stroke: #20c8f5; stroke-width: 2.5; stroke-linecap: round; }
+
+.pjrpA__scroller[data-stage="3"] .pjrpA__wave,
+.pjrpA__scroller[data-stage="4"] .pjrpA__wave {
+  animation: pjrpA-wave 1.6s ease-in-out infinite;
+}
+
+.pjrpA__wave + .pjrpA__wave {
+  animation-delay: 0.3s !important;
+}
+
+/* Ready badge */
+.pjrpA__ready {
+  opacity: var(--a4);
+  transform: translateY(calc((1 - var(--a4)) * 10px));
+}
+
+.pjrpA__ready rect { fill: #20c8f5; }
+.pjrpA__ready path { fill: none; stroke: #071426; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.pjrpA__ready text { fill: #071426; font-size: 14px; font-weight: 800; }
+
+/* Highlight the layer of the current step */
+.pjrpA__scroller[data-stage="0"] .pjrpA__lid .pjrpA__shell-t,
+.pjrpA__scroller[data-stage="0"] .pjrpA__base .pjrpA__shell-t,
+.pjrpA__scroller[data-stage="1"] .pjrpA__pcb-top,
+.pjrpA__scroller[data-stage="2"] .pjrpA__pcb-top {
+  stroke: #20c8f5;
+  stroke-width: 2.5;
+}
+
+.pjrpA__scroller[data-stage="0"] .pjrpA__lid,
+.pjrpA__scroller[data-stage="0"] .pjrpA__base,
+.pjrpA__scroller[data-stage="1"] .pjrpA__pcb {
+  filter: drop-shadow(0 0 10px rgba(32, 200, 245, 0.45));
+}
+
+/* Step label under the drawing */
+.pjrpA__stage-label {
+  position: relative;
+  height: 22px;
+  margin: 10px 0 0;
+  text-align: center;
+}
+
+.pjrpA__stage-label span {
+  position: absolute;
+  inset: 0;
+  color: #5ad6f8;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 300ms ease, transform 300ms ease;
+}
+
+.pjrpA__scroller[data-stage="0"] [data-for="0"],
+.pjrpA__scroller[data-stage="1"] [data-for="1"],
+.pjrpA__scroller[data-stage="2"] [data-for="2"],
+.pjrpA__scroller[data-stage="3"] [data-for="3"],
+.pjrpA__scroller[data-stage="4"] [data-for="4"] {
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes pjrpA-blink {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 0.95; }
+}
+
+@keyframes pjrpA-wave {
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 1; }
+}
+
+/* Tablet and phone: drawing sticks to the top, steps scroll under it ------- */
+@media (max-width: 899px) {
+  .pjrpA__scroller {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .pjrpA__visual {
+    top: 72px;
+    z-index: 2;
+    grid-row: 1;
+    padding: 10px;
+  }
+
+  .pjrpA__svg {
+    max-height: 30svh;
+  }
+
+  .pjrpA__steps {
+    grid-row: 2;
+  }
+
+  .pjrpA__step {
+    min-height: 55vh;
+    padding-left: 60px;
+  }
+
+  .pjrpA__dot {
+    width: 38px;
+    height: 38px;
+    margin-top: -19px;
+  }
+
+  .pjrpA__rail {
+    left: 18px;
+  }
+}
+
+/* Reduced motion: assembled device, every step readable --------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .pjrpA__step {
+    min-height: 0;
+    padding-block: 28px;
+    opacity: 1;
+    transition: none;
+  }
+
+  .pjrpA__visual {
+    position: static;
+  }
+
+  .pjrpA__stage-label {
+    display: none;
+  }
+
+  .pjrpA__scroller .pjrpA__led-glow,
+  .pjrpA__scroller .pjrpA__wave {
+    animation: none;
+  }
+}

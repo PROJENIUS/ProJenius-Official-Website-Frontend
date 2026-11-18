@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import "./OurWorkshopExperiences.css";
+import SectionTitleLine from "../../../Common/SectionTitleLine/SectionTitleLine.jsx";
 
 /* Add your real workshops here. While this is empty, the sample cards and notice are shown.
    Each item: { name, year, category, city, title, description, image, href } */
@@ -61,6 +62,7 @@ function OurWorkshopExperiencesSection() {
     <section className="oe-section">
       <div className="oe-container">
         <h2 className="oe-title">Our Workshop Experiences</h2>
+        <SectionTitleLine />
         <p className="oe-desc">
           ProJenius has conducted practical technology and innovation workshops
           in academic institutions, creating opportunities for students to

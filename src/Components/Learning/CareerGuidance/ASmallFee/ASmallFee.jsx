@@ -20,7 +20,8 @@ import {
 import { Link } from "react-router-dom";
 import { normalizeApiBase, resolveApiUrl } from "../../../../utils/apiUrl.js";
 import "./ASmallFee.css";
-import TypedPhrase from "../../../Common/TypedPhrase/TypedPhrase.jsx";
+import TypedPhrase from "../../../Common/TypedPhrase/TypedPhrase.jsx";
+import SectionTitleLine from "../../../Common/SectionTitleLine/SectionTitleLine.jsx";
 
 /* Booking requests are sent to the existing ProJenius enquiry API (the same
    endpoint and payload format as the Contact page) as a "general" enquiry, so
@@ -549,6 +550,7 @@ const ASmallFee = () => {
             <span className="asf-title-static">A Small Fee.</span>
             <TypedPhrase phrases={["A Serious Conversation.", "A Clear Roadmap.", "Honest Feedback."]} />
           </h2>
+          <SectionTitleLine />
 
           <div className="asf-trust-badge">
             <Users size={16} strokeWidth={2.5} />

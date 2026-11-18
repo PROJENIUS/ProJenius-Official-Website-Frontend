@@ -60,24 +60,27 @@
 .pj-internship-domains-filter {
     min-height: 42px;
     padding: 9px 18px;
-    border: 1px solid var(--pjds-border);
+    border: 1px solid #dde4ee;
     border-radius: 999px;
-    background: var(--pjds-white);
-    color: var(--pjds-text);
-    font: 600 0.9rem var(--pjds-font-body);
+    background: #ffffff !important;
+    color: #071426 !important;
+    font: 700 0.9rem var(--pjds-font-body);
     cursor: pointer;
+    box-shadow: 0 2px 8px rgba(7, 20, 38, 0.04);
     transition: background-color 200ms ease, border-color 200ms ease, color 200ms ease, transform 200ms ease;
 }
 
 .pj-internship-domains-filter:hover {
     border-color: var(--pjds-cyan-500);
+    color: #0ea5d4 !important;
     transform: translateY(-1px);
 }
 
 .pj-internship-domains-filter.is-active {
-    border-color: var(--pjds-navy-900);
-    background: var(--pjds-navy-900);
-    color: var(--pjds-white);
+    border-color: #0c2340;
+    background: #0c2340 !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 14px rgba(12, 35, 64, 0.25);
 }
 
 /* ---------------- Layout ---------------- */
@@ -109,11 +112,11 @@
     height: 100%;
     min-height: 168px;
     padding: 18px 18px 16px;
-    border: 1px solid #e6ebf2;
+    border: 1px solid #dde4ee;
     border-radius: 18px;
-    background: var(--pjds-white);
+    background: #ffffff !important;
     box-shadow: 0 6px 18px rgba(13, 27, 46, 0.04);
-    color: var(--pjds-text);
+    color: #071426 !important;
     font: inherit;
     text-align: left;
     cursor: pointer;
@@ -174,7 +177,7 @@
 
 .pj-internship-domains-card-title {
     margin-top: 16px;
-    color: var(--pjds-text);
+    color: #071426 !important;
     font-family: var(--pjds-font-heading);
     font-size: 1rem;
     font-weight: 800;
@@ -188,13 +191,14 @@
     gap: 6px;
     margin-top: auto;
     padding-top: 16px;
-    color: #1599d6;
+    color: #0ea5d4 !important;
     font-size: 0.88rem;
     font-weight: 800;
 }
 
 .pj-internship-domains-view svg {
     transition: transform 220ms ease;
+    color: #0ea5d4 !important;
 }
 
 .pj-internship-domains-card:hover .pj-internship-domains-view svg {
@@ -565,4 +569,12 @@
     .pj-internship-domains-form {
         animation: none;
     }
+}
+
+/* Selected filter in the site cyan, like the Courses page. */
+.pj-internship-domains-filter.is-active {
+    border-color: #20c8f5;
+    background: #20c8f5 !important;
+    color: #071426 !important;
+    box-shadow: 0 8px 20px rgba(32, 200, 245, 0.3);
 }

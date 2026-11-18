@@ -12,6 +12,7 @@ import {
   WORK_MODES,
 } from "../openings.js";
 import "./ApplicationForm.css";
+import SectionTitleLine from "../../Common/SectionTitleLine/SectionTitleLine.jsx";
 
 /* =============================================================================
    JOIN OUR TEAM — APPLICATION FORM
@@ -214,6 +215,7 @@ export default function ApplicationForm({ role, onRoleChange }) {
             <span className="pjj-apply__title-static">Send Us Your</span>
             <TypedPhrase phrases={["Application", "Resume", "Best Work"]} />
           </h2>
+          <SectionTitleLine />
           <p className="pjj-apply__text" data-reveal="up" data-reveal-delay="2">
             It takes a few minutes. Keep these ready:
           </p>

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
-import TypedPhrase from "../../Common/TypedPhrase/TypedPhrase.jsx";
+import TypedPhrase from "../../Common/TypedPhrase/TypedPhrase.jsx";
+import SectionTitleLine from "../../Common/SectionTitleLine/SectionTitleLine.jsx";
 
 /* =============================================================================
 
@@ -1378,13 +1379,32 @@ function renderFormField({ field, value, fileValue, error, onChange, onFileChang
 
    ============================================================================= */
 
-const WhatCanWeHelpYouWith = () => {
+/* Props (all optional; with none it is the Contact page hub):
+     lockedType   e.g. "startup": show only that enquiry form (no type
+                  picker, no "Change enquiry type"). Used on the Startup page
+                  so both pages share one form and one backend.
+     sectionId    id of the <section>
+     eyebrow, title, typed, description   header text
+     source       sourcePage sent with the enquiry */
+const WhatCanWeHelpYouWith = ({
+  lockedType = null,
+  sectionId = "pj-contact-help",
+  eyebrow = "Start an Enquiry",
+  title = "What Can We",
+  typed = ["Help You With?", "Build for You?", "Plan Together?"],
+  description = "Choose what you would like to discuss with ProJenius.",
+  source,
+} = {}) => {
+
+  const locked = Boolean(lockedType && ENQUIRY_TYPES[lockedType]);
 
   /* ---- state: kept to what the form genuinely needs ---- */
 
-  const [selectedType, setSelectedType] = useState(null);
+  const [selectedType, setSelectedType] = useState(locked ? lockedType : null);
 
-  const [sourcePage, setSourcePage] = useState("contact");
+  const [sourcePage, setSourcePage] = useState(
+    source || (locked ? ENQUIRY_TYPES[lockedType].sourceDefault : "contact")
+  );
 
   const [arrivedFromLink, setArrivedFromLink] = useState(false);
 
@@ -1414,6 +1434,8 @@ const WhatCanWeHelpYouWith = () => {
 
   useEffect(() => {
 
+    if (locked) return;
+
     const params = new URLSearchParams(window.location.search);
 
     const rawType = (params.get("type") || "").toLowerCase().trim();
@@ -1430,17 +1452,18 @@ const WhatCanWeHelpYouWith = () => {
 
     }
 
-  }, []);
+  }, [locked]);
 
   /* Tell the rest of the page which enquiry type is selected (null = none). */
 
   useEffect(() => {
+    if (locked) return;
     window.dispatchEvent(
       new CustomEvent(ENQUIRY_CHANGE_EVENT, {
         detail: { type: selectedType },
       })
     );
-  }, [selectedType]);
+  }, [locked, selectedType]);
 
   const activeType = selectedType ? ENQUIRY_TYPES[selectedType] : null;
 
@@ -1738,7 +1761,7 @@ const WhatCanWeHelpYouWith = () => {
 
     setSubmitStatus("idle");
 
-    setSelectedType(null);
+    setSelectedType(locked ? lockedType : null);
 
     setFormValues({});
 
@@ -1752,7 +1775,7 @@ const WhatCanWeHelpYouWith = () => {
 
       const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-      cardGridRef.current?.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth", block: "start" });
+      (locked ? document.getElementById(sectionId) : cardGridRef.current)?.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth", block: "start" });
 
     });
 
@@ -1762,13 +1785,10 @@ const WhatCanWeHelpYouWith = () => {
 
     <section
 
-      className="pj-contact-help"
-
-      id="pj-contact-help"
-
+      className={`pj-contact-help${locked ? " pj-contact-help--locked" : ""}`}
+      id={sectionId}
       data-enquiry-type={selectedType || ""}
-
-      aria-labelledby="pj-contact-help-title"
+      aria-labelledby={`${sectionId}-title`}
 
     >
 
@@ -1797,25 +1817,22 @@ const WhatCanWeHelpYouWith = () => {
 
         <header className="pj-contact-help__header">
 
-          <p className="pjds-eyebrow" data-reveal="up">Start an Enquiry</p>
-
-          <h2 className="pj-contact-help__title" id="pj-contact-help-title" data-reveal="up" data-reveal-delay="1">
-
-            <span className="pj-contact-help__title-static">What Can We</span>
-
-            <TypedPhrase phrases={["Help You With?", "Build for You?", "Plan Together?"]} />
-
+          <p className="pjds-eyebrow" data-reveal="up">{eyebrow}</p>
+          <h2 className="pj-contact-help__title" id={`${sectionId}-title`} data-reveal="up" data-reveal-delay="1">
+            <span className="pj-contact-help__title-static">{title}</span>
+            <TypedPhrase phrases={typed} />
           </h2>
-
-          <p className="pj-contact-help__description" id="pj-contact-help-choose" data-reveal="up" data-reveal-delay="2">
-            Choose what you would like to discuss with ProJenius.
+          <SectionTitleLine />
+          <p className="pj-contact-help__description" id={`${sectionId}-choose`} data-reveal="up" data-reveal-delay="2">
+            {description}
           </p>
 
         </header>
 
         {/* ===== ENQUIRY TYPE SELECTOR ===== */}
 
-        <div ref={cardGridRef} className="pj-contact-help__grid" role="radiogroup" aria-labelledby="pj-contact-help-choose">
+        {!locked && (
+        <div ref={cardGridRef} className="pj-contact-help__grid" role="radiogroup" aria-labelledby={`${sectionId}-choose`}>
 
           {ENQUIRY_ORDER.map((key) => {
 
@@ -1886,19 +1903,15 @@ const WhatCanWeHelpYouWith = () => {
             <button type="button" className="pj-contact-help__assist-button" onClick={() => handleSelectType("general")}>
 
               General Enquiry
-
             </button>
-
           </div>
-
         </div>
+        )}
 
         {/* ===== EMPTY STATE (hidden after success) ===== */}
 
-        {submitStatus !== "success" && (
-
+        {!locked && submitStatus !== "success" && (
           <div
-
             className={`pj-contact-help__empty-state${activeType ? " pj-contact-help__empty-state--active" : ""}`}
 
             role="status"
@@ -1979,7 +1992,7 @@ const WhatCanWeHelpYouWith = () => {
 
                   <span className="pj-contact-help__context-label">
 
-                    {arrivedFromLink ? "Your enquiry" : "You\u2019re contacting us about"}
+                    {arrivedFromLink || locked ? "Your enquiry" : "You\u2019re contacting us about"}
 
                   </span>
 
@@ -1987,11 +2000,11 @@ const WhatCanWeHelpYouWith = () => {
 
                 </span>
 
-                <button type="button" className="pj-contact-help__context-change" onClick={handleChangeType}>
-
-                  Change enquiry type
-
-                </button>
+                {!locked && (
+                  <button type="button" className="pj-contact-help__context-change" onClick={handleChangeType}>
+                    Change enquiry type
+                  </button>
+                )}
 
               </div>
 

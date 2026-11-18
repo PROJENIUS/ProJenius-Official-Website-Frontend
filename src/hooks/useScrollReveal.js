@@ -27,7 +27,6 @@ export default function useScrollReveal(rootRef, selector = "[data-reveal]") {
     if (!root) return undefined;
 
     const elements = Array.from(root.querySelectorAll(selector));
-    if (!elements.length) return undefined;
 
     if (typeof IntersectionObserver === "undefined") {
       elements.forEach((element) => { element.dataset.revealed = "true"; });
@@ -53,6 +52,26 @@ export default function useScrollReveal(rootRef, selector = "[data-reveal]") {
     );
 
     elements.forEach((element) => observer.observe(element));
-    return () => observer.disconnect();
+
+    /* Content that appears later (e.g. "See all projects", a section that
+       re-renders) is watched too, so it never stays hidden. */
+    let mutations = null;
+    if (typeof MutationObserver !== "undefined") {
+      mutations = new MutationObserver((records) => {
+        records.forEach((record) => {
+          record.addedNodes.forEach((node) => {
+            if (node.nodeType !== 1) return;
+            if (node.matches(selector)) observer.observe(node);
+            node.querySelectorAll(selector).forEach((child) => observer.observe(child));
+          });
+        });
+      });
+      mutations.observe(root, { childList: true, subtree: true });
+    }
+
+    return () => {
+      observer.disconnect();
+      if (mutations) mutations.disconnect();
+    };
   }, [rootRef, selector]);
 }

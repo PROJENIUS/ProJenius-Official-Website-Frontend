@@ -15,7 +15,8 @@ import pandasLogo from "../../../../assets/Internship/TechLogos/pandas.svg";
 import arduinoLogo from "../../../../assets/Internship/TechLogos/arduino.svg";
 import solidityLogo from "../../../../assets/Internship/TechLogos/solidity.svg";
 import figmaLogo from "../../../../assets/Internship/TechLogos/figma.svg";
-import flutterLogo from "../../../../assets/Internship/TechLogos/flutter.svg";
+import flutterLogo from "../../../../assets/Internship/TechLogos/flutter.svg";
+import SectionTitleLine from "../../../Common/SectionTitleLine/SectionTitleLine.jsx";
 
 /* =========================================================
    INTERNSHIP DOMAINS
@@ -154,6 +155,7 @@ const InternshipDomains = () => {
                         <span className="pj-internship-domains-title-static">Choose Your</span>
                         <TypedPhrase phrases={["Technology Track", "Career Path", "Learning Domain"]} />
                     </h2>
+                    <SectionTitleLine />
                     <p className="pj-internship-domains-intro" data-reveal="up" data-reveal-delay="2">
                         Explore practical technology tracks designed to build real-world skills and industry experience.
                     </p>

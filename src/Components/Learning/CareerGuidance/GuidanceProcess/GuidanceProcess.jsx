@@ -4,6 +4,7 @@ import { Briefcase, Compass, FileText, ListChecks, Search, Target } from "lucide
 import TypedPhrase from "../../../Common/TypedPhrase/TypedPhrase.jsx";
 import useOnScreen from "../../../../hooks/useOnScreen.js";
 import "./GuidanceProcess.css";
+import SectionTitleLine from "../../../Common/SectionTitleLine/SectionTitleLine.jsx";
 
 /* =========================================================
    GUIDANCE PROCESS — six steps on a circle.
@@ -55,6 +56,7 @@ export default function GuidanceProcess() {
             <span className="gp-title-static">A Practical Path for</span>
             <TypedPhrase phrases={["Students and Freshers", "Your First Tech Role", "Your Next Career Move"]} />
           </h2>
+          <SectionTitleLine />
         </header>
 
         {/* Full list for screen readers (the circle is a visual summary). */}

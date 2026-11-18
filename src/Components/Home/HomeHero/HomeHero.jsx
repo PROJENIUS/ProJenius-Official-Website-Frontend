@@ -42,6 +42,53 @@ const reducedMotionQuery = () =>
 const thumbWindowStart = (activeIndex) =>
   Math.max(0, Math.min(activeIndex, SLIDE_COUNT - VISIBLE_THUMBS));
 
+/* The cyan heading line of the active slide types in, holds, deletes and
+   types again, like the other homepage section headings. An invisible copy of
+   the full text keeps its space so the layout never jumps. */
+const TYPE_SPEED = 70;
+const DELETE_SPEED = 40;
+const HOLD_TIME = 2200;
+const RESTART_DELAY = 350;
+
+function HeroTypedHighlight({ text, active, reduceMotion }) {
+  const [length, setLength] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const animate = active && !reduceMotion;
+
+  useEffect(() => {
+    if (!animate) return undefined;
+    let delay;
+    let next;
+    if (!isDeleting && length < text.length) {
+      delay = TYPE_SPEED;
+      next = () => setLength((value) => value + 1);
+    } else if (!isDeleting) {
+      delay = HOLD_TIME;
+      next = () => setIsDeleting(true);
+    } else if (length > 0) {
+      delay = DELETE_SPEED;
+      next = () => setLength((value) => value - 1);
+    } else {
+      delay = RESTART_DELAY;
+      next = () => setIsDeleting(false);
+    }
+    const timer = window.setTimeout(next, delay);
+    return () => window.clearTimeout(timer);
+  }, [animate, isDeleting, length, text]);
+
+  const shown = animate ? text.slice(0, length) : text;
+  return (
+    <span className="pjh-hero__title-highlight">
+      <span className="pjds-sr-only">{text}</span>
+      <span className="pjh-hero__title-ghost" aria-hidden="true">{text}</span>
+      <span className="pjh-hero__title-typed" aria-hidden="true">
+        {shown}
+        {animate && <span className="pjh-hero__title-cursor">|</span>}
+      </span>
+    </span>
+  );
+}
+
 /* In-page targets (#...) stay plain anchors; routes use client-side links. */
 function HeroCta({ cta, className, children }) {
   if (cta.to.startsWith("#")) {
@@ -183,7 +230,13 @@ export default function HomeHero() {
                   <p className="pjh-hero__eyebrow">{slide.eyebrow}</p>
                   <h2 className="pjh-hero__title">
                     {slide.title}{" "}
-                    <span className="pjh-hero__title-highlight">{slide.highlight}</span>
+                    {/* The key change restarts the typing each time a slide opens. */}
+                    <HeroTypedHighlight
+                      key={isActive ? `${slide.id}-active` : slide.id}
+                      text={slide.highlight}
+                      active={isActive}
+                      reduceMotion={!autoplayEnabled}
+                    />
                   </h2>
                   <p className="pjh-hero__description">{slide.description}</p>
                   <div className="pjh-hero__actions">

@@ -2,7 +2,9 @@ import { ArrowRight, Box, Boxes, Cog, Lightbulb, PackageCheck, Wrench } from "lu
 import { Link } from "react-router-dom";
 
 import { contactLink } from "../../Shared/serviceLinks.js";
-import "./PrototypingCapabilities.css";
+import "./PrototypingCapabilities.css";
+import TypedPhrase from "../../../Common/TypedPhrase/TypedPhrase.jsx";
+import SectionTitleLine from "../../../Common/SectionTitleLine/SectionTitleLine.jsx";
 
 /* =============================================================================
    WHAT CAN BE PROTOTYPED — a bento layout with one lead item.
@@ -33,8 +35,9 @@ export default function PrototypingCapabilities() {
         <header className="pjrp-caps__head">
           <p className="pjds-eyebrow" data-reveal="up">What Can Be Prototyped</p>
           <h2 id="prototyping-capabilities-title" className="pjds-title" data-reveal="up" data-reveal-delay="1">
-            From a Rough Shape to a Working Part
+            From a Rough Shape <TypedPhrase phrases={["to a Working Part", "to a Tested Model"]} />
           </h2>
+          <SectionTitleLine />
           <p className="pjds-lead" data-reveal="up" data-reveal-delay="2">
             Prototypes answer different questions: does it look right, does it fit, does it work. Tell us
             which one matters and the prototype is made for that.

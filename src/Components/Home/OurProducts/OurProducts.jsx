@@ -227,6 +227,7 @@ export default function OurProducts() {
               <span className="pjh-products__title-static">Technology That Solves</span>
               <ProductsTypingLine active={isVisible} />
             </h2>
+            <span className="pjh-title-line" aria-hidden="true" data-reveal="line" data-reveal-delay="2" />
           </div>
           <p className="pjds-lead pjds-lead--on-dark pjh-products__intro" data-reveal="up" data-reveal-delay="2">
             Discover innovative products and engineering solutions developed by ProJenius to address practical challenges across industries.
@@ -270,7 +271,7 @@ export default function OurProducts() {
                 <h3 className="pjh-products__name">{product.title}</h3>
                 <p className="pjh-products__description">{product.description}</p>
                 <div className="pjh-products__actions">
-                  <ProductLink link={product.link} variant={index === 0 ? "primary" : "ghost"} />
+                  <ProductLink link={product.link} variant="primary" />
                   <WhatsAppLink product={product} />
                 </div>
               </article>

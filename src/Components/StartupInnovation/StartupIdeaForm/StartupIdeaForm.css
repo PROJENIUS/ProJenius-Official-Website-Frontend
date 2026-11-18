@@ -321,3 +321,16 @@
     animation: none;
   }
 }
+
+/* The form card is always white: keep the light-theme colour tokens inside
+   it, so its labels, chips and fields stay dark when the section is navy. */
+.pjsi-form .pjsi-form__card {
+  --pjds-text: #071426;
+  --pjds-text-muted: #526b7d;
+  --pjds-text-subtle: #6c8299;
+  --pjds-surface: #ffffff;
+  --pjds-surface-muted: #eef3f9;
+  --pjds-border: rgba(7, 20, 38, 0.12);
+  --pjds-border-strong: rgba(7, 20, 38, 0.22);
+  color: #071426;
+}

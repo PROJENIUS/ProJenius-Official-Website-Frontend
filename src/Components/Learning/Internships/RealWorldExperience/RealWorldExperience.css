@@ -101,3 +101,101 @@
         transform: none;
     }
 }
+
+/* Key points under the intro */
+.pj-internship-real-world-points {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;
+    margin: 20px 0 0; padding: 0; list-style: none;
+}
+.pj-internship-real-world-points li {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 8px 14px; border-radius: 999px;
+    background: #e8f8fe; border: 1px solid rgba(14, 165, 212, 0.3);
+    color: #0b1a2e; font: 700 0.88rem/1 var(--pjds-font-heading);
+}
+.pj-internship-real-world-points li::before {
+    content: ""; width: 8px; height: 8px; border-radius: 50%; background: #20c8f5;
+}
+
+/* =========================================================
+   FIT ONE SCREEN — heading left, video right on wide screens
+========================================================= */
+.pj-internship-real-world { padding-block: clamp(56px, 9vh, 88px); }
+
+@media (min-width: 1025px) {
+    .pj-internship-real-world-container {
+        display: grid;
+        grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+        gap: clamp(32px, 4vw, 64px);
+        align-items: center;
+    }
+    .pj-internship-real-world-header { align-items: flex-start; margin: 0; text-align: left; }
+    .pj-internship-real-world-header .pjtp { justify-items: start; }
+    .pj-internship-real-world-points { justify-content: flex-start; }
+    .pj-internship-real-world-video {
+        width: 100%;
+        max-width: min(100%, calc((100svh - 200px) * 16 / 9));
+        margin: 0 0 0 auto;
+    }
+}
+
+/* Bigger video, still one screen: wider video column, height-capped. */
+@media (min-width: 1025px) {
+    .pj-internship-real-world-container { grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr); }
+    .pj-internship-real-world-video { max-width: min(100%, calc((100svh - 150px) * 16 / 9)); }
+}
+
+/* Full screen on desktop: the section fills the viewport and the
+   heading + video sit centred in it (video keeps its earlier size). */
+@media (min-width: 1025px) {
+    .pj-internship-real-world {
+        box-sizing: border-box;
+        min-height: 100svh;
+        display: flex;
+        align-items: center;
+    }
+    .pj-internship-real-world > .pjds-container { width: 100%; }
+}
+
+/* Key points: icon + title + one line (replaces the small chips) */
+.pj-internship-real-world-points { display: grid !important; gap: 10px !important; margin-top: 22px !important; justify-content: stretch !important; }
+.pj-internship-real-world-points li {
+    display: grid !important;
+    grid-template-columns: 40px 1fr;
+    align-items: center;
+    gap: 12px !important;
+    padding: 10px 14px !important;
+    border-radius: 14px !important;
+    background: #e8f8fe;
+    border: 1px solid rgba(14, 165, 212, 0.3);
+    font: inherit !important;
+    text-align: left;
+}
+.pj-internship-real-world-points li::before { display: none !important; }
+.pj-internship-real-world-point-icon {
+    display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: 11px;
+    background: #071426; color: #20c8f5;
+}
+.pj-internship-real-world-points strong { display: block; font: 800 0.98rem/1.3 var(--pjds-font-heading); color: #0b1a2e; }
+.pj-internship-real-world-points small { display: block; margin-top: 2px; font-size: 0.88rem; line-height: 1.45; color: #4a5a70; }
+
+.pj-internship-real-world-cta {
+    display: inline-flex; align-items: center; gap: 10px; margin-top: 22px;
+    min-height: 52px; padding: 0 24px; border-radius: 12px;
+    background: #20c8f5; color: #071426; text-decoration: none;
+    font: 800 1rem/1 var(--pjds-font-heading);
+    transition: background-color 200ms, transform 200ms var(--pjds-ease), box-shadow 200ms;
+}
+.pj-internship-real-world-cta:hover { background: #5ad6f8; transform: translateY(-2px); box-shadow: 0 12px 26px rgba(32, 200, 245, 0.3); }
+.pj-internship-real-world-cta:focus-visible { outline: 2px solid #0478a8; outline-offset: 3px; }
+@media (max-width: 1024px) { .pj-internship-real-world-cta { align-self: center; } }
+@media (min-width: 1025px) {
+    .pj-internship-real-world { padding-block: 36px !important; }
+    .pj-internship-real-world-intro { margin-top: 12px !important; }
+    .pj-internship-real-world-points { margin-top: 16px !important; gap: 8px !important; }
+    .pj-internship-real-world-points li { padding: 8px 12px !important; }
+    .pj-internship-real-world-point-icon { width: 36px; height: 36px; }
+    .pj-internship-real-world-points li { grid-template-columns: 36px 1fr; }
+    .pj-internship-real-world-cta { margin-top: 18px; min-height: 50px; }
+}
+

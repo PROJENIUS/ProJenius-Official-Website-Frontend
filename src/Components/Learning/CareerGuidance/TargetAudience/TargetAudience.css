@@ -103,7 +103,7 @@
 
 .cgaud-card-title {
   margin: 22px 0 0;
-  color: var(--pjds-text);
+  color: #071426 !important;
   font-family: var(--pjds-font-heading);
   font-size: 1.2rem;
   font-weight: 800;
@@ -113,7 +113,7 @@
 
 .cgaud-card-text {
   margin: 12px 0 0;
-  color: var(--pjds-text-muted);
+  color: #526b7d !important;
   font-size: 0.96rem;
   line-height: 1.65;
 }
@@ -146,3 +146,9 @@
     transform: none;
   }
 }
+
+/* One brand colour for every audience card (navy tile, cyan icon) */
+.cgaud-card--blue,
+.cgaud-card--green,
+.cgaud-card--orange,
+.cgaud-card--purple { --tone: #20c8f5; --tone-bg: #071426; }

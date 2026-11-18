@@ -4,10 +4,8 @@
 
 .pjsw-ai {
   padding-block: var(--pjds-section-space);
-  background:
-    radial-gradient(45% 60% at 85% 40%, rgba(32, 200, 245, 0.12), transparent 70%),
-    var(--pjds-navy-950);
-  color: var(--pjds-white);
+  background: var(--pjds-bg-b, #f4f7fb);
+  color: #071426;
   font-family: var(--pjds-font-body);
 }
 
@@ -24,7 +22,7 @@
 
 .pjsw-ai__title {
   margin: 0;
-  color: var(--pjds-white);
+  color: #071426;
   font-family: var(--pjds-font-heading);
   font-size: var(--pjds-text-h2);
   font-weight: 800;
@@ -35,7 +33,7 @@
 
 .pjsw-ai__lead {
   margin: 18px 0 0;
-  color: rgba(226, 232, 240, 0.8);
+  color: #526b7d;
   font-size: var(--pjds-text-lead);
   line-height: 1.65;
 }
@@ -51,7 +49,7 @@
 .pjsw-ai__uses li {
   position: relative;
   padding-left: 22px;
-  color: rgba(226, 232, 240, 0.9);
+  color: #334257;
   font-size: 0.9875rem;
   line-height: 1.5;
 }
@@ -64,158 +62,94 @@
   width: 8px;
   height: 8px;
   border-radius: 2px;
-  background: var(--pjds-cyan-500);
+  background: var(--pjds-cyan-700, #0478a8);
 }
 
 .pjsw-ai .pjsw-ai__btn {
   margin-top: 32px;
 }
 
-/* Workflow ----------------------------------------------------------------- */
-.pjsw-ai__flow {
+/* =============================================================================
+   VIDEO — 1122 × 892, sized so the whole frame fits on one laptop screen.
+   ============================================================================= */
+
+.pjsw-ai__film {
   position: relative;
+  justify-self: end;
+  width: min(100%, calc((100svh - var(--pjds-nav-offset, 112px) - 90px) * 1122 / 892));
   min-width: 0;
   margin: 0;
-  padding: clamp(22px, 3vw, 32px);
-  border: 1px solid rgba(90, 214, 248, 0.16);
-  border-radius: var(--pjds-radius-lg);
-  background: linear-gradient(160deg, rgba(18, 50, 90, 0.6), rgba(11, 35, 64, 0.5));
-}
-
-.pjsw-ai__stages {
-  position: relative;
-  display: grid;
-  gap: 14px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-/* Connector running through the icons. */
-.pjsw-ai__stages::before {
-  content: "";
-  position: absolute;
-  top: 30px;
-  bottom: 30px;
-  left: 31px;
-  width: 2px;
-  background: rgba(90, 214, 248, 0.2);
 }
 
 .pjsw-ai__stage {
   position: relative;
-  display: grid;
-  grid-template-columns: 44px minmax(0, 1fr);
-  grid-template-areas:
-    "icon label"
-    "icon title"
-    "icon text";
-  column-gap: 16px;
-  padding: 16px 18px 16px 10px;
-  border: 1px solid transparent;
-  border-radius: 16px;
-  transition: background-color 300ms ease, border-color 300ms ease;
+  overflow: hidden;
+  border-radius: var(--pjds-radius-lg, 20px);
+  background-color: var(--pjds-navy-950, #071426);
+  box-shadow: 0 24px 60px rgba(7, 20, 38, 0.22);
 }
 
-.pjsw-ai__icon {
-  grid-area: icon;
-  position: relative;
-  z-index: 1;
+.pjsw-ai__video {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1122 / 892;
+  object-fit: cover;
+}
+
+/* Pause / play ------------------------------------------------------------- */
+.pjsw-ai__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.pjsw-ai__toggle {
   display: grid;
   place-items: center;
-  width: 44px;
-  height: 44px;
-  border: 1px solid rgba(90, 214, 248, 0.3);
-  border-radius: 12px;
-  background: var(--pjds-navy-900);
-  color: var(--pjds-cyan-400);
+  flex: none;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid rgba(7, 20, 38, 0.12);
+  border-radius: 10px;
+  background: #071426;
+  color: #e6f0fa;
+  cursor: pointer;
+  transition: background-color 180ms ease;
 }
+.pjsw-ai__toggle:hover { background: #0478a8; }
+.pjsw-ai__toggle:focus-visible { outline: 3px solid var(--pjds-cyan-500, #20c8f5); outline-offset: 2px; }
 
-.pjsw-ai__stage-label {
-  grid-area: label;
-  color: var(--pjds-cyan-400);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.pjsw-ai__stage-title {
-  grid-area: title;
-  margin-top: 4px;
-  color: var(--pjds-white);
-  font-family: var(--pjds-font-heading);
-  font-size: 1.0625rem;
-  font-weight: 700;
-}
-
-.pjsw-ai__stage-text {
-  grid-area: text;
-  margin-top: 4px;
-  color: rgba(203, 213, 225, 0.78);
-  font-size: 0.9rem;
-  line-height: 1.5;
-}
-
-/* The active stage moves down the flow every 2 s (8 s cycle) while visible. */
-.pjsw-ai__flow.is-running .pjsw-ai__stage {
-  animation: pjsw-ai-active 8s steps(1) infinite;
-}
-
-.pjsw-ai__flow.is-running .pjsw-ai__stage--ai { animation-delay: 2s; }
-.pjsw-ai__flow.is-running .pjsw-ai__stage--decision { animation-delay: 4s; }
-.pjsw-ai__flow.is-running .pjsw-ai__stage--action { animation-delay: 6s; }
-
-@keyframes pjsw-ai-active {
-  0% {
-    border-color: rgba(32, 200, 245, 0.45);
-    background: rgba(32, 200, 245, 0.1);
-  }
-  25%,
-  100% {
-    border-color: transparent;
-    background: transparent;
-  }
-}
-
-.pjsw-ai__flow.is-running .pjsw-ai__icon {
-  animation: pjsw-ai-icon 8s steps(1) infinite;
-  animation-delay: inherit;
-}
-
-.pjsw-ai__flow.is-running .pjsw-ai__stage--ai .pjsw-ai__icon { animation-delay: 2s; }
-.pjsw-ai__flow.is-running .pjsw-ai__stage--decision .pjsw-ai__icon { animation-delay: 4s; }
-.pjsw-ai__flow.is-running .pjsw-ai__stage--action .pjsw-ai__icon { animation-delay: 6s; }
-
-@keyframes pjsw-ai-icon {
-  0% {
-    border-color: var(--pjds-cyan-500);
-    background: var(--pjds-cyan-500);
-    color: var(--pjds-navy-950);
-  }
-  25%,
-  100% {
-    border-color: rgba(90, 214, 248, 0.3);
-    background: var(--pjds-navy-900);
-    color: var(--pjds-cyan-400);
-  }
+.pjsw-ai__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }
 
 .pjsw-ai__caption {
-  margin-top: 18px;
-  padding-top: 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  color: rgba(203, 213, 225, 0.7);
+  margin: 0;
+  color: #526b7d;
   font-size: 0.8125rem;
   line-height: 1.5;
 }
 
+/* Responsive --------------------------------------------------------------- */
 @media (max-width: 1023px) {
   .pjsw-ai__layout {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .pjsw-ai__flow {
+  .pjsw-ai__film {
+    justify-self: start;
+    width: 100%;
     max-width: 680px;
   }
 }
@@ -227,12 +161,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .pjsw-ai__flow.is-running .pjsw-ai__stage,
-  .pjsw-ai__flow.is-running .pjsw-ai__icon {
-    animation: none;
-  }
-
-  .pjsw-ai__stage {
+  .pjsw-ai__toggle {
     transition: none;
   }
 }

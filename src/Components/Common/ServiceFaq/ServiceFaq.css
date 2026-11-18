@@ -1,0 +1,210 @@
+/* =============================================================================
+   SERVICE FAQ — sticky left heading, scrolling questions on the right.
+   Scoped beneath .pj-faq. Colours follow the section through the page
+   tokens; accents use the ProJenius cyan (darker blue on light sections).
+   Closed answers are visibility: hidden, so the keyboard and screen
+   readers skip them.
+   ============================================================================= */
+
+.pj-faq {
+  --pj-faq-accent: #20c8f5;
+  padding-block: clamp(48px, 6vw, 84px);
+  font-family: var(--pjds-font-body);
+}
+
+main > section:nth-of-type(even).pj-faq {
+  --pj-faq-accent: #0478a8;
+}
+
+.pj-faq__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  align-items: start;
+  gap: clamp(40px, 7vw, 120px);
+}
+
+/* Left column: fixed while the questions scroll ---------------------------- */
+.pj-faq__aside {
+  position: sticky;
+  top: calc(var(--pjds-nav-offset, 112px) + 32px);
+}
+
+.pj-faq .pj-faq__title {
+  margin: 0;
+  font-size: clamp(2.5rem, 1.2rem + 3.6vw, 4.4rem);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+}
+
+.pj-faq .pj-faq__lead {
+  max-width: 30ch;
+  margin: 0;
+  font-size: clamp(1.02rem, 0.95rem + 0.3vw, 1.18rem);
+}
+
+.pj-faq__ask {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 50px;
+  margin-top: 28px;
+  padding: 0 24px;
+  border: 1px solid #20c8f5;
+  border-radius: 12px;
+  background: #20c8f5;
+  box-shadow: 0 12px 28px -12px rgba(32, 200, 245, 0.8);
+  color: #071426;
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background-color 180ms ease, transform 180ms ease;
+}
+
+.pj-faq .pj-faq__ask:hover {
+  border-color: #5ad6f8;
+  background: #5ad6f8;
+  color: #071426;
+  transform: translateY(-2px);
+}
+
+.pj-faq__ask:focus-visible {
+  outline: 3px solid #20c8f5;
+  outline-offset: 3px;
+}
+
+/* Right column: the questions ---------------------------------------------- */
+.pj-faq__list {
+  border-top: 1px solid var(--pjds-border-strong);
+}
+
+.pj-faq__item {
+  border-bottom: 1px solid var(--pjds-border-strong);
+}
+
+.pj-faq .pj-faq__item-heading {
+  margin: 0;
+  font-size: inherit;
+}
+
+.pj-faq__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+  padding: clamp(15px, 1.7vw, 20px) 4px;
+  border: 0;
+  background: none;
+  color: var(--pjds-text);
+  font-family: var(--pjds-font-heading);
+  font-size: clamp(1.02rem, 0.9rem + 0.5vw, 1.25rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+  text-align: left;
+  cursor: pointer;
+  transition: color 180ms ease;
+}
+
+.pj-faq__trigger:hover,
+.pj-faq__item.is-open .pj-faq__trigger {
+  color: var(--pj-faq-accent);
+}
+
+.pj-faq__trigger:focus-visible {
+  border-radius: 6px;
+  outline: 2px solid #20c8f5;
+  outline-offset: 2px;
+}
+
+/* Circled + / – */
+.pj-faq__icon {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+  transition: background-color 200ms ease, color 200ms ease, transform 300ms ease;
+}
+
+.pj-faq__item.is-open .pj-faq__icon {
+  border-color: var(--pj-faq-accent);
+  background: var(--pj-faq-accent);
+  color: #ffffff;
+  transform: rotate(180deg);
+}
+
+/* Answer slides open (grid rows 0fr → 1fr, so any length fits) */
+.pj-faq__panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  transition: grid-template-rows 320ms ease, visibility 0s 320ms;
+}
+
+.pj-faq__item.is-open .pj-faq__panel {
+  grid-template-rows: 1fr;
+  visibility: visible;
+  transition: grid-template-rows 320ms ease, visibility 0s;
+}
+
+.pj-faq__panel-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.pj-faq .pj-faq__text {
+  max-width: 62ch;
+  margin: 0;
+  padding: 0 52px 24px 4px;
+  color: var(--pjds-text-muted);
+  font-size: clamp(1rem, 0.95rem + 0.2vw, 1.1rem);
+  line-height: 1.7;
+}
+
+.pj-faq__text a {
+  color: inherit;
+  font-weight: 700;
+  text-decoration-color: var(--pj-faq-accent);
+  text-underline-offset: 3px;
+}
+
+/* Tablet and phone: one column, the heading no longer sticks --------------- */
+@media (max-width: 899px) {
+  .pj-faq__layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+  }
+
+  .pj-faq__aside {
+    position: static;
+  }
+
+  .pj-faq .pj-faq__text {
+    padding-right: 4px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pj-faq__panel,
+  .pj-faq__item.is-open .pj-faq__panel,
+  .pj-faq__trigger,
+  .pj-faq__icon {
+    transition: none;
+  }
+}
+
+/* Button row (Ask a question + optional second button) */
+.pj-faq__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+.pj-faq__actions .pj-faq__ask { margin-top: 0; }
+.pj-faq .pj-faq__ask--ghost {
+  border: 1.5px solid #c6d0dd;
+  background: transparent;
+  box-shadow: none;
+  color: var(--pjds-text);
+}
+.pj-faq .pj-faq__ask--ghost:hover { border-color: #20c8f5; background: transparent; color: #0478a8; }
+main > section:nth-of-type(odd).pj-faq .pj-faq__ask--ghost { border-color: rgba(255, 255, 255, 0.35); color: #fff; }
+main > section:nth-of-type(odd).pj-faq .pj-faq__ask--ghost:hover { border-color: #20c8f5; color: #20c8f5; }

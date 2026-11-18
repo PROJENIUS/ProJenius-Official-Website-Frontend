@@ -1,5 +1,7 @@
 import { Component, memo, useCallback, useState } from "react";
-import "./StartupSupport.css";
+import "./StartupSupport.css";
+import TypedPhrase from "../../Common/TypedPhrase/TypedPhrase.jsx";
+import SectionTitleLine from "../../Common/SectionTitleLine/SectionTitleLine.jsx";
 
 /* ==========================================================================
    StartupSupport.jsx
@@ -120,9 +122,10 @@ export default function StartupSupport() {
   return (
     <section className="ssj-section" aria-labelledby="ssj-heading">
       <header className="ssj-header">
-        <p className="ssj-eyebrow">What We Support</p>
-        <h2 id="ssj-heading" className="ssj-heading">Support Across the Startup Journey.</h2>
-        <p className="ssj-lead">Choose an area on the left to see the support behind it.</p>
+        <p className="pjds-eyebrow ssj-eyebrow" data-reveal="up">What We Support</p>
+        <h2 id="ssj-heading" className="ssj-heading" data-reveal="up" data-reveal-delay="1">Support Across <TypedPhrase phrases={["the Startup Journey.", "Every Stage."]} /></h2>
+        <SectionTitleLine />
+        <p className="ssj-lead" data-reveal="up" data-reveal-delay="2">Choose an area on the left to see the support behind it.</p>
       </header>
 
       <div className="ssj-layout">

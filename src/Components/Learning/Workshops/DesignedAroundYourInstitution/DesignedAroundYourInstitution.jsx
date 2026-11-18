@@ -1,87 +1,171 @@
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
 
 import TypedPhrase from "../../../Common/TypedPhrase/TypedPhrase.jsx";
+import SectionTitleLine from "../../../Common/SectionTitleLine/SectionTitleLine.jsx";
 import "./DesignedAroundYourInstitution.css";
 
-/* Illustrations for each format (all drawn in SVG, no images needed) */
-const visuals = {
-  oneDay: (
-    <svg viewBox="0 0 220 64" aria-hidden="true">
-      <rect className="di-fill" x="8" y="6" width="212" height="52" rx="8" />
-      <path d="M28 24h82M28 38h50" />
-    </svg>
-  ),
-  bootcamp: (
-    <svg viewBox="0 0 220 64" aria-hidden="true">
-      <rect className="di-fill" x="8" y="40" width="44" height="20" rx="6" />
-      <rect className="di-fill" x="64" y="30" width="44" height="30" rx="6" />
-      <rect className="di-fill" x="118" y="20" width="44" height="40" rx="6" />
-      <rect className="di-fill" x="172" y="6" width="44" height="54" rx="6" />
-    </svg>
-  ),
-  department: (
-    <svg viewBox="0 0 220 64" aria-hidden="true">
-      <rect className="di-dash" x="6" y="4" width="96" height="66" rx="8" />
-      <circle className="di-solid" cx="26" cy="22" r="9" />
-      <circle className="di-solid" cx="76" cy="22" r="9" />
-      <circle className="di-solid" cx="26" cy="52" r="9" />
-      <circle className="di-solid" cx="76" cy="52" r="9" />
-      <circle cx="126" cy="22" r="8.5" />
-      <circle cx="176" cy="22" r="8.5" />
-      <circle cx="126" cy="52" r="8.5" />
-      <circle cx="176" cy="52" r="8.5" />
-    </svg>
-  ),
-  network: (
-    <svg viewBox="0 0 220 64" aria-hidden="true">
-      <path d="M16 50 61 15 111 50 161 15 204 50 111 50ZM61 15H161M16 50 111 50" />
-      {[[16, 50], [61, 15], [111, 50], [161, 15], [204, 50]].map(([x, y]) => (
-        <circle key={x} className="di-solid" cx={x} cy={y} r="10" />
-      ))}
-    </svg>
-  ),
-};
+/* =============================================================================
+   DESIGNED AROUND YOUR INSTITUTION
+   -----------------------------------------------------------------------------
+   "Designed Around Your Institution" — the four workshop formats, each with
+   a small glyph showing the scale of that format. Purely presentational:
+   no state, no effects. Self-contained. Navy section (third on the page).
+   ============================================================================= */
 
-const formats = [
-  { visual: "oneDay", tone: "cyan", tag: "Single Day", title: "One-Day Workshop",
-    text: "An intensive practical learning experience focused on a specific technology or topic." },
-  { visual: "bootcamp", tone: "blue", tag: "Multi-Session", title: "Hands-On Bootcamp",
-    text: "A multi-session experience combining learning, practical activities, and project building." },
-  { visual: "department", tone: "indigo", tag: "Per Department", title: "Department Workshop",
-    text: "A customized workshop aligned with a specific academic department or student group." },
-  { visual: "network", tone: "teal", tag: "Institution-Wide", title: "Institution / Club Workshop",
-    text: "Technology and innovation sessions designed for technical clubs, innovation clubs, student communities, or institution-wide programs." },
+/* ===========================================================================
+   CONTENT
+   =========================================================================== */
+const WORKSHOP_FORMATS = [
+  {
+    glyph: "day",
+    title: "One-Day Workshop",
+    text: "An intensive practical learning experience focused on a specific technology or topic.",
+  },
+  {
+    glyph: "camp",
+    title: "Hands-On Bootcamp",
+    text: "A multi-session experience combining learning, practical activities, and project building.",
+  },
+  {
+    glyph: "dept",
+    title: "Department Workshop",
+    text: "A customized workshop aligned with a specific academic department or student group.",
+  },
+  {
+    glyph: "club",
+    title: "Institution / Club Workshop",
+    text: "Technology and innovation sessions designed for technical clubs, innovation clubs, student communities, or institution-wide programs.",
+  },
 ];
+
+/* ===========================================================================
+   FORMAT GLYPH
+   Decorative diagram: one block, several sessions, one department group,
+   or a whole connected institution.
+   =========================================================================== */
+const BOOTCAMP_BARS = [
+  [6, 36, 16],
+  [50, 28, 24],
+  [94, 20, 32],
+  [138, 10, 42],
+];
+const DEPT_COLUMNS = [20, 60, 100, 140];
+const DEPT_ROWS = [20, 44];
+const CLUB_POINTS = [
+  [16, 44],
+  [52, 16],
+  [92, 44],
+  [132, 16],
+  [166, 44],
+];
+const CLUB_LINKS = [
+  [0, 1],
+  [1, 2],
+  [2, 3],
+  [3, 4],
+  [1, 3],
+  [0, 2],
+  [2, 4],
+];
+
+function FormatGlyph({ type }) {
+  return (
+    <svg
+      className="pj-workshop-institution__glyph"
+      viewBox="0 0 180 64"
+      aria-hidden="true"
+      focusable="false"
+    >
+      {type === "day" && (
+        <>
+          <rect className="pj-workshop-institution__fill" x="6" y="12" width="168" height="40" rx="6" />
+          <path className="pj-workshop-institution__line" d="M22 28h64M22 38h38" />
+        </>
+      )}
+
+      {type === "camp" &&
+        BOOTCAMP_BARS.map(([x, y, h]) => (
+          <rect key={x} className="pj-workshop-institution__fill" x={x} y={y + 2} width="34" height={h} rx="5" />
+        ))}
+
+      {type === "dept" && (
+        <>
+          <rect className="pj-workshop-institution__frame" x="4" y="6" width="76" height="52" rx="8" />
+          {DEPT_COLUMNS.map((x, columnIndex) =>
+            DEPT_ROWS.map((y) => (
+              <circle
+                key={`${x}-${y}`}
+                className={`pj-workshop-institution__node ${
+                  columnIndex < 2 ? "pj-workshop-institution__node--on" : "pj-workshop-institution__node--off"
+                }`}
+                cx={x}
+                cy={y}
+                r="7"
+              />
+            ))
+          )}
+        </>
+      )}
+
+      {type === "club" && (
+        <>
+          {CLUB_LINKS.map(([a, b]) => (
+            <path
+              key={`${a}${b}`}
+              className="pj-workshop-institution__line"
+              d={`M${CLUB_POINTS[a][0]} ${CLUB_POINTS[a][1]}L${CLUB_POINTS[b][0]} ${CLUB_POINTS[b][1]}`}
+            />
+          ))}
+          {CLUB_POINTS.map((point) => (
+            <circle
+              key={point.join("-")}
+              className="pj-workshop-institution__node pj-workshop-institution__node--on"
+              cx={point[0]}
+              cy={point[1]}
+              r="7"
+            />
+          ))}
+        </>
+      )}
+    </svg>
+  );
+}
 
 export default function DesignedAroundYourInstitution() {
   return (
-    <section className="di-section">
-      <div className="di-container">
-        <header className="di-header">
-          <p className="pjds-eyebrow" data-reveal="up">Workshop Formats</p>
-          <h2 className="di-title" data-reveal="up" data-reveal-delay="1">
-            <span className="di-title-static">Designed Around</span>
-            <TypedPhrase phrases={["Your Institution", "Your Students", "Your Schedule"]} />
+    <section
+      className="pj-workshop-institution"
+      id="pj-workshop-institution"
+      aria-labelledby="pj-workshop-institution-title"
+    >
+      <div className="pj-workshop-institution__wrap">
+        {/* =====================================================================
+            INSTITUTION — HEADING
+            ===================================================================== */}
+        <div className="pj-workshop-institution__head">
+          <p className="pjds-eyebrow pjds-eyebrow--on-dark" data-reveal="up">Workshop Formats</p>
+          <h2 className="pj-workshop-institution__title" id="pj-workshop-institution-title" data-reveal="up" data-reveal-delay="1">
+            Designed Around <TypedPhrase tone="dark" phrases={["Your Institution.", "Your Students.", "Your Schedule."]} />
           </h2>
-          <p className="di-desc" data-reveal="up" data-reveal-delay="2">
-            Every institution has different objectives, student groups, schedules,
-            and learning requirements. Workshops can be structured accordingly.
+          <SectionTitleLine />
+          <p className="pj-workshop-institution__lead" data-reveal="up" data-reveal-delay="2">
+            Every institution has different objectives, student groups, schedules, and learning
+            requirements. Workshops can be structured accordingly.
           </p>
-        </header>
+        </div>
 
-        <div className="di-grid" data-reveal="up" data-reveal-delay="3">
-          {formats.map((f, index) => (
-            <article key={f.title} className={`di-col di-col--${f.tone}`}>
-              <div className="di-card-top">
-                <span className="di-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-                <span className="di-tag">{f.tag}</span>
-              </div>
-              <div className="di-visual">{visuals[f.visual]}</div>
-              <h3>{f.title}</h3>
-              <p>{f.text}</p>
-              <Link to="/contact?type=workshop" className="di-link">
-                Ask about this format <ArrowRight size={16} strokeWidth={2.2} aria-hidden="true" />
+        {/* =====================================================================
+            INSTITUTION — FORMAT LIST
+            ===================================================================== */}
+        <div className="pj-workshop-institution__list">
+          {WORKSHOP_FORMATS.map((format, index) => (
+            <article key={format.title} className="pj-workshop-institution__item" data-reveal="up" data-reveal-delay={String(index + 1)}>
+              <FormatGlyph type={format.glyph} />
+              <h3 className="pj-workshop-institution__item-title">{format.title}</h3>
+              <p className="pj-workshop-institution__text">{format.text}</p>
+              <Link className="pj-workshop-institution__link" to="/contact?type=workshop">
+                Ask about this format
+                <span className="pj-workshop-institution__sr-only">: {format.title}</span>
               </Link>
             </article>
           ))}

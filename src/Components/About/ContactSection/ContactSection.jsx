@@ -1,11 +1,7 @@
 import { useEffect, useRef } from "react";
-import { ArrowRight, Phone } from "lucide-react";
+import { ArrowRight, Cpu, GraduationCap, Phone, Rocket } from "lucide-react";
 
 import "./ContactSection.css";
-
-import ContactSection_1 from "../../../assets/About/ContactSection/ContactSection_1.svg";
-import ContactSection_2 from "../../../assets/About/ContactSection/ContactSection_2.svg";
-import ContactSection_3 from "../../../assets/About/ContactSection/ContactSection_3.svg";
 
 /* =============================================================================
    CLOSING CALL TO ACTION — the blue card at the end of the Home and About
@@ -13,6 +9,7 @@ import ContactSection_3 from "../../../assets/About/ContactSection/ContactSectio
    -----------------------------------------------------------------------------
    Every prop is optional; without props it shows the Home/About content.
      id            heading id (unique per page)
+     eyebrow       small pill label above the heading
      title         heading text
      description   paragraph under the heading
      features      three points: [{ title, text, icon }] where icon is an
@@ -23,9 +20,9 @@ import ContactSection_3 from "../../../assets/About/ContactSection/ContactSectio
    ============================================================================= */
 
 const DEFAULT_FEATURES = [
-    { title: "Fast Delivery", text: "Efficient development", icon: ContactSection_1 },
-    { title: "Reliable Solutions", text: "Built for real impact", icon: ContactSection_2 },
-    { title: "Dedicated Support", text: "We're here to help", icon: ContactSection_3 },
+    { title: "Build", text: "Software, hardware & prototypes", Icon: Cpu },
+    { title: "Learn", text: "Courses, internships & workshops", Icon: GraduationCap },
+    { title: "Grow", text: "Support for startups & institutions", Icon: Rocket },
 ];
 
 const DEFAULT_PRIMARY = {
@@ -37,6 +34,7 @@ const DEFAULT_SECONDARY = { label: "Talk to Our Team", href: "tel:+918925450473"
 
 export default function ContactSection({
     id = "contact-cta-title",
+    eyebrow = "Get in Touch",
     title = "Let's Build Something Great Together",
     description = "Have an idea, project, or business challenge? Let's turn your vision into a powerful digital experience with the right technology and strategy.",
     features = DEFAULT_FEATURES,
@@ -86,7 +84,8 @@ export default function ContactSection({
             <div className="contact-cta-container">
                 <div className="contact-cta-card">
 
-                    {/* HEADING */}
+                    {/* LABEL + HEADING */}
+                    <p className="pjds-eyebrow pjds-eyebrow--on-dark contact-cta-eyebrow">{eyebrow}</p>
                     <h2 className="contact-cta-title" id={id}>
                         {title}
                     </h2>

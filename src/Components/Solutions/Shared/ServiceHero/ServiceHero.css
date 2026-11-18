@@ -1,0 +1,196 @@
+/* =============================================================================
+   SERVICE HERO — every rule is scoped beneath .pjsv-hero
+   Layers match the homepage hero (src/Components/Home/HomeHero/HomeHero.css).
+   ============================================================================= */
+
+.pjsv-hero {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: calc(var(--pjds-nav-offset) + 24px) 0 64px;
+  overflow: hidden;
+  background: var(--pjds-navy-950);
+  color: var(--pjds-white);
+  font-family: var(--pjds-font-body);
+  box-sizing: border-box;
+}
+
+.pjsv-hero *,
+.pjsv-hero *::before,
+.pjsv-hero *::after {
+  box-sizing: border-box;
+}
+
+/* Thin brand line along the bottom edge (as on the homepage hero). */
+.pjsv-hero::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent 0%, var(--pjds-cyan-500) 30%, var(--pjds-cyan-500) 70%, transparent 100%);
+  opacity: 0.75;
+}
+
+/* Backdrop ----------------------------------------------------------------- */
+.pjsv-hero__backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(42% 55% at 78% 45%, rgba(32, 200, 245, 0.13), transparent 70%),
+    radial-gradient(40% 50% at 4% 100%, rgba(27, 68, 117, 0.5), transparent 72%);
+}
+
+.pjsv-hero__backdrop img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Navy layer: solid behind the copy, lighter on the right (homepage values). */
+.pjsv-hero--photo .pjsv-hero__backdrop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(7, 20, 38, 0.96) 0%, rgba(7, 20, 38, 0.88) 45%, rgba(7, 20, 38, 0.8) 100%),
+    linear-gradient(0deg, rgba(7, 20, 38, 0.9) 0%, rgba(7, 20, 38, 0) 40%);
+}
+
+/* Without a photo: a faint engineering grid that fades out from the visual. */
+.pjsv-hero:not(.pjsv-hero--photo) .pjsv-hero__backdrop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(90, 214, 248, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(90, 214, 248, 0.055) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(55% 65% at 74% 45%, #000 0%, transparent 75%);
+  mask-image: radial-gradient(55% 65% at 74% 45%, #000 0%, transparent 75%);
+}
+
+/* Layout ------------------------------------------------------------------- */
+.pjsv-hero__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  align-items: center;
+  gap: clamp(40px, 5vw, 80px);
+}
+
+.pjsv-hero__copy {
+  min-width: 0;
+  max-width: 700px;
+}
+
+.pjsv-hero .pjsv-hero__eyebrow {
+  margin: 0 0 22px;
+}
+
+.pjsv-hero__title {
+  margin: 0;
+  color: var(--pjds-white);
+  font-family: var(--pjds-font-heading);
+  font-size: clamp(2.25rem, 1rem + 3vw, 3.75rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.06;
+  text-wrap: balance;
+}
+
+.pjsv-hero__title-line {
+  display: block;
+}
+
+.pjsv-hero__title-line--accent {
+  color: var(--pjds-cyan-500);
+}
+
+.pjsv-hero__title .pjtp__sizer,
+.pjsv-hero__title .pjtp__live {
+  white-space: normal;
+}
+
+/* Wide screens: each heading line stays on one line, as in the design. */
+@media (min-width: 1100px) {
+  .pjsv-hero__title-line,
+  .pjsv-hero__title .pjtp__sizer,
+  .pjsv-hero__title .pjtp__live {
+    white-space: nowrap;
+  }
+}
+
+.pjsv-hero__description {
+  max-width: 560px;
+  margin: 24px 0 0;
+  color: rgba(226, 232, 240, 0.8);
+  font-size: var(--pjds-text-lead);
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+
+.pjsv-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 36px;
+}
+
+.pjsv-hero__visual {
+  position: relative;
+  min-width: 0;
+}
+
+/* Tablet and small laptop: copy first, visual below ------------------------ */
+@media (max-width: 1023px) {
+  .pjsv-hero {
+    min-height: 0;
+    padding: calc(var(--pjds-nav-offset) + 36px) 0 80px;
+  }
+
+  .pjsv-hero__layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+  }
+
+  .pjsv-hero__copy,
+  .pjsv-hero__visual {
+    max-width: 680px;
+  }
+
+  .pjsv-hero--photo .pjsv-hero__backdrop::after {
+    background: linear-gradient(180deg, rgba(7, 20, 38, 0.92) 0%, rgba(7, 20, 38, 0.86) 55%, rgba(7, 20, 38, 0.96) 100%);
+  }
+}
+
+@media (max-width: 600px) {
+  .pjsv-hero {
+    padding: calc(var(--pjds-nav-offset) + 20px) 0 64px;
+  }
+
+  .pjsv-hero .pjsv-hero__eyebrow {
+    margin-bottom: 18px;
+  }
+
+  .pjsv-hero__description {
+    margin-top: 18px;
+  }
+
+  .pjsv-hero__actions {
+    margin-top: 28px;
+  }
+}
+
+@media (max-width: 420px) {
+  .pjsv-hero__actions .pjsv-hero__btn {
+    flex: 1 1 100%;
+  }
+}

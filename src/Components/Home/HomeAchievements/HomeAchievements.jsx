@@ -146,6 +146,7 @@ export default function HomeAchievements() {
               <span className="pjh-achievements__title-static">Celebrating the Milestones</span>
               <AchievementsTypingLine active={isVisible} />
             </h2>
+            <span className="pjh-title-line" aria-hidden="true" data-reveal="line" data-reveal-delay="2" />
           </div>
           <div className="pjh-achievements__header-side" data-reveal="up" data-reveal-delay="2">
             <p className="pjds-lead pjh-achievements__intro">
@@ -172,7 +173,7 @@ export default function HomeAchievements() {
             /* Keep each slot mounted while its photo changes, preserving the
                bento geometry and the page's scroll-reveal state. */
             <li
-              key={TILE_POSITIONS[index]}
+              key={`${TILE_POSITIONS[index]}-${index}`}
               className={`pjh-achievements__cell pjh-achievements__cell--${TILE_POSITIONS[index]}`}
               data-reveal={index === 0 ? "scale" : "up"}
               data-reveal-delay={String(index + 1)}

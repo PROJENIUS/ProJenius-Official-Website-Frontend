@@ -14,13 +14,15 @@ const navLinks = [
   {
     label: "Solutions",
     path: "/services/development",
+    /* Order chosen by ProJenius; the footer list matches it. */
     dropdown: [
       { label: "Software Development", path: "/services/development" },
+      { label: "PCB Design & Fabrication", path: "/services/pcb-design-fabrication" },
       { label: "Hardware & Embedded Systems", path: "/services/hardware-embedded-systems" },
       { label: "Rapid Prototyping", path: "/services/rapid-prototyping" },
-      { label: "PCB Design & Fabrication", path: "/services/pcb-design-fabrication" },
     ],
   },
+  /* Incubation is a section of the Startup page (details at /incubate). */
   { label: "Startup & Innovation", path: "/startup" },
   {
     label: "Learning & Development",
@@ -351,6 +353,26 @@ export default function Navbar() {
       clearNavbarTimer();
     };
   }, [location.pathname, clearNavbarTimer]);
+
+  /* Links like /startup#startup-incubate: after the page loads (pages are
+     lazy-loaded), scroll to that section. Tries for up to ~3 s. */
+  useEffect(() => {
+    const id = location.hash ? decodeURIComponent(location.hash.slice(1)) : "";
+    if (!id) return undefined;
+    let tries = 0;
+    let timer = 0;
+    const tryScroll = () => {
+      const target = document.getElementById(id);
+      if (target) {
+        target.scrollIntoView({ behavior: "instant", block: "start" });
+        return;
+      }
+      tries += 1;
+      if (tries < 30) timer = window.setTimeout(tryScroll, 100);
+    };
+    timer = window.setTimeout(tryScroll, 60);
+    return () => window.clearTimeout(timer);
+  }, [location.pathname, location.hash]);
 
   /* =========================================================
      BODY LOCK

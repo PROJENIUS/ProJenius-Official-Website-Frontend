@@ -12,13 +12,21 @@ import {
 } from "lucide-react";
 
 import TypedPhrase from "../../../Common/TypedPhrase/TypedPhrase.jsx";
+import SectionTitleLine from "../../../Common/SectionTitleLine/SectionTitleLine.jsx";
 import "./NotJustAnother.css";
 
 /* =========================================================
-   WHY PROJENIUS — comparison of learning on your own, online
-   courses and ProJenius 1:1 mentorship. A real <table> (read
-   correctly by screen readers); on phones each row becomes a
-   card. Ends with the booking action instead of a score.
+   WHY PROJENIUS — "Glass grid · Cyan".
+   Learning on your own vs. online courses vs. ProJenius 1:1
+   mentorship, on the navy background. A dark glass table (a real
+   <table>, read correctly by screen readers) with the ProJenius
+   column raised and outlined in cyan. The booking action sits in
+   its own strip under the table. On phones each row becomes a
+   small glass card.
+
+   Scroll animation (down and up): the heading, card and strip fade
+   up; inside the card the rows come in one after another. The page's
+   useScrollReveal toggles data-revealed on the card both ways.
 ========================================================= */
 
 const COLUMNS = [
@@ -46,7 +54,7 @@ function Status({ value }) {
   const { Icon, label } = STATUS[value];
   return (
     <span className={`njac-status njac-status--${value}`}>
-      <Icon size={18} strokeWidth={2.2} aria-hidden="true" />
+      <Icon size={20} strokeWidth={2} aria-hidden="true" />
       {label}
     </span>
   );
@@ -57,11 +65,12 @@ export default function NotJustAnother() {
     <section id="not-just-another" className="njac-section" aria-labelledby="njac-title">
       <div className="njac-container">
         <header className="njac-header">
-          <p className="pjds-eyebrow pjds-eyebrow--on-dark" data-reveal="up">Why ProJenius</p>
+          <p className="pjds-eyebrow pjds-eyebrow--on-dark njac-eyebrow" data-reveal="up">Why ProJenius</p>
           <h2 id="njac-title" className="njac-title" data-reveal="up" data-reveal-delay="1">
             <span className="njac-title-static">Not Just Another</span>
-            <TypedPhrase tone="dark" phrases={["Online Course", "Video Playlist", "Generic Program"]} />
+            <TypedPhrase tone="dark" phrases={["Online Course.", "Video Playlist.", "Generic Program."]} />
           </h2>
+          <SectionTitleLine />
           <p className="njac-intro" data-reveal="up" data-reveal-delay="2">
             Content alone rarely gets you hired. Mentorship adds the feedback, accountability and direction
             that turn your effort into a job offer.
@@ -80,7 +89,7 @@ export default function NotJustAnother() {
                   <th
                     key={column.key}
                     scope="col"
-                    className={column.key === "projenius" ? "njac-th-pro" : undefined}
+                    className={column.key === "projenius" ? "njac-th njac-th-pro" : "njac-th"}
                   >
                     {column.key === "projenius" && <span className="njac-recommended">Recommended</span>}
                     <span className="njac-th-label">{column.label}</span>
@@ -90,17 +99,17 @@ export default function NotJustAnother() {
               </tr>
             </thead>
             <tbody>
-              {ROWS.map(({ title, Icon, ...values }) => (
-                <tr key={title}>
+              {ROWS.map(({ title, Icon, ...values }, index) => (
+                <tr key={title} className="njac-row" style={{ "--i": index }}>
                   <th scope="row" className="njac-feature">
-                    <span className="njac-feature-icon" aria-hidden="true"><Icon size={18} /></span>
-                    {title}
+                    <span className="njac-feature-icon" aria-hidden="true"><Icon size={19} strokeWidth={2} /></span>
+                    <span className="njac-feature-text">{title}</span>
                   </th>
                   {COLUMNS.map((column) => (
                     <td
                       key={column.key}
                       data-label={column.label}
-                      className={column.key === "projenius" ? "njac-td-pro" : undefined}
+                      className={column.key === "projenius" ? "njac-td njac-td-pro" : "njac-td"}
                     >
                       <Status value={values[column.key]} />
                     </td>
@@ -109,16 +118,16 @@ export default function NotJustAnother() {
               ))}
             </tbody>
           </table>
+        </div>
 
-          <div className="njac-footer">
-            <p>
-              <strong>Start with one 1:1 call.</strong> 30 minutes with a mentor, ₹99, fully refundable if
-              you are not satisfied.
-            </p>
-            <a href="#book-call" className="njac-cta">
-              Book a mentoring call <ArrowRight size={18} aria-hidden="true" />
-            </a>
-          </div>
+        <div className="njac-footer" data-reveal="up" data-reveal-delay="3">
+          <p>
+            <strong>Start with one 1:1 call.</strong> 30 minutes with a mentor, ₹99, fully refundable if
+            you are not satisfied.
+          </p>
+          <a href="#book-call" className="njac-cta">
+            Book a mentoring call <ArrowRight size={18} aria-hidden="true" />
+          </a>
         </div>
       </div>
     </section>
