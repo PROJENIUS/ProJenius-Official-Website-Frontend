@@ -1,9 +1,9 @@
-/* COOKIE NOTICE — compact navy card, bottom-left; full width on phones,
+/* COOKIE NOTICE — compact navy card, bottom-right; full width on phones,
    sitting above the phone's sticky action bar. */
 .pj-cookie {
   position: fixed;
   z-index: 1250;
-  left: max(20px, env(safe-area-inset-left, 0px));
+  right: max(20px, env(safe-area-inset-right, 0px));
   bottom: max(20px, env(safe-area-inset-bottom, 0px));
   box-sizing: border-box;
   width: min(440px, calc(100vw - 40px));
