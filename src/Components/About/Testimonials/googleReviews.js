@@ -1,4 +1,5 @@
 import { normalizeApiBase, resolveApiUrl } from "../../../utils/apiUrl.js";
+import { GOOGLE_RATING, GOOGLE_REVIEW_COUNT } from "../../../utils/googleRating.js";
 
 /* Google credentials stay on the backend. The public API returns a normalized,
  * paginated Google Business Profile review collection at GET /api/reviews. */
@@ -57,8 +58,9 @@ function normalizeReview(item, index) {
 
 export const VERIFIED_SNAPSHOT = {
   status: "live",
-  rating: 4.9,
-  totalReviews: 48,
+  // Same figures as the footer and courses page (utils/googleRating.js).
+  rating: Number(GOOGLE_RATING),
+  totalReviews: Number(GOOGLE_REVIEW_COUNT),
   url: GOOGLE_PROFILE_URL,
   reviews: [
     {

@@ -1,0 +1,23 @@
+/* Sticky contact bar — phones only */
+.pj-sticky-cta { display: none; }
+@media (max-width: 767px) {
+  .pj-sticky-cta {
+    position: fixed; z-index: 1100; left: 0; right: 0; bottom: 0;
+    display: grid; grid-template-columns: 1fr 1fr 1.2fr; gap: 8px;
+    padding: 10px max(12px, env(safe-area-inset-left, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-right, 0px));
+    background: rgba(7, 20, 38, 0.96); border-top: 1px solid rgba(32, 200, 245, 0.3); backdrop-filter: blur(8px);
+    transform: translateY(110%); transition: transform 240ms ease;
+  }
+  .pj-sticky-cta.is-visible { transform: none; }
+  .pj-sticky-cta a {
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 46px; border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.25); color: #fff; text-decoration: none; font: 700 0.92rem/1 var(--pjds-font-heading);
+  }
+  .pj-sticky-cta a.is-primary { border-color: #20c8f5; background: #20c8f5; color: #071426; }
+  .pj-sticky-cta a:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+  /* keep the footer's last line visible above the bar */
+  body:has(.pj-sticky-cta.is-visible) footer { padding-bottom: 76px; }
+  /* never stack on top of the cookie notice */
+  body:has(.pj-cookie) .pj-sticky-cta { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .pj-sticky-cta { transition: none; } }

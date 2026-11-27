@@ -66,14 +66,20 @@ main.pjl-page .pj-contact-hero__lead { max-width: 620px; margin: 18px 0 0; font-
 }
 .pj-contact-hero__channel:hover .pj-contact-hero__channel-icon { background: #071426; border-color: #071426; color: #20c8f5; }
 main.pjl-page .pj-contact-hero__channel-title { margin: 34px 0 6px; font-size: 1.12rem; line-height: 1.3; color: #0b1a2e; }
-.pj-contact-hero__channel-text { margin: 0; font-size: 0.92rem; line-height: 1.5; color: #4a5a70; }
+/* The text grows to fill the card, so every link sits on the same line at the bottom. */
+.pj-contact-hero__channel-text { flex: 1 1 auto; margin: 0; font-size: 0.92rem; line-height: 1.5; color: #4a5a70; }
 .pj-contact-hero__channel-link {
-  align-self: flex-start; margin-top: 14px;
-  font: 800 0.94rem/1.3 var(--pjds-font-heading); color: #0b1a2e;
-  text-decoration: underline; text-decoration-color: #20c8f5; text-decoration-thickness: 2px; text-underline-offset: 4px;
+  display: inline-flex; align-items: center; gap: 6px;
+  align-self: flex-start; margin-top: 14px; padding-top: 14px; width: 100%;
+  border-top: 1px solid #e6ecf3;
+  font: 700 0.94rem/1.3 var(--pjds-font-heading); color: #0b1a2e;
+  text-decoration: none;
   overflow-wrap: anywhere;
+  transition: color 200ms;
 }
-.pj-contact-hero__channel-link:hover { color: #0478a8; }
+.pj-contact-hero__channel-link svg { flex: 0 0 auto; color: #0478a8; transition: transform 200ms var(--pjds-ease); }
+.pj-contact-hero__channel:hover .pj-contact-hero__channel-link { color: #0478a8; }
+.pj-contact-hero__channel:hover .pj-contact-hero__channel-link svg { transform: translateX(3px); }
 /* Whole card is clickable through its link */
 .pj-contact-hero__channel-link::after { content: ""; position: absolute; inset: 0; border-radius: 16px; }
 .pj-contact-hero__channel-link:focus-visible { outline: none; }
@@ -90,7 +96,7 @@ main.pjl-page .pj-contact-hero__channel-title { margin: 34px 0 6px; font-size: 1
   .pj-contact-hero__crumbs-note { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .pj-contact-hero__channel, .pj-contact-hero__cta, .pj-contact-hero__channel-icon { transition: none; }
+  .pj-contact-hero__channel, .pj-contact-hero__cta, .pj-contact-hero__channel-icon, .pj-contact-hero__channel-link svg { transition: none; }
 }
 
 /* Fit one laptop screen */
@@ -104,7 +110,7 @@ main.pjl-page .pj-contact-hero__channel-title { margin: 34px 0 6px; font-size: 1
   .pj-contact-hero__channels { margin-top: 28px; }
   .pj-contact-hero__channel { padding: 18px 20px; }
   main.pjl-page .pj-contact-hero__channel-title { margin-top: 16px; }
-  .pj-contact-hero__channel-link { margin-top: 10px; }
+  .pj-contact-hero__channel-link { margin-top: 12px; padding-top: 12px; }
 }
 @media (min-width: 1025px) {
   .pj-contact-hero { padding-top: calc(var(--pjds-nav-offset, 96px) - 4px); padding-bottom: 24px; }

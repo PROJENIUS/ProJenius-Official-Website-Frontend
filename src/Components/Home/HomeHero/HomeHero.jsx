@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 
 import "./HomeHero.css";
 import { HERO_CAPABILITIES, HERO_SLIDES } from "./heroSlides.js";
+import { cachedHeroSlides, fetchHeroSlides } from "./heroContent.js";
 
 /* =============================================================================
    HOME HERO — image-led carousel
@@ -26,10 +27,10 @@ import { HERO_CAPABILITIES, HERO_SLIDES } from "./heroSlides.js";
    while the hero is off-screen; it is off with prefers-reduced-motion. Nothing needs cleaning up on unmount beyond the
    IntersectionObserver and media-query listener below.
 
-   Slide images and copy are configured in heroSlides.js.
+   Slides come from Admin → Home Hero (heroContent.js); the built-in slides in
+   heroSlides.js show first and whenever the API has nothing to give.
    ============================================================================= */
 
-const SLIDE_COUNT = HERO_SLIDES.length;
 const VISIBLE_THUMBS = 3;
 
 const reducedMotionQuery = () =>
@@ -39,8 +40,8 @@ const reducedMotionQuery = () =>
 
 /* The active image leads the strip; at the end the window stops at the last
    three so it is always full: 1→[1 2 3] 2→[2 3 4] 3→[3 4 5] 4,5→[3 4 5]. */
-const thumbWindowStart = (activeIndex) =>
-  Math.max(0, Math.min(activeIndex, SLIDE_COUNT - VISIBLE_THUMBS));
+const thumbWindowStart = (activeIndex, total) =>
+  Math.max(0, Math.min(activeIndex, total - VISIBLE_THUMBS));
 
 /* The cyan heading line of the active slide types in, holds, deletes and
    types again, like the other homepage section headings. An invisible copy of
@@ -103,6 +104,10 @@ export default function HomeHero() {
   const thumbRefs = useRef([]);
   const focusAfterChangeRef = useRef(false);
 
+  const [content, setContent] = useState(() => cachedHeroSlides() || { revision: null, slides: HERO_SLIDES });
+  const slides = content.slides;
+  const shownRevisionRef = useRef(content.revision);
+  const SLIDE_COUNT = slides.length;
   const [activeIndex, setActiveIndex] = useState(0);
   const [autoplayEnabled, setAutoplayEnabled] = useState(() => !reducedMotionQuery()?.matches);
   const [isHovered, setIsHovered] = useState(false);
@@ -110,8 +115,24 @@ export default function HomeHero() {
   const [isOnScreen, setIsOnScreen] = useState(true);
 
   const isRunning = autoplayEnabled && !isHovered && !hasKeyboardFocus && isOnScreen;
-  const windowStart = thumbWindowStart(activeIndex);
-  const activeSlide = HERO_SLIDES[activeIndex];
+  const windowStart = thumbWindowStart(activeIndex, SLIDE_COUNT);
+  const activeSlide = slides[activeIndex] || slides[0];
+
+  /* Load the admin's slides. Swap only when they differ from what is shown,
+     and start again from the first slide so the visitor is never mid-way. */
+  useEffect(() => {
+    const controller = new AbortController();
+    fetchHeroSlides(controller.signal)
+      .then((live) => {
+        const revision = live ? live.revision : null;
+        if (revision === shownRevisionRef.current) return;
+        shownRevisionRef.current = revision;
+        setContent(live || { revision: null, slides: HERO_SLIDES });
+        setActiveIndex(0);
+      })
+      .catch(() => {});
+    return () => controller.abort();
+  }, []);
 
   /* Pause while the hero is scrolled out of view. */
   useEffect(() => {
@@ -145,7 +166,7 @@ export default function HomeHero() {
 
   const goTo = useCallback((index) => {
     setActiveIndex((index + SLIDE_COUNT) % SLIDE_COUNT);
-  }, []);
+  }, [SLIDE_COUNT]);
 
   const handleProgressEnd = (event) => {
     if (event.target === event.currentTarget) goTo(activeIndex + 1);
@@ -193,18 +214,19 @@ export default function HomeHero() {
       aria-label="ProJenius highlights"
     >
       <h1 className="pjds-sr-only">
-        ProJenius Innovation Technology: technology solutions, innovation and training
+        ProJenius Innovation Technology: Software, IoT and Embedded Systems Company in Madurai, Tamil Nadu
       </h1>
 
       {/* Full-width backdrop: the active image under a navy overlay. */}
       <div className="pjh-hero__backdrop" aria-hidden="true">
-        {HERO_SLIDES.map((slide, index) => (
+        {slides.map((slide, index) => (
           <img
             key={slide.id}
             className={`pjh-hero__backdrop-image${index === activeIndex ? " is-active" : ""}`}
             src={slide.image}
             alt=""
             loading={index === 0 ? "eager" : "lazy"}
+            fetchPriority={index === 0 ? "high" : "low"}
             decoding="async"
             draggable="false"
           />
@@ -215,7 +237,7 @@ export default function HomeHero() {
         {/* Left column ---------------------------------------------------- */}
         <div className="pjh-hero__copy">
           <div className="pjh-hero__slides">
-            {HERO_SLIDES.map((slide, index) => {
+            {slides.map((slide, index) => {
               const isActive = index === activeIndex;
               return (
                 <div
@@ -270,7 +292,7 @@ export default function HomeHero() {
           onBlur={handleBlur}
         >
           <figure className="pjh-hero__feature">
-            {HERO_SLIDES.map((slide, index) => {
+            {slides.map((slide, index) => {
               const isActive = index === activeIndex;
               return (
                 <img
@@ -280,7 +302,7 @@ export default function HomeHero() {
                   alt={isActive ? slide.alt : ""}
                   aria-hidden={!isActive}
                   loading={index === 0 ? "eager" : "lazy"}
-                  fetchPriority={index === 0 ? "high" : "auto"}
+                  fetchPriority={index === 0 ? "high" : "low"}
                   decoding="async"
                   draggable="false"
                 />
@@ -295,7 +317,7 @@ export default function HomeHero() {
 
           <div className="pjh-hero__thumbs" role="group" aria-label="Choose a slide">
             <ol className={`pjh-hero__thumbs-track pjh-hero__thumbs-track--shift-${windowStart}`}>
-              {HERO_SLIDES.map((slide, index) => {
+              {slides.map((slide, index) => {
                 const isActive = index === activeIndex;
                 const isInWindow = index >= windowStart && index < windowStart + VISIBLE_THUMBS;
                 return (
@@ -310,7 +332,7 @@ export default function HomeHero() {
                       onClick={() => goTo(index)}
                       onKeyDown={handleThumbKeyDown}
                     >
-                      <img src={slide.image} alt="" loading="lazy" decoding="async" draggable="false" />
+                      <img src={slide.image} alt="" loading="lazy" fetchPriority="low" decoding="async" draggable="false" />
                       <span className="pjh-hero__thumb-caption" aria-hidden="true">{slide.caption}</span>
                       {isActive && autoplayEnabled && (
                         <span

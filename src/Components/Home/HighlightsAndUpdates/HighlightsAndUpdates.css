@@ -1,0 +1,439 @@
+/* =============================================================================
+   HIGHLIGHTS & UPDATES — EXPANDING ACCORDION CARDS CAROUSEL
+   - Expanding cards animation (Active card flexes wide, inactive are vertical pills)
+   - Strict 3-Color Hierarchy (#20c8f5, #071426, #ffffff)
+   - Strict Typography (Poppins headings, Inter body)
+   ============================================================================= */
+
+.pjh-updates {
+  position: relative;
+  padding: 80px 0;
+  background-color: #071426;
+  color: #ffffff;
+  overflow: hidden;
+}
+
+.pjh-updates *,
+.pjh-updates *::before,
+.pjh-updates *::after {
+  box-sizing: border-box;
+}
+
+/* Header */
+.pjh-updates__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.pjh-updates__header > div {
+  flex: 1;
+  min-width: 0;
+}
+
+.pjh-updates__view-all-btn { flex: none; }
+
+/* Look comes from the shared .pjds-eyebrow pill (foundation.css). */
+.pjh-updates__eyebrow { margin: 0 0 8px; }
+
+.pjh-updates__title {
+  margin: 0;
+  font-family: var(--pjds-font-heading, "Poppins", sans-serif);
+   font-size: var(--pjds-text-h2);
+   font-weight: 800;
+  line-height: 1.18;
+  color: #ffffff;
+  /* Always one line, so typing never moves the cards below. */
+  white-space: nowrap;
+  overflow-x: clip;
+}
+
+.pjh-updates__typed {
+  display: inline-block;
+  color: #20c8f5;
+  margin-left: 8px;
+}
+
+.pjh-updates__cursor {
+  display: inline-block;
+  color: #20c8f5;
+  animation: pjh-blink 1s infinite;
+}
+
+@keyframes pjh-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.pjh-updates__view-all-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  font-family: var(--pjds-font-heading, "Poppins", sans-serif);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #071426;
+  background: #20c8f5;
+  border: 1px solid #20c8f5;
+  border-radius: 8px;
+  box-shadow: 0 10px 24px -10px rgba(32, 200, 245, 0.8);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 200ms ease;
+}
+
+.pjh-updates__view-all-btn:hover {
+  border-color: #5ad6f8;
+  color: #071426;
+  background: #5ad6f8;
+  transform: translateY(-2px);
+}
+
+/* =============================================================================
+   Expanding Accordion Carousel Structure
+   ============================================================================= */
+.pjh-updates__accordion {
+  --gap: 16px;
+  container-type: inline-size;
+  position: relative;
+  height: 480px;
+  width: 100%;
+  overflow-x: clip;
+  overflow-y: visible;
+  touch-action: pan-y;
+}
+
+/* Cards are placed by slot so they can slide. The open card is 3.8 units
+   wide and the others 1, so cards after it start 2.8 units further right. */
+.pjh-updates__card {
+  --unit: calc((100cqw - (var(--visible) - 1) * var(--gap)) / (var(--visible) + 2.8));
+  --open: calc(var(--unit) * 3.8);
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: var(--unit);
+  /* left, not transform: it stays in step with the width, so cards never
+     overlap or leave gaps while they move. */
+  left: calc(var(--slot) * (var(--unit) + var(--gap)) + var(--after) * 2.8 * var(--unit));
+  border-radius: 18px;
+  overflow: hidden;
+  background: #0b2340;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  outline: none;
+  transition: left 650ms cubic-bezier(0.25, 1, 0.35, 1), width 650ms cubic-bezier(0.25, 1, 0.35, 1),
+    opacity 450ms ease, visibility 0s, border-color 300ms ease, box-shadow 300ms ease;
+}
+
+/* Outside the row: stays visible only until it has slid away. */
+.pjh-updates__card.is-off {
+  opacity: 0;
+  visibility: hidden;
+  transition: left 650ms cubic-bezier(0.25, 1, 0.35, 1), width 650ms cubic-bezier(0.25, 1, 0.35, 1),
+    opacity 450ms ease, visibility 0s linear 650ms;
+}
+
+.pjh-updates__card:focus-visible,
+.pjh-updates__arrow:focus-visible {
+  outline: 3px solid #20c8f5;
+  outline-offset: -3px;
+}
+
+.pjh-updates__card:hover {
+  border-color: rgba(32, 200, 245, 0.4);
+}
+
+/* Active State Expands Wide */
+.pjh-updates__card.is-active {
+  width: var(--open);
+  border-color: #20c8f5;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.55), 0 0 30px rgba(32, 200, 245, 0.15);
+  cursor: default;
+}
+
+/* Background Image */
+.pjh-updates__card-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 600ms ease;
+}
+
+.pjh-updates__card:hover .pjh-updates__card-bg {
+  transform: scale(1.04);
+}
+
+/* Dark Gradient Overlays */
+.pjh-updates__card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(7, 20, 38, 0.95) 0%, rgba(7, 20, 38, 0.65) 50%, rgba(7, 20, 38, 0.4) 100%);
+  transition: opacity 300ms ease;
+}
+
+.pjh-updates__card.is-active .pjh-updates__card-overlay {
+  background: linear-gradient(to top, rgba(7, 20, 38, 0.96) 0%, rgba(7, 20, 38, 0.55) 60%, rgba(7, 20, 38, 0.2) 100%);
+}
+
+/* Active Expanded Content Layer */
+.pjh-updates__card-expanded-content {
+  position: absolute;
+  inset: 0 auto 0 0;
+  /* Fixed width, so the text does not re-wrap while the card grows. */
+  width: var(--open);
+  overflow-wrap: anywhere;
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 2;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(12px);
+  transition: opacity 350ms ease 150ms, transform 350ms ease 150ms;
+}
+
+.pjh-updates__card.is-active .pjh-updates__card-expanded-content {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.pjh-updates__card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pjh-updates__card-category {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 12px;
+  border-radius: 9999px;
+  /* White text on a solid dark pill so it reads on every photo. */
+  background: rgba(7, 20, 38, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  color: #ffffff;
+  font-family: var(--pjds-font-heading, "Poppins", sans-serif);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.pjh-updates__card-num {
+  font-family: monospace;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.pjh-updates__card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  max-width: 580px;
+}
+
+.pjh-updates__card-title {
+  margin: 0;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  font-family: var(--pjds-font-heading, "Poppins", sans-serif);
+  font-size: clamp(1.4rem, 1.2rem + 0.8vw, 1.85rem);
+  font-weight: 700;
+  line-height: 1.25;
+  color: #ffffff;
+}
+
+.pjh-updates__card-summary {
+  margin: 0;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  font-family: var(--pjds-font-body, "Inter", sans-serif);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.pjh-updates__card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 10px 22px;
+  border-radius: 8px;
+  background: #20c8f5;
+  color: #071426;
+  font-family: var(--pjds-font-heading, "Poppins", sans-serif);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 200ms ease;
+  box-shadow: 0 4px 16px rgba(32, 200, 245, 0.3);
+}
+
+.pjh-updates__card-cta:hover {
+  background: #ffffff;
+  color: #071426;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(32, 200, 245, 0.45);
+}
+
+/* Inactive Collapsed Pill Content Layer */
+.pjh-updates__card-collapsed-content {
+  position: absolute;
+  inset: 0;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 2;
+  opacity: 1;
+  transition: opacity 250ms ease;
+}
+
+.pjh-updates__card.is-active .pjh-updates__card-collapsed-content {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.pjh-updates__card-icon-pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(11, 35, 64, 0.85);
+  border: 1px solid rgba(32, 200, 245, 0.3);
+  color: #20c8f5;
+}
+
+.pjh-updates__card-collapsed-title {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-family: var(--pjds-font-heading, "Poppins", sans-serif);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #ffffff;
+  white-space: nowrap;
+  letter-spacing: 0.04em;
+  max-height: 240px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pjh-updates__card-collapsed-num {
+  font-family: monospace;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* Arrows and counter */
+.pjh-updates__controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 28px;
+}
+
+.pjh-updates__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid rgba(32, 200, 245, 0.45);
+  border-radius: 50%;
+  background: #0b2340;
+  color: #20c8f5;
+  cursor: pointer;
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+.pjh-updates__arrow:hover {
+  background: #20c8f5;
+  color: #071426;
+}
+
+.pjh-updates__arrow:focus-visible { outline-offset: 3px; }
+
+.pjh-updates__counter {
+  min-width: 64px;
+  text-align: center;
+  font-family: var(--pjds-font-body, "Inter", sans-serif);
+  font-size: 0.95rem;
+  font-variant-numeric: tabular-nums;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.pjh-updates__counter strong { color: #ffffff; }
+
+/* Not enough room beside the title: the blue words get their own line, kept
+   even while it is empty. */
+@media (max-width: 1280px) {
+  .pjh-updates__typed {
+    display: block;
+    min-height: 1.18em;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 700px) {
+  .pjh-updates__header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .pjh-updates__header > div { width: 100%; }
+
+  .pjh-updates__typed { font-size: 0.82em; }
+}
+
+/* Phones and tablets: one full-width card at a time, changed by swipe. */
+@media (max-width: 900px) {
+  .pjh-updates__accordion { height: 420px; }
+
+  .pjh-updates__card {
+    --open: 100cqw;
+    width: 100cqw;
+    left: calc(var(--offset) * (100cqw + var(--gap)));
+  }
+
+  .pjh-updates__card:not(.is-active) {
+    visibility: hidden;
+    transition: left 650ms cubic-bezier(0.25, 1, 0.35, 1), opacity 450ms ease, visibility 0s linear 650ms;
+  }
+
+  .pjh-updates__card-expanded-content {
+    padding: 24px 20px;
+    opacity: 1;
+    transform: none;
+  }
+
+  .pjh-updates__card-collapsed-content { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pjh-updates__card,
+  .pjh-updates__card.is-off,
+  .pjh-updates__card:not(.is-active) { transition: none; }
+}

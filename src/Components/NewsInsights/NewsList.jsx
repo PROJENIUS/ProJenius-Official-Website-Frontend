@@ -3,6 +3,8 @@ import { Link, useSearchParams } from "react-router-dom";
 import { ArrowRight, BookOpen, Mail, MessageCircle, Newspaper, Search, X } from "lucide-react";
 
 import TypedPhrase from "../Common/TypedPhrase/TypedPhrase.jsx";
+import usePageHero from "../../pageHeroes/usePageHero.js";
+import { HERO_DEFAULTS } from "../../pageHeroes/heroDefaults.js";
 import SectionTitleLine from "../Common/SectionTitleLine/SectionTitleLine.jsx";
 import { whatsappHref } from "../../utils/whatsapp.js";
 import { PREVIEW_ARTICLES, TYPE_LABEL, articleHref, formatDate, getJson } from "./newsApi.js";
@@ -46,6 +48,7 @@ export default function NewsList() {
   const filterKey = `${type}|${topic}|${q}`;
 
   const [searchText, setSearchText] = useState(q);
+  const hero = usePageHero("news-insights", HERO_DEFAULTS["news-insights"]);
   const [categories, setCategories] = useState([]);
   const [featured, setFeatured] = useState(undefined);
   const [state, setState] = useState({ key: "", items: [], page: 1, pages: 1, total: 0, status: "loading" });
@@ -119,19 +122,18 @@ export default function NewsList() {
 
   return (
     <>
-      {/* ================= HERO ================= */}
+      {/* ================= HERO (text: Admin → Page Heroes → News & Insights) ================= */}
       <section className="pjni-hero" aria-labelledby="pjni-title">
         <div className="pjds-container pjni-hero__grid">
           <div className="pjni-hero__copy">
-            <p className="pjds-eyebrow pjds-eyebrow--on-dark" data-reveal="up">News &amp; Insights</p>
+            <p className="pjds-eyebrow pjds-eyebrow--on-dark" data-reveal="up">{hero.eyebrow}</p>
             <h1 id="pjni-title" className="pjni-hero__title" data-reveal="up" data-reveal-delay="1">
-              Stories and Ideas{" "}
-              <TypedPhrase tone="dark" phrases={["From the ProJenius Lab.", "From Our Team.", "Worth Reading."]} />
+              {hero.title}{" "}
+              <TypedPhrase tone="dark" phrases={hero.phrases} />
             </h1>
             <SectionTitleLine />
             <p className="pjni-hero__lead" data-reveal="up" data-reveal-delay="2">
-              Company news, project updates and practical insights on technology, products and building
-              ideas into reality.
+              {hero.lead}
             </p>
             <form className="pjni-search pjni-search--hero" role="search" onSubmit={submitSearch} data-reveal="up" data-reveal-delay="3">
               <Search size={19} aria-hidden="true" />

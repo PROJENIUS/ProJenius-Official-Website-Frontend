@@ -3,12 +3,16 @@ import { ArrowDown, ArrowRight, Cpu, Lightbulb, PackageCheck, Plus } from "lucid
 import TypedPhrase from "../../Common/TypedPhrase/TypedPhrase.jsx";
 import SectionTitleLine from "../../Common/SectionTitleLine/SectionTitleLine.jsx";
 import { PRODUCTS } from "../productsData.js";
+import usePageHero from "../../../pageHeroes/usePageHero.js";
+import { HERO_DEFAULTS } from "../../../pageHeroes/heroDefaults.js";
 import "./ProductsHero.css";
 
 /* =============================================================================
    PRODUCTS HERO — navy, our hero pattern (pill, heading + cyan typing, blue
    line, cyan CTA). Right: the real product photos as a collage, with a
    "your product next" tile that leads to building your own product.
+   Text: Admin → Page Heroes → Products. The photos come from the products
+   themselves (productsData.js).
    ============================================================================= */
 
 const PHOTOS = PRODUCTS.filter((p) => p.image && !p.placeholder).slice(0, 2);
@@ -21,33 +25,36 @@ const scrollTo = (id) => (event) => {
   target.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
 };
 
+const FACT_ICONS = [Lightbulb, Cpu, PackageCheck];
+
 export default function ProductsHero() {
+  const hero = usePageHero("products", HERO_DEFAULTS.products);
   return (
     <section className="pjph" aria-labelledby="products-title">
       <div className="pjds-container pjph__grid">
         <div className="pjph__copy">
-          <p className="pjds-eyebrow pjds-eyebrow--on-dark" data-reveal="up">Products &amp; Innovations</p>
+          <p className="pjds-eyebrow pjds-eyebrow--on-dark" data-reveal="up">{hero.eyebrow}</p>
           <h1 id="products-title" className="pjph__title" data-reveal="up" data-reveal-delay="1">
-            Products Engineered for{" "}
-            <TypedPhrase tone="dark" phrases={["Real-World Problems.", "Smarter Farming.", "Hands-On Learning."]} />
+            {hero.title}{" "}
+            <TypedPhrase tone="dark" phrases={hero.phrases} />
           </h1>
           <SectionTitleLine />
           <p className="pjph__lead" data-reveal="up" data-reveal-delay="2">
-            Products designed and built by ProJenius, from the first idea to a working product people
-            use. Have an idea of your own? We build those too.
+            {hero.lead}
           </p>
           <div className="pjph__actions" data-reveal="up" data-reveal-delay="3">
             <a className="pjph__btn pjph__btn--primary" href="#product-list" onClick={scrollTo("product-list")}>
-              Explore Products <ArrowDown size={18} aria-hidden="true" />
+              {hero.primaryLabel} <ArrowDown size={18} aria-hidden="true" />
             </a>
             <a className="pjph__btn pjph__btn--ghost" href="#product-idea" onClick={scrollTo("product-idea")}>
-              Build Your Own Product <ArrowRight size={18} aria-hidden="true" />
+              {hero.secondaryLabel} <ArrowRight size={18} aria-hidden="true" />
             </a>
           </div>
           <ul className="pjph__facts" data-reveal="up" data-reveal-delay="3">
-            <li><Lightbulb size={16} aria-hidden="true" /> Idea to plan</li>
-            <li><Cpu size={16} aria-hidden="true" /> Hardware + software</li>
-            <li><PackageCheck size={16} aria-hidden="true" /> Ready to use</li>
+            {hero.facts.map((fact, index) => {
+              const Icon = FACT_ICONS[index] || Lightbulb;
+              return <li key={index}><Icon size={16} aria-hidden="true" /> {fact}</li>;
+            })}
           </ul>
         </div>
 

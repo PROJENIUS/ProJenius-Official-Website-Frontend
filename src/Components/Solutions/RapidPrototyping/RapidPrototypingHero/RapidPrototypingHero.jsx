@@ -1,3 +1,4 @@
+import Breadcrumbs from "../../../Common/Breadcrumbs/Breadcrumbs.jsx";
 import { Link } from "react-router-dom";
 import { ArrowDown, ArrowRight } from "lucide-react";
 
@@ -61,6 +62,7 @@ export default function RapidPrototypingHero() {
       <div className="pjds-container pjrp-hero2__inner">
         {/* ---------- Message ---------- */}
         <div className="pjrp-hero2__copy">
+          <Breadcrumbs className="pj-crumbs--hero" items={[{ label: "Home", to: "/" }, { label: "Solutions" }, { label: "Rapid Prototyping" }]} />
           <p className="pjrp-hero2__kicker">Rapid Prototyping · End to End</p>
           <h1 id="prototype-hero-title" className="pjrp-hero2__title">
             <span>From idea to a working product</span>

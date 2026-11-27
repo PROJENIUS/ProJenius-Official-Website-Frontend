@@ -27,8 +27,8 @@ import { useRef } from "react";
 
 import StartupJourneyHero from "../../Components/StartupInnovation/StartupJourneyHero/StartupJourneyHero.jsx";
 import Whowesupport from "../../Components/StartupInnovation/Whowesupport/Whowesupport.jsx";
-import StartupPathways from "../../Components/StartupInnovation/StartupPathways/StartupPathways.jsx";
-import StartupIncubate from "../../Components/StartupInnovation/StartupIncubate/StartupIncubate.jsx";
+import TechnologyPathways from "../../Components/StartupInnovation/TechnologyPathways/TechnologyPathways.jsx";
+import IncubateAtProjenius from "../../Components/StartupInnovation/IncubateAtProjenius/IncubateAtProjenius.jsx";
 import WhatCanWeHelpYouWith from "../../Components/Contact/WhatCanWeHelpYouWith/WhatCanWeHelpYouWith.jsx";
 import ServiceProcess from "../../Components/Solutions/Shared/ServiceProcess/ServiceProcess.jsx";
 import ServiceFaq from "../../Components/Common/ServiceFaq/ServiceFaq.jsx";
@@ -67,9 +67,9 @@ export default function StartupInnovationPage() {
 
       <Whowesupport ctaHref={SUBMIT_IDEA} />
 
-      <StartupPathways />
+      <TechnologyPathways />
 
-      <StartupIncubate />
+      <IncubateAtProjenius />
 
       <ServiceProcess
         id="idea-journey"

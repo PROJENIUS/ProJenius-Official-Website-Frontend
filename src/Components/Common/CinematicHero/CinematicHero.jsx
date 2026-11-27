@@ -5,45 +5,7 @@ import { ArrowDown, ArrowRight, ArrowUpRight } from "lucide-react";
 import { scrollToHash } from "./heroUtils.js";
 import "./CinematicHero.css";
 
-// High-resolution default cards matching the executive 3D curved gallery
-import aiEventPhoto from "../../../assets/Home/Optimized/hero-ai-event-960.webp";
-import labPhoto from "../../../assets/Home/Optimized/training-courses-737.webp";
-import iotPhoto from "../../../assets/Home/HeroSlides/hero-slide-2.webp";
-import recognitionPhoto from "../../../assets/Home/Optimized/hero-recognition-960.webp";
-import codePhoto from "../../../assets/Home/HeroSlides/hero-slide-3.webp";
-
-const DEFAULT_CARDS = [
-  {
-    image: aiEventPhoto,
-    category: "Ecosystem Collaboration",
-    title: "Startups & Institutions",
-    alt: "Ecosystem Collaboration at ProJenius AI Event",
-  },
-  {
-    image: labPhoto,
-    category: "Talent Incubation",
-    title: "Learning & Development",
-    alt: "Talent Incubation & Technical Labs",
-  },
-  {
-    image: iotPhoto,
-    category: "Deeptech Deployment",
-    title: "Projects & Innovation",
-    alt: "Deeptech Deployment and IoT Engineering",
-  },
-  {
-    image: recognitionPhoto,
-    category: "Industry Recognition",
-    title: "Learning Opportunities",
-    alt: "Industry Recognition and Awards",
-  },
-  {
-    image: codePhoto,
-    category: "Software Architecture",
-    title: "Ideas Into Innovation",
-    alt: "Software Architecture and Modern Systems",
-  },
-];
+import { DEFAULT_CINEMATIC_CARDS as DEFAULT_CARDS } from "./cinematicCards.js";
 
 const isExternal = (to) => /^(https?:|tel:|mailto:)/.test(to);
 
@@ -79,46 +41,6 @@ function Action({ action, variant = "primary" }) {
       <span>{action.label}</span>
       <Icon size={18} strokeWidth={2.2} aria-hidden="true" />
     </SmartLink>
-  );
-}
-
-export function HeroLinks({ label = "On this page", items = [] }) {
-  return (
-    <nav className="pj-cine__links" aria-label={label}>
-      <p className="pj-cine__links-label" aria-hidden="true">{label}</p>
-      <ol>
-        {items.map((item) => (
-          <li key={item.to}>
-            <SmartLink to={item.to} className="pj-cine__link">
-              <span>{item.label}</span>
-              <ArrowRight size={18} strokeWidth={2.2} aria-hidden="true" />
-            </SmartLink>
-          </li>
-        ))}
-      </ol>
-    </nav>
-  );
-}
-
-export function HeroTerminal({ file = "build.sh", label = "Terminal", lines = [] }) {
-  return (
-    <figure className="pj-cine__term">
-      <div className="pj-cine__term-bar" aria-hidden="true">
-        <i /><i /><i />
-        <span>{file}</span>
-      </div>
-      <div className="pj-cine__term-body" aria-hidden="true">
-        <pre className="pj-cine__term-live">
-          {lines.map((line, i) => (
-            <span key={i} className={`is-${line.kind}`}>
-              {line.text}
-              {"\n"}
-            </span>
-          ))}
-        </pre>
-      </div>
-      <figcaption className="pjds-sr-only">{label}</figcaption>
-    </figure>
   );
 }
 
@@ -183,7 +105,6 @@ export default function CinematicHero({
   primary,
   secondary,
   cards,
-  aside,
   className = "",
 }) {
   const displayCards = cards && cards.length >= 3 ? cards : DEFAULT_CARDS;

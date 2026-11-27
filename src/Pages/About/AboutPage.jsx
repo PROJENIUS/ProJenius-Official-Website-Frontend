@@ -7,7 +7,7 @@ import AboutHero from "../../Components/About/AboutHero/AboutHero.jsx";
 import LeadershipTeam from "../../Components/About/LeadershipTeam/LeadershipTeam.jsx";
 import OurStory from "../../Components/About/OurStory/OurStory.jsx";
 import Achievements from "../../Components/About/Achievements/Achievements.jsx";
-import Magazine from "../../Components/About/Magazine/Magazine.jsx";
+import OurMagazine from "../../Components/About/OurMagazine/OurMagazine.jsx";
 import Testimonials from "../../Components/About/Testimonials/Testimonials.jsx";
 /* Same closing card as the homepage. */
 import ContactSection from "../../Components/Home/ContactSection/ContactSection.jsx";
@@ -49,7 +49,7 @@ export default function About() {
             <LeadershipTeam />
             <OurStory />
             <Achievements />
-            <Magazine />
+            <OurMagazine />
             <Testimonials />
             <ContactSection />
         </main>

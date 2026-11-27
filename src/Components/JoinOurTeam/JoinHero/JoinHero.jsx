@@ -1,35 +1,25 @@
-import CinematicHero, { HeroLinks } from "../../Common/CinematicHero/CinematicHero.jsx";
-import { OPENINGS } from "../openings.js";
-import { heroPhotos } from "../../Common/HeroPhotoStack/heroPhotos.js";
-import labPhoto from "../../../assets/Home/HeroSlides/hero-slide-3.webp";
+import CinematicHero from "../../Common/CinematicHero/CinematicHero.jsx";
+import usePageHero from "../../../pageHeroes/usePageHero.js";
+import { accentProp, HERO_DEFAULTS } from "../../../pageHeroes/heroDefaults.js";
 
 /* =============================================================================
-   JOIN OUR TEAM — HERO (the shared cinematic hero with "On this page" links)
-   Photo: src/assets/Heroes/join-our-team/backdrop.* (see its README).
-   The "Open roles" link shows the live count from openings.js.
+   JOIN OUR TEAM — HERO (the shared cinematic hero)
+   Text and photo cards: Admin → Page Heroes → Join Our Team
+   (built-in: src/pageHeroes/heroDefaults.js).
    ============================================================================= */
 
-const HERO = heroPhotos("join-our-team", { backdrop: labPhoto });
-
-const PAGE_LINKS = [
-  { label: "Why join us", to: "#pjj-why-title" },
-  { label: OPENINGS.length ? `Open roles (${OPENINGS.length})` : "Open roles", to: "#open-roles" },
-  { label: "Hiring process", to: "#pjj-process-title" },
-];
-
 export default function JoinHero() {
+  const hero = usePageHero("join-our-team", HERO_DEFAULTS["join-our-team"]);
   return (
     <CinematicHero
       id="pjj-hero-title"
-      eyebrow="Careers at ProJenius"
-      title="Build the Future"
-      accent="With ProJenius"
-      description="Join a team that builds software, IoT systems and products, and trains the next generation of engineers. See our open roles and apply in a few minutes."
-      primary={{ label: "Apply Now", to: "#apply" }}
-      secondary={{ label: "Ask About a Role", to: "/contact?type=career" }}
-      photo={HERO.backdrop}
-      aside={<HeroLinks items={PAGE_LINKS} />}
-      band={["Software", "IoT Systems", "Products", "Training", "Real Projects", "Madurai"]}
+      eyebrow={hero.eyebrow}
+      title={hero.title}
+      accent={accentProp(hero.accent)}
+      description={hero.description}
+      primary={hero.primary}
+      secondary={hero.secondary}
+      cards={hero.cards}
       className="pjj-hero"
     />
   );

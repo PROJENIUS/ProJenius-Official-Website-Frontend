@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { A11y, Autoplay, Keyboard, Navigation, Pagination } from "swiper/modules";
-import { ArrowUpRight, ChevronLeft, ChevronRight, Quote, Star } from "lucide-react";
+import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
 
 import "swiper/css";
 import "./Testimonials.css";
@@ -74,7 +74,6 @@ export default function Testimonials() {
     const sectionRef = useRef(null);
     const swiperRef = useRef(null);
     const [data, setData] = useState(VERIFIED_SNAPSHOT);
-    const [isOnScreen, setIsOnScreen] = useState(() => typeof IntersectionObserver === "undefined");
     const reduceMotion = prefersReducedMotion();
 
     useEffect(() => {
@@ -95,17 +94,9 @@ export default function Testimonials() {
         };
     }, []);
 
-    useEffect(() => {
-        const section = sectionRef.current;
-        if (!section || typeof IntersectionObserver === "undefined") return undefined;
-        const observer = new IntersectionObserver(([entry]) => setIsOnScreen(entry.isIntersecting), { threshold: 0.15 });
-        observer.observe(section);
-        return () => observer.disconnect();
-    }, []);
-
     const reviews = data.reviews && data.reviews.length ? data.reviews : VERIFIED_SNAPSHOT.reviews;
-    const rating = data.rating || 4.9;
-    const totalReviews = data.totalReviews || 48;
+    const rating = data.rating || VERIFIED_SNAPSHOT.rating;
+    const totalReviews = data.totalReviews || VERIFIED_SNAPSHOT.totalReviews;
     const reviewsUrl = data.url || GOOGLE_REVIEWS_URL;
 
     return (

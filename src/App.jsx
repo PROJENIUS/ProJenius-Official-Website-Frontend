@@ -3,6 +3,10 @@ import { lazy, Suspense, useEffect } from "react";
 
 import Navbar from "./Components/Common/Navbar/Navbar.jsx";
 import Footer from "./Components/Common/Footer/Footer.jsx";
+import CookieNotice from "./Components/Common/CookieNotice/CookieNotice.jsx";
+import NetworkStatus from "./Components/Common/NetworkStatus/NetworkStatus.jsx";
+import MobileStickyCta from "./Components/Common/MobileStickyCta/MobileStickyCta.jsx";
+import { COMPANY_DISPLAY_NAME, ROUTE_TITLES } from "./siteLinks.js";
 
 const HomePage = lazy(() => import("./Pages/Home/HomePage.jsx"));
 const NotFoundPage = lazy(() => import("./Pages/NotFound/NotFoundPage.jsx"));
@@ -24,38 +28,29 @@ const NewsInsightsPage = lazy(() => import("./Pages/NewsInsights/NewsInsightsPag
 const NewsletterActionPage = lazy(() => import("./Pages/Newsletter/NewsletterActionPage.jsx"));
 const TermsAndConditionsPage = lazy(() => import("./Pages/Legal/TermsAndConditionsPage.jsx"));
 const PrivacyPolicyPage = lazy(() => import("./Pages/Legal/PrivacyPolicyPage.jsx"));
+const CookiePolicyPage = lazy(() => import("./Pages/Legal/CookiePolicyPage.jsx"));
 const ProductsPage = lazy(() => import("./Pages/Products/ProductsPage.jsx"));
-const JoinOurTeamPage = lazy(() => import("./Pages/JoinOurTeamPage.jsx"));
+const JoinOurTeamPage = lazy(() => import("./Pages/JoinOurTeam/JoinOurTeamPage.jsx"));
+const JoinApplyPage = lazy(() => import("./Pages/JoinOurTeam/JoinApplyPage.jsx"));
+const JobOpeningPage = lazy(() => import("./Pages/JoinOurTeam/JobOpeningPage.jsx"));
+/* Admin-only live preview of page heroes (never linked, not indexed). */
+const HeroPreviewPage = lazy(() => import("./pageHeroes/HeroPreviewPage.jsx"));
 
 function LegacyBlogArticle() {
   const { slug } = useParams();
   return <Navigate replace to={`/news-insights/blog/${encodeURIComponent(slug || "")}`} />;
 }
 
-const COMPANY_DISPLAY_NAME = "ProJenius Innovation Technology";
-const ROUTE_TITLES = {
-  "/": `${COMPANY_DISPLAY_NAME} | Technology Solutions & Training`,
-  "/about": `About Us | ${COMPANY_DISPLAY_NAME}`,
-  "/contact": `Contact Us | ${COMPANY_DISPLAY_NAME}`,
-  "/services/development": `Software Development | ${COMPANY_DISPLAY_NAME}`,
-  "/services/hardware-embedded-systems": `Hardware & Embedded Systems | ${COMPANY_DISPLAY_NAME}`,
-  "/services/rapid-prototyping": `Rapid Prototyping | ${COMPANY_DISPLAY_NAME}`,
-  "/services/pcb-design-fabrication": `PCB Design & Fabrication | ${COMPANY_DISPLAY_NAME}`,
-  "/products": `Products | ${COMPANY_DISPLAY_NAME}`,
-  "/services/courses": `Explore Courses | ${COMPANY_DISPLAY_NAME}`,
-  "/services/courses/terms": `Course Terms & Refund Policy | ${COMPANY_DISPLAY_NAME}`,
-  "/terms": `Terms & Conditions | ${COMPANY_DISPLAY_NAME}`,
-  "/privacy-policy": `Privacy Policy | ${COMPANY_DISPLAY_NAME}`,
-  "/services/internship": `Technology Internship | ${COMPANY_DISPLAY_NAME}`,
-  "/services/career-guidance": `Career Guidance | ${COMPANY_DISPLAY_NAME}`,
-  "/workshop": `Workshops & Training | ${COMPANY_DISPLAY_NAME}`,
-  "/startup": `Startup & Innovation | ${COMPANY_DISPLAY_NAME}`,
-  "/incubate": `Startup Incubation | ${COMPANY_DISPLAY_NAME}`,
-  "/incubate/apply": `Apply for Incubation | ${COMPANY_DISPLAY_NAME}`,
-  "/join-our-team": `Join Our Team | ${COMPANY_DISPLAY_NAME}`,
-  "/news-insights": `News & Insights | ${COMPANY_DISPLAY_NAME}`,
-  "/newsletter/confirm": `Newsletter Subscription | ${COMPANY_DISPLAY_NAME}`,
-  "/404": `Page Not Found | ${COMPANY_DISPLAY_NAME}`,
+/* Page titles live in siteLinks.js, the one list of public pages. */
+
+/* Descriptions for routes whose page does not set its own (search snippets). */
+const ROUTE_DESCRIPTIONS = {
+  "/terms": "Terms and conditions for using the ProJenius Innovation Technology website, services, training programmes and payments.",
+  "/privacy-policy": "How ProJenius Innovation Technology, Madurai, collects, uses, stores and protects personal information shared through our website and forms.",
+  "/services/courses/terms": "Course registration terms and refund policy for ProJenius courses: payments, schedules, cancellations and how refunds are handled.",
+  "/cookie-policy": "Cookie Policy for the ProJenius Innovation Technology website: essential storage, optional analytics, and cookies set by Razorpay, Google Maps and YouTube.",
+  "/news-insights": "News and technology insights from ProJenius Innovation Technology, Madurai: company updates, events, workshops, AI, IoT and product development.",
+  "/404": "This page could not be found. Explore ProJenius Innovation Technology services, courses, internships and workshops, or contact our team in Madurai.",
 };
 
 const SITE_ORIGIN = (import.meta.env.VITE_SITE_URL || "https://pro-jenius-official-website-fronten.vercel.app").replace(/\/+$/, "");
@@ -113,6 +108,12 @@ function RouteTitle() {
         "content",
         document.title,
       );
+    }
+    const routeDescription = ROUTE_DESCRIPTIONS[pathname] || (isNotFound ? ROUTE_DESCRIPTIONS["/404"] : "");
+    if (routeDescription) {
+      for (const [selector, attrs] of [['meta[name="description"]', { name: "description" }], ['meta[property="og:description"]', { property: "og:description" }], ['meta[name="twitter:description"]', { name: "twitter:description" }]]) {
+        updateMeta(selector, () => Object.assign(document.createElement("meta"), attrs), "content", routeDescription);
+      }
     }
     updateMeta(
       'meta[property="og:url"]',
@@ -183,6 +184,7 @@ function App() {
           <Route path="/services/courses/:slug" element={<CoursesPage />} />
           <Route path="/terms" element={<TermsAndConditionsPage />} />
           <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/cookie-policy" element={<CookiePolicyPage />} />
           <Route path="/services/internship" element={<InternshipsPage />} />
           <Route path="/services/career-guidance" element={<CareerGuidancePage />} />
 
@@ -193,6 +195,8 @@ function App() {
           <Route path="/incubate" element={<Navigate replace to="/startup#startup-incubate" />} />
           <Route path="/incubate/apply" element={<IncubateApplyPage />} />
           <Route path="/join-our-team" element={<JoinOurTeamPage />} />
+          <Route path="/join-our-team/apply" element={<JoinApplyPage />} />
+          <Route path="/join-our-team/:slug" element={<JobOpeningPage />} />
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/news-insights" element={<NewsInsightsPage />} />
           <Route path="/news-insights/:slug" element={<NewsInsightsPage />} />
@@ -201,10 +205,14 @@ function App() {
           <Route path="/blog/:slug" element={<LegacyBlogArticle />} />
           <Route path="/newsletter/confirm" element={<NewsletterActionPage mode="confirm" />} />
           <Route path="/newsletter/unsubscribe/:subscriberId" element={<NewsletterActionPage mode="unsubscribe" />} />
+          <Route path="/hero-preview/:key" element={<HeroPreviewPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
         <Footer />
       </Suspense>
+      <CookieNotice />
+      <NetworkStatus />
+      <MobileStickyCta />
     </BrowserRouter>
   );
 }

@@ -10,8 +10,10 @@ test("general legal routes use separate pages and preserve course terms", async 
   assert.match(app, /path="\/terms" element=\{<TermsAndConditionsPage \/>\}/);
   assert.match(app, /path="\/privacy-policy" element=\{<PrivacyPolicyPage \/>\}/);
   assert.match(app, /path="\/services\/courses\/terms" element=\{<CourseTermsPage \/>\}/);
-  assert.match(app, /"\/terms": `Terms & Conditions/);
-  assert.match(app, /"\/privacy-policy": `Privacy Policy/);
+  // Tab titles come from the shared page list (src/siteLinks.js).
+  const { ROUTE_TITLES } = await import("../src/siteLinks.js");
+  assert.match(ROUTE_TITLES["/terms"], /^Terms & Conditions/);
+  assert.match(ROUTE_TITLES["/privacy-policy"], /^Privacy Policy/);
 });
 
 test("legal routes share a layout and fetch document content", async () => {

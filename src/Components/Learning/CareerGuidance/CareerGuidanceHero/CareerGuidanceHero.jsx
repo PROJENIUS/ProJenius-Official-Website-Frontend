@@ -5,6 +5,8 @@ import {
 } from "lucide-react";
 
 import TypedPhrase from "../../../Common/TypedPhrase/TypedPhrase.jsx";
+import usePageHero from "../../../../pageHeroes/usePageHero.js";
+import { HERO_DEFAULTS } from "../../../../pageHeroes/heroDefaults.js";
 import SectionTitleLine from "../../../Common/SectionTitleLine/SectionTitleLine.jsx";
 import { whatsappHref } from "../../../../utils/whatsapp.js";
 import storyVideo from "../../../../assets/Learning/Carrer Guidance/ProJenius-Career-Guidance.mp4";
@@ -262,23 +264,25 @@ export default function CareerGuidanceHero() {
     (paused || !visible) && "is-paused",
   ].filter(Boolean).join(" ");
 
+  const hero = usePageHero("career-guidance", HERO_DEFAULTS["career-guidance"]);
+  const FACT_ICONS = [Clock, RotateCcw, UserRound];
+
   return (
     <section className="pjcgh" aria-labelledby="cghero-title">
       <div className="pjds-container pjcgh__grid">
         <div className="pjcgh__copy">
-          <p className="pjds-eyebrow pjds-eyebrow--on-dark" data-reveal="up">Career Guidance</p>
+          <p className="pjds-eyebrow pjds-eyebrow--on-dark" data-reveal="up">{hero.eyebrow}</p>
           <h1 id="cghero-title" className="pjcgh__title" data-reveal="up" data-reveal-delay="1">
-            Build Your Tech Career{" "}
-            <TypedPhrase tone="dark" phrases={["With a Clear Roadmap.", "With a Mentor.", "With Confidence."]} />
+            {hero.title}{" "}
+            <TypedPhrase tone="dark" phrases={hero.phrases} />
           </h1>
           <SectionTitleLine />
           <p className="pjcgh__lead" data-reveal="up" data-reveal-delay="2">
-            Get practical guidance, skill recommendations and career preparation from a mentor, so you
-            move confidently toward your technology career.
+            {hero.lead}
           </p>
           <div className="pjcgh__actions" data-reveal="up" data-reveal-delay="3">
             <a className="pjcgh__btn pjcgh__btn--primary" href="#book-call" onClick={scrollToBooking}>
-              Book a ₹99 Mentor Call <ArrowRight size={18} aria-hidden="true" />
+              {hero.primaryLabel} <ArrowRight size={18} aria-hidden="true" />
             </a>
             <a
               className="pjcgh__btn pjcgh__btn--ghost"
@@ -291,9 +295,10 @@ export default function CareerGuidanceHero() {
             </a>
           </div>
           <ul className="pjcgh__facts" data-reveal="up" data-reveal-delay="3">
-            <li><Clock size={16} aria-hidden="true" /> 30-minute 1:1 call</li>
-            <li><RotateCcw size={16} aria-hidden="true" /> Fully refundable</li>
-            <li><UserRound size={16} aria-hidden="true" /> For students &amp; freshers</li>
+            {hero.facts.map((fact, index) => {
+              const Icon = FACT_ICONS[index] || Clock;
+              return <li key={index}><Icon size={16} aria-hidden="true" /> {fact}</li>;
+            })}
           </ul>
         </div>
 

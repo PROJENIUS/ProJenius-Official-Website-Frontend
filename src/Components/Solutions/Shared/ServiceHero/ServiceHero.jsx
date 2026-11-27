@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { ArrowDown, ArrowRight } from "lucide-react";
 
 import TypedPhrase from "../../../Common/TypedPhrase/TypedPhrase.jsx";
+import Breadcrumbs from "../../../Common/Breadcrumbs/Breadcrumbs.jsx";
 import "./ServiceHero.css";
 
 /* =============================================================================
@@ -23,6 +24,7 @@ import "./ServiceHero.css";
      secondary    { label, to }   optional; "#id" scrolls within the page
      backdrop     optional image (decorative, sits under the navy layer)
      visual       the page's own visual, shown beside the copy
+     breadcrumbs  optional [{ label, to }] trail shown above the label
      className    page modifier class
    ============================================================================= */
 
@@ -52,6 +54,7 @@ export default function ServiceHero({
   backdrop,
   visual,
   className = "",
+  breadcrumbs,
 }) {
   return (
     <section className={`pjsv-hero${backdrop ? " pjsv-hero--photo" : ""}${className ? ` ${className}` : ""}`} aria-labelledby={id}>
@@ -61,6 +64,7 @@ export default function ServiceHero({
 
       <div className="pjds-container pjsv-hero__layout">
         <div className="pjsv-hero__copy">
+          {breadcrumbs && <Breadcrumbs className="pj-crumbs--hero" items={breadcrumbs} />}
           <p className="pjds-eyebrow pjds-eyebrow--on-dark pjsv-hero__eyebrow" data-reveal="up">{eyebrow}</p>
           <h1 id={id} className="pjsv-hero__title" data-reveal="up" data-reveal-delay="1">
             <span className="pjsv-hero__title-line">{title}</span>

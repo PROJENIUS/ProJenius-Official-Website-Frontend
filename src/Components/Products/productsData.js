@@ -27,8 +27,8 @@
    (number in src/utils/whatsapp.js) with a message naming that product.
    ============================================================================= */
 
-import groundnutMachineImage from "../../assets/Home/OurProducts/OurProducts_1.webp";
-import iotKitImage from "../../assets/Home/OurProducts/OurProducts_2.webp";
+import groundnutMachineImage from "../../assets/Home/ProductsAndInnovations/OurProducts_1.webp";
+import iotKitImage from "../../assets/Home/ProductsAndInnovations/OurProducts_2.webp";
 import { whatsappHref } from "../../utils/whatsapp.js";
 
 /* IoT Learning Kit has its own page. Put its address here when it is ready

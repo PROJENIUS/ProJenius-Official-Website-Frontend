@@ -320,12 +320,14 @@
 
 /* One step = one thumbnail width plus one gap. Percentages in translateX are
    relative to the track, whose width equals the visible three-thumb window.
-   Classes cover up to eight slides (shift = total − 3). */
+   Classes cover up to ten slides (shift = total − 3), the admin maximum. */
 .pjh-hero__thumbs-track--shift-1 { transform: translateX(calc(-1 * ((100% - 2 * var(--pjh-thumb-gap)) / 3 + var(--pjh-thumb-gap)))); }
 .pjh-hero__thumbs-track--shift-2 { transform: translateX(calc(-2 * ((100% - 2 * var(--pjh-thumb-gap)) / 3 + var(--pjh-thumb-gap)))); }
 .pjh-hero__thumbs-track--shift-3 { transform: translateX(calc(-3 * ((100% - 2 * var(--pjh-thumb-gap)) / 3 + var(--pjh-thumb-gap)))); }
 .pjh-hero__thumbs-track--shift-4 { transform: translateX(calc(-4 * ((100% - 2 * var(--pjh-thumb-gap)) / 3 + var(--pjh-thumb-gap)))); }
 .pjh-hero__thumbs-track--shift-5 { transform: translateX(calc(-5 * ((100% - 2 * var(--pjh-thumb-gap)) / 3 + var(--pjh-thumb-gap)))); }
+.pjh-hero__thumbs-track--shift-6 { transform: translateX(calc(-6 * ((100% - 2 * var(--pjh-thumb-gap)) / 3 + var(--pjh-thumb-gap)))); }
+.pjh-hero__thumbs-track--shift-7 { transform: translateX(calc(-7 * ((100% - 2 * var(--pjh-thumb-gap)) / 3 + var(--pjh-thumb-gap)))); }
 
 .pjh-hero__thumb-item {
   flex: 0 0 calc((100% - 2 * var(--pjh-thumb-gap)) / 3);

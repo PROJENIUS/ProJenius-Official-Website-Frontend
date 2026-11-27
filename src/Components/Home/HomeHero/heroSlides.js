@@ -1,7 +1,10 @@
 /* =============================================================================
    HOME HERO — SLIDE CONFIGURATION
    -----------------------------------------------------------------------------
-   HOW TO REPLACE THE IMAGES
+   The live slides are edited in Admin → Home Hero (see heroContent.js).
+   These built-in slides are the fallback.
+
+   HOW TO REPLACE THE BUILT-IN IMAGES
    The five images live in:  src/assets/Home/HeroSlides/
 
        Slide 1  →  hero-slide-1.webp   (Company Introduction)
@@ -32,15 +35,18 @@ import heroSlide3 from "../../../assets/Home/HeroSlides/hero-slide-3.webp";
 import heroSlide4 from "../../../assets/Home/HeroSlides/hero-slide-4.webp";
 import heroSlide5 from "../../../assets/Home/HeroSlides/hero-slide-5.webp";
 
+/* Built-in slides: shown at once and whenever the API has nothing saved.
+   Admin → Home Hero replaces them. Kept word-for-word equal to
+   projenius-backend/src/modules/homepage/homeHero.defaults.js. */
 export const HERO_SLIDES = [
   {
     id: "company",
     caption: "Company Introduction",
-    eyebrow: "ProJenius Innovation Technology",
+    eyebrow: "Technology Company in Madurai",
     title: "Ideas Into Innovation.",
     highlight: "Innovation Into Impact.",
     description:
-      "We build intelligent software, connected systems, and real-world products that solve meaningful problems.",
+      "Software development, IoT and embedded systems, and product engineering for businesses, startups and institutions across India.",
     image: heroSlide1,
     alt: "Developer workstation with code on two monitors",
     primary: { label: "Explore Services", to: "#home-services" },
@@ -53,20 +59,20 @@ export const HERO_SLIDES = [
     title: "Technology Solutions for",
     highlight: "Startups & Institutions",
     description:
-      "We help businesses, startups, institutions, and organizations turn ideas into practical, scalable technology.",
+      "From MVP development to IoT products and custom software, we turn ideas into scalable technology that works in the real world.",
     image: heroSlide2,
     alt: "Speakers on stage at the CII Connect Madurai AI event",
-    primary: { label: "Explore Solutions", to: "#home-services" },
+    primary: { label: "Explore Solutions", to: "/services/development" },
     secondary: { label: "Start a Conversation", to: "/contact?type=partnership#pj-contact-help" },
   },
   {
     id: "learning",
     caption: "Learning & Development",
-    eyebrow: "Learn. Build. Innovate.",
+    eyebrow: "Courses · Internships · Workshops",
     title: "Build Skills Through",
     highlight: "Real-World Technology",
     description:
-      "Gain practical experience through industry-oriented courses, internships, workshops, and hands-on engineering.",
+      "Industry-oriented courses, internships and hands-on workshops in AI, IoT, embedded systems and full-stack development.",
     image: heroSlide3,
     alt: "Students working together on a hardware prototype in a lab",
     primary: { label: "Explore Courses", to: "/services/courses#course-catalog" },
@@ -79,11 +85,11 @@ export const HERO_SLIDES = [
     title: "From Real-World Problems",
     highlight: "to Working Products",
     description:
-      "Explore the ideas, prototypes, and technologies we develop to create meaningful impact.",
+      "See the IoT, AI and embedded prototypes we design, build and test to solve practical problems for industry and society.",
     image: heroSlide4,
     alt: "Hand holding a phone surrounded by connected IoT device icons",
     primary: { label: "Explore Projects", to: "#home-projects" },
-    secondary: { label: "Work With Us", to: "/contact?type=general" },
+    secondary: { label: "Work With Us", to: "/contact?type=general#pj-contact-help" },
   },
   {
     id: "opportunities",
@@ -92,13 +98,22 @@ export const HERO_SLIDES = [
     title: "Your Next Learning",
     highlight: "Opportunity Starts Here",
     description:
-      "Discover our technical courses, upcoming learning opportunities, and hands-on programs.",
+      "Explore upcoming technical courses, career guidance and hands-on programs for students and working professionals.",
     image: heroSlide5,
     alt: "Students and mentors on stage at a science and innovation recognition event",
     primary: { label: "View Courses", to: "/services/courses#course-catalog" },
     secondary: { label: "Explore Learning", to: "#home-training" },
   },
 ];
+
+/* Photos an admin slide may keep instead of an upload (same keys as the backend). */
+export const BUILTIN_HERO_IMAGES = Object.freeze({
+  "hero-slide-1": heroSlide1,
+  "hero-slide-2": heroSlide2,
+  "hero-slide-3": heroSlide3,
+  "hero-slide-4": heroSlide4,
+  "hero-slide-5": heroSlide5,
+});
 
 /* Technology capability strip shown under the hero copy. */
 export const HERO_CAPABILITIES = [

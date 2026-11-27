@@ -10,7 +10,12 @@ import "./SoftwareHeroVisual.css";
    section: AI-Based Water Quality Monitoring and IRADERS road safety).
    ============================================================================= */
 
-export default function SoftwareHeroVisual() {
+const DEFAULT_SCREENS = [
+  { image: waterMonitoringImage, alt: "Screenshot of the AI-Powered Water Health Monitoring web application built by ProJenius" },
+  { image: roadSafetyImage, alt: "Screenshot of the IRADERS emergency response web application built by ProJenius" },
+];
+
+export default function SoftwareHeroVisual({ screens = DEFAULT_SCREENS }) {
   return (
     <figure className="pjsw-hero-visual">
       <div className="pjsw-hero-visual__window pjsw-hero-visual__window--main">
@@ -19,10 +24,10 @@ export default function SoftwareHeroVisual() {
           <i>water-health-monitoring</i>
         </div>
         <img
-          src={waterMonitoringImage}
+          src={screens[0].image}
           width="560"
           height="575"
-          alt="Screenshot of the AI-Powered Water Health Monitoring web application built by ProJenius"
+          alt={screens[0].alt}
           decoding="async"
         />
       </div>
@@ -33,10 +38,10 @@ export default function SoftwareHeroVisual() {
           <i>iraders</i>
         </div>
         <img
-          src={roadSafetyImage}
+          src={screens[1].image}
           width="560"
           height="575"
-          alt="Screenshot of the IRADERS emergency response web application built by ProJenius"
+          alt={screens[1].alt}
           decoding="async"
         />
       </div>

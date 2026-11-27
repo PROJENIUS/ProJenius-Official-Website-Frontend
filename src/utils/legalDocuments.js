@@ -11,7 +11,9 @@ function normalizeCourseTerms(data) {
     order: Number.isSafeInteger(section.order) ? section.order : order,
   }));
 
-  sections.push(
+  // Only the old built-in checkout policy lacks these; a policy saved in
+  // Admin → Legal pages → Course Terms already covers them.
+  if (data.item.isProvisional) sections.push(
     {
       heading: "Before you register",
       body: "Check the programme, delivery mode, schedule and fee before paying. Your registration is confirmed once the payment succeeds, and the receipt is sent by email.",
@@ -27,7 +29,7 @@ function normalizeCourseTerms(data) {
   return {
     ...data.item,
     key: "course-terms",
-    title: data.item.title || "Terms & Conditions and Refund Policy",
+    title: data.item.title || "Live Training Refund Policy",
     introduction: data.item.introduction
       || "Review the programme details, delivery mode, schedule and fees carefully before registering.",
     sections,
@@ -71,10 +73,15 @@ export function formatLegalDate(value) {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return "Date not available";
 
-  return new Intl.DateTimeFormat(undefined, {
+  // Date and time in India Standard Time, e.g. "27 November 2026, 10:00 am IST".
+  const formatted = new Intl.DateTimeFormat("en-IN", {
     year: "numeric",
     month: "long",
     day: "numeric",
-    timeZone: "UTC",
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+    timeZone: "Asia/Kolkata",
   }).format(date);
+  return `${formatted} IST`;
 }

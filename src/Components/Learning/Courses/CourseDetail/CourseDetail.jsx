@@ -9,7 +9,7 @@ import {
 import { loadRazorpayCheckout, validateCheckoutOrder } from "../ExploreOurCourses/razorpayCheckout.js";
 import { api, inr, mediaUrl } from "../courseApi.js";
 import { whatsappHref } from "../../../../utils/whatsapp.js";
-import { CourseCard } from "../CourseCatalog/CourseCatalog.jsx";
+import { CourseCard } from "../ProjeniusCourses/ProjeniusCourses.jsx";
 import { CareerArt, ProjectArt } from "./CourseArt.jsx";
 import "./CourseDetail.css";
 

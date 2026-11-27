@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 
 import TypedPhrase from "../TypedPhrase/TypedPhrase.jsx";
+import Breadcrumbs from "../Breadcrumbs/Breadcrumbs.jsx";
 import "./SplitHero.css";
 
 /* =============================================================================
@@ -12,6 +13,7 @@ import "./SplitHero.css";
 
    Props
      id           id for the <h1>
+     breadcrumbs  optional [{ label, to }] trail above the label
      kicker       small label above the title
      title        fixed words of the title
      typed        [phrases] typed in cyan on the second line
@@ -81,12 +83,14 @@ export default function SplitHero({
   badge,
   steps = [],
   className = "",
+  breadcrumbs,
 }) {
   const [stripRef, stripIn] = useInViewTwoWay();
   return (
     <section className={`pj-split${className ? ` ${className}` : ""}`} aria-labelledby={id}>
       <div className="pjds-container pj-split__inner">
         <div className="pj-split__copy">
+          {breadcrumbs && <Breadcrumbs className="pj-crumbs--hero" items={breadcrumbs} />}
           {kicker && <p className="pj-split__kicker">{kicker}</p>}
           <h1 id={id} className="pj-split__title">
             <span className="pj-split__title-fixed">{title}</span>

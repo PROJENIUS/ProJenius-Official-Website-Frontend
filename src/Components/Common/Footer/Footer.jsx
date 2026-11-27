@@ -1,3 +1,5 @@
+import OfficeMapArt from "../OfficeMap/OfficeMapArt.jsx";
+import { MAPS_DIRECTIONS_HREF, MAPS_VIEW_HREF } from "../OfficeMap/officeLocation.js";
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowUp, ArrowUpRight, Check, Mail, MapPin, MessageCircle, Navigation, Phone } from "lucide-react";
@@ -6,6 +8,7 @@ import { normalizeApiBase, resolveApiUrl } from "../../../utils/apiUrl.js";
 
 import "./Footer.css";
 import { GOOGLE_RATING, GOOGLE_REVIEW_COUNT } from "../../../utils/googleRating.js";
+import { openCookieSettings } from "../CookieNotice/cookieConsent.js";
 
 /* =============================================================================
    FOOTER
@@ -24,13 +27,7 @@ const EMAIL = "teamprojenius@gmail.com";
 const WHATSAPP_HREF = "https://wa.me/918925450473";
 const GOOGLE_REVIEWS_HREF = "https://g.page/r/CZjzujTb9EXCEBM/review";
 /* Google rating and review count: src/utils/googleRating.js (shared). */
-/* Both map links target the ProJenius Google Business listing itself (place
-   0x3b00cfb5c8f13bb3:0xc245f4db34baf398, the same place the review link opens;
-   pin 9.9136785, 78.0901833), so they always show the real office. */
-const MAPS_VIEW_HREF =
-  "https://www.google.com/maps/place/data=!4m2!3m1!1s0x3b00cfb5c8f13bb3:0xc245f4db34baf398";
-const MAPS_DIRECTIONS_HREF =
-  "https://www.google.com/maps/dir//ProJenius+Innovation+Technology+Private+Limited,+PLOT+NO+3,+Erikarai+St,+Velmurugan+Nagar,+Namachivaya+Nagar,+Madurai,+Tamil+Nadu+625003/@9.9136785,78.0901833,17z/data=!4m8!4m7!1m0!1m5!1m1!1s0x3b00cfb5c8f13bb3:0xc245f4db34baf398!2m2!1d78.0901833!2d9.9136785";
+/* Office map links: Common/OfficeMap/officeLocation.js (shared with Contact). */
 
 /* Same order as the navbar Solutions menu. */
 const SOLUTIONS = [
@@ -109,32 +106,6 @@ function GoogleG() {
       <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z" />
       <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z" />
       <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
-    </svg>
-  );
-}
-
-/* Stylised map drawing (decorative); the link opens the real Google Maps location. */
-function MapArt() {
-  return (
-    <svg viewBox="0 0 400 275" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
-      <g className="pjh-footer__road" strokeWidth="2.5">
-        <path d="M0 40H400M0 100H400M0 160H400M0 220H400" />
-        <path d="M40 0V275M110 0V275M180 0V275M250 0V275M330 0V275" />
-      </g>
-      <g className="pjh-footer__road" strokeWidth="1.5">
-        <path d="M0 70H400M0 130H400M0 190H400M0 250H400M75 0V275M145 0V275M215 0V275M290 0V275M365 0V275" />
-      </g>
-      <path className="pjh-footer__road pjh-footer__road--main" strokeWidth="7" d="M-10 245 L130 215 L420 262" />
-      <path className="pjh-footer__road pjh-footer__road--main" strokeWidth="10" d="M318 -10 L296 120 L268 285" />
-      <path className="pjh-footer__road-center" d="M318 -10 L296 120 L268 285" />
-      <polygon className="pjh-footer__area" points="62,78 262,78 262,206 118,206 118,150 62,150" />
-      <circle className="pjh-footer__pin-pulse" cx="196" cy="150" r="30" />
-      <g transform="translate(196 150)">
-        <path d="M0 0C-12-14-14-20-14-27a14 14 0 0 1 28 0C14-20 12-14 0 0z" className="pjh-footer__pin" />
-        <circle cx="0" cy="-27" r="5.5" className="pjh-footer__pin-dot" />
-      </g>
-      <text className="pjh-footer__map-label" x="80" y="112" fontSize="17">Velmurugan Nagar</text>
-      <text className="pjh-footer__map-sub" x="80" y="132" fontSize="14">Madurai</text>
     </svg>
   );
 }
@@ -378,7 +349,7 @@ export default function Footer() {
               rel="noopener noreferrer"
               aria-label="Open the ProJenius location in Google Maps (opens in a new tab)"
             >
-              <MapArt />
+              <OfficeMapArt />
             </a>
             <div className="pjh-footer__location-body">
               <span className="pjh-footer__card-title">Visit Our Office</span>
@@ -425,6 +396,8 @@ export default function Footer() {
           <nav className="pjh-footer__legal-links" aria-label="Legal">
             <Link to="/privacy-policy">Privacy Policy</Link>
             <Link to="/terms">Terms &amp; Conditions</Link>
+            <Link to="/cookie-policy">Cookie Policy</Link>
+            <button type="button" className="pjh-footer__cookie-btn" onClick={openCookieSettings}>Cookie settings</button>
             <Link to="/services/courses/terms">Live Training Refund Policy</Link>
           </nav>
           <button

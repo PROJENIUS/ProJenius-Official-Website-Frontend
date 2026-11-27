@@ -1,13 +1,11 @@
 /* =============================================================================
    JOIN OUR TEAM — HIRING PROCESS — every rule is scoped beneath .pjj-process
+   Sits in a light section of the site cadence (navy / light / navy …).
    ============================================================================= */
 
 .pjj-process {
   padding-block: var(--pjds-section-space);
-  background:
-    radial-gradient(ellipse at 15% 20%, rgba(32, 200, 245, 0.1), transparent 45%),
-    linear-gradient(160deg, var(--pjds-navy-950), #0b2340);
-  color: var(--pjds-white);
+  color: #071426;
   font-family: var(--pjds-font-body);
 }
 
@@ -25,7 +23,7 @@
 
 .pjj-process__title {
   margin: 0;
-  color: var(--pjds-white);
+  color: #071426;
   font-family: var(--pjds-font-heading);
   font-size: var(--pjds-text-h2);
   font-weight: 800;
@@ -71,11 +69,11 @@
   width: 72px;
   height: 72px;
   margin: 0 auto 20px;
-  border: 1px solid rgba(90, 214, 248, 0.45);
+  border: 1px solid rgba(4, 120, 168, 0.35);
   border-radius: 50%;
-  background: #0b1f38;
-  color: var(--pjds-cyan-400);
-  box-shadow: 0 0 0 8px var(--pjds-navy-950);
+  background: #ffffff;
+  color: #0478a8;
+  box-shadow: 0 0 0 8px var(--pjds-bg-b, #f4f7fb), 0 14px 30px -18px rgba(7, 20, 38, 0.5);
 }
 
 .pjj-process__badge svg {
@@ -103,7 +101,7 @@
 
 .pjj-process__step h3 {
   margin: 0;
-  color: var(--pjds-white);
+  color: #071426;
   font-family: var(--pjds-font-heading);
   font-size: 1.15rem;
   font-weight: 800;
@@ -112,7 +110,7 @@
 .pjj-process__step p {
   max-width: 28ch;
   margin: 10px auto 0;
-  color: var(--pjds-text-inverse-muted);
+  color: #4a5a70;
   font-size: 0.95rem;
   line-height: 1.6;
 }

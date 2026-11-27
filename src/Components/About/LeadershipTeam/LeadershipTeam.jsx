@@ -35,7 +35,7 @@ const founders = [
 
 const leaders = [
   {
-    name: 'Dr. M. Karthika',
+    name: 'Karthika M',
     role: 'Strategic Advisor & Mentor',
     image: karthikaImg,
     bio: 'Provides strategic guidance and mentorship to student startups, supporting business planning, innovation, and sustainable growth.',

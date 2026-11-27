@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, ChevronLeft, ChevronRight, Star, ExternalLink } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import "./OurProjects.css";
 import { PROJECTS } from "./projectsData.js";
 
@@ -61,24 +61,6 @@ function ProjectsTypingLine({ active }) {
         {!reduceMotion && <span className="pjh-proj3d__cursor">|</span>}
       </span>
     </span>
-  );
-}
-
-function ProjectRating({ rating }) {
-  const filled = Math.max(0, Math.min(5, Math.round(rating)));
-  return (
-    <div className="pjh-proj3d__rating" role="img" aria-label={`Rated ${filled} out of 5`}>
-      <span className="pjh-proj3d__stars" aria-hidden="true">
-        {Array.from({ length: 5 }, (_, index) => (
-          <Star
-            key={index}
-            size={14}
-            className={`pjh-proj3d__star${index < filled ? " is-filled" : ""}`}
-          />
-        ))}
-      </span>
-      <span className="pjh-proj3d__rating-num">{filled.toFixed(1)}</span>
-    </div>
   );
 }
 
@@ -255,11 +237,17 @@ export default function OurProjects() {
                       <h3 className="pjh-proj3d__card-title">{project.title}</h3>
                       <p className="pjh-proj3d__card-desc">{project.description}</p>
                       <div className="pjh-proj3d__card-footer">
-                        <ProjectRating rating={project.rating} />
-                        <span className="pjh-proj3d__link-hint">
-                          <span>View Details</span>
-                          <ExternalLink size={13} aria-hidden="true" />
-                        </span>
+                        {/* No separate project pages: invite a similar build instead. */}
+                        <Link
+                          to={`/contact?type=development&from=home-projects&project=${encodeURIComponent(project.title)}`}
+                          className="pjh-proj3d__link-hint"
+                          tabIndex={isActive ? 0 : -1}
+                          aria-label={`Build something similar to ${project.title}`}
+                          onClick={(event) => event.stopPropagation()}
+                        >
+                          <span>Build something similar</span>
+                          <ArrowRight size={14} aria-hidden="true" />
+                        </Link>
                       </div>
                     </div>
 
@@ -289,7 +277,7 @@ export default function OurProjects() {
         {/* Action Button Below */}
         <div className="pjh-proj3d__action-row">
           <Link to="/products" className="pjh-proj3d__btn">
-            <span>Explore All Systems &amp; Case Studies</span>
+            <span>Explore Our Products</span>
             <ArrowRight size={18} aria-hidden="true" />
           </Link>
         </div>

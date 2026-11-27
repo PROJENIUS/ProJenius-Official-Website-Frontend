@@ -17,7 +17,7 @@
 import { useRef } from "react";
 
 import PCBDesignFabricationHero from "../../../Components/Solutions/PCBDesignFabrication/PCBDesignFabricationHero/PCBDesignFabricationHero.jsx";
-import PCBSolutions from "../../../Components/Solutions/PCBDesignFabrication/PCBSolutions/PCBSolutions.jsx";
+import WhatWeDo from "../../../Components/Solutions/PCBDesignFabrication/WhatWeDo/WhatWeDo.jsx";
 import PCBHowWeWork from "../../../Components/Solutions/PCBDesignFabrication/PCBHowWeWork/PCBHowWeWork.jsx";
 import PCBWork from "../../../Components/Solutions/PCBDesignFabrication/PCBWork/PCBWork.jsx";
 import PCBFaq from "../../../Components/Solutions/PCBDesignFabrication/PCBFaq/PCBFaq.jsx";
@@ -39,7 +39,7 @@ export default function PCBDesignFabricationPage() {
     <main ref={pageRef} className="pjsv-page pjsv-pcb">
       <PCBDesignFabricationHero />
 
-      <PCBSolutions />
+      <WhatWeDo />
 
       <PCBHowWeWork />
       <PCBWork />

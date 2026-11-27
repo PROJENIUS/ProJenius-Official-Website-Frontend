@@ -2,8 +2,8 @@ import { useRef } from "react";
 
 import ContactHero from "../../Components/Contact/ContactHero/ContactHero.jsx";
 import WhatCanWeHelpYouWith from "../../Components/Contact/WhatCanWeHelpYouWith/WhatCanWeHelpYouWith.jsx";
-import PreferToReachUsDirectly from "../../Components/Contact/PreferToReachUsDirectly/PreferToReachUsDirectly.jsx";
-import WhatHappensNext from "../../Components/Contact/WhatHappensNext/WhatHappensNext.jsx";
+import OurOffice from "../../Components/Contact/OurOffice/OurOffice.jsx";
+import AfterYouWrite from "../../Components/Contact/AfterYouWrite/AfterYouWrite.jsx";
 import useMetaDescription from "../../hooks/useMetaDescription.js";
 import useScrollReveal from "../../hooks/useScrollReveal.js";
 import "../../styles/pages/LearningPages.css";
@@ -31,8 +31,8 @@ const Contact = () => {
     <main ref={pageRef} className="pjl-page pj-contact-page">
       <ContactHero />
       <WhatCanWeHelpYouWith />
-      <WhatHappensNext />
-      <PreferToReachUsDirectly />
+      <AfterYouWrite />
+      <OurOffice />
     </main>
   );
 };

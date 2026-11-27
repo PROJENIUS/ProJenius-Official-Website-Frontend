@@ -6,7 +6,7 @@
 
 import { useRef } from "react";
 
-import IncubateApplyForm from "../../Components/Incubate/IncubateApplyForm/IncubateApplyForm.jsx";
+import IncubationApplication from "../../Components/Incubate/IncubationApplication/IncubationApplication.jsx";
 import useMetaDescription from "../../hooks/useMetaDescription.js";
 import useScrollReveal from "../../hooks/useScrollReveal.js";
 import "../../styles/pages/SolutionsPages.css";
@@ -20,7 +20,7 @@ export default function IncubateApplyPage() {
 
   return (
     <main ref={pageRef} className="pjsv-page pjsv-incubate-apply">
-      <IncubateApplyForm />
+      <IncubationApplication />
     </main>
   );
 }

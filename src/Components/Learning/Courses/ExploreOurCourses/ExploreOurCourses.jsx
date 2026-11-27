@@ -1,15 +1,18 @@
-﻿import { useCallback, useEffect, useMemo, useState } from "react";
+﻿import useJsonLd from "../../../../hooks/useJsonLd.js";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import "./ExploreOurCourses.css";
 
 import CourseDetail from "../CourseDetail/CourseDetail.jsx";
 import CoursesHero from "../CoursesHero/CoursesHero.jsx";
-import CourseCatalog from "../CourseCatalog/CourseCatalog.jsx";
-import { PRICE_RANGES } from "../CourseCatalog/catalogData.js";
+import ProjeniusCourses from "../ProjeniusCourses/ProjeniusCourses.jsx";
+import { PRICE_RANGES } from "../ProjeniusCourses/catalogData.js";
 import ServiceFaq from "../../../Common/ServiceFaq/ServiceFaq.jsx";
 import { COURSE_FAQ } from "../CourseFaq/courseFaqData.jsx";
 import CourseReviews from "../CourseReviews/CourseReviews.jsx";
 import { api } from "../courseApi.js";
+
+const SITE_ORIGIN = (import.meta.env.VITE_SITE_URL || "https://pro-jenius-official-website-fronten.vercel.app").replace(/\/+$/, "");
 
 /* =============================================================================
    COURSES — /services/courses and /services/courses/:slug
@@ -171,6 +174,16 @@ export default function ExploreOurCourses() {
     document.title = slug && course ? `${course.title} | ProJenius Innovation Technology` : "Explore Courses | ProJenius Innovation Technology";
   }, [slug, course]);
 
+  /* Course data for Google (course rich results). */
+  useJsonLd(slug && course ? {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    name: course.title,
+    description: course.shortDescription || course.description || course.title,
+    url: `${SITE_ORIGIN}/services/courses/${course.slug}`,
+    provider: { "@type": "Organization", name: "ProJenius Innovation Technology", sameAs: SITE_ORIGIN },
+  } : null);
+
   /* "#course-catalog" links land on the catalogue once it has loaded */
   useEffect(() => {
     if (!slug && !loading && window.location.hash === "#course-catalog") scrollToCatalog();
@@ -226,7 +239,7 @@ export default function ExploreOurCourses() {
         onQueryChange={(q) => updateFilters({ q, page: "" })}
         onSearch={scrollToCatalog}
       />
-      <CourseCatalog
+      <ProjeniusCourses
         loading={loading}
         courses={courses}
         results={results}

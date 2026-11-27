@@ -1,10 +1,10 @@
 import InternshipHero from "../../../Components/Learning/Internships/InternshipHero/InternshipHero.jsx";
-import RealWorldExperience from "../../../Components/Learning/Internships/RealWorldExperience/RealWorldExperience.jsx";
+import WatchTheOverview from "../../../Components/Learning/Internships/WatchTheOverview/WatchTheOverview.jsx";
 import InternshipDomains from "../../../Components/Learning/Internships/InternshipDomains/InternshipDomains.jsx";
 import TechnologiesCovered from "../../../Components/Learning/Internships/TechnologiesCovered/TechnologiesCovered.jsx";
-import WhatInternsWillLearnAndBenefits from "../../../Components/Learning/Internships/WhatInternsWillLearnAndBenefits/WhatInternsWillLearnAndBenefits.jsx";
+import LearningAndBenefits from "../../../Components/Learning/Internships/LearningAndBenefits/LearningAndBenefits.jsx";
 import SuccessStories from "../../../Components/Learning/Internships/SuccessStories/SuccessStories.jsx";
-import ReadyToStart from "../../../Components/Learning/Internships/ReadyToStart/ReadyToStart.jsx";
+import GetStarted from "../../../Components/Learning/Internships/GetStarted/GetStarted.jsx";
 import { useRef } from "react";
 import useMetaDescription from "../../../hooks/useMetaDescription.js";
 import useScrollReveal from "../../../hooks/useScrollReveal.js";
@@ -25,17 +25,17 @@ const Internship = () => {
           domains (white) → technologies (dark, moving strip) →
           success stories (white) → ready to start (last, light). */}
       <InternshipHero />
-      <RealWorldExperience />
-      <WhatInternsWillLearnAndBenefits />
+      <WatchTheOverview />
+      <LearningAndBenefits />
       <InternshipDomains />
       <TechnologiesCovered />
       <SuccessStories />
 
       {/* STUDENT VIDEOS — hidden until real videos are added (every card
           currently says "Video coming soon"). Put <StudentVideos /> back
-          here, before <ReadyToStart />, when they are ready. */}
+          here, before <GetStarted />, when they are ready. */}
 
-      <ReadyToStart />
+      <GetStarted />
     </main>
   );
 };

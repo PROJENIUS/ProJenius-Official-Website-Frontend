@@ -22,11 +22,11 @@ import { useRef } from "react";
 import { Link } from "react-router-dom";
 
 import RapidPrototypingHero from "../../../Components/Solutions/RapidPrototyping/RapidPrototypingHero/RapidPrototypingHero.jsx";
-import PrototypeEnclosure from "../../../Components/Solutions/RapidPrototyping/PrototypeEnclosure/PrototypeEnclosure.jsx";
-import PrototypeAnatomy from "../../../Components/Solutions/RapidPrototyping/PrototypeAnatomy/PrototypeAnatomy.jsx";
+import ItStartsWithTheOuterBox from "../../../Components/Solutions/RapidPrototyping/ItStartsWithTheOuterBox/ItStartsWithTheOuterBox.jsx";
+import EndToEndPrototype from "../../../Components/Solutions/RapidPrototyping/EndToEndPrototype/EndToEndPrototype.jsx";
 import ServiceProcess from "../../../Components/Solutions/Shared/ServiceProcess/ServiceProcess.jsx";
-import PrototypeProjects from "../../../Components/Solutions/RapidPrototyping/PrototypeProjects/PrototypeProjects.jsx";
-import PrototypeConnections from "../../../Components/Solutions/RapidPrototyping/PrototypeConnections/PrototypeConnections.jsx";
+import BuiltWithUs from "../../../Components/Solutions/RapidPrototyping/BuiltWithUs/BuiltWithUs.jsx";
+import ExploreEachPart from "../../../Components/Solutions/RapidPrototyping/ExploreEachPart/ExploreEachPart.jsx";
 import ServiceFaq from "../../../Components/Common/ServiceFaq/ServiceFaq.jsx";
 import ServiceCTA from "../../../Components/Solutions/Shared/ServiceCTA/ServiceCTA.jsx";
 import { SERVICE_ROUTES, contactLink } from "../../../Components/Solutions/Shared/serviceLinks.js";
@@ -100,9 +100,9 @@ export default function RapidPrototypingPage() {
     <main ref={pageRef} className="pjsv-page pjsv-prototyping">
       <RapidPrototypingHero />
 
-      <PrototypeEnclosure />
+      <ItStartsWithTheOuterBox />
 
-      <PrototypeAnatomy />
+      <EndToEndPrototype />
 
       <ServiceProcess
         id="prototyping-process"
@@ -119,9 +119,9 @@ export default function RapidPrototypingPage() {
         ]}
       />
 
-      <PrototypeProjects />
+      <BuiltWithUs />
 
-      <PrototypeConnections />
+      <ExploreEachPart />
 
       <ServiceFaq id="prototyping-faq" items={FAQ_ITEMS} askTo={contactLink("development", "prototyping-faq")} />
 

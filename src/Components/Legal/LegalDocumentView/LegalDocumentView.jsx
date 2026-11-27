@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import LegalLayout from "../LegalLayout/LegalLayout.jsx";
+import { openCookieSettings } from "../../Common/CookieNotice/cookieConsent.js";
 import {
   fetchLegalDocument,
   formatLegalDate,
@@ -9,11 +10,21 @@ import "./LegalDocumentView.css";
 const DOCUMENT_TITLES = {
   terms: "Terms & Conditions",
   "privacy-policy": "Privacy Policy",
+  "cookie-policy": "Cookie Policy",
 };
+
+/* A paragraph whose lines all start with "• " is shown as a bullet list. */
+function renderBlock(text, key) {
+  const lines = String(text || "").split("\n").map((line) => line.trim()).filter(Boolean);
+  if (lines.length && lines.every((line) => line.startsWith("• "))) {
+    return <ul key={key}>{lines.map((line, index) => <li key={index}>{renderParagraph(line.slice(2), `${key}-${index}`).props.children}</li>)}</ul>;
+  }
+  return renderParagraph(lines.join(" "), key);
+}
 
 function renderParagraph(text, key) {
   const pieces = String(text || "").split(
-    /(teamprojenius@gmail\.com|Privacy Policy|live-training terms page|Contact page)/g,
+    /(teamprojenius@gmail\.com|Privacy Policy|Cookie Policy|Live Training Refund Policy|live-training terms page|Contact page)/g,
   );
 
   return (
@@ -33,6 +44,14 @@ function renderParagraph(text, key) {
               {part}
             </Link>
           );
+        }
+
+        if (part === "Cookie Policy") {
+          return <Link key={index} to="/cookie-policy">{part}</Link>;
+        }
+
+        if (part === "Live Training Refund Policy") {
+          return <Link key={index} to="/services/courses/terms">{part}</Link>;
         }
 
         if (part === "live-training terms page") {
@@ -133,12 +152,6 @@ export default function LegalDocumentView({ documentKey }) {
       lastUpdated={formatLegalDate(document.lastUpdated)}
     >
       <div className="pj-legal-document">
-        {document.isProvisional && (
-          <p className="pj-legal-document__provisional" role="note">
-            This is the initial legal document copy. Its saved update date will
-            appear after an authorized ProJenius editor reviews and saves it.
-          </p>
-        )}
         {renderParagraph(document.introduction, "intro")}
         {orderedSections.map((section, index) => (
           <section key={`${section.order}-${section.heading}`}>
@@ -146,12 +159,17 @@ export default function LegalDocumentView({ documentKey }) {
             {String(section.body)
               .split(/\n\s*\n/)
               .filter(Boolean)
-              .map((paragraph, paragraphIndex) => renderParagraph(
+              .map((paragraph, paragraphIndex) => renderBlock(
                 paragraph,
                 `${section.order}-${paragraphIndex}`,
               ))}
           </section>
         ))}
+        {documentKey === "cookie-policy" && (
+          <p>
+            <button type="button" className="pj-cookie-settings-btn" onClick={openCookieSettings}>Cookie settings</button>
+          </p>
+        )}
       </div>
     </LegalLayout>
   );

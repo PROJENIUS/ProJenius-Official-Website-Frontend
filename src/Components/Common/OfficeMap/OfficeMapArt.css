@@ -1,0 +1,35 @@
+/* Colours: set these on a parent to theme the map (defaults = navy). */
+.pj-officemap {
+  --map-bg: var(--officemap-bg, #0b1f38);
+  --map-road: var(--officemap-road, rgba(255, 255, 255, 0.1));
+  --map-road-hi: var(--officemap-road-hi, rgba(255, 255, 255, 0.22));
+  --map-accent: var(--officemap-accent, #20c8f5);
+  --map-accent-soft: var(--officemap-accent-soft, rgba(32, 200, 245, 0.12));
+  --map-fg: var(--officemap-fg, #ffffff);
+  --map-muted: var(--officemap-muted, rgba(255, 255, 255, 0.6));
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--map-bg);
+}
+
+.pj-officemap__road { fill: none; stroke: var(--map-road); stroke-linecap: round; }
+.pj-officemap__road--main { stroke: var(--map-road-hi); }
+.pj-officemap__road-center { fill: none; stroke: var(--map-bg); stroke-width: 1.2; stroke-dasharray: 7 7; opacity: 0.7; }
+.pj-officemap__area { fill: var(--map-accent-soft); stroke: var(--map-accent); stroke-width: 1.5; stroke-dasharray: 4 4; }
+.pj-officemap__pin { fill: var(--map-accent); }
+.pj-officemap__pin-dot { fill: var(--map-bg); }
+.pj-officemap__pin-pulse { fill: var(--map-accent); opacity: 0.25; transform-box: fill-box; transform-origin: center; animation: pj-officemap-pulse 2.4s ease-out infinite; }
+.pj-officemap__label { fill: var(--map-fg); font-family: var(--pjds-font-heading, "Inter", sans-serif); font-weight: 600; }
+.pj-officemap__sub { fill: var(--map-muted); font-family: var(--pjds-font-body, "Inter", sans-serif); }
+
+@keyframes pj-officemap-pulse {
+  0% { transform: scale(0.4); opacity: 0.45; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pj-officemap__pin-pulse { animation: none; }
+}

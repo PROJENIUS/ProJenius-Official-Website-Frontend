@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
-import TypedPhrase from "../../Common/TypedPhrase/TypedPhrase.jsx";
+import TypedPhrase from "../../Common/TypedPhrase/TypedPhrase.jsx";
+
 import SectionTitleLine from "../../Common/SectionTitleLine/SectionTitleLine.jsx";
 
 /* =============================================================================
@@ -1449,6 +1450,12 @@ const WhatCanWeHelpYouWith = ({
       setArrivedFromLink(true);
 
       setSourcePage(params.get("from") || ENQUIRY_TYPES[resolvedType].sourceDefault);
+
+      // "Build something similar" on a home-page project pre-fills the message.
+      const project = (params.get("project") || "").replace(/[<>\s]+/g, " ").trim().slice(0, 120);
+      if (project) {
+        setFormValues({ message: `I would like to build something similar to the "${project}" project shown on your website. ` });
+      }
 
     }
 

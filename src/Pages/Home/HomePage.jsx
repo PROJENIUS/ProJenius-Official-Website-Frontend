@@ -8,10 +8,10 @@ import HomeHero from "../../Components/Home/HomeHero/HomeHero.jsx";
 import WhoWeAre from "../../Components/Home/WhoWeAre/WhoWeAre.jsx";
 import OurServices from "../../Components/Home/OurServices/OurServices.jsx";
 import OurTrainingProgram from "../../Components/Home/OurTrainingProgram/OurTrainingProgram.jsx";
-import HighlightsUpdates from "../../Components/Home/HighlightsUpdates/HighlightsUpdates.jsx";
-import OurProducts from "../../Components/Home/OurProducts/OurProducts.jsx";
+import HighlightsAndUpdates from "../../Components/Home/HighlightsAndUpdates/HighlightsAndUpdates.jsx";
+import ProductsAndInnovations from "../../Components/Home/ProductsAndInnovations/ProductsAndInnovations.jsx";
 import OurProjects from "../../Components/Home/OurProjects/OurProjects.jsx";
-import HomeAchievements from "../../Components/Home/HomeAchievements/HomeAchievements.jsx";
+import AchievementsAndRecognition from "../../Components/Home/AchievementsAndRecognition/AchievementsAndRecognition.jsx";
 import ContactSection from "../../Components/Home/ContactSection/ContactSection.jsx";
 
 /* Homepage flow: Hero → Who We Are → Services → Training → Highlights & Updates
@@ -20,7 +20,7 @@ import ContactSection from "../../Components/Home/ContactSection/ContactSection.
    [data-reveal] element on the page (see useScrollReveal). */
 export default function Home() {
     const pageRef = useRef(null);
-    useMetaDescription("Explore ProJenius Innovation Technology in Madurai: software and hardware solutions, product development, hands-on courses, internships and workshops.");
+    useMetaDescription("ProJenius in Madurai builds software, IoT and embedded systems, PCBs and prototypes, and runs hands-on courses, internships and workshops for students.");
     useScrollReveal(pageRef);
 
     return (
@@ -29,10 +29,10 @@ export default function Home() {
             <WhoWeAre />
             <OurServices />
             <OurTrainingProgram />
-            <HighlightsUpdates />
-            <OurProducts />
+            <HighlightsAndUpdates />
+            <ProductsAndInnovations />
             <OurProjects />
-            <HomeAchievements />
+            <AchievementsAndRecognition />
             <ContactSection />
         </main>
     );

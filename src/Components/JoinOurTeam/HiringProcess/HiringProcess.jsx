@@ -10,7 +10,7 @@ import SectionTitleLine from "../../Common/SectionTitleLine/SectionTitleLine.jsx
    ============================================================================= */
 
 const STEPS = [
-  { title: "Apply Online", text: "Fill in the form below and upload your resume.", Icon: FileText },
+  { title: "Apply Online", text: "Apply online for a role, or send a general application, with your resume.", Icon: FileText },
   { title: "Profile Review", text: "Our team reads your application and checks it against the role.", Icon: SearchCheck },
   { title: "Conversation", text: "A call or interview to know you better, with a short practical task for technical roles.", Icon: MessagesSquare },
   { title: "Offer & Onboarding", text: "If it is a fit, we share the offer and help you get started.", Icon: Handshake },
@@ -21,10 +21,10 @@ export default function HiringProcess() {
     <section className="pjj-process" aria-labelledby="pjj-process-title">
       <div className="pjds-container">
         <header className="pjj-process__head">
-          <p className="pjds-eyebrow pjds-eyebrow--on-dark" data-reveal="up">Hiring Process</p>
+          <p className="pjds-eyebrow" data-reveal="up">Hiring Process</p>
           <h2 id="pjj-process-title" className="pjj-process__title" data-reveal="up" data-reveal-delay="1">
             <span className="pjj-process__title-static">From Application</span>
-            <TypedPhrase tone="dark" phrases={["to Your First Day", "to Offer", "in Four Steps"]} />
+            <TypedPhrase phrases={["to Your First Day", "to Offer", "in Four Steps"]} />
           </h2>
           <SectionTitleLine />
         </header>

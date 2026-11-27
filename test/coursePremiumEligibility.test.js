@@ -4,7 +4,7 @@ import test from "node:test";
 
 test("course reviews and ratings are based on published review data", async () => {
   const detail = await readFile(new URL("../src/Components/Learning/Courses/CourseDetail/CourseDetail.jsx", import.meta.url), "utf8");
-  const catalog = await readFile(new URL("../src/Components/Learning/Courses/CourseCatalog/CourseCatalog.jsx", import.meta.url), "utf8");
+  const catalog = await readFile(new URL("../src/Components/Learning/Courses/ProjeniusCourses/ProjeniusCourses.jsx", import.meta.url), "utf8");
   assert.match(detail, /const ratingCount = reviews\.length/);
   assert.match(detail, /ratingAverage != null && ratingCount > 0/);
   assert.match(catalog, /item\.rating != null && item\.reviewCount > 0/);

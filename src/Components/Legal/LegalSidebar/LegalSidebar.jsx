@@ -5,6 +5,7 @@ import "./LegalSidebar.css";
 const legalLinks = [
   { to: "/terms", label: "Terms & Conditions" },
   { to: "/privacy-policy", label: "Privacy Policy" },
+  { to: "/cookie-policy", label: "Cookie Policy" },
 ];
 
 export default function LegalSidebar() {

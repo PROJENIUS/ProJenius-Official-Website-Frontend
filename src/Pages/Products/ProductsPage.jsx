@@ -17,9 +17,9 @@ import ProductsHero from "../../Components/Products/ProductsHero/ProductsHero.js
 import ProductsCatalogue from "../../Components/Products/ProductsCatalogue/ProductsCatalogue.jsx";
 import ServiceProcess from "../../Components/Solutions/Shared/ServiceProcess/ServiceProcess.jsx";
 import ProjectShowcase from "../../Components/Common/ProjectShowcase/ProjectShowcase.jsx";
-import ProductIdea from "../../Components/Products/ProductIdea/ProductIdea.jsx";
+import YourProductNext from "../../Components/Products/YourProductNext/YourProductNext.jsx";
 import ServiceFaq from "../../Components/Common/ServiceFaq/ServiceFaq.jsx";
-import ProductsClosing from "../../Components/Products/ProductsClosing/ProductsClosing.jsx";
+import YourIdeaBuilt from "../../Components/Products/YourIdeaBuilt/YourIdeaBuilt.jsx";
 import { SERVICE_ROUTES } from "../../Components/Solutions/Shared/serviceLinks.js";
 import useMetaDescription from "../../hooks/useMetaDescription.js";
 import useScrollReveal from "../../hooks/useScrollReveal.js";
@@ -95,7 +95,7 @@ export default function ProductsPage() {
         typed={["Built.", "Delivered."]}
         lead="Beyond our own products, these are projects we have built for clients and partners."
       />
-      <ProductIdea />
+      <YourProductNext />
       <ServiceFaq
         id="products-faq"
         items={FAQ_ITEMS}
@@ -103,7 +103,7 @@ export default function ProductsPage() {
         secondary={{ label: "Build Your Product", to: "#product-idea" }}
         lead="Can't find your answer? Ask us directly. A rough idea is enough to start."
       />
-      <ProductsClosing />
+      <YourIdeaBuilt />
     </main>
   );
 }

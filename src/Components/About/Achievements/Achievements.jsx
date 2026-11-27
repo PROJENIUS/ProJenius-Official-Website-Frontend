@@ -4,7 +4,7 @@ import { ChevronLeft, ChevronRight, Maximize2, X } from "lucide-react";
 
 import "./Achievements.css";
 
-import { ACHIEVEMENT_GALLERY as ACHIEVEMENTS } from "../../Home/HomeAchievements/achievementsData.js";
+import { ACHIEVEMENT_GALLERY as ACHIEVEMENTS } from "../../Home/AchievementsAndRecognition/achievementsData.js";
 
 const TYPED_WORDS = ["Recognition", "Achievements"];
 const TYPE_SPEED = 110;

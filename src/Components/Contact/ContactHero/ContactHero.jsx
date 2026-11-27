@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowDown, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { ArrowDown, ArrowRight, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 
 import TypedPhrase from "../../Common/TypedPhrase/TypedPhrase.jsx";
 import SectionTitleLine from "../../Common/SectionTitleLine/SectionTitleLine.jsx";
@@ -94,7 +94,8 @@ export default function ContactHero() {
                 onClick={hash ? (event) => scrollToHash(event, hash) : undefined}
                 {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
               >
-                {link}
+                <span>{link}</span>
+                <ArrowRight size={16} aria-hidden="true" />
                 {external && <span className="pjds-sr-only"> (opens in a new tab)</span>}
               </a>
             </li>

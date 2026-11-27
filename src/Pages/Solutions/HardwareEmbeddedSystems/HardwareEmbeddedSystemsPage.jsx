@@ -19,8 +19,8 @@ import { Code2, Cpu, Radar, Wifi } from "lucide-react";
 
 import HardwareEmbeddedSystemsHero from "../../../Components/Solutions/HardwareEmbeddedSystems/HardwareEmbeddedSystemsHero/HardwareEmbeddedSystemsHero.jsx";
 import ServiceOfferings from "../../../Components/Solutions/Shared/ServiceOfferings/ServiceOfferings.jsx";
-import HardwareServices from "../../../Components/Solutions/HardwareEmbeddedSystems/HardwareServices/HardwareServices.jsx";
-import HardwarePitch from "../../../Components/Solutions/HardwareEmbeddedSystems/HardwarePitch/HardwarePitch.jsx";
+import OurEngineeringServices from "../../../Components/Solutions/HardwareEmbeddedSystems/OurEngineeringServices/OurEngineeringServices.jsx";
+import WhyPeopleBuildWithUs from "../../../Components/Solutions/HardwareEmbeddedSystems/WhyPeopleBuildWithUs/WhyPeopleBuildWithUs.jsx";
 import ServiceCTA from "../../../Components/Solutions/Shared/ServiceCTA/ServiceCTA.jsx";
 import { RELATED, contactLink } from "../../../Components/Solutions/Shared/serviceLinks.js";
 import useMetaDescription from "../../../hooks/useMetaDescription.js";
@@ -76,9 +76,9 @@ export default function HardwareEmbeddedSystemsPage() {
         items={OFFERINGS}
       />
 
-      <HardwareServices />
+      <OurEngineeringServices />
 
-      <HardwarePitch />
+      <WhyPeopleBuildWithUs />
 
       <ServiceCTA
         id="hardware-cta"

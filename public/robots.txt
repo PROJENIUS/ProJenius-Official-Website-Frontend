@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /hero-preview/
 
 Sitemap: https://pro-jenius-official-website-fronten.vercel.app/sitemap.xml

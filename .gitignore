@@ -34,3 +34,6 @@ dist/
 
 # Local development files
 *.local
+
+# Old unused files kept for reference (not part of the site)
+_archive-unused-*/

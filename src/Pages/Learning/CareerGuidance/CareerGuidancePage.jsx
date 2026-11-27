@@ -3,12 +3,12 @@ import useMetaDescription from "../../../hooks/useMetaDescription.js";
 import useScrollReveal from "../../../hooks/useScrollReveal.js";
 
 import CareerGuidanceHero from "../../../Components/Learning/CareerGuidance/CareerGuidanceHero/CareerGuidanceHero.jsx";
-import ASmallFee from "../../../Components/Learning/CareerGuidance/ASmallFee/ASmallFee.jsx";
+import MentoringCall from "../../../Components/Learning/CareerGuidance/MentoringCall/MentoringCall.jsx";
 import TargetAudience from "../../../Components/Learning/CareerGuidance/TargetAudience/TargetAudience.jsx";
 import GuidanceProcess from "../../../Components/Learning/CareerGuidance/GuidanceProcess/GuidanceProcess.jsx";
 import NotJustAnother from "../../../Components/Learning/CareerGuidance/NotJustAnother/NotJustAnother.jsx";
 import CareerFaq from "../../../Components/Learning/CareerGuidance/CareerFaq/CareerFaq.jsx";
-import CareerClosing from "../../../Components/Learning/CareerGuidance/CareerClosing/CareerClosing.jsx";
+import ReadyToBegin from "../../../Components/Learning/CareerGuidance/ReadyToBegin/ReadyToBegin.jsx";
 import "../../../styles/pages/LearningPages.css";
 
 const DESCRIPTION =
@@ -30,12 +30,12 @@ const CareerGuidancePage = () => {
   return (
     <main ref={pageRef} className="career-guidance-page-root pjl-page pjl-career">
       <CareerGuidanceHero />
-      <ASmallFee />
+      <MentoringCall />
       <TargetAudience />
       <GuidanceProcess />
       <NotJustAnother />
       <CareerFaq />
-      <CareerClosing />
+      <ReadyToBegin />
     </main>
   );
 };

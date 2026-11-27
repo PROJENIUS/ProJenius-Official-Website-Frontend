@@ -1,0 +1,56 @@
+/* Cookie popup — centred dialog over a dimmed page */
+.pj-cookie-overlay {
+  position: fixed; inset: 0; z-index: 1200; display: grid; place-items: center;
+  padding: max(16px, env(safe-area-inset-top, 0px)) 16px max(16px, env(safe-area-inset-bottom, 0px));
+  background: rgba(7, 20, 38, 0.55); backdrop-filter: blur(3px);
+  animation: pj-cookie-fade 200ms ease-out;
+}
+.pj-cookie {
+  position: relative; width: min(460px, 100%); max-height: calc(100vh - 32px); overflow: auto; box-sizing: border-box;
+  padding: 28px 24px 20px; border-radius: 20px; background: #ffffff; color: #0b1a2e; text-align: center;
+  box-shadow: 0 30px 80px -24px rgba(0, 0, 0, 0.6); font-family: var(--pjds-font-body);
+  animation: pj-cookie-pop 260ms cubic-bezier(0.2, 0.9, 0.3, 1.15);
+}
+.pj-cookie__close {
+  position: absolute; top: 12px; right: 12px; display: grid; place-items: center; width: 34px; height: 34px;
+  border: 0; border-radius: 50%; background: #f1f5f9; color: #34506f; cursor: pointer;
+}
+.pj-cookie__close:hover { background: #e2e8f0; }
+.pj-cookie__icon { display: inline-grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; background: #071426; color: #20c8f5; }
+.pj-cookie .pj-cookie__title, main.pjl-page .pj-cookie__title { margin: 14px 0 6px; font: 800 1.45rem/1.2 var(--pjds-font-heading); color: #0b1a2e !important; }
+.pj-cookie__intro { margin: 0 auto 16px; max-width: 360px; font-size: 0.93rem; line-height: 1.55; color: #4a5a70; }
+
+.pj-cookie__list { display: grid; gap: 8px; margin: 0 0 18px; padding: 0; list-style: none; text-align: left; }
+.pj-cookie__list li { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 12px 14px; border: 1px solid #e3e9f1; border-radius: 12px; background: #f7fafd; }
+.pj-cookie__list strong { display: block; font-size: 0.95rem; color: #0b1a2e; }
+.pj-cookie__list small { display: block; margin-top: 2px; font-size: 0.8rem; line-height: 1.45; color: #5b6b80; }
+.pj-cookie__always { flex: none; padding: 4px 10px; border-radius: 999px; background: #e5f8f0; color: #0f6a49; font-size: 0.74rem; font-weight: 800; white-space: nowrap; }
+
+/* on/off switch */
+.pj-cookie__switch { position: relative; flex: none; width: 44px; height: 26px; cursor: pointer; }
+.pj-cookie__switch input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: inherit; }
+.pj-cookie__switch span[aria-hidden] { position: absolute; inset: 0; border-radius: 999px; background: #cbd5e1; transition: background-color 180ms; }
+.pj-cookie__switch span[aria-hidden]::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.25); transition: transform 180ms; }
+.pj-cookie__switch input:checked + span { background: #1493d1; }
+.pj-cookie__switch input:checked + span::after { transform: translateX(18px); }
+.pj-cookie__switch input:focus-visible + span { outline: 2px solid #0478a8; outline-offset: 2px; }
+.pj-cookie__switch.is-disabled { opacity: 0.45; cursor: not-allowed; }
+
+.pj-cookie__actions { display: flex; gap: 10px; }
+.pj-cookie__btn {
+  flex: 1; min-height: 48px; padding: 0 16px; border: 1px solid #cfd9e5; border-radius: 12px; background: #fff;
+  color: #0b1a2e; font: 800 0.95rem/1 var(--pjds-font-heading); cursor: pointer; transition: background-color 160ms, transform 160ms;
+}
+.pj-cookie__btn--primary { border-color: #20c8f5; background: #20c8f5; color: #071426; }
+.pj-cookie__btn--primary:hover { background: #5ad6f8; }
+.pj-cookie__btn:hover { transform: translateY(-1px); }
+.pj-cookie__btn:focus-visible, .pj-cookie__close:focus-visible, .pj-cookie__more a:focus-visible { outline: 2px solid #0478a8; outline-offset: 2px; }
+.pj-cookie__more { margin: 14px 0 0; font-size: 0.82rem; color: #5b6b80; }
+.pj-cookie__more a { color: #0478a8; font-weight: 700; }
+
+@keyframes pj-cookie-fade { from { opacity: 0; } }
+@keyframes pj-cookie-pop { from { opacity: 0; transform: translateY(16px) scale(0.96); } }
+@media (prefers-reduced-motion: reduce) { .pj-cookie-overlay, .pj-cookie { animation: none; } }
+
+/* Button on the Cookie Policy page */
+.pj-cookie-settings-btn { min-height: 42px; padding: 0 18px; border: 0; border-radius: 10px; background: #20c8f5; color: #071426; font: 800 0.92rem/1 var(--pjds-font-heading); cursor: pointer; }

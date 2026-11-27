@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 
 import { articleHref, assetUrl, coverOf } from "./newsApi.js";
+import useJsonLd from "../../hooks/useJsonLd.js";
 
 /* Page title, description, canonical link and Open Graph tags for an article
    (or the listing when item is null); restored when the page changes. */
@@ -26,13 +27,29 @@ const property = (prop) => () => {
 
 const SITE_ORIGIN = (import.meta.env.VITE_SITE_URL || "https://pro-jenius-official-website-fronten.vercel.app").replace(/\/+$/, "");
 
+const ORGANIZATION = { "@type": "Organization", name: "ProJenius Innovation Technology", url: SITE_ORIGIN, logo: { "@type": "ImageObject", url: `${SITE_ORIGIN}/ProJenius_Logo.svg` } };
+
 export default function ArticleMetadata({ item }) {
+  /* NewsArticle / BlogPosting data for Google (headline, image, dates, author). */
+  useJsonLd(item ? {
+    "@context": "https://schema.org",
+    "@type": item.contentType === "blog" ? "BlogPosting" : "NewsArticle",
+    headline: (item.seo?.title || item.title || "").slice(0, 110),
+    description: item.seo?.description || item.summary || "",
+    image: [coverOf(item) ? assetUrl(coverOf(item)) : `${SITE_ORIGIN}/og-image.png`],
+    datePublished: item.publishedAt,
+    dateModified: item.updatedAt || item.publishedAt,
+    author: item.author?.name && !/projenius/i.test(item.author.name) ? { "@type": "Person", name: item.author.name } : ORGANIZATION,
+    publisher: ORGANIZATION,
+    mainEntityOfPage: new URL(articleHref(item), SITE_ORIGIN).href,
+  } : null);
   useEffect(() => {
     const previousTitle = document.title;
     const description = item?.seo?.description || item?.summary || "Company news, technology insights and innovation updates from ProJenius.";
     const title = item ? `${item.seo?.title || item.title} | ProJenius Innovation Technology` : "News & Insights | ProJenius Innovation Technology";
     const path = item ? articleHref(item) : "/news-insights";
-    const image = coverOf(item) ? assetUrl(coverOf(item)) : "";
+    // Fall back to the site share image so link previews always show ProJenius branding.
+    const image = coverOf(item) ? assetUrl(coverOf(item)) : `${SITE_ORIGIN}/og-image.png`;
 
     document.title = title;
     const restore = [

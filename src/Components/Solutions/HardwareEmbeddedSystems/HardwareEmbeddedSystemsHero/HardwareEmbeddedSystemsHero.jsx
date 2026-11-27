@@ -1,3 +1,4 @@
+import Breadcrumbs from "../../../Common/Breadcrumbs/Breadcrumbs.jsx";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowDown, ArrowRight, Cloud, Cog, MonitorSmartphone, Thermometer, Wifi } from "lucide-react";
@@ -94,6 +95,7 @@ export default function HardwareEmbeddedSystemsHero() {
       <div className="pjds-container pjhw-hero2__inner">
         {/* ---------- Message ---------- */}
         <div className="pjhw-hero2__copy">
+          <Breadcrumbs className="pj-crumbs--hero" items={[{ label: "Home", to: "/" }, { label: "Solutions" }, { label: "Hardware & Embedded Systems" }]} />
           <p className="pjds-eyebrow pjds-eyebrow--on-dark pjhw-hero2__eyebrow">
             <span className="pjhw-hero2__dot" aria-hidden="true" />
             Hardware &amp; Embedded Systems

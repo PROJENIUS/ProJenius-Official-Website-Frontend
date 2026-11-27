@@ -471,71 +471,61 @@
    ============================================================================= */
 
 .pj-contact-help__empty-state {
-
   display: flex;
-
   align-items: center;
-
   gap: 14px;
-
   min-height: 72px;
-
   margin-top: 40px;
-
-  padding: 14px 24px;
-
-  border: 1.5px dashed var(--pj-help-line-strong);
-
+  padding: 16px 24px;
+  /* Clearly visible prompt: tinted cyan box with a solid border, so people
+     notice they still need to choose an option above. */
+  border: 1.5px solid #20c8f5;
+  border-left-width: 5px;
   border-radius: var(--pj-help-radius);
-
+  background-color: #e8f8fe;
+  box-shadow: 0 10px 24px -16px rgba(4, 120, 168, 0.55);
   transition: border-color 0.18s ease, background-color 0.18s ease;
-
 }
 
 .pj-contact-help__empty-state--active {
-
   border-style: solid;
-
   border-color: var(--pj-help-primary);
-
   background-color: var(--pj-help-primary-soft);
-
 }
 
 .pj-contact-help__empty-icon {
-
   display: grid;
-
   place-items: center;
-
-  width: 26px;
-
-  height: 26px;
-
+  width: 34px;
+  height: 34px;
   flex: none;
-
-  color: var(--pj-help-primary);
-
+  border-radius: 50%;
+  background-color: #0478a8;
+  color: #ffffff;
+  animation: pj-contact-help-nudge 1.6s ease-in-out infinite;
 }
 
 .pj-contact-help__empty-icon .pj-contact-help__icon {
-
-  width: 22px;
-
-  height: 22px;
-
+  width: 20px;
+  height: 20px;
 }
 
 .pj-contact-help__empty-text {
-
   margin: 0;
-
-  color: var(--pj-help-muted);
-
+  color: #0b1a2e;
   font-size: var(--pj-help-fs-md);
-
+  font-weight: 600;
   line-height: 1.45;
+}
 
+/* A small downward nudge on the arrow draws the eye to where the questions appear. */
+@keyframes pj-contact-help-nudge {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(4px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pj-contact-help__empty-icon { animation: none; }
 }
 
 /* =============================================================================

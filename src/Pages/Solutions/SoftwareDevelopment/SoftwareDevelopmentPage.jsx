@@ -8,8 +8,8 @@
    Retired from this page (files kept, unmounted):
    HowWeTurn (8-step process; backup-before-cleanup/HowWeTurn-8-steps),
    DevelopmentHero, DifferentTechnologies
-   (repeated WhatCanWeBuild), AlreadyHaveADigitalProduct (repeated
-   AlreadyBuiltDoesntMeanDone), WhyBuildWithProJenius (repeated
+   (repeated WhatWeBuild), AlreadyHaveADigitalProduct (repeated
+   ExistingProducts), WhyBuildWithProJenius (repeated
    OurApproach).
 ========================================================= */
 
@@ -19,13 +19,15 @@ import ServiceHero from "../../../Components/Solutions/Shared/ServiceHero/Servic
 import SoftwareHeroVisual from "../../../Components/Solutions/SoftwareDevelopment/SoftwareHeroVisual/SoftwareHeroVisual.jsx";
 import ServiceCTA from "../../../Components/Solutions/Shared/ServiceCTA/ServiceCTA.jsx";
 import { RELATED, contactLink } from "../../../Components/Solutions/Shared/serviceLinks.js";
-/* Hero backdrop: a real photo of a developer workstation with code on screen. */
-import codeBackdrop from "../../../assets/Home/HeroSlides/hero-slide-1.webp";
+/* Hero content and photos: Admin → Page Heroes → Software Development
+   (built-in: src/pageHeroes/heroDefaults.js). */
+import usePageHero from "../../../pageHeroes/usePageHero.js";
+import { HERO_DEFAULTS } from "../../../pageHeroes/heroDefaults.js";
 import OurApproach from "../../../Components/Solutions/SoftwareDevelopment/OurApproach/OurApproach.jsx";
-import WhatCanWeBuild from "../../../Components/Solutions/SoftwareDevelopment/WhatCanWeBuild/WhatCanWeBuild.jsx";
-import AIWorkflow from "../../../Components/Solutions/SoftwareDevelopment/AIWorkflow/AIWorkflow.jsx";
-import WhereverYouAre from "../../../Components/Solutions/SoftwareDevelopment/WhereverYouAre/WhereverYouAre.jsx";
-import AlreadyBuiltDoesntMeanDone from "../../../Components/Solutions/SoftwareDevelopment/AlreadyBuiltDoesntMeanDone/AlreadyBuiltDoesntMeanDone.jsx";
+import WhatWeBuild from "../../../Components/Solutions/SoftwareDevelopment/WhatWeBuild/WhatWeBuild.jsx";
+import AiAndAutomation from "../../../Components/Solutions/SoftwareDevelopment/AiAndAutomation/AiAndAutomation.jsx";
+import WhereYouStart from "../../../Components/Solutions/SoftwareDevelopment/WhereYouStart/WhereYouStart.jsx";
+import ExistingProducts from "../../../Components/Solutions/SoftwareDevelopment/ExistingProducts/ExistingProducts.jsx";
 import useMetaDescription from "../../../hooks/useMetaDescription.js";
 import useScrollReveal from "../../../hooks/useScrollReveal.js";
 import "../../../styles/pages/SolutionsPages.css";
@@ -39,27 +41,29 @@ export default function SoftwareDevelopmentPage() {
   const pageRef = useRef(null);
   useMetaDescription(DESCRIPTION);
   useScrollReveal(pageRef);
+  const hero = usePageHero("software-development", HERO_DEFAULTS["software-development"]);
 
   return (
     <main ref={pageRef} className="pjsv-page pjsv-software">
       <ServiceHero
         id="software-hero-title"
-        eyebrow="Software Development"
-        title="Software That Moves"
-        phrases={["Your Business Forward", "Ideas Into Products"]}
-        description="We design and build websites, web and mobile applications, SaaS platforms, AI solutions and automation tools around what your business actually needs."
-        primary={{ label: "Discuss Your Project", to: ENQUIRY }}
-        secondary={{ label: "Explore Our Capabilities", to: "#pj-development-build" }}
-        backdrop={codeBackdrop}
-        visual={<SoftwareHeroVisual />}
+        eyebrow={hero.eyebrow}
+        title={hero.title}
+        phrases={hero.phrases}
+        description={hero.description}
+        primary={hero.primary}
+        secondary={hero.secondary}
+        backdrop={hero.backdrop}
+        visual={<SoftwareHeroVisual screens={[{ image: hero.screen1, alt: hero.screen1Alt }, { image: hero.screen2, alt: hero.screen2Alt }]} />}
+        breadcrumbs={[{ label: "Home", to: "/" }, { label: "Solutions" }, { label: "Software Development" }]}
         className="pjsv-hero--software"
       />
 
       <OurApproach />
-      <WhatCanWeBuild />
-      <AIWorkflow />
-      <WhereverYouAre />
-      <AlreadyBuiltDoesntMeanDone />
+      <WhatWeBuild />
+      <AiAndAutomation />
+      <WhereYouStart />
+      <ExistingProducts />
 
       <ServiceCTA
         id="software-estimate"

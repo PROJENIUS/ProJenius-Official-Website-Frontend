@@ -2,9 +2,9 @@ import { useRef } from "react";
 import useMetaDescription from "../../../hooks/useMetaDescription.js";
 import useScrollReveal from "../../../hooks/useScrollReveal.js";
 
-import DesignedAroundYourInstitution from "../../../Components/Learning/Workshops/DesignedAroundYourInstitution/DesignedAroundYourInstitution.jsx";
-import ExploreOurWorkshop from "../../../Components/Learning/Workshops/ExploreOurWorkshop/ExploreOurWorkshop.jsx";
-import HowWeTurnARequirement from "../../../Components/Learning/Workshops/HowWeTurnARequirement/HowWeTurnARequirement.jsx";
+import WorkshopFormats from "../../../Components/Learning/Workshops/WorkshopFormats/WorkshopFormats.jsx";
+import WorkshopAreas from "../../../Components/Learning/Workshops/WorkshopAreas/WorkshopAreas.jsx";
+import OurProcess from "../../../Components/Learning/Workshops/OurProcess/OurProcess.jsx";
 import OurWorkshopExperiences from "../../../Components/Learning/Workshops/OurWorkshopExperiences/OurWorkshopExperiences.jsx";
 import ServiceFaq from "../../../Components/Common/ServiceFaq/ServiceFaq.jsx";
 import { WORKSHOP_FAQS } from "../../../Components/Learning/Workshops/QuestionsInstitutionsAsk/workshopFaqData.js";
@@ -12,7 +12,7 @@ import { WORKSHOP_FAQS } from "../../../Components/Learning/Workshops/QuestionsI
 const FAQ_ITEMS = WORKSHOP_FAQS.map(({ question, answer }) => ({ q: question, a: answer }));
 import WorkshopGallery from "../../../Components/Learning/Workshops/WorkshopGallery/WorkshopGallery.jsx";
 import WhatParticipantsExperienced from "../../../Components/Learning/Workshops/WhatParticipantsExperienced/WhatParticipantsExperienced.jsx";
-import WorkshopThatGoesBeyondTheClassroom from "../../../Components/Learning/Workshops/WorkshopThatGoesBeyondTheClassroom/WorkshopThatGoesBeyondTheClassroom.jsx";
+import WorkshopsAndTraining from "../../../Components/Learning/Workshops/WorkshopsAndTraining/WorkshopsAndTraining.jsx";
 import "../../../styles/pages/LearningPages.css";
 
 const DESCRIPTION =
@@ -29,10 +29,10 @@ export default function Workshop() {
 
   return (
     <main ref={pageRef} className="pjl-page pjl-workshops">
-      <WorkshopThatGoesBeyondTheClassroom />
-      <ExploreOurWorkshop />
-      <DesignedAroundYourInstitution />
-      <HowWeTurnARequirement />
+      <WorkshopsAndTraining />
+      <WorkshopAreas />
+      <WorkshopFormats />
+      <OurProcess />
       <OurWorkshopExperiences />
       <WhatParticipantsExperienced />
       <WorkshopGallery />
