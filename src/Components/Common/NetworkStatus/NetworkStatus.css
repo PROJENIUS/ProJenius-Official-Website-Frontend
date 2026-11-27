@@ -1,7 +1,40 @@
+/* Connection status: a small pill at the bottom centre, above everything
+   but clear of the top menu; on phones it sits above the sticky action bar. */
 .pj-net {
-  position: fixed; z-index: 1300; left: 50%; top: calc(12px + env(safe-area-inset-top, 0px)); transform: translateX(-50%);
-  width: min(620px, calc(100% - 32px)); padding: 10px 16px; border-radius: 12px; box-sizing: border-box;
-  background: #fff4e0; color: #6b3a00; border: 1px solid #f3d39b; box-shadow: 0 14px 34px -16px rgba(0, 0, 0, 0.5);
-  font-family: var(--pjds-font-body); font-size: 0.88rem; font-weight: 600; line-height: 1.45; text-align: center;
+  position: fixed;
+  z-index: 1300;
+  left: 50%;
+  bottom: max(20px, env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: max-content;
+  max-width: calc(100vw - 32px);
+  padding: 9px 10px 9px 14px;
+  border: 1px solid rgba(243, 211, 155, 0.6);
+  border-radius: 999px;
+  background: #2b1d07;
+  color: #ffe6b8;
+  box-shadow: 0 16px 40px -16px rgba(0, 0, 0, 0.7);
+  font-family: var(--pjds-font-body, "Inter", sans-serif);
+  font-size: 0.86rem;
+  line-height: 1.4;
+  animation: pj-net-in 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
-.pj-net.is-online { background: #e5f8f0; color: #0f6a49; border-color: #b6e6d2; }
+.pj-net strong { color: #ffffff; font-weight: 700; }
+.pj-net__icon { display: grid; place-items: center; flex: none; width: 28px; height: 28px; border-radius: 50%; background: rgba(255, 184, 77, 0.18); color: #ffb84d; }
+.pj-net__close { display: grid; place-items: center; flex: none; width: 28px; height: 28px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: #ffe6b8; cursor: pointer; }
+.pj-net__close:hover { background: rgba(255, 255, 255, 0.1); }
+.pj-net__close:focus-visible { outline: 2px solid #ffb84d; outline-offset: 2px; }
+
+.pj-net.is-online { padding-right: 16px; border-color: rgba(110, 231, 183, 0.5); background: #062a1d; color: #c7f5e1; }
+.pj-net.is-online .pj-net__icon { background: rgba(52, 211, 153, 0.18); color: #34d399; }
+
+@keyframes pj-net-in { from { opacity: 0; transform: translate(-50%, 12px); } to { opacity: 1; transform: translate(-50%, 0); } }
+
+@media (max-width: 767px) {
+  .pj-net { bottom: calc(80px + env(safe-area-inset-bottom, 0px)); border-radius: 16px; width: calc(100vw - 24px); }
+}
+@media (prefers-reduced-motion: reduce) { .pj-net { animation: none; } }
