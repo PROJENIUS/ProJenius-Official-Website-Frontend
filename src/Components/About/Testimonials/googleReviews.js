@@ -1,13 +1,14 @@
 import { normalizeApiBase, resolveApiUrl } from "../../../utils/apiUrl.js";
 import { GOOGLE_RATING, GOOGLE_REVIEW_COUNT } from "../../../utils/googleRating.js";
 
-/* Google credentials stay on the backend. The public API returns a normalized,
- * paginated Google Business Profile review collection at GET /api/reviews. */
+/* Live Google reviews. The backend (projenius-backend src/modules/googleReviews)
+ * reads every review from the Google Business Profile API and refreshes every
+ * 5 minutes, so a new review appears on its own; Google credentials stay on
+ * the backend. GET /api/reviews returns { rating, totalReviews, url, reviews }. */
 export const GOOGLE_REVIEWS_URL = "https://g.page/r/CZjzujTb9EXCEBM/review";
 export const GOOGLE_PROFILE_URL = "https://www.google.com/maps/place/data=!4m2!3m1!1s0x3b00cfb5c8f13bb3:0xc245f4db34baf398";
 
 const API = normalizeApiBase(import.meta.env.VITE_API_BASE_URL?.trim(), import.meta.env.DEV);
-export const GOOGLE_REVIEWS_API_CONFIGURED = Boolean(API);
 const dateFormatter = new Intl.DateTimeFormat("en-IN", { month: "short", year: "numeric" });
 const STAR_RATINGS = { ONE: 1, TWO: 2, THREE: 3, FOUR: 4, FIVE: 5 };
 
@@ -21,13 +22,14 @@ function safeHttpsUrl(value) {
   }
 }
 
-function formatDate(value) {
-  if (!value) return "";
+/* An ISO date, or a timestamp in seconds or milliseconds → Date, or null. */
+function toDate(value) {
+  if (!value) return null;
   const numeric = Number(value);
-  const date = typeof value === "number" || (Number.isFinite(numeric) && numeric > 0)
+  const date = Number.isFinite(numeric) && numeric > 0
     ? new Date(numeric < 1e12 ? numeric * 1000 : numeric)
     : new Date(value);
-  return Number.isNaN(date.getTime()) ? "" : dateFormatter.format(date);
+  return Number.isNaN(date.getTime()) ? null : date;
 }
 
 function normalizeReview(item, index) {
@@ -42,7 +44,9 @@ function normalizeReview(item, index) {
 
   const photo = item?.profile_photo_url ?? item?.profilePhotoUrl ?? reviewer.profilePhotoUrl ??
     reviewer.photoUri ?? reviewer.photo_uri ?? item?.author_photo_url ?? "";
-  const date = formatDate(item?.date) || item?.relative_time_description || formatDate(item?.time ? Number(item.time) * 1000 : item?.publishTime ?? item?.createTime);
+  const when = toDate(item?.date ?? item?.publishTime ?? item?.createTime ?? item?.time);
+  const date = when ? dateFormatter.format(when) : item?.relative_time_description || "";
+  const time = when ? when.getTime() : 0;
   const reviewUrl = safeHttpsUrl(item?.reviewUrl ?? item?.url ?? item?.review_url);
 
   return {
@@ -51,95 +55,75 @@ function normalizeReview(item, index) {
     rating,
     text,
     date,
+    time,
     profilePhotoUrl: safeHttpsUrl(photo),
     reviewUrl,
   };
 }
 
-export const VERIFIED_SNAPSHOT = {
-  status: "live",
-  // Same figures as the footer and courses page (utils/googleRating.js).
+/* Shown until Google answers, and whenever it cannot: the rating from
+   utils/googleRating.js and no review cards. Reviews are never made up. */
+export const REVIEWS_FALLBACK = {
+  status: "unavailable",
   rating: Number(GOOGLE_RATING),
   totalReviews: Number(GOOGLE_REVIEW_COUNT),
-  url: GOOGLE_PROFILE_URL,
-  reviews: [
-    {
-      id: "rev-1",
-      name: "Praveen Kumar",
-      rating: 5,
-      date: "Oct 2024",
-      text: "ProJenius engineered our IoT telemetry device from concept to complete functional prototype. Their turnaround time on rapid PCB fabrication and enclosure 3D printing saved us months of R&D.",
-      role: "Founder, Agrotech Systems",
-      reviewUrl: GOOGLE_PROFILE_URL,
-    },
-    {
-      id: "rev-2",
-      name: "Dr. S. Meenakshi",
-      rating: 5,
-      date: "Sep 2024",
-      text: "Their practical student training program and collaborative robotics workshops provided invaluable hands-on engineering exposure. ProJenius bridges the academic-industry gap brilliantly.",
-      role: "Dean of R&D, Engineering College",
-      reviewUrl: GOOGLE_PROFILE_URL,
-    },
-    {
-      id: "rev-3",
-      name: "Arunachalam V.",
-      rating: 5,
-      date: "Nov 2024",
-      text: "Exceptional deeptech expertise in hardware and embedded firmware. Karthick and Harshini lead a truly dedicated engineering team with deep product design focus.",
-      role: "Technical Director, Smart Automations",
-      reviewUrl: GOOGLE_PROFILE_URL,
-    },
-    {
-      id: "rev-4",
-      name: "Kavitha Raman",
-      rating: 5,
-      date: "Dec 2024",
-      text: "From concept design to manufacturing validation, ProJenius provided end-to-end guidance that helped our startup secure seed incubation and deploy real customer pilots.",
-      role: "Co-Founder, EdTech Innovators",
-      reviewUrl: GOOGLE_PROFILE_URL,
-    },
-    {
-      id: "rev-5",
-      name: "Dinesh Raja",
-      rating: 5,
-      date: "Jan 2025",
-      text: "The hands-on internship in IoT, sensor integration, and microcontrollers was a game changer for me. I worked directly on real products that are now in production.",
-      role: "Embedded Systems Intern",
-      reviewUrl: GOOGLE_PROFILE_URL,
-    },
-  ],
-  lastSyncedAt: "Oct 2024",
+  url: GOOGLE_REVIEWS_URL,
+  reviews: [],
 };
 
-export async function fetchGoogleReviews(signal) {
-  if (!API) {
-    return VERIFIED_SNAPSHOT;
+/* The last reviews Google returned, kept in this browser so a returning
+   visitor sees them at once (the free backend can take a minute to wake). */
+const CACHE_KEY = "pj-google-reviews-v1";
+
+export function readCachedReviews() {
+  try {
+    const cached = JSON.parse(window.localStorage.getItem(CACHE_KEY) || "null");
+    return cached && Array.isArray(cached.reviews) ? cached : REVIEWS_FALLBACK;
+  } catch {
+    return REVIEWS_FALLBACK;
   }
+}
+
+function writeCachedReviews(value) {
+  try {
+    window.localStorage.setItem(CACHE_KEY, JSON.stringify(value));
+  } catch {
+    // Storage full or blocked: the reviews still show.
+  }
+}
+
+/* All reviews with written text, newest first. Star-only reviews still count
+   in the rating and total. */
+export async function fetchGoogleReviews(signal) {
+  if (!API) return readCachedReviews();
   try {
     const response = await fetch(resolveApiUrl("/api/reviews", API, window.location.origin), {
       headers: { Accept: "application/json" },
       cache: "no-store",
       signal,
     });
-    if (!response.ok) return VERIFIED_SNAPSHOT;
+    if (!response.ok) return readCachedReviews();
 
     const body = await response.json().catch(() => null);
-    if (!body || !Array.isArray(body.reviews)) return VERIFIED_SNAPSHOT;
-    const reviews = body.reviews.map(normalizeReview).filter(Boolean);
+    if (!body || !Array.isArray(body.reviews)) return readCachedReviews();
+    const reviews = body.reviews
+      .map(normalizeReview)
+      .filter((review) => review && review.text)
+      .sort((a, b) => (b.time || 0) - (a.time || 0));
     const rating = Number(body.rating ?? body.averageRating);
     const totalReviews = Number(body.totalReviews ?? body.totalReviewCount);
 
-    return {
-      status: reviews.length ? "live" : "live",
-      rating: Number.isFinite(rating) && rating > 0 ? rating : 4.9,
-      totalReviews: Number.isFinite(totalReviews) && totalReviews > 0 ? totalReviews : 48,
+    const result = {
+      status: "live",
+      rating: Number.isFinite(rating) && rating > 0 ? rating : REVIEWS_FALLBACK.rating,
+      totalReviews: Number.isFinite(totalReviews) && totalReviews > 0 ? totalReviews : REVIEWS_FALLBACK.totalReviews,
       url: safeHttpsUrl(body.url) || GOOGLE_REVIEWS_URL,
-      reviews: reviews.length ? reviews : VERIFIED_SNAPSHOT.reviews,
-      lastSyncedAt: formatDate(body.lastSyncedAt) || "Oct 2024",
+      reviews,
     };
+    writeCachedReviews(result);
+    return result;
   } catch (err) {
     if (signal?.aborted) throw err;
-    return VERIFIED_SNAPSHOT;
+    return readCachedReviews();
   }
 }

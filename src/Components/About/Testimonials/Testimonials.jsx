@@ -9,8 +9,8 @@ import "./Testimonials.css";
 import {
     GOOGLE_PROFILE_URL,
     GOOGLE_REVIEWS_URL,
-    VERIFIED_SNAPSHOT,
     fetchGoogleReviews,
+    readCachedReviews,
 } from "./googleReviews.js";
 
 import SectionTitleLine from "../../Common/SectionTitleLine/SectionTitleLine.jsx";
@@ -54,15 +54,19 @@ function ReviewCard({ review }) {
             </div>
             <p className="pja-testi__text">
                 <span className="pjds-sr-only">Rated {review.rating} out of 5. </span>
-                "{review.text || "Exceptional technical expertise and dedicated support."}"
+                "{review.text}"
             </p>
             <footer className="pja-testi__author">
-                <span className="pja-testi__avatar" aria-hidden="true">
-                    {review.name.trim().charAt(0).toUpperCase()}
-                </span>
+                {review.profilePhotoUrl ? (
+                    <img className="pja-testi__avatar" src={review.profilePhotoUrl} alt="" width="44" height="44" loading="lazy" referrerPolicy="no-referrer" />
+                ) : (
+                    <span className="pja-testi__avatar" aria-hidden="true">
+                        {review.name.trim().charAt(0).toUpperCase()}
+                    </span>
+                )}
                 <span>
                     <span className="pja-testi__name">{review.name}</span>
-                    <span className="pja-testi__role">{review.role || "Verified Google Reviewer"}</span>
+                    <span className="pja-testi__role">Google review</span>
                     {review.date && <span className="pja-testi__date">{review.date}</span>}
                 </span>
             </footer>
@@ -73,7 +77,8 @@ function ReviewCard({ review }) {
 export default function Testimonials() {
     const sectionRef = useRef(null);
     const swiperRef = useRef(null);
-    const [data, setData] = useState(VERIFIED_SNAPSHOT);
+    // Last reviews seen in this browser, then the live ones from Google.
+    const [data, setData] = useState(readCachedReviews);
     const reduceMotion = prefersReducedMotion();
 
     useEffect(() => {
@@ -84,9 +89,7 @@ export default function Testimonials() {
             .then((res) => {
                 if (!disposed && res) setData(res);
             })
-            .catch(() => {
-                if (!disposed) setData(VERIFIED_SNAPSHOT);
-            });
+            .catch(() => {});
 
         return () => {
             disposed = true;
@@ -94,9 +97,9 @@ export default function Testimonials() {
         };
     }, []);
 
-    const reviews = data.reviews && data.reviews.length ? data.reviews : VERIFIED_SNAPSHOT.reviews;
-    const rating = data.rating || VERIFIED_SNAPSHOT.rating;
-    const totalReviews = data.totalReviews || VERIFIED_SNAPSHOT.totalReviews;
+    const reviews = data.reviews;
+    const rating = data.rating;
+    const totalReviews = data.totalReviews;
     const reviewsUrl = data.url || GOOGLE_REVIEWS_URL;
 
     return (
@@ -144,7 +147,7 @@ export default function Testimonials() {
                             <Stars rating={rating} size="lg" />
 
                             <p className="pja-testi__count">
-                                Based on {totalReviews}+ verified Google reviews
+                                Based on {totalReviews} Google {totalReviews === 1 ? "review" : "reviews"}
                                 <span className="pjds-sr-only">: rated {rating.toFixed(1)} out of 5</span>
                             </p>
 
@@ -161,13 +164,27 @@ export default function Testimonials() {
                             </div>
                         </aside>
 
-                        {/* Verified Reviews Swiper */}
+                        {/* Live Google reviews, newest first. Until they load (or if
+                            Google cannot be reached) a link to the Google page shows
+                            instead: reviews are never invented. */}
+                        {reviews.length === 0 ? (
+                            <div className="pja-testi__reviews pja-testi__empty" data-reveal="up" data-reveal-delay="3">
+                                <GoogleMark />
+                                <p>Read what our clients, students and partners say about ProJenius on Google.</p>
+                                <a className="pjds-btn pjds-btn--primary" href={reviewsUrl} target="_blank" rel="noopener noreferrer">
+                                    Read our reviews on Google
+                                    <ArrowUpRight size={17} aria-hidden="true" />
+                                    <span className="pjds-sr-only">(opens Google in a new tab)</span>
+                                </a>
+                            </div>
+                        ) : (
                         <div
                             className="pja-testi__reviews"
                             data-reveal="up"
                             data-reveal-delay="3"
                         >
                             <Swiper
+                                key={reviews.length}
                                 modules={[A11y, Autoplay, Keyboard, Navigation, Pagination]}
                                 className="pja-testi__swiper"
                                 slidesPerView={1}
@@ -199,6 +216,7 @@ export default function Testimonials() {
                                 </button>
                             </div>
                         </div>
+                        )}
                     </div>
                 </div>
             </div>

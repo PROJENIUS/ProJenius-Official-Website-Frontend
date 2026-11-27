@@ -180,6 +180,36 @@
   min-width: 0;
 }
 
+/* No reviews yet (Google not reached): a link to the Google page. */
+.pja-testi__empty {
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 32px 24px;
+  text-align: center;
+  background: #ffffff;
+  border: 1px dashed rgba(4, 120, 168, 0.35);
+  border-radius: 20px;
+}
+
+.pja-testi__empty svg {
+  width: 36px;
+  height: 36px;
+}
+
+.pja-testi__empty p {
+  max-width: 420px;
+  margin: 0;
+  color: #34465c;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+img.pja-testi__avatar {
+  object-fit: cover;
+  padding: 0;
+}
+
 .pja-testi__swiper {
   width: 100%;
   padding: 4px 2px 10px;

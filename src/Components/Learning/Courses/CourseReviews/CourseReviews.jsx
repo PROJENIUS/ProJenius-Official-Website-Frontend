@@ -3,8 +3,7 @@ import { ArrowUpRight, ChevronLeft, ChevronRight, Star } from "lucide-react";
 
 import TypedPhrase from "../../../Common/TypedPhrase/TypedPhrase.jsx";
 import SectionTitleLine from "../../../Common/SectionTitleLine/SectionTitleLine.jsx";
-import { GOOGLE_REVIEWS_URL, VERIFIED_SNAPSHOT, fetchGoogleReviews } from "../../../About/Testimonials/googleReviews.js";
-import { GOOGLE_RATING, GOOGLE_REVIEW_COUNT } from "../../../../utils/googleRating.js";
+import { GOOGLE_REVIEWS_URL, fetchGoogleReviews, readCachedReviews } from "../../../About/Testimonials/googleReviews.js";
 import "./CourseReviews.css";
 
 /* =============================================================================
@@ -44,7 +43,7 @@ export default function CourseReviews({ courses = [] }) {
       }))), [courses]);
 
   const useCourse = courseReviews.length > 0;
-  const [google, setGoogle] = useState(VERIFIED_SNAPSHOT);
+  const [google, setGoogle] = useState(readCachedReviews);
   useEffect(() => {
     if (useCourse) return undefined;
     const controller = new AbortController();
@@ -52,11 +51,11 @@ export default function CourseReviews({ courses = [] }) {
     return () => controller.abort();
   }, [useCourse]);
 
-  const reviews = useCourse ? courseReviews : google.reviews.map((r) => ({ ...r, source: "google" }));
+  const reviews = useCourse ? courseReviews : google.reviews.map((r) => ({ ...r, photo: r.profilePhotoUrl, source: "google" }));
   const average = useCourse
     ? Math.round((courseReviews.reduce((n, r) => n + r.rating, 0) / courseReviews.length) * 10) / 10
-    : Number(GOOGLE_RATING);
-  const total = useCourse ? courseReviews.length : Number(GOOGLE_REVIEW_COUNT);
+    : google.rating;
+  const total = useCourse ? courseReviews.length : google.totalReviews;
 
   const trackRef = useRef(null);
   const scroll = (dir) => {
@@ -106,7 +105,7 @@ export default function CourseReviews({ courses = [] }) {
               <blockquote>“{review.text}”</blockquote>
               <footer>
                 {review.photo
-                  ? <img src={review.photo} alt="" loading="lazy" />
+                  ? <img src={review.photo} alt="" loading="lazy" referrerPolicy="no-referrer" />
                   : <span className="pjcr__avatar" aria-hidden="true">{review.name.trim().charAt(0).toUpperCase()}</span>}
                 <span>
                   <strong>{review.name}</strong>
