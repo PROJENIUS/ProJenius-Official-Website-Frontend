@@ -354,6 +354,24 @@ export default function Navbar() {
     };
   }, [location.pathname, clearNavbarTimer]);
 
+  /* A link to the page you are already on (the logo on Home, a footer link)
+     does not change the route, so the effect above never runs: scroll to the
+     top here instead. Capture phase: Link cancels the click before it bubbles.
+     Links with a #section handle their own scrolling. */
+  useEffect(() => {
+    const onClick = (event) => {
+      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const link = event.target.closest?.("a[href]");
+      if (!link || link.target === "_blank" || link.hasAttribute("download")) return;
+      const url = new URL(link.href, window.location.href);
+      if (url.origin !== window.location.origin || url.hash) return;
+      if (url.pathname.replace(/\/+$/, "") !== window.location.pathname.replace(/\/+$/, "")) return;
+      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    };
+    document.addEventListener("click", onClick, true);
+    return () => document.removeEventListener("click", onClick, true);
+  }, []);
+
   /* Links like /startup#startup-incubate: after the page loads (pages are
      lazy-loaded), scroll to that section. Tries for up to ~3 s. */
   useEffect(() => {
