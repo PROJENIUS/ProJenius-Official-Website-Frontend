@@ -277,7 +277,14 @@ img.pja-testi__avatar {
   color: #071426;
 }
 
+/* Long Google reviews are cut at 7 lines so the cards stay even; the
+   "Google Review" link on the card opens the full review. */
 .pja-testi__text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 7;
+  line-clamp: 7;
+  overflow: hidden;
   margin: 14px 0 14px;
   color: #071426;
   font-size: 0.95rem;
